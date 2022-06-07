@@ -27,9 +27,7 @@
             var navCube = new xNavigationCube();
             navCube.ratio = .1;
             viewer.addPlugin(navCube);
-            viewer.start();         
-
-
+            viewer.start();
         </script>
     </div>
 
@@ -73,6 +71,12 @@
             }
         }
     </script>
+
+    <div>
+        <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
+        <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
+        <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
+    </div>
 
     <div>
         <button onclick="if (viewer) viewer.show('front');">Front</button>
