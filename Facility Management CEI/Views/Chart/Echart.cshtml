@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "ECharts";
+    ViewBag.pTitle = "ECharts";
+    ViewBag.pageTitle = "Charts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Line Chart</h4>
+                <div id="line-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Mix Line-Bar</h4>
+                <div id="mix-line-bar" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Doughnut Chart</h4>
+                <div id="doughnut-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Pie Chart</h4>
+                <div id="pie-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Scatter Chart</h4>
+                <div id="scatter-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Bubble Chart</h4>
+                <div id="bubble-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Candlestick Chart</h4>
+                <div id="candlestick-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Gauge Chart</h4>
+                <div id="gauge-chart" class="e-charts"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/libs/jquery/jquery.min.js"></script>
+<script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/libs/simplebar/simplebar.min.js"></script>
+<script src="~/libs/node-waves/waves.min.js"></script>
+<script src="~/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- echarts js -->
+<script src="~/libs/echarts/echarts.min.js"></script>
+<!-- echarts init -->
+<script src="~/js/Views/echarts.init.js"></script>
+
+<script src="~/js/app.js"></script>
+
+
+
