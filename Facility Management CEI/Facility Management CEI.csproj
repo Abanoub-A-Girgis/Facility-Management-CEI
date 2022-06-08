@@ -13,4 +13,8 @@
     <PackageReference Include="Xbim.Geometry" Version="5.1.403" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migration\" />
+  </ItemGroup>
+
 </Project>
