@@ -73,9 +73,12 @@
     </script>
 
     <div>
+        <button onclick="CreateCanvas()">Clear</button>
         <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
         <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
         <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
+        <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
+        
     </div>
 
     <div>
@@ -228,6 +231,23 @@
             f.submit();
 
 
+        }
+
+        function CreateCanvas() {
+            var htmlContent = document.createElement('canvas');
+            htmlContent.id = "viewer";
+            htmlContent.width = "500";
+            htmlContent.height = "300";
+            document.getElementById("viewer").remove();
+            var ParentElement = document.getElementById("content");
+            ParentElement.insertBefore(htmlContent, ParentElement.firstChild);
+            viewer = new xViewer('viewer');
+            //viewer.load('../data/SampleHouse.wexbim');
+            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+            navCube = new xNavigationCube();
+            navCube.ratio = .1;
+            viewer.addPlugin(navCube);
+            viewer.start();
         }
     </script>
 
