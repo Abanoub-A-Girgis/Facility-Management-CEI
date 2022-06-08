@@ -1,22 +1,35 @@
-﻿
-
+﻿@using Facility_Management_CEI.APIs
 @{
-    ViewBag.Title = "Chartjs charts";
-    ViewBag.pTitle = "Chartjs charts";
-    ViewBag.pageTitle = "Charts";
+    ViewBag.Title = "Building Reports";
+    ViewBag.pTitle = "Building Reports";
+    ViewBag.pageTitle = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model IEnumerable<API.Models.Asset> 
+
+<script type="text/javascript">
+    function GetAssetNumber() {
+
+        let AssetsNo =@Model.ToList();
+        
+    }
+
+
+</script>
+
 
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-body">
 
+            <div class="card-body">
                 <h4 class="card-title mb-4">Line Chart</h4>
 
                 <div class="row text-center">
                     <div class="col-4">
-                        <h5 class="mb-0">86541</h5>
+                        <!-- total Asstes-->
+                        <h5 class="mb-0">@Model.ToList().Count</h5>
+                        <!-- total Asstes-->
                         <p class="text-muted text-truncate">Activated</p>
                     </div>
                     <div class="col-4">
@@ -29,7 +42,7 @@
                     </div>
                 </div>
 
-                <canvas id="lineChart" height="300"></canvas>
+                <canvas id="lineChart" height="300"> </canvas>
 
             </div>
         </div>
@@ -173,16 +186,18 @@
         </div>
     </div> <!-- end col -->
 </div> <!-- end row -->
+
 <!-- JAVASCRIPT -->
-<script src="~/libs/jquery/jquery.min.js"></script>
-<script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="~/libs/metismenu/metisMenu.min.js"></script>
-<script src="~/libs/simplebar/simplebar.min.js"></script>
-<script src="~/libs/node-waves/waves.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/metismenu/metisMenu.min.js"></script>
+<script src="~/lib/simplebar/simplebar.min.js"></script>
+<script src="~/lib/node-waves/waves.min.js"></script>
 <script src="~/js/lang/jquery.multiLanguage.js"></script>
 
 <!-- Chart JS -->
-<script src="~/libs/chart.js/Chart.bundle.min.js"></script>
+<script src="~/lib/chart.js/Chart.bundle.min.js"></script>
 <script src="~/js/Views/chartjs.init.js"></script>
 
 <!-- App js -->

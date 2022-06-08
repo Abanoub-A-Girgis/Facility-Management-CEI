@@ -41,12 +41,10 @@ namespace Facility_Management_CEI.APIs.Controllers
                 Building Mybuilding = new Building();
                 Mybuilding.Id = building.OfType<IfcBuilding>().FirstOrDefault().EntityLabel;
                 Mybuilding.Name = building.OfType<IfcBuilding>().FirstOrDefault().LongName.Value;
-                //Mybuilding.Name = "ITI-Smart Village";
                 Mybuilding.Path = FilePath;
 
                 _Context.Buildings.Add(Mybuilding);
                 _Context.SaveChanges();
-                //BuilingDTOData(Mybuilding);//Feeding DTO Class From the Schema Class
                 #endregion
 
                 #region FloorData
@@ -65,7 +63,6 @@ namespace Facility_Management_CEI.APIs.Controllers
                 }
                 _Context.Floors.AddRange(BuildingFloor);
                 _Context.SaveChanges();
-                //FloorDTO(BuildingFloor);
                 #endregion
 
                 #region SpacesData
@@ -88,10 +85,11 @@ namespace Facility_Management_CEI.APIs.Controllers
                 }
                 _Context.Spaces.AddRange(FloorSpaces);
                 _Context.SaveChanges();
-                //SpaceDTO(FloorSpaces);
+                
                 #endregion
 
                 #region AssetData
+
                 var Assets = building.OfType<IIfcRelContainedInSpatialStructure>();//getting all the assets within the Ifc file (IIFc interface is more general for Ifc Version than Ifc that will need tp specify a certain compatable formate)
                 List<Asset> SpacesAssets = new List<Asset>();
                 foreach (var Space in FloorSpaces)
@@ -107,14 +105,14 @@ namespace Facility_Management_CEI.APIs.Controllers
                         {
                             Id = Asset.EntityLabel,
                             Name = Asset.Name.Value,
-                            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
-
+                            SpaceId = Space.Id,
+                            FloorId = Space.FloorId
                         });
                     }
                 }
                 _Context.Assets.AddRange(SpacesAssets);
                 _Context.SaveChanges();
-                //AssetDTO(SpacesAssets);
+
                 #endregion
 
                 #region SensorData
@@ -254,8 +252,6 @@ namespace Facility_Management_CEI.APIs.Controllers
             }
 
         }
-
-
         #region Delete_DataBase
 
 
