@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 wwwroot/data/*
 appsettings.json
+!wwwroot/data/.gitkeep 
