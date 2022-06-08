@@ -365,3 +365,4 @@ FodyWeavers.xsd
 appsettings.json
 *.ifc
 *.wexBIM
+Migrations/
