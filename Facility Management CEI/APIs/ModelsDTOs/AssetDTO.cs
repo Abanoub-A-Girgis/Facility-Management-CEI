@@ -10,6 +10,7 @@ namespace API.Moldels_DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int SpaceId { get; set; }//needed here
+        public int? SpaceId { get; set; }//needed here
+        public int FloorId { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace API.Models
         public Building Building { get; set; }
         //[Required]
         public List<Space> Spaces { get; set; }
+        public List<Asset> Asset { get; set; }
         #endregion
 
 

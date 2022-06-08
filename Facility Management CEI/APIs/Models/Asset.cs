@@ -17,7 +17,9 @@ namespace API.Models
 
         #region Link with other entities
         public Space Space { get; set; }
-        public int SpaceId { get; set; }
+        public int? SpaceId { get; set; }
+        public Floor Floor { get; set; }
+        public int FloorId { get; set; }
         public List<Incident> Incident { get; set; }
         //Sensor will only monitor single asset (Pressure gauge on a pipe )
         public Sensor Sensor { get; set; }
