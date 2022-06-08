@@ -362,6 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-wwwroot/data/*
+wwwroot/data/
 appsettings.json
 !wwwroot/data/.gitkeep 
