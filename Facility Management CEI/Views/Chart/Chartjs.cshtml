@@ -1,11 +1,11 @@
-﻿@using Facility_Management_CEI.APIs
+﻿@using API.Models
 @{
     ViewBag.Title = "Building Reports";
     ViewBag.pTitle = "Building Reports";
     ViewBag.pageTitle = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model IEnumerable<API.Models.Asset> 
+@model IEnumerable<Asset> 
 
 <script type="text/javascript">
     function GetAssetNumber() {
@@ -27,10 +27,16 @@
 
                 <div class="row text-center">
                     <div class="col-4">
+                        <!-- total Asstes Number-->
+                        <h5 class="mb-0">@Model.ToList().Count</h5>
                         <!-- total Asstes-->
+<<<<<<< Updated upstream
                         <h5 class="mb-0">@Model.ToList().Count</h5>
                         <!-- total Asstes-->
                         <p class="text-muted text-truncate">Activated</p>
+=======
+                        <p class="text-muted text-truncate">Total Asset number</p>
+>>>>>>> Stashed changes
                     </div>
                     <div class="col-4">
                         <h5 class="mb-0">2541</h5>

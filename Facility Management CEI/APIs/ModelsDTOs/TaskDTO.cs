@@ -12,7 +12,7 @@ namespace API.Moldels_DTOs
         public int Id { get; set; }
         public TaskType Type { get; set; }
         public string Description { get; set; }
-        public Status Status { get; set; }
+        public Enums.TaskStatus Status { get; set; }
         public Priority Priority { get; set; }
         public Double Cost { get; set; }
         //[DataType(DataType.Date)]
