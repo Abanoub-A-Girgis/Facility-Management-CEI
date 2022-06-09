@@ -14,7 +14,7 @@ namespace API.Moldels_DTOs
         public string Description { get; set; }
         public Enums.TaskStatus Status { get; set; }
         public Priority Priority { get; set; }
-        public Double Cost { get; set; }
+        public double Cost { get; set; }
         //[DataType(DataType.Date)]
         public DateTime FixingTime { get; set; }
         public int IncidentId { get; set; }

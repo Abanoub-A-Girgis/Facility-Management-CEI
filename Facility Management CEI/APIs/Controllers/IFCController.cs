@@ -1,6 +1,4 @@
-﻿using API;
-using API.DB;
-using API.Enums;
+﻿using API.DB;
 using API.Models;
 using API.Moldels_DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xbim.Common;
 using Xbim.Ifc;
 using Xbim.Ifc4.BuildingControlsDomain;
 using Xbim.Ifc4.HvacDomain;
@@ -15,8 +14,9 @@ using Xbim.Ifc4.Interfaces;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.SharedBldgElements;
+using Xbim.Ifc4.SharedBldgServiceElements;
 
-namespace Facility_Management_CEI.APIs.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]//the route that the request and response will take 
     [ApiController]//Controller type 
@@ -40,9 +40,8 @@ namespace Facility_Management_CEI.APIs.Controllers
                 #region BuildingData
                 Building Mybuilding = new Building();
                 Mybuilding.Id = building.OfType<IfcBuilding>().FirstOrDefault().EntityLabel;
-                Mybuilding.Name = building.OfType<IfcBuilding>().FirstOrDefault().LongName.Value;
+                Mybuilding.Name = building.OfType<IfcBuilding>().FirstOrDefault().Name.Value;
                 Mybuilding.Path = FilePath;
-
                 _Context.Buildings.Add(Mybuilding);
                 _Context.SaveChanges();
                 #endregion
@@ -85,34 +84,63 @@ namespace Facility_Management_CEI.APIs.Controllers
                 }
                 _Context.Spaces.AddRange(FloorSpaces);
                 _Context.SaveChanges();
-                
                 #endregion
 
                 #region AssetData
-
                 var Assets = building.OfType<IIfcRelContainedInSpatialStructure>();//getting all the assets within the Ifc file (IIFc interface is more general for Ifc Version than Ifc that will need tp specify a certain compatable formate)
+
                 List<Asset> SpacesAssets = new List<Asset>();
-                foreach (var Space in FloorSpaces)
-                {
-                    var SpaceAssets = Assets.Where(con => con.RelatingStructure.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
-                    if (SpaceAssets == null)
-                        continue;
-                    var AssetsInSpace = SpaceAssets.RelatedElements;//getting the furniture within our space 
-                    foreach (var Asset in AssetsInSpace)//getting each asset in our selected space 
+
+                    foreach (var Space in FloorSpaces)
                     {
-                        SpacesAssets.Add(//feedign our Asset object with the data needed for database  
-                        new Asset
+                        var SpaceAssets = Assets.Where(con => con.RelatingStructure.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
+                        if (SpaceAssets == null)
+                            continue;
+                        var AssetsInSpace = SpaceAssets.RelatedElements;//getting the furniture within our space 
+                        foreach (var Asset in AssetsInSpace)//getting each asset in our selected space 
                         {
-                            Id = Asset.EntityLabel,
-                            Name = Asset.Name.Value,
-                            SpaceId = Space.Id,
-                            FloorId = Space.FloorId
+                            SpacesAssets.Add(//feedign our Asset object with the data needed for database  
+                            new Asset
+                            {
+                                Id = Asset.EntityLabel,
+                                Name = Asset.Name.Value,
+                                SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
+                                FloorId=Space.FloorId
                         });
-                    }
+                        }
+                    
+                
+                //    var Pipes = building.OfType<IfcPipeSegment>();
+                //    var SpacePipe = Pipes.Where(con => con.IsContainedIn.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
+                //    if (SpacePipe == null)
+                //        continue;
+                //    foreach (var Pipe in Pipes)
+                //    {
+                //        SpacesAssets.Add(//feedign our Asset object with the data needed for database  
+                //        new Asset
+                //        {
+                //            Id = Pipe.EntityLabel,
+                //            Name = Pipe.Name.Value,
+                //            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
+                //        });
+                //    }
+                //    var Ducts = building.OfType<IfcDuctSegment>();
+                //    var SpaceDuct = Ducts.Where(con => con.IsContainedIn.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
+                //    if (SpaceDuct == null)
+                //        continue;
+                //    foreach (var duct in Ducts)
+                //    {
+                //        SpacesAssets.Add(//feedign our Asset object with the data needed for database  
+                //        new Asset
+                //        {
+                //            Id = duct.EntityLabel,
+                //            Name = duct.Name.Value,
+                //            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
+                //        });
+                //    }
                 }
                 _Context.Assets.AddRange(SpacesAssets);
                 _Context.SaveChanges();
-
                 #endregion
 
                 #region SensorData
@@ -121,7 +149,6 @@ namespace Facility_Management_CEI.APIs.Controllers
                 var GettingSensorsOfIFCAlarm = building.OfType<IfcAlarm>().ToList();
                 var GettingSensorOfIfcSensor = building.OfType<IfcSensor>();
                 var GettingSensorOfIfcValve = building.OfType<IfcValve>();
-
                 List<Sensor> sensors = new List<Sensor>();
                 //1st Loop Collection
                 foreach (var sensor in GettingSensorsOfElementProxy)
@@ -136,8 +163,8 @@ namespace Facility_Management_CEI.APIs.Controllers
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
-                        SensorType = SensorType.SpaceSensor.ToString(),
-                        AssetId = null
+                        SensorType = Enums.SensorType.SpaceSensor,
+                        AssetId =null
                     });
                 }
                 //2nd Loop Collection
@@ -153,7 +180,7 @@ namespace Facility_Management_CEI.APIs.Controllers
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
-                        SensorType = SensorType.SpaceSensor.ToString(),//Default value can be changed later
+                        SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
                         AssetId = null
 
                     });
@@ -164,284 +191,205 @@ namespace Facility_Management_CEI.APIs.Controllers
                 {
                     if (sensor is null)
                         continue;
-                    //var x = sensor.ConnectedTo;
-                    //if (x.Count() == 0)
-                    //    continue;
+
                     sensors.Add(new Sensor()
                     {
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
-                        SensorType = SensorType.SpaceSensor.ToString(),//Default value can be changed later
-                        AssetId = null
+                        SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
+                        AssetId =null
 
                     });
                 }
                 //4th Loop Collection
-
-                //foreach (var sensor in GettingSensorOfIfcValve)
-                //{
-                //    if (sensor is null)
-                //        continue;
-                //    //var x = sensor.ConnectedTo;
-                //    //if (x.Count() == 0)
-                //    //continue;
-                //    //var x = sensor.ReferencedBy.OfType<IfcPipeFitting>().FirstOrDefault();
-                //    sensors.Add(new Sensor()
-                //    {
-                //        Id = sensor.EntityLabel,
-                //        Name = sensor.Name.Value,
-                //        SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
-                //        SensorType = SensorType.AssetSensor,//Default value can be changed later
-                //        //AssetId = sensor.Nests.FirstOrDefault(x=>x.EntityLabel==Assets.FirstOrDefault().EntityLabel).EntityLabel
-                //    });
-                //}
-
+                foreach (var sensor in GettingSensorOfIfcValve)
+                {
+                    
+                }
                 _Context.Sensors.AddRange(sensors);
                 _Context.SaveChanges();
-
-                #endregion
-
-                #region SensorWarnigData
-                //List<SensorWarning> SensorWarnings=new List<SensorWarning>();
-                ////List<User>users=new List<User>();//we have to delete this line when users are created
-
-                //foreach (var sensor in sensors)
-                //{
-                //    var x=0;
-                //    if ( x<(int)Priority.Medium) {
-
-                //        break;
-                //        else if(){ }
-                //        SensorWarnings.Add(new SensorWarning()
-                //        {
-
-                //            SensorId = sensor.Id,
-                //            Description = "",
-                //            Investigated = false,
-                //            //??
-                //            Priority = Priority.Low,
-                //            //UserId=users.FirstOrDefault().Id,
-                //            IssueDate = DateTime.Now,
-
-                //        });
-                //    }
-
-                //_Context.SensorWarnings.AddRange(SensorWarnings);
-                //_Context.SaveChanges();
-
-                #endregion
-
-                #region Incident_Data
-
-                //List<Incident> incidents=new List<Incident>();
-                //foreach(var user in _Context.Users)
-                //{
-                //      incidents.Add(new Incident() {
-                //      Status=Enums.Status.NotAssigned,
-                //      Priority=Priority.Low,
-                //      /*Description=user. \\warning.Description*/,
-                //      AssetId=warning.Sensor.Asset.Id,
-                //      SpaceId=warning.Sensor.SpaceId,
-                //      UserId= _Context.Users.Select(x=>x.Id==warning.User/*.Select(y=>y.AssignedById).FirstOrDefault()*/),
-
-                //    });
-                //}
-
                 #endregion
             }
-
         }
-        #region Delete_DataBase
 
-
-        [Route("ClearDatabase")]
-        [HttpDelete]
-        public string ClearDatabase(/*string PassWord*/)
-        {
-            //if (PassWord == "Jimmy")
-            //{
-            Building[] Bui = _Context.Buildings.ToArray();
-            _Context.Buildings.RemoveRange(Bui);
-
-            Floor[] Flo = _Context.Floors.ToArray();
-            _Context.Floors.RemoveRange(Flo);
-
-            Space[] Spa = _Context.Spaces.ToArray();
-            _Context.Spaces.RemoveRange(Spa);
-
-            Asset[] Asse = _Context.Assets.ToArray();
-            _Context.Assets.RemoveRange(Asse);
-
-            Sensor[] Sen = _Context.Sensors.ToArray();
-            _Context.Sensors.RemoveRange(Sen);
-
-            //SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
-            //_Context.SensorWarnings.RemoveRange(SenWar);
-
-            //User[] Use = _Context.Users.ToArray();
-            //_Context.Users.RemoveRange(Use);
-
-            //Incident[] Inc = _Context.Incidents.ToArray();
-            //_Context.Incidents.RemoveRange(Inc);
-
-            //Models.Task[] Tas = _Context.Tasks.ToArray();
-            //_Context.Tasks.RemoveRange(Tas);
-
-            _Context.SaveChanges();
-            return "Done";
-            //}
-            //else return "Wrong PassWord";
-        }
-        #endregion
-
-        #region retrieve_building_Data
-
-        [Route("Retrieve_Builing_Data")]
+        [Route("BuilingDTOData")]
         [HttpGet]
-        public BuildingDTO Retrieve_Builing_Data()
+        public BuildingDTO BuilingDTOData()
         {
-            BuildingDTO buildingDTO = new BuildingDTO()
-            {
-                Id = _Context.Buildings.FirstOrDefault().Id,
-                Name = _Context.Buildings.FirstOrDefault().Name,
-                Path = _Context.Buildings.FirstOrDefault().Path,
-            };
+            var BuildingList = _Context.Buildings.FirstOrDefault();
+            BuildingDTO buildingDTO = new BuildingDTO();
+            buildingDTO.Id=BuildingList.Id;
+            buildingDTO.Name = BuildingList.Name;
+            buildingDTO.Path = BuildingList.Path;
             return buildingDTO;
         }
-        #endregion
-
-        #region retrieve_Floor_Data
         [Route("FloorDTO")]
         [HttpGet]
         public IEnumerable<FloorDTO> FloorDTO()
         {
+            var floors = _Context.Floors;
             List<FloorDTO> floorDTOs = new List<FloorDTO>();
-            foreach (var floor in _Context.Floors)
+            foreach (var floor in floors)
             {
-                new FloorDTO()
-                {
-                    Id = floor.Id,
-                    FloorName = floor.FloorName,
-                    BuildingId = floor.BuildingId,
-                };
+                floorDTOs.Add(
+                   new FloorDTO()
+                   {
+                       Id = floor.Id,
+                       FloorName = floor.FloorName,
+                       BuildingId = floor.BuildingId,
+                   });
             }
             return floorDTOs;
         }
-        #endregion
-
-        #region retireve_Space_Data
         [Route("SpaceDTO")]
         [HttpGet]
         public IEnumerable<SpaceDTO> SpaceDTO()
         {
+            var spaces = _Context.Spaces;
             List<SpaceDTO> SpaceDTOs = new List<SpaceDTO>();
-            foreach (var space in _Context.Spaces)
+            foreach (var space in spaces)
             {
-                new SpaceDTO()
+                SpaceDTOs.Add(new SpaceDTO()
                 {
                     Id = space.Id,
                     Name = space.Name,
                     FloorId = space.FloorId
-                };
+                });
             }
             return SpaceDTOs;
         }
-        #endregion
 
-        #region retrieve_Asset_Data
         [Route("AssetDTO")]
         [HttpGet]
         public IEnumerable<AssetDTO> AssetDTO()
         {
+            var Assets = _Context.Assets;
             List<AssetDTO> assetDTOs = new List<AssetDTO>();
-            foreach (var asset in _Context.Assets)
+            foreach (var asset in Assets)
             {
-                new AssetDTO()
+                assetDTOs.Add(new AssetDTO()
                 {
                     Id = asset.Id,
                     Name = asset.Name,
                     SpaceId = asset.SpaceId
-                };
+                    
+                });
             }
             return assetDTOs;
         }
-        #endregion
 
-        #region retrieve_Sensor_Data
-        [Route("sensorDTOs")]
+        [Route("SensorDTO")]
         [HttpGet]
-        public IEnumerable<SensorDTO> sensorDTOs()
+        public IEnumerable<SensorDTO> SensorDTO()
         {
-            List<SensorDTO> SensorDTO = new List<SensorDTO>();
-            foreach (var sensor in _Context.Sensors)
+            var Sensors = _Context.Sensors;
+            List<SensorDTO> sensorDTOs = new List<SensorDTO>();
+            foreach (var sensor in Sensors)
             {
-                SensorDTO.Add(new SensorDTO
+                sensorDTOs.Add(new SensorDTO()
                 {
                     Id = sensor.Id,
                     Name = sensor.Name,
                     SpaceId = sensor.SpaceId,
                     SensorType = sensor.SensorType,
                     AssetId = sensor.AssetId
-
-
                 });
 
             }
-
-            return SensorDTO;
+            return sensorDTOs;
         }
-        #endregion
 
-        #region Sensor_Warning_Data
-        [Route("SensorWarningDTO")]
+        //Get the data from the DB to the user
+        // we need to get List of tasks that is assigned to the incidents 
+        [Route("GetTaskData")]
         [HttpGet]
-        public IEnumerable<SensorWarningDTO> SensorWarningDTO()
+        public IEnumerable<TaskDTO> GetTaskData()
         {
-            List<SensorWarningDTO> sensorWarningDTO = new List<SensorWarningDTO>();
-            foreach (var sensorwarning in _Context.SensorWarnings)
+            List<TaskDTO> Tasks = new List<TaskDTO>();
+
+            foreach (var Task in _Context.Tasks)
             {
-                sensorWarningDTO.Add(new SensorWarningDTO
+                Tasks.Add(new TaskDTO()
                 {
-                    Id = sensorwarning.Id,
-                    Description = sensorwarning.Description,
-                    InvestigatDate = sensorwarning.InvestigatDate,
-                    Investigated = sensorwarning.Investigated,
-                    IssueDate = sensorwarning.IssueDate,
-                    Priority = sensorwarning.Priority,
-                    SensorId = sensorwarning.SensorId,
+                    Type = Task.Type,
+                    Description = Task.Description,
+                    Status = Task.Status,
+                    Priority = Task.Priority,
+                    Cost = Task.Cost,
+                    FixingTime = Task.FixingTime,
+                    IncidentId = Task.IncidentId,
+                    AssignedToId = Task.AssignedToId,
+                    AssignedById = Task.AssignedById,
+                    CreatedById = Task.CreatedById,
                 });
             }
-            return sensorWarningDTO;
+            return Tasks;
         }
 
-        #endregion
-
-        #region Incident_Data
-        [Route("IncidentDTO")]
-        [HttpGet]
-        public IEnumerable<IncedentDTO> IncidentDTO()
+        //Get the Data From the User To DB
+        [Route("StoreTaskData")]
+        [HttpPost]
+        public void StoreTaskData(TaskDTO task)
         {
-            List<IncedentDTO> Incidents = new List<IncedentDTO>();
-            foreach (var Incident in _Context.Incidents)
+            Models.Task Task = new Models.Task()
             {
-                Incidents.Add(new IncedentDTO
-                {
-                    Id = Incident.Id,
-                    AssetId = Incident.AssetId,
-                    Description = Incident.Description,
-                    Priority = Incident.Priority,
-                    ReportingTime = Incident.ReportingTime,
-                    SensorWarningId = Incident.SensorWarningId,
-                    SpaceId = Incident.SpaceId,
-                    Status = Incident.Status,
-                    UserId = Incident.UserId,
-                });
-            }
-            return Incidents;
+                Id = task.Id,
+                Type = task.Type,
+                Description = task.Description,
+                Status = task.Status,
+                Priority = task.Priority,
+                Cost = task.Cost,
+                FixingTime = task.FixingTime,
+                IncidentId = task.IncidentId,
+                AssignedToId = task.AssignedToId,
+                AssignedById = task.AssignedById,
+                CreatedById = task.CreatedById
+            };
+            _Context.Tasks.Add(Task);
+            _Context.SaveChanges();
         }
-        #endregion
 
+        [Route("ClearDatabase")]
+        [HttpDelete]
+        public string ClearDatabase(string PassWord)
+        {
+            if (PassWord == "Jimmy")
+            {
+                Building[] Bui = _Context.Buildings.ToArray();
+                _Context.Buildings.RemoveRange(Bui);
+
+                Floor[] Flo = _Context.Floors.ToArray();
+                _Context.Floors.RemoveRange(Flo);
+
+                Space[] Spa = _Context.Spaces.ToArray();
+                _Context.Spaces.RemoveRange(Spa);
+
+                Asset[] Asse = _Context.Assets.ToArray();
+                _Context.Assets.RemoveRange(Asse);
+
+                Sensor[] Sen = _Context.Sensors.ToArray();
+                _Context.Sensors.RemoveRange(Sen);
+
+                SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
+                _Context.SensorWarnings.RemoveRange(SenWar);
+
+                User[] Use = _Context.Users.ToArray();
+                _Context.Users.RemoveRange(Use);
+
+                Incident[] Inc = _Context.Incidents.ToArray();
+                _Context.Incidents.RemoveRange(Inc);
+
+                Models.Task[] Tas = _Context.Tasks.ToArray();
+                _Context.Tasks.RemoveRange(Tas);
+
+                _Context.SaveChanges();
+                return "Done";
+            }
+            else return "Wrong PassWord";
+        }
+
+        
     }
 }
 

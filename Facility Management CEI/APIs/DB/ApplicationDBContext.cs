@@ -16,7 +16,6 @@ namespace API.DB
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Models.Task>()
                 .HasOne<User>(c => c.CreatedBy)
                 .WithMany(t => t.TasksCreated)

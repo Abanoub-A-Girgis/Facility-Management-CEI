@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Facility_Management_CEI.APIs.Enums
+namespace API.Enums
 {
-    public class IncidentType
+    public enum IncidentStatus
     {
+        Open,
+        Completed
     }
 }

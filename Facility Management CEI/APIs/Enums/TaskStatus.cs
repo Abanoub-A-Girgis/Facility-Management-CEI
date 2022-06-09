@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Enums
 {
-    public enum Status
+    public enum TaskStatus
     {
         NotAssigned,
         WorkInProgress,

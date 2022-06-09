@@ -10,7 +10,7 @@ namespace API.Moldels_DTOs
     public class IncedentDTO
     {
         public int Id { get; set; }
-        public Enums.TaskStatus Status { get; set; }
+        public IncidentStatus Status { get; set; }
         public Priority Priority { get; set; }
         public string Description { get; set; }
         public DateTime ReportingTime { get; set; }

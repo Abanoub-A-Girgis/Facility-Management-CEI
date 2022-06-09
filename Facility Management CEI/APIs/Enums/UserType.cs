@@ -7,10 +7,12 @@ namespace API.Enums
 {
     public enum UserType
     {
-        SuperUser,
-        BuildingAdmin,
+        SystemAdmin,
+        Owner,
         Manager,
         Supervisor,
+        Inspector,
         Agent
+
     }
 }
