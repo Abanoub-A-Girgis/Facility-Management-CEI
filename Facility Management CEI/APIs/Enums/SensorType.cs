@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API
+namespace API.Enums
 {
-    public class SensorType
+    public enum SensorType
     {
-        public const string AssetSensor = "AssetSensor";
-        public const string SpaceSensor = "SpaceSensor";
+        AssetSensor,
+        SpaceSensor
     }
 }

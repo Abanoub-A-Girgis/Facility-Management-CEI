@@ -5,14 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.Enums
 {
-    public enum UserType
+    public enum IncidentStatus
     {
-        SystemAdmin,
-        Owner,
-        Manager,
-        Supervisor,
-        Inspector,
-        Agent
-
+        Open,
+        Completed
     }
 }

@@ -363,6 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 appsettings.json
+appsettings.Development.json
 *.ifc
 *.wexBIM
 Migrations/
