@@ -30,7 +30,6 @@ namespace Facility_Management_CEI.Controllers
             else
             {
                 return View(sensorsarning);
-
             }
 
             //return View();
