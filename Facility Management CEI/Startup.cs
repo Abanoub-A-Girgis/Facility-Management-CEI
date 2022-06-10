@@ -1,4 +1,5 @@
 using API.DB;
+using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,13 +28,16 @@ namespace Facility_Management_CEI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
+            //options.UseSqlServer(
+            //Configuration.GetConnectionString("ProjectDataBase")));
             services.AddControllersWithViews();
 
             services.AddControllers()
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
 
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectDataBase")));
+            services.AddDbContext<API.DB.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectDataBase")));
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
