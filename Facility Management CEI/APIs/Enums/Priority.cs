@@ -7,9 +7,9 @@ namespace API.Enums
 {
     public enum Priority
     {
-        Severe=100,
-        High=80,
-        Medium=40,
-        Low=0
+        Severe,
+        High,
+        Medium,
+        Low
     }
 }

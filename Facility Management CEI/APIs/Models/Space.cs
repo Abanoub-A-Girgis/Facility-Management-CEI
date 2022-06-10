@@ -22,7 +22,6 @@ namespace API.Models
         //Space has many assets 
         public List<Asset> Assets { get; set; }
         //Space has many Sensors
-
         public List<Sensor> Sensors { get; set; }
 
         #endregion

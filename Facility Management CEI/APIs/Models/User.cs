@@ -18,11 +18,9 @@ namespace API.Models
 
         #region Link with other
         public List<SensorWarning> SensorWarnings { get; set; }
-
         public int? BuildingId { get; set; } //new//may may user one to many can be null
         public Building Building { get; set; }//if we put a FK we will have a error
         //public int BuildingId { get; set; }//if we put a FK we will have a error
-
         public List<Incident> Incidents { get; set; }
         ////[InverseProperty("CreatedBy")] //we made this with fluent api look AplicationDBContext 
         public List<Models.Task> TasksCreated { get; set; }
@@ -31,10 +29,10 @@ namespace API.Models
         [InverseProperty("AssignedTo")]
         public List<Models.Task> TasksReceived { get; set; }
         // represents the Unary RelationShip
-        public int? SuperId { get; set; }//new
-        public User Super { get; set; }//new
+        public int? SuperId { get; set; }//user SuperVisor Id
+        public User Super { get; set; } // supervisor object
         [InverseProperty("Super")]//new//will not make anny difference if we remove it 
-        public List<User> SuperUnder { get; set; }//new
+        public List<User> SuperUnder { get; set; } // supervised personal 
         #endregion
     }
 }

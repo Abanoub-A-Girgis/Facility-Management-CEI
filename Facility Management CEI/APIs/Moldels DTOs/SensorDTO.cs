@@ -12,7 +12,7 @@ namespace API.Moldels_DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public int SpaceId { get; set; }
-        public string SensorType { get; set; }
+        public SensorType SensorType { get; set; }
         public int? AssetId { get; set; }
     }
 }

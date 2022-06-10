@@ -10,13 +10,13 @@ namespace API.DB
 {
     public class ApplicationDBContext:DbContext
     {
+        //
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext>options):base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Models.Task>()
                 .HasOne<User>(c => c.CreatedBy)
                 .WithMany(t => t.TasksCreated)

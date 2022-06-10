@@ -11,7 +11,7 @@ namespace API.Models
     {
         #region Entity Properties
         public int Id { get; set; }
-        public Status Status { get; set; }
+        public IncidentStatus Status { get; set; }
         public Priority Priority { get; set; }
         public string Description { get; set; }
 
@@ -24,7 +24,6 @@ namespace API.Models
 
         public int? AssetId { get; set; }
         public Asset Asset { get; set; }
-
         public int? SensorWarningId { get; set; }
         public SensorWarning SensorWarning { get; set; }
         public int UserId { get; set; }
