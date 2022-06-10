@@ -5,8 +5,7 @@ This Project is submitted as our final project for the course of the Civil Engin
 The project is made to showcase our capabilities as a team and to improve our knowledge of software development.
 
 Libaries used:
-> asp.net
 
-> xBim
-
-> Chart.js
+> asp.net<br>
+> xBim<br>
+> Chart.js<br>
