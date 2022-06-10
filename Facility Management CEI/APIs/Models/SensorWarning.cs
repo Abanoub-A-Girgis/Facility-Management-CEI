@@ -12,8 +12,8 @@ namespace API.Models
         #region Entity Properties
         public int Id { get; set; }
         //[DataType(DataType.Date)]
-        public DateTime IssueDate { get; set; }//check it in database
-        public string Description { get; set; }
+        public DateTime IssueDate { get; set; }  //check it in database
+        public string Description { get; set; }  
         public bool Investigated { get; set; }
         public Priority Priority { get; set; }
         //[DataType(DataType.Date)]
