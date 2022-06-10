@@ -1,0 +1,980 @@
+﻿
+@{
+    ViewBag.Title = "Projects";
+    ViewBag.pTitle = "Projects";
+    ViewBag.pageTitle = "Dashboard";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                          
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-3">
+                                <p class="text-muted mb-2">Total Projects</p>
+                                <h5 class="mb-0">20</h5>
+                            </div>
+                            <div class="avatar-sm ml-auto">
+                                <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                    <i class="bx bxs-book-bookmark"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card blog-stats-wid">
+                    <div class="card-body">
+
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-3">
+                                <p class="text-muted mb-2">Issues</p>
+                                <h5 class="mb-0">86</h5>
+                            </div>
+
+                            <div class="avatar-sm ml-auto">
+                                <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                    <i class="bx bxs-note"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card blog-stats-wid">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-3">
+                                <p class="text-muted mb-2">Submitals</p>
+                                <h5 class="mb-0">150</h5>
+                            </div>
+
+                            <div class="avatar-sm ml-auto">
+                                <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                    <i class="bx bxs-message-square-dots"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <h5 class="card-title mr-2">Project Cash Flow</h5>
+                    <div class="ml-auto">
+                        <div class="toolbar button-items text-right">
+                            <button type="button" class="btn btn-light btn-sm">
+                                ALL
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm">
+                                1M
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm">
+                                6M
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm active">
+                                1Y
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-lg-4">
+                        <div class="mt-4">
+                            <p class="text-muted mb-1">Today</p>
+                            <h5>45,000 $</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="mt-4">
+                            <p class="text-muted mb-1">This Month</p>
+                            <h5>200,000 $ <span class="text-success font-size-13">0.2 % <i class="mdi mdi-arrow-up ml-1"></i></span></h5>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="mt-4">
+                            <p class="text-muted mb-1">This Year</p>
+                            <h5>125,1254,250 <span class="text-success font-size-13">0.1 % <i class="mdi mdi-arrow-up ml-1"></i></span></h5>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+
+                <div class="apex-charts" id="area-chart" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="mr-3">
+                        <img src="assets/images/users/Rania.jpg" alt="" class="avatar-sm rounded-circle img-thumbnail">
+                    </div>
+                    <div class="media-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <div class="text-muted">
+                                    <h5 class="mb-1">Rania </h5>
+                                    <p class="mb-0">BIM Manager</p>
+                                </div>
+
+                            </div>
+
+                            <div class="dropdown ml-2">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bxs-cog align-middle mr-1"></i> Setting
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-8">
+                                <div>
+                                    <p class="text-muted text-truncate mb-2">Project Members</p>
+                                    <h5 class="mb-0">32</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <div class="mr-2">
+                        <h5 class="card-title mb-3">Project Progress</h5>
+                    </div>
+                    <div class="dropdown ml-auto">
+                        <a class="text-muted dropdown-toggle font-size-16" role="button" data-toggle="dropdown" aria-haspopup="true">
+                            <i class="mdi mdi-dots-horizontal"></i>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row text-center">
+                        <div class="col-6">
+                            <div class="mt-3">
+                                <p class="text-muted mb-1">Today</p>
+                                <h5>1024</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mt-3">
+                                <p class="text-muted mb-1">This Month</p>
+                                <h5>12356 <span class="text-success font-size-13">0.2 % <i class="mdi mdi-arrow-up ml-1"></i></span></h5>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <hr>
+
+                <div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="py-2">
+                                <h5 class="font-size-14">Block 5 <span class="float-right">46.7%</span></h5>
+                                <div class="progress animated-progess progress-sm">
+                                    <div class="progress-bar" role="progressbar" style="width: 46%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="py-2">
+                                <h5 class="font-size-14">Block 6 <span class="float-right">32%</span></h5>
+                                <div class="progress animated-progess progress-sm">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 32%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="py-2">
+                                <h5 class="font-size-14">Block 7 <span class="float-right">22%</span></h5>
+                                <div class="progress animated-progess progress-sm">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 22%" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- end col -->
+
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Project RFIs</h4>
+                <div id="pie_chart" class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-4 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Project Submittals</h4>
+                <div id="pie_chart1" class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Projects Progress</h4>
+
+                <div>
+                    <div id="donut-chart" class="apex-charts"></div>
+                </div>
+
+                <div class="text-center text-muted">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="mt-4">
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-primary mr-1"></i>Block 5 </p>
+                                <h5>$ 200,132</h5>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mt-4">
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-success mr-1"></i>Block B</p>
+                                <h5>$ 125,763</h5>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mt-4">
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-danger mr-1"></i>Block C</p>
+                                <h5>$ 973,321</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Project Invoices</h4>
+                <div id="pie_chart2" class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Project Cost</h4>
+                <div id="column-charts" dir="ltr"></div>
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Latest Submitals</h4>
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 20px;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Submital ID</th>
+                                <th>Submital Name</th>
+                                <th>Date</th>
+                                <th>Value</th>
+                                <th>Submital Status</th>
+                                <th>Submitted By</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2540</a> </td>
+                                <td>Concrete Form works</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    $400
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Approved</span>
+                                </td>
+
+                                <td>
+                                    ECG
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2541</a> </td>
+                                <td>Concrete work </td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    $380
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">Not Approved</span>
+                                </td>
+
+                                <td>
+                                    KAITECH
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                        <label class="custom-control-label" for="customCheck4">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2542</a> </td>
+                                <td>Foundation Works</td>
+                                <td>
+                                    06 Oct, 2019
+                                </td>
+                                <td>
+                                    $384
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Approved</span>
+                                </td>
+
+                                <td>
+                                    Cosmos
+                                </td>
+                                <td>
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                        <label class="custom-control-label" for="customCheck5">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2543</a> </td>
+                                <td>Brick Works</td>
+                                <td>
+                                    05 Oct, 2019
+                                </td>
+                                <td>
+                                    $412
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">Not Approved</span>
+                                </td>
+
+                                <td>
+                                    Arab Contractors
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                        <label class="custom-control-label" for="customCheck6">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2544</a> </td>
+                                <td>Glass Works</td>
+                                <td>
+                                    04 Oct, 2019
+                                </td>
+                                <td>
+                                    $404
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-warning font-size-12">Pending</span>
+                                </td>
+
+
+                                <td>
+                                    Finish Arts
+                                </td>
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                        <label class="custom-control-label" for="customCheck7">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2545</a> </td>
+                                <td>Finishes</td>
+                                <td>
+                                    04 Oct, 2019
+                                </td>
+                                <td>
+                                    $392
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Approved</span>
+                                </td>
+
+                                <td>
+                                    Finish Arts
+                                </td>
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Latest RFIs</h4>
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 20px;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>RFI ID</th>
+                                <th>RFI Name</th>
+                                <th>Date</th>
+                                <th>Submitted By</th>
+                                <th>RFI Status</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2540</a> </td>
+                                <td>MEP Duct Beam Clash</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">Opened</span>
+                                </td>
+                                <td>
+                                    Orascom Construction
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2541</a> </td>
+                                <td>Window Wall Interaction</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">Opened</span>
+                                </td>
+
+                                <td>
+                                    Orascom Construction
+                                </td>
+
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2540</a> </td>
+                                <td>Beam Wall Interaction</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Closed</span>
+                                </td>
+                                <td>
+                                    Cosmos-E
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2541</a> </td>
+                                <td>Window Wall Interaction</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">Opened</span>
+                                </td>
+
+                                <td>
+                                    Orascom Construction
+                                </td>
+
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2540</a> </td>
+                                <td>MEP Duct Beam Clash</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Closed</span>
+                                </td>
+
+                                <td>
+                                    Orascom Construction
+                                </td>
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2541</a> </td>
+                                <td>Window Wall Interaction</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Opened</span>
+                                </td>
+
+                                <td>
+                                    Arab Contractors
+                                </td>
+
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Latest Invoices</h4>
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 20px;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Invoice ID</th>
+                                <th>Issued To</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Payment Method</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                        <label class="custom-control-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2540</a> </td>
+                                <td>KAITECH</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    $400
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Paid</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Bank Transfer
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                        <label class="custom-control-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2541</a> </td>
+                                <td>KAITECH</td>
+                                <td>
+                                    07 Oct, 2019
+                                </td>
+                                <td>
+                                    $380
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-success font-size-12">Paid</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Bank Transfer
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                        <label class="custom-control-label" for="customCheck4">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2542</a> </td>
+                                <td>Cosmos-E</td>
+                                <td>
+                                    06 Oct, 2019
+                                </td>
+                                <td>
+                                    $384
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-warning font-size-12">Pending</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Cheque
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                        <label class="custom-control-label" for="customCheck5">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2543</a> </td>
+                                <td>Arab Contractors</td>
+                                <td>
+                                    05 Oct, 2019
+                                </td>
+                                <td>
+                                    $412
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">UnPaid</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Bank Transfer
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                        <label class="custom-control-label" for="customCheck6">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2544</a> </td>
+                                <td>Orascom Construction</td>
+                                <td>
+                                    04 Oct, 2019
+                                </td>
+                                <td>
+                                    $404
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-warning font-size-12">Pending</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Cheque
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                        <label class="custom-control-label" for="customCheck7">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK2545</a> </td>
+                                <td>Orascom Construction</td>
+                                <td>
+                                    04 Oct, 2019
+                                </td>
+                                <td>
+                                    $392
+                                </td>
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-12">UnPaid</span>
+                                </td>
+                                <td>
+                                    <i class="fab fa-cc-mastercard mr-1"></i> Bank Transfer
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target=".exampleModal">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+
+
+<!-- apexcharts -->
+<script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+
+<!-- crypto dash init js -->
+<script src="~/assets/js/pages/dashboard-blog.init.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+
+
+<!-- tui charts plugins -->
+<script src="~/assets/libs/tui-chart/tui-chart-all.min.js"></script>
+
+<!-- tui charts map -->
+<script src="~/assets/libs/tui-chart/maps/usa.js"></script>
+
+<!-- tui charts plugins -->
+<script src="~/assets/js/pages/tui-charts.init.js"></script>
+
