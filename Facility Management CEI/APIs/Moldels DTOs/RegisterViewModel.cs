@@ -1,14 +1,10 @@
 ﻿using API.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace API.Moldels_DTOs
+namespace Facility_Management_CEI.Models
 {
-    public class UserDTO
+    public class RegisterViewModel
     {
-        public int Id { get; set; }
+        //public int Id { get; set; } //the id is auto generated 
         public string UserName { get; set; }
         public string PassWord { get; set; }
         public UserType Type { get; set; }

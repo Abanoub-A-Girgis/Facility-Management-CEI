@@ -20,7 +20,7 @@ namespace API.Models
         //[Required]//Review
         public List<Floor> Floors { get; set; }
         
-        public List<User> Users { get; set; }
+        public List<AppUser> AppUsers { get; set; }
         #endregion
     }
 
