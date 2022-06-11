@@ -26,8 +26,8 @@ namespace API.Models
         public Asset Asset { get; set; }
         public int? SensorWarningId { get; set; }
         public SensorWarning SensorWarning { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public List<Models.Task> Task { get; set; }
         //Space could has an incident 
         [Required]

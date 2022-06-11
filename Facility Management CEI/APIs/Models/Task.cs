@@ -23,13 +23,13 @@ namespace API.Models
 
         [Required]
         public int CreatedById { get; set; }//we made this for the modelbuilder to select it 
-        public User CreatedBy { get; set; }//onDelete: ReferentialAction.SetDefault);//we made this (space must migration)//try modelBuilder in AplicationDBContext ClientCascade
+        public AppUser CreatedBy { get; set; }//onDelete: ReferentialAction.SetDefault);//we made this (space must migration)//try modelBuilder in AplicationDBContext ClientCascade
         public int IncidentId { get; set; }
         public Incident Incident { get; set; }
         public int? AssignedToId { get; set; }//new//need to be tested in api to make sure it add in the list
-        public User AssignedTo { get; set; }
+        public AppUser AssignedTo { get; set; }
         public int? AssignedById { get; set; }//new//need to be tested in api to make sure it add in the list
-        public User AssignedBy { get; set; }
+        public AppUser AssignedBy { get; set; }
         #endregion
     }
 }

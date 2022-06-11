@@ -8,8 +8,16 @@ namespace API.Moldels_DTOs
 {
     public class FloorDTO
     {
+        #region Entity Properties
+       
         public int Id { get; set; }
         public string FloorName { get; set; } //name 
-        public int BuildingId { get; set; }//we must have it here in case we want to add through the dto
+        #endregion
+
+        #region Link with other entities
+
+        public int BuildingId { get; set; }
+        
+        #endregion
     }
 }

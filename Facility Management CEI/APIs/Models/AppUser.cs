@@ -1,18 +1,20 @@
 ﻿using API.Enums;
+using Facility_Management_CEI.APIs.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class User
+    public class AppUser
     {
         #region Entity Properties
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string PassWord { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public UserType Type { get; set; }
         #endregion
 
@@ -30,9 +32,12 @@ namespace API.Models
         public List<Models.Task> TasksReceived { get; set; }
         // represents the Unary RelationShip
         public int? SuperId { get; set; }//user SuperVisor Id
-        public User Super { get; set; } // supervisor object
+        public AppUser Super { get; set; } // supervisor object
         [InverseProperty("Super")]//new//will not make anny difference if we remove it 
-        public List<User> SuperUnder { get; set; } // supervised personal 
+        public List<AppUser> SuperUnder { get; set; } // supervised personal 
+        [Required]
+        public string LogUserId { get; set; }
+        public LogUser LogUser { get; set; }
         #endregion
     }
 }
