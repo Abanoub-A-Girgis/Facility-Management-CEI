@@ -21,7 +21,7 @@ namespace Facility_Management_CEI.Controllers
                 .Include(a => a.Sensor)
                 .ThenInclude(s=>s.Space)
                 .ToList();
-                
+                // for test
             if (sensorsarning == null)
             {
                 return NotFound();
