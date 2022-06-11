@@ -17,16 +17,20 @@ namespace Facility_Management_CEI.Controllers
 
         public IActionResult Index()
         {
-            var sensorsarning = _context.SensorWarnings.Include(a => a.Sensor).ToList();
-                
+            var sensorsarning = _context.SensorWarnings
+                .Include(a => a.Sensor)
+                .ThenInclude(s=>s.Space)
+                .ToList();
+                // for test
+                // for test2
             if (sensorsarning == null)
             {
                 return NotFound();
             }
+
             else
             {
                 return View(sensorsarning);
-
             }
 
             //return View();

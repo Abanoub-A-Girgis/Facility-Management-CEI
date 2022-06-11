@@ -1,4 +1,5 @@
 ﻿using API.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class User
+    public class User: IdentityUser
     {
         #region Entity Properties
         public int Id { get; set; }

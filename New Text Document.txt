@@ -1,7 +1,7 @@
-﻿@model IEnumerable<API.Models.SensorWarning>
+@model IEnumerable<API.Models.SensorWarning>
 @{
     ViewData["Title"]="SensorWarning";
-    Layout = "~/Views/_Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
                 <div class="card text-center">
                   <div class="card-header">
@@ -53,4 +53,3 @@
                         </table>
                     </div>
                 </div>
-       
