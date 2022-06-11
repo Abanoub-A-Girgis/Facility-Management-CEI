@@ -13,3 +13,5 @@ namespace Facility_Management_CEI.IdentityDb
         }
     }
 }
+//this in package manager console will make the migration 
+//add-migration MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext
