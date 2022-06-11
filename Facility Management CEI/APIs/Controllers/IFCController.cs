@@ -318,7 +318,7 @@ namespace API.Controllers
                     Priority = Task.Priority,
                     Cost = Task.Cost,
                     FixingTime = Task.FixingTime,
-                    IncidentId = Task.IncidentId,
+                    //IncidentId = Task.IncidentId,
                     AssignedToId = Task.AssignedToId,
                     AssignedById = Task.AssignedById,
                     CreatedById = Task.CreatedById,
@@ -341,7 +341,7 @@ namespace API.Controllers
                 Priority = task.Priority,
                 Cost = task.Cost,
                 FixingTime = task.FixingTime,
-                IncidentId = task.IncidentId,
+                //IncidentId = task.IncidentId,
                 AssignedToId = task.AssignedToId,
                 AssignedById = task.AssignedById,
                 CreatedById = task.CreatedById

@@ -16,11 +16,16 @@ using Xbim.ModelGeometry.Scene;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using API.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace Facility_Management_CEI.Controllers
 {
     public class ViewerParameter
     {
+        public int ManagerId;
+        public int SuperVisorId;
+        public int InspectorId;
         public int UserId;
         public List<int> Severe = new List<int>();
         public List<int> High = new List<int>();
@@ -30,19 +35,50 @@ namespace Facility_Management_CEI.Controllers
     
     public class ViewerController : Controller
     {
+        public ApplicationDBContext _context { get; set; }
+
         private readonly ILogger<HomeController> _logger;
 
-        public ViewerController(ILogger<HomeController> logger)
+        public ViewerController(ILogger<HomeController> logger, ApplicationDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
         public IActionResult ViewerTest()
         {
             return View();
         }
         
+        public async Task<IActionResult> ViewerAsAgent(/*int EmployeeId*/)
+        {
+            //ViewerParam.UserId;
+            var Tasks = await _context.Tasks.Where(t => t.AssignedToId == 4).FirstOrDefaultAsync();
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult Viewer(ViewerParameter ViewerParam)
+        public IActionResult ViewerAsInspector(int id)
+        {
+            //ViewerParam.UserId;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ViewerAsSupervisor(int id)
+        {
+            //ViewerParam.UserId;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ViewerAsManager(int id)
+        {
+            //ViewerParam.UserId;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ViewerAsOwner(int id)
         {
             //ViewerParam.UserId;
             return View();

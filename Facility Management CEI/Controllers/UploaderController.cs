@@ -19,11 +19,11 @@ using System.Threading.Tasks;
 
 namespace Facility_Management_CEI.Controllers
 {
-    public class HomeController : Controller
+    public class UploaderController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public UploaderController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
@@ -79,21 +79,6 @@ namespace Facility_Management_CEI.Controllers
                     wexBiMfile.Close();
                 }
             }
-        }
-
-        public IActionResult Viewer()
-        {
-            return View();
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
