@@ -15,8 +15,8 @@ namespace API.Models
         public string Description { get; set; }
         public Enums.TaskStatus Status { get; set; }
         public Priority Priority { get; set; }
-        public double Cost { get; set; }
-        public DateTime FixingTime { get; set; }
+        public double? Cost { get; set; }
+        public DateTime? FixingTime { get; set; }
         #endregion
 
         #region Link with other
