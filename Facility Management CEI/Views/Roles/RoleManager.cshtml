@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"]="RoleManger";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+<form class="row g-3" asp-controller="Roles" asp-action="RoleManager" method="post">
+    <div class="col-md-6">
+        <label for="role_name" class="col-form-label">
+            Role Name
+        </label>
+        <input type="text" class="form-control" id="role-name" name="roleName"/>
+
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
