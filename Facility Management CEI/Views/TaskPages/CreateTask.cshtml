@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Create Task";
+    ViewBag.pTitle = "Create Task";
+    ViewBag.pageTitle = "Tasks";
+    ViewData["Title"]="TaskPages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model API.Models.Task
+                
+        <div class="card text-center">
+            <div class="card-header">
+            <h3>Create Task</h3>
+            </div>
+                 
+            <div class="card-body">
+            <p class="card-text">Create new Task</p>
+            </div>
+        </div>
+
+
+                <div class="mt-4 form-group">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead class="thead-dark">
+                                <tr>
+                                    @*<th scope="col">@Html.DisplayNameFor(model => model.Id)</th>*@
+                                    <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.AssignedById)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.AssignedToId)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.IncidentId)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Description)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Cost)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Type)</th>
+                                    <th></th>
+                                   
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr >
+                                    <td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>
+                                    @*<th scope="col">@Html.DisplayFor(model => model.Id)</th>*@
+                                    <th scope="col">@Html.DisplayFor(model => model.CreatedById)</th>
+                                    <th scope="col">@Html.DisplayFor(model => model.AssignedById)</th>
+                                    <th scope="col">@Html.DisplayFor(model => model.AssignedToId)</th>
+                                    <th scope="col">@Html.DisplayFor(model => model.IncidentId)</th>
+                                    <th scope="col"> 
+                                                                          
+                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Priority)  
+                                        @Html.DropDownList("Priorty", new List<SelectListItem> {  
+                                        new SelectListItem { Text="Severe",Value="0"},  
+                                        new SelectListItem { Text="High",Value="1"},
+                                        new SelectListItem { Text="Medium",Value="2"},
+                                        new SelectListItem { Text="Low",Value="3"}
+                                        }, "choose Priority", new { @class = "form-control" })  
+                                    </div>             
+                                    </th>
+                                    <th scope="col">@Html.DisplayFor(model => model.Description)</th>
+                                    <th scope="col">@Html.DisplayFor(model => model.Cost)</th>
+                                    @*<th scope="col">@Html.DisplayFor(model => model.Status)</th>*@
+                                     <th scope="col"> 
+                                                                          
+                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Status)  
+                                        @Html.DropDownList("Status", new List<SelectListItem> {  
+                                        new SelectListItem { Text="NotAssigned",Value="0"},  
+                                        new SelectListItem { Text="WorkInProgress",Value="1"},
+                                        new SelectListItem { Text="Completed",Value="2"}
+                                        }, "choose Status", new { @class = "form-control" })  
+                                    </div>             
+                                    </th>
+                                    @*<th scope="col">@Html.DisplayFor(model => model.Type)</th>*@
+                                    <th scope="col"> 
+                                     <div class="form-group">
+                                        @Html.LabelFor(m => m.Type)  
+                                        @Html.DropDownList("Status", new List<SelectListItem> {  
+                                        new SelectListItem { Text="Preventive",Value="0"},  
+                                        new SelectListItem { Text="Corrective",Value="1"},
+                                        new SelectListItem { Text="Modification",Value="2"},
+                                        new SelectListItem { Text="Other",Value="3"}
+                                        }, "choose Status", new { @class = "form-control" })  
+                                    </div>             
+                                    </th>
+                                    <td class="text-center">
+                                        <a asp-action="TaskList" class="btn btn-danger" asp-route-TaskId="@Model.Id">Submit</a> 
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
