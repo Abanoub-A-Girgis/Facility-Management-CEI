@@ -1,4 +1,5 @@
 using API.DB;
+using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,11 +35,12 @@ namespace Facility_Management_CEI
             Configuration.GetConnectionString("ProjectDataBase")));
             services.AddControllersWithViews();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(
+            services.AddIdentity<LogUser, IdentityRole>(
             options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
-            }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>();
+            }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
+             .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
 
             //////////////////////////////////////////////////
             services.AddControllers()
@@ -88,3 +90,4 @@ namespace Facility_Management_CEI
         }
     }
 }
+//update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext
