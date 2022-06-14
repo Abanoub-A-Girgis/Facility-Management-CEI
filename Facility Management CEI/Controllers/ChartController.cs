@@ -23,45 +23,55 @@ namespace Skote.Controllers
             _context = context;
         }
         // GET: Chart
+        [Authorize]
         public async Task<IActionResult> Chartjs()
         {
-            var Assests = await _context.Assets.ToListAsync();   
-            return View(Assests);
+            //passing the data from the view to the model 
+            ViewBag.Buildings = await _context.Buildings.ToListAsync();
+            ViewBag.Floors = await _context.Floors.ToListAsync();
+            ViewBag.Spaces = await _context.Spaces.ToListAsync();
+            ViewBag.Assets = await _context.Assets.ToListAsync();
+            ViewBag.SensorWarnings = await _context.SensorWarnings.ToListAsync();
+            ViewBag.Tasks = await _context.Tasks.ToListAsync();
+            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Incidents = await _context.Incidents.ToListAsync();
+            //ViewBag.Sensors = await _context.Sensors.ToListAsync(); error occurs that unable to cast from string to int32
+            return View();
         }
 
         #region other view methods 
-        public ActionResult Apex()
-        {
-            return View();
-        }
+        //public ActionResult Apex()
+        //{
+        //    return View();
+        //}
 
 
 
-        public ActionResult Echart()
-        {
-            int x = 1;
-            return View();
-        }
+        //public ActionResult Echart()
+        //{
+        //    int x = 1;
+        //    return View();
+        //}
 
-        public ActionResult Flot()
-        {
-            return View();
-        }
+        //public ActionResult Flot()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult Knob()
-        {
-            return View();
-        }
+        //public ActionResult Knob()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult Sparkline()
-        {
-            return View();
-        }
+        //public ActionResult Sparkline()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult ChartTui()
-        {
-            return View();
-        }
+        //public ActionResult ChartTui()
+        //{
+        //    return View();
+        //}
 
         #endregion
 
