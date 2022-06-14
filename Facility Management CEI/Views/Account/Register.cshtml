@@ -1,16 +1,15 @@
-﻿
-@*@model ouruser*@
-
+﻿@using API.Models
+@using API.Moldels_DTOs
+@model RegisterViewModel
 
 
 @{
     ViewData["Title"] = "Ragister";
-    Layout = "~/Views/_Shared/_BlankLayout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
 <!-- owl.carousel css -->
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.carousel.min.css">
-
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.theme.default.min.css">
 
 
@@ -90,18 +89,23 @@
                                     <form asp-controller="Account" asp-action="Register" method="post">
 
                                         <div class="form-group">
-                                            <label for="useremail">Email</label>
-                                            <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                            <label for="firstName">FirstName</label>
+                                            <input type="text" class="form-control" id="firstName" placeholder="Enter firstName" asp-for="FirstName">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="username">Username</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Enter username">
+                                            <label for="lastName">LastName</label>
+                                            <input type="text" class="form-control" id="lastName" placeholder="Enter LastName" asp-for="LastName">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="userpassword">Password</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                            <label for="userName">UserName</label>
+                                            <input type="text" class="form-control" id="userName" placeholder="Enter UserName" asp-for="UserName">
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="text" class="form-control" id="userpassword" placeholder="Enter password" asp-for="PassWord">
                                         </div>
 
                                         <div>
@@ -109,8 +113,9 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Register</button>
+                                            <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Create</button>
                                         </div>
+
 
                                         <div class="mt-4 text-center">
                                             <h5 class="font-size-14 mb-3">Sign up using</h5>

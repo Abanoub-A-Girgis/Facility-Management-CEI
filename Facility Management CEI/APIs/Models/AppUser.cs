@@ -40,4 +40,23 @@ namespace API.Models
         public LogUser LogUser { get; set; }
         #endregion
     }
+    //[Route("AddNewStudent")]
+    //[HttpPost]
+    //public void AddNewStudent(StudentDTO stu)
+    //{
+    //    var Student = new Student()
+    //    {
+    //        Name = stu.Name,
+    //        Address = stu.Address,
+    //        Grade = stu.Grade,
+    //        Email = stu.Email,
+    //        BirthDate = stu.BirthDate,
+    //        CollageId = stu.CollageId,
+    //        BookId = stu.BookId,
+    //    };
+    //    _Context.Students.Add(Student);
+
+
+    //    _Context.SaveChanges();
+    //}
 }

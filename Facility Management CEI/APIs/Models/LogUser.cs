@@ -12,8 +12,11 @@ namespace Facility_Management_CEI.APIs.Models
         //{
 
         //}
-        //[Required]
-        public override string Id { get; set; }        
+
+        [Required]
+        public override string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public AppUser AppUser { get; set; }
 
     }

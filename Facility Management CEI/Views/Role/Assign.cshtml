@@ -1,0 +1,8 @@
+﻿@using API.Moldels_DTOs
+@model UserRoles
+
+<form asp-controller="Role" asp-action="Assign" method="post">
+    <select  asp-items="@Model.Roles" asp-for="Roles"></select>
+    <input   asp-for="UserName" placeholder="UserName"/>
+    <button  type="submit">Add</button>
+</form>
