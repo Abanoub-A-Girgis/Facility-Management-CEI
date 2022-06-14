@@ -23,7 +23,6 @@ namespace Skote.Controllers
             _context = context;
         }
         // GET: Chart
-        [Authorize]
         public async Task<IActionResult> Chartjs()
         {
             //passing the data from the view to the model 
