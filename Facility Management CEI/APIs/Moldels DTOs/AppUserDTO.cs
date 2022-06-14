@@ -1,4 +1,6 @@
 ﻿using API.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +27,23 @@ namespace API.Moldels_DTOs
         public string LogUserId { get; set; }
        
         #endregion
+    }
+    public class UserRoles
+    {
+        public UserRoles()
+        {
+
+        }
+        public UserRoles(List<IdentityRole> roles)
+        {
+            Roles ??= new List<SelectListItem>(roles.Count());
+            foreach(var item in roles)
+            {
+                Roles.Add(new SelectListItem(item.Name,item.Id));
+            }
+        }
+        public string UserName { get; set; }
+        public string Role { get; set; }    
+        public List<SelectListItem> Roles { get; set; }
     }
 }
