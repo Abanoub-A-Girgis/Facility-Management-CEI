@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Task List";
+    ViewBag.pageTitle = "Tasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<API.Models.Task>
+
+@{
+    var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
+}
+        <div class="card text-center">
+            <div class="card-header">
+            <h3>List Of Tasks</h3>
+            </div>
+        </div>
+       
+<div class="mt-4">
+         
+   <div class="table-responsive">
+     <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+     <thead class="thead-dark"> 
+        <thead>  
+            <tr>  
+            <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.AssignedById)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.AssignedToId)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.IncidentId)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Description)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Cost)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Type)</th>
+            </tr>  
+        </thead>
+        <tbody>
+            @foreach (var task in tasks)
+            {  
+                <tr>
+                @*<td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>*@
+                <th scope="col">@task.Id</th>
+                <th scope="col">@task.CreatedById</th>
+                <th scope="col">@task.AssignedById</th>
+                <th scope="col">@task.AssignedToId</th>
+                <th scope="col">@task.IncidentId</th>
+                <th scope="col">@task.Priority</th>
+                <th scope="col">@task.Description</th>
+                <th scope="col">@task.Cost</th>
+                <th scope="col">@task.Status</th>
+                <th scope="col">@task.Type</th>
+                </tr>
+            }  
+        </tbody>
+     </table>  
+   </div>
+</div>
+
+ <div class="form-group"> 
+          <a asp-action="CreateTask" asp-route-id="" class="btn btn-primary" >Create New Task </a>
+ </div>
