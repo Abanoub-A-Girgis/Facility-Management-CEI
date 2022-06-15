@@ -1,4 +1,5 @@
-﻿
+﻿@using API.Enums
+@*
 @{
     ViewBag.Title = "Create Task";
     ViewBag.pTitle = "Create Task";
@@ -26,7 +27,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     @*<th scope="col">@Html.DisplayNameFor(model => model.Id)</th>*@
-                                    <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
+                                   @* <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.AssignedById)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.AssignedToId)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.IncidentId)</th>
@@ -45,13 +46,13 @@
                                 <tr >
                                     <td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>
                                     @*<th scope="col">@Html.DisplayFor(model => model.Id)</th>*@
-                                    <th scope="col">@Html.DisplayFor(model => model.CreatedById)</th>
+                                   @* <th scope="col">@Html.DisplayFor(model => model.CreatedById)</th>
                                     <th scope="col">@Html.DisplayFor(model => model.AssignedById)</th>
                                     <th scope="col">@Html.DisplayFor(model => model.AssignedToId)</th>
                                     <th scope="col">@Html.DisplayFor(model => model.IncidentId)</th>
-                                    <th scope="col"> 
+                                    <th scope="col"> *@
                                                                           
-                                     <div class="form-group">
+                                     @*<div class="form-group">
                                         @Html.LabelFor(m => m.Priority)  
                                         @Html.DropDownList("Priorty", new List<SelectListItem> {  
                                         new SelectListItem { Text="Severe",Value="0"},  
@@ -62,9 +63,9 @@
                                     </div>             
                                     </th>
                                     <th scope="col">@Html.DisplayFor(model => model.Description)</th>
-                                    <th scope="col">@Html.DisplayFor(model => model.Cost)</th>
+                                    <th scope="col">@Html.DisplayFor(model => model.Cost)</th>*@
                                     @*<th scope="col">@Html.DisplayFor(model => model.Status)</th>*@
-                                     <th scope="col"> 
+                                    @* <th scope="col"> 
                                                                           
                                      <div class="form-group">
                                         @Html.LabelFor(m => m.Status)  
@@ -74,9 +75,9 @@
                                         new SelectListItem { Text="Completed",Value="2"}
                                         }, "choose Status", new { @class = "form-control" })  
                                     </div>             
-                                    </th>
+                                    </th>*@
                                     @*<th scope="col">@Html.DisplayFor(model => model.Type)</th>*@
-                                    <th scope="col"> 
+                                   @* <th scope="col"> 
                                      <div class="form-group">
                                         @Html.LabelFor(m => m.Type)  
                                         @Html.DropDownList("Status", new List<SelectListItem> {  
@@ -92,10 +93,105 @@
                                     </td>
                                 </tr>
                                 
-                            </tbody>
-                        </table>
+                            </tbody>*@
+                       @* </table>
                     </div>
-                </div>
+                </div>*@
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@
+
+@model API.Models.Task
+
+@{
+    ViewData["Title"] = "CreateTask";
+}
+
+<h1>Create</h1>
+
+<h4>Task</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select 
+                @Html.DropDownList("Type", new List<SelectListItem> {  
+                new SelectListItem { Text="Preventive",Value="0"},  
+                new SelectListItem { Text="Corrective",Value="1"},
+                new SelectListItem { Text="Modification",Value="2"},
+                new SelectListItem { Text="Other",Value="3"}
+                }, "Choose Type", new { @class = "form-control" }) >
+                </select>
+                <span asp-validation-for="Type" 0="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select @Html.DropDownList("Status", new List<SelectListItem> {  
+                    new SelectListItem { Text="NotAssigned",Value="0"},  
+                    new SelectListItem { Text="WorkInProgress",Value="1"},
+                    new SelectListItem { Text="Completed",Value="2"}
+                    }, "choose Status", new { @class = "form-control" })  ></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()">
+                       <option selected="selected" class="form-control" value="">Choose Proirity</option>
+                </select> 
+                @*<select @Html.DropDownList("Priorty", new List<SelectListItem> {  
+                    new SelectListItem { Text="Severe",Value="0"},  
+                    new SelectListItem { Text="High",Value="1"},
+                    new SelectListItem { Text="Medium",Value="2"},
+                    new SelectListItem { Text="Low",Value="3"}
+                    }, "choose Priority", new { @class = "form-control" })  ></select>*@
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FixingTime" class="control-label"></label>
+                <input asp-for="FixingTime" class="form-control" />
+                <span asp-validation-for="FixingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedById" class="control-label"></label>
+                <select asp-for="CreatedById" class ="form-control" asp-items="ViewBag.CreatedById"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IncidentId" class="control-label"></label>
+                <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedToId" class="control-label"></label>
+                <select asp-for="AssignedToId" class ="form-control" asp-items="ViewBag.AssignedToId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedById" class="control-label"></label>
+                <select asp-for="AssignedById" class ="form-control" asp-items="ViewBag.AssignedById"></select>
+            </div>
+            <div class="form-group">
+                <input asp-action="CreateTask" type="submit" value="CreateTask" class="btn btn-primary" />
+            </div>
+           
+
+        </form>
+    </div>
+</div>
+
+ <div class="form-group">
+      <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-primary" >Go TO List</a>
+ </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
