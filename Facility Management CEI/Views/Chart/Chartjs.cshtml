@@ -1,0 +1,566 @@
+﻿@using API.Models
+@{
+    ViewBag.Title = "Building Reports";
+    ViewBag.pTitle = "Building Reports";
+    ViewBag.pageTitle = "Reports";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Recieving the table data frrom the controller
+    List<API.Models.Asset> Assets = ViewBag.Assets;
+    List<API.Models.Building> Building = ViewBag.Buildings;
+    List<API.Models.Floor> Floors = ViewBag.Floors;
+    List<API.Models.Space> Spaces = ViewBag.Spaces;
+    List<API.Models.SensorWarning> SensorWarnings = ViewBag.SensorWarnings;
+    List<API.Models.Task> Tasks = ViewBag.Tasks;
+    List<API.Models.User> Users = ViewBag.Users;
+    List<API.Models.Incident> Incidents = ViewBag.Incidents;
+    //List<API.Models.Sensor> Sensors = ViewBag.Sensors;
+}
+
+@{
+    //Incident Pie Report Counters
+    int openIncdentsCounter = 0;
+    int CompletedIncdentsCounter = 0;
+
+    //Incident Line Report Conters
+    int janCounter = 0;
+    int FebCounter = 0;
+    int MarCounter = 0;
+    int AprCounter = 0;
+    int MayCounter = 0;
+    int junCounter = 0;
+    int JulCounter = 0;
+    int AugCounter = 0;
+    int SepCounter = 0;
+    int OctCounter = 0;
+    int NovCounter = 0;
+    int DecCounter = 0;
+
+
+    foreach (var Incident in Incidents)
+    {
+        //Pie Report
+        if (Incident.Status == API.Enums.IncidentStatus.Completed)
+        {
+            CompletedIncdentsCounter++;
+        }
+        if (Incident.Status == API.Enums.IncidentStatus.Open)
+        {
+            openIncdentsCounter++;
+        }
+        //Line Report
+        if (Incident.ReportingTime.Month == 1)
+        {
+            janCounter++;
+        }
+        if (Incident.ReportingTime.Month == 2)
+        {
+            FebCounter++;
+        }
+        if (Incident.ReportingTime.Month == 3)
+        {
+            MarCounter++;
+        }
+        if (Incident.ReportingTime.Month == 4)
+        {
+            AprCounter++;
+        }
+        if (Incident.ReportingTime.Month == 5)
+        {
+            MarCounter++;
+        }
+        if (Incident.ReportingTime.Month == 6)
+        {
+            junCounter++;
+        }
+        if (Incident.ReportingTime.Month == 7)
+        {
+            JulCounter++;
+        }
+        if (Incident.ReportingTime.Month == 8)
+        {
+            AugCounter++;
+        }
+        if (Incident.ReportingTime.Month == 9)
+        {
+            SepCounter++;
+        }
+        if (Incident.ReportingTime.Month == 10)
+        {
+            OctCounter++;
+        }
+        if (Incident.ReportingTime.Month == 11)
+        {
+            NovCounter++;
+        }
+        if (Incident.ReportingTime.Month == 12)
+        {
+            DecCounter++;
+        }
+    }
+    int WorkingIncidentNo = Incidents.Count - openIncdentsCounter;
+
+    //Line report
+
+
+}
+@{
+    //Taksk Report Counters
+    int NotAssignedCounter = 0;
+    int WorkInProgressCounter = 0;
+    int CompletedCounter = 0;
+    foreach (var Task in Tasks)
+    {
+        if (Task.Status == API.Enums.TaskStatus.Completed)
+        {
+            CompletedCounter++;
+        }
+        if (Task.Status == API.Enums.TaskStatus.WorkInProgress)
+        {
+            WorkInProgressCounter++;
+        }
+        if (Task.Status == API.Enums.TaskStatus.NotAssigned)
+        {
+            NotAssignedCounter++;
+        }
+    }
+}
+@{
+    int OwnerCounter = 0;
+    int ManagerCounter = 0;
+    int SupervisorCounter = 0;
+    int InspectorCounter = 0;
+    int AgentCounter = 0;
+    //Users Roles In the Building
+    foreach (var user in Users)
+    {
+        switch (user.Type)
+        {
+            case API.Enums.UserType.Owner:
+                OwnerCounter++;
+                break;
+            case API.Enums.UserType.Manager:
+                ManagerCounter++;
+                break;
+            case API.Enums.UserType.Supervisor:
+                SupervisorCounter++;
+                break;
+            case API.Enums.UserType.Inspector:
+                InspectorCounter++;
+                break;
+            case API.Enums.UserType.Agent:
+                AgentCounter++;
+                break;
+        }
+    }
+}
+<!--
+    Chart js Notes:
+    Chart js is a canvas based that uses canves to draw Charts
+    so first you need to establsh canvas node and pass it to chart js to drwa within
+-->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Incidnts History</h4>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <!-- total Asstes Number-->
+                        <h5 class="mb-0"> </h5>
+                        <h5 class="mb-0"></h5>
+                        @*<p class="text-muted text-truncate">Activated</p>
+                            <p class="text-muted text-truncate">Total Asset number</p>*@
+
+                    </div>
+                    @*<div class="col-4">
+                        <h5 class="mb-0">2541</h5>
+                        <p class="text-muted text-truncate">Pending</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">102030</h5>
+                        <p class="text-muted text-truncate">Deactivated</p>
+                    </div>*@
+                </div>
+
+                <canvas id="lineChart" height="300"> </canvas>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title mb-4">Building Personnel</h4>
+
+                @*<div class="row text-center">
+                    <div class="col-4">
+                        <h5 class="mb-0">2541</h5>
+                        <p class="text-muted text-truncate">Activated</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">84845</h5>
+                        <p class="text-muted text-truncate">Pending</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">12001</h5>
+                        <p class="text-muted text-truncate">Deactivated</p>
+                    </div>
+                </div>*@
+
+                <canvas id="bar" height="300"></canvas>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Incidents Report</h4>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <p class="text-muted text-truncate">Total Incidents</p>
+                        <h5 class="mb-0">@Incidents.Count</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="text-muted text-truncate">OpenIncidents</p>
+                        <h5 class="mb-0">@openIncdentsCounter</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="text-muted text-truncate">CompletedIncidents</p>
+                        <h5 class="mb-0">@CompletedIncdentsCounter</h5>
+                    </div>
+                </div>
+
+                <canvas id="pie" height="260"></canvas>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title mb-4">Tasks Report</h4>
+
+                <div class="row text-center">
+                    @*<div class="col-4">
+                            <p class="text-muted text-truncate">Total Tasks </p>
+
+                            <h5 class="mb-0" >@Tasks.Count</h5>
+                        </div>*@
+                    <div class="col-4" style="text-align:center;">
+                        <h5 class="mb-0">@Tasks.Count</h5>
+                        <p class="text-muted text-truncate">Total Tasks</p>
+                    </div>
+                    @*<div class="col-4">
+                            <h5 class="mb-0">62541</h5>
+                            <p class="text-muted text-truncate">Deactivated</p>
+                        </div>*@
+                </div>
+
+                <canvas id="doughnut" height="260"></canvas>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title mb-4">Polar Chart</h4>
+
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h5 class="mb-0">4852</h5>
+                        <p class="text-muted text-truncate">Activated</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">3652</h5>
+                        <p class="text-muted text-truncate">Pending</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">85412</h5>
+                        <p class="text-muted text-truncate">Deactivated</p>
+                    </div>
+                </div>
+
+                <canvas id="polarArea" height="300"> </canvas>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Radar Chart</h4>
+
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h5 class="mb-0">694</h5>
+                        <p class="text-muted text-truncate">Activated</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">55210</h5>
+                        <p class="text-muted text-truncate">Pending</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">489498</h5>
+                        <p class="text-muted text-truncate">Deactivated</p>
+                    </div>
+                </div>
+
+                <canvas id="radar" height="300">
+                </canvas>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/metismenu/metisMenu.min.js"></script>
+<script src="~/lib/simplebar/simplebar.min.js"></script>
+<script src="~/lib/node-waves/waves.min.js"></script>
+<script src="~/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Chart JS -->
+<script src="~/lib/chart.js/Chart.bundle.min.js"></script>
+
+<script>
+    !function ($) {
+        "use strict";
+
+        var ChartJs = function () { };
+
+        ChartJs.prototype.respChart = function (selector, type, data, options) {
+            // get selector by context
+            var ctx = selector.get(0).getContext("2d");
+            // pointing parent container to make chart js inherit its width
+            var container = $(selector).parent();
+
+            // enable resizing matter
+            $(window).resize(generateChart);
+
+            // this function produce the responsive Chart JS
+            function generateChart() {
+                // make chart width fit with its container
+                var ww = selector.attr('width', $(container).width());
+                switch (type) {
+                    case 'Line':
+                        new Chart(ctx, { type: 'line', data: data, options: options });
+                        break;
+                    case 'Doughnut':
+                        new Chart(ctx, { type: 'doughnut', data: data, options: options });
+                        break;
+                    case 'Pie':
+                        new Chart(ctx, { type: 'pie', data: data, options: options });
+                        break;
+                    case 'Bar':
+                        new Chart(ctx, { type: 'bar', data: data, options: options });
+                        break;
+                    case 'Radar':
+                        new Chart(ctx, { type: 'radar', data: data, options: options });
+                        break;
+                    case 'PolarArea':
+                        new Chart(ctx, { data: data, type: 'polarArea', options: options });
+                        break;
+                }
+                // Initiate new chart or Redraw
+
+            };
+            // run function - render chart at first load
+            generateChart();
+        },
+            //init
+            ChartJs.prototype.init = function () {
+                //creating lineChart
+                var lineChart = {
+                    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October","November","December"],
+                    datasets: [
+                        {
+                            label: "Incident Analytics",
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "#3292e0",
+                            borderColor: "#3292e0",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "#3292e0",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "#3292e0",
+                            pointHoverBorderColor: "#eef0f2",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: [@janCounter, @FebCounter, @MarCounter,@AprCounter, @MayCounter, @junCounter, @JulCounter, @AugCounter, @SepCounter, @OctCounter,@NovCounter,@DecCounter]
+                        }
+                    ]
+                };
+
+                var lineOpts = {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                max: 100,
+                                min: 20,
+                                stepSize: 10
+                            }
+                        }]
+                    }
+                };
+
+                this.respChart($("#lineChart"), 'Line', lineChart, lineOpts);
+
+                //donut chart
+                var donutChart = {
+                    labels: [
+                            "Completed",
+                            "WorkInProgress",
+                            "NotAssigned"
+                    ],
+                    datasets: [
+                        {
+                            data: [@CompletedCounter,@WorkInProgressCounter,@NotAssignedCounter],
+                            backgroundColor: [
+                                "#45bbe0",
+                                "#3292e0",
+                                "#ebeff2"
+                            ],
+                            hoverBackgroundColor: [
+                                "#45bbe0",
+                                "#3292e0",
+                                "#ebeff2"
+                            ],
+                            hoverBorderColor: "#fff"
+                        }]
+                };
+                this.respChart($("#doughnut"), 'Doughnut', donutChart);
+
+
+                //Pie chart
+                var pieChart = {
+                    labels: [
+                        "Opened Incident",
+                        "Completed Incident",
+
+                    ],
+                    datasets: [
+                        {
+                            data: [@openIncdentsCounter,@CompletedIncdentsCounter],
+                            backgroundColor: [
+                                "#45bbe0",
+                                "#3292e0",
+                                "#ebeff2"
+                            ],
+                            hoverBackgroundColor: [
+                                "#45bbe0",
+                                "#3292e0",
+                                "#ebeff2"
+                            ],
+                            hoverBorderColor: "#fff"
+                        }]
+                };
+                this.respChart($("#pie"), 'Pie', pieChart);
+
+
+                //barchart
+                var barChart = {
+                    labels: ["Owner", "Manger", "Supervisor", "Inspector", "Agent"],
+                    datasets: [
+                        {
+                            label: "Personnel Bar",
+                            backgroundColor: "#3292e0",
+                            borderColor: "#3292e0",
+                            borderWidth: 1,
+                            hoverBackgroundColor: "#3292e0",
+                            hoverBorderColor: "#3292e0",
+                            data: [@OwnerCounter,@ManagerCounter,@SupervisorCounter,@InspectorCounter,@AgentCounter]
+                        }
+                    ]
+                };
+                this.respChart($("#bar"), 'Bar', barChart);
+
+
+                //radar chart
+                var radarChart = {
+                    labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+                    datasets: [
+                        {
+                            label: "Desktops",
+                            backgroundColor: "rgba(179,181,198,0.2)",
+                            borderColor: "rgba(179,181,198,1)",
+                            pointBackgroundColor: "rgba(179,181,198,1)",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "rgba(179,181,198,1)",
+                            data: [65, 59, 90, 81, 56, 55, 40]
+                        },
+                        {
+                            label: "Tablets",
+                            backgroundColor: "rgba(50,146,224,0.2)",
+                            borderColor: "#3292e0",
+                            pointBackgroundColor: "#3292e0",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#3292e0",
+                            data: [28, 48, 40, 19, 96, 27, 100]
+                        }
+                    ]
+                };
+                this.respChart($("#radar"), 'Radar', radarChart);
+
+                //Polar area  chart
+                var polarChart = {
+                    datasets: [{
+                        data: [
+                            11,
+                            16,
+                            7,
+                            18
+                        ],
+                        backgroundColor: [
+                            "#f62f37",
+                            "#188ae2",
+                            "#45bbe0",
+                            "#f8ca4e"
+                        ],
+                        label: 'My dataset', // for legend
+                        hoverBorderColor: "#fff"
+                    }],
+                    labels: [
+                        "Series 1",
+                        "Series 2",
+                        "Series 3",
+                        "Series 4"
+                    ]
+                };
+                this.respChart($("#polarArea"), 'PolarArea', polarChart);
+            },
+            $.ChartJs = new ChartJs, $.ChartJs.Constructor = ChartJs
+
+    }(window.jQuery),
+
+        //initializing
+        function ($) {
+            "use strict";
+            $.ChartJs.init()
+        }(window.jQuery);
+</script>
+<!-- App js -->
+<script src="~/js/app.js"></script>
