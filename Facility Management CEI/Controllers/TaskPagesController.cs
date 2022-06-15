@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using API.Moldels_DTOs;
 using Microsoft.AspNetCore.Mvc;
-using API.DB;
+using Facility_Management_CEI.IdentityDb;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using Task = API.Models.Task;
@@ -25,9 +25,9 @@ namespace Skote.Controllers
         //Create ur task
         public IActionResult CreateTask()
         {
-            ViewData["AssignedById"] = new SelectList(_Context.Users, "Id", "Id");
-            ViewData["AssignedToId"] = new SelectList(_Context.Users, "Id", "Id");
-            ViewData["CreatedById"] = new SelectList(_Context.Users, "Id", "Id");
+            ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
+            ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id");
+            ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
            
             return View();
@@ -44,9 +44,9 @@ namespace Skote.Controllers
                 return RedirectToAction("TaskList");
             }
 
-            ViewData["AssignedById"] = new SelectList(_Context.Users, "Id", "Id");
-            ViewData["AssignedToId"] = new SelectList(_Context.Users, "Id", "Id");
-            ViewData["CreatedById"] = new SelectList(_Context.Users, "Id", "Id");
+            ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
+            ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id");
+            ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
             return View(task);
         }
