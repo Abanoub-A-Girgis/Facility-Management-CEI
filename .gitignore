@@ -367,3 +367,4 @@ appsettings.Development.json
 *.ifc
 *.wexBIM
 Migrations/
+startup.cs
