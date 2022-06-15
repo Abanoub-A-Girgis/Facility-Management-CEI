@@ -32,7 +32,7 @@ namespace Facility_Management_CEI
         {
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
-            Configuration.GetConnectionString("ProjectDataBase")));
+            Configuration.GetConnectionString("FMTest")));
             services.AddControllersWithViews();
 
             services.AddIdentity<LogUser, IdentityRole>(
@@ -46,12 +46,11 @@ namespace Facility_Management_CEI
             }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
 
-            //////////////////////////////////////////////////
             services.AddControllers()
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
-            //services.AddDbContext<API.DB.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectDataBase")));
+            //services.AddDbContext<Facility_Management_CEI.IdentityDb.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FMTest")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 

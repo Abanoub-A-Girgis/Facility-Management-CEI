@@ -96,11 +96,12 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
 
+
         public ActionResult Echart()
         {
-            int x= 1;
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

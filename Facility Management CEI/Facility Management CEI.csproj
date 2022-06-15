@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,10 +21,6 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="Xbim.Essentials" Version="5.1.323" />
     <PackageReference Include="Xbim.Geometry" Version="5.1.403" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migration\" />
   </ItemGroup>
 
 </Project>
