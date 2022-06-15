@@ -96,11 +96,14 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public ActionResult Echart()
         {
             return View();
         }
 
+=======
+>>>>>>> c806fb927e83af458c96f81f0ed1328196040a55
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
