@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewBag.Title = "Viewer";
+}
+@using System.Configuration
+@using API.Models
+@model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
+<h2>Agent Task</h2>
+
+<head>
+    <title>View as Agent</title>
+    <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
+    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
+    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
+    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
+    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
+    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+    <style>
+        .table-hover > tbody > tr:hover {
+            background-color: #D2D2D2;
+        }
+        thead tr{
+            background-color: #343a40;
+            box-shadow: 0px -2px #343a40;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-4 overflow-auto" style="max-height:650px">
+            <table class="w-100 table table-striped table-hover">
+                <thead>
+                    <tr class="sticky-top">
+                        <th>Agent ID</th>
+                        <th>Task ID</th>
+                        <th>Asset Name</th>
+                        <th>Details</th>
+                        <th>Zoom To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in ViewBag.Tasks)
+                    {
+                        <tr>
+                            <th>@task.AssignedToId</th>
+                            <th>@task.Id</th>
+                            <td>@task.Incident.Asset.Name</td>
+                            <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
+                            <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    <div class="col-8">
+        <canvas id="viewer" height="650" style="width: 100%;
+                                   object-fit: contain;"></canvas>
+        <div style="position: absolute;
+                    top: 8px;
+                    right: 16px;
+                    z-index:5" id="overlayDiv"></div>
+        <script type="text/javascript">
+            var viewer = new xViewer('viewer');
+            viewer.load('../data/SampleHouse.wexbim');
+            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+            var navCube = new xNavigationCube();
+            navCube.ratio = .1;
+            viewer.addPlugin(navCube);
+            viewer.start();
+            viewer.defineStyle(0, [255,0,0,255])
+            viewer.defineStyle(1, [255,160,16,255])
+            viewer.defineStyle(2, [255,224,32,255])
+            viewer.defineStyle(3, [0,255,0,255])
+        </script>
+
+        @*<script> 
+                viewer.on('pick', function (args) {
+                    var id = args.id;
+                    viewer.setCameraTarget(id);
+                    pickedId = id;
+                });
+        </script>*@
+
+        <script>
+                viewer.on('fps', function (fps) {
+                    var overlayDiv = document.getElementById('overlayDiv');
+                    if (overlayDiv) {
+                        overlayDiv.innerHTML = "FPS: " + fps;
+                    }
+                });
+        </script>
+
+        <div>
+            <label id="productId"> </label>
+            <br />
+            <label id="fps"> </label>
+        </div>
+
+        <script>
+            // Arrays to hold the item id's depending on their priority
+            var listOfSevere = [];
+            var listOfHigh = [];
+            var listOfMedium = [];
+            var listOfLow = [];
+            @foreach (var t in Model)
+            {
+                @foreach (var i in t.Value.Severe)
+                {
+                    @:listOfSevere.push(@i);
+                }
+                @foreach (var i in t.Value.High)
+                {
+                    @:listOfHigh.push(@i);
+                }
+                @foreach (var i in t.Value.Medium)
+                {
+                    @:listOfMedium.push(@i);
+                }
+                @foreach (var i in t.Value.Low)
+                {
+                    @:listOfLow.push(@i);
+                }       
+            }
+
+            
+            var animateBool = true;
+            setInterval(animateObjects, 1000);
+            function animateObjects() {
+                if (animateBool) {
+                    viewer.setStyle(0, listOfSevere);
+                    viewer.setStyle(1, listOfHigh);
+                    viewer.setStyle(2, listOfMedium);
+                    viewer.setStyle(3, listOfLow);
+                    animateBool = false;
+                }
+                else {
+                    viewer.resetStyles()
+                    animateBool = true;
+                }
+            }
+        </script>
+
+        <div>
+            <button onclick="CreateCanvas()">Clear</button>
+            <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
+            <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
+            <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
+            <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
+        
+        </div>
+
+        <div>
+            <select id="cmbHide">
+                <option value="noAction">No action</option>
+                <option value="hideProduct">Hide product</option>
+                <option value="hideType">Hide type</option>
+                <option value="highlight">Highlight</option>
+            </select>
+            <button onclick="if (viewer) viewer.resetStates()">Show all</button>
+            <script type="text/javascript">
+
+                var timer = 0;
+
+                viewer.on('pick', function (args) {
+                    var id = args.id;
+                    viewer.setCameraTarget(id);
+                    pickedId = id;
+                    document.getElementById('hiddenId').value = id;
+                    var span = document.getElementById('productId');
+                    if (span) {
+                        span.innerHTML = "Selected Product Id = " + id;
+                    }
+
+                    var cmb = document.getElementById('cmbHide');
+                    var option = cmb.value;
+                    switch (option) {
+                        case 'hideProduct':
+                            viewer.setState(xState.HIDDEN, [args.id]);
+                            break;
+                        case 'hideType':
+                            var type = viewer.getProductType(args.id);
+                            viewer.setState(xState.HIDDEN, type);
+                            break;
+                        case 'highlight':
+                            viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    var time = (new Date()).getTime();
+                    if (time - timer < 200)
+                        viewer.zoomTo(id);
+                    timer = time;
+
+                });
+            </script>
+            <input name="hiddenId" type="hidden" id="hiddenId" />
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+
+        function CreateCanvas() {
+            var htmlContent = document.createElement('canvas');
+            htmlContent.id = "viewer";
+            htmlContent.width = "500";
+            htmlContent.height = "300";
+            document.getElementById("viewer").remove();
+            var ParentElement = document.getElementById("content");
+            ParentElement.insertBefore(htmlContent, ParentElement.firstChild);
+            viewer = new xViewer('viewer');
+            navCube = new xNavigationCube();
+            navCube.ratio = .1;
+            viewer.addPlugin(navCube);
+            viewer.start();
+            viewer.defineStyle(0, [255,0,0,255])
+            viewer.defineStyle(1, [255,160,16,255])
+            viewer.defineStyle(2, [255,224,32,255])
+            viewer.defineStyle(3, [0,255,0,255])
+        }
+    </script>
+
+</body>
