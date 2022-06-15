@@ -48,14 +48,14 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="AssetId" class="control-label"></label>
-                    <div>@Html.DropDownList("AssetId", (IEnumerable<SelectListItem>)ViewData["AssetId"])</div>
+                     <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.asset_Id"></select>
 @*                    <input asp-for="AssetId" class="form-control" />
 *@                    <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="SpaceId" class="control-label"></label>
-                    <div>@Html.DropDownList("SpaceId", (IEnumerable<SelectListItem>)ViewData["SpaceId"])</div>
-@*                    <input asp-for="SpaceId" class="form-control" />*@
+@*                    <div>@Html.DropDownList("SpaceId", (IEnumerable<SelectListItem>)ViewData["SpaceId"])</div>
+*@@*                    <input asp-for="SpaceId" class="form-control" />*@
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">

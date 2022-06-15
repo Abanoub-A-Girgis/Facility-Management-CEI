@@ -21,7 +21,6 @@ namespace API.Models
         #endregion
 
         #region Link with other
-
         public int? AssetId { get; set; }
         public Asset Asset { get; set; }
         public int? SensorWarningId { get; set; }

@@ -49,6 +49,7 @@ namespace Facility_Management_CEI.Controllers
         {
             return View();
         }
+
         public async Task<IActionResult> AddOrEdit(int? IncidentId)
         {
             //if the id is null then the user wants to create a new record and the page name will beCreate student
@@ -67,17 +68,19 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//throgh an exception if not found 
                 }
-                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings.ToList(),"Id","Id");
-                ViewData["AssetId"] = new SelectList(_Context.Assets.ToList(),"Id","Id");
-                ViewData["UserId"] = new SelectList(_Context.Users.ToList(),"Id","Id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces.ToList(),"Id","Id");
+                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings,"Id","Id");
+
+                ViewData["AssetId"] = new SelectList(_Context.Assets,"Id","Id");
+                ViewData["UserId"] = new SelectList(_Context.Users,"Id","Id");
+                ViewData["SpaceId"] = new SelectList(_Context.Spaces,"Id","Id");
                 return View(Incident);//pass this student and return the view 
             }//the returned view contains the UI cells that will allow you to insert or edit records  
         }
         // POST: IncidentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int Id, [Bind("AssetId,Description,Priority,SensorWarningId,Status,UserId,SpaceId,ReporingTime")] Incident incidentData)
+        //Bind will pass the data of these parameters to the View data while run time, there are a viewBag.SensorWarningId
+        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,UserId,SpaceId,ReporingTime")] Incident incidentData)
         {
             bool IsIncidentExist = false;//check if this student is already exsit
 
@@ -99,11 +102,18 @@ namespace Facility_Management_CEI.Controllers
                     //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
                     Incident.Description = incidentData.Description;
                     Incident.Priority= incidentData.Priority;
+                    Incident.Floor
                     Incident.Status= incidentData.Status;
-                    ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings.ToList(), "id","id");
-                    ViewData["AssetId"] = new SelectList(_Context.Assets.ToList(), "id", "id");
-                    ViewData["UserId"] = new SelectList(_Context.Users.ToList(), "id", "id");
-                    ViewData["SpaceId"] = new SelectList(_Context.Spaces.ToList(), "id", "id");
+                    ViewBag.WarningId = _Context.SensorWarnings.Select(sesnor => sesnor.Id);
+                    ViewBag.asset_Id = _Context.Assets.Select(asset => asset.Id);
+                    ViewBag.space_Id = _Context.Spaces.Select(sesnor => sesnor.Id);
+                    ViewBag.user_Id = _Context.Users.Select(sesnor => sesnor.Id);
+
+                    ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+                    ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
+                    ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
+                    ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
+
                     Incident.ReportingTime= DateTime.Now;
                     if (IsIncidentExist)//if this flag is true then update the current student data 
                     {
