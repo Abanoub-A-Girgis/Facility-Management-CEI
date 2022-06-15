@@ -77,7 +77,7 @@ namespace Facility_Management_CEI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Register}/{id?}");
             });
 
             var provider = new FileExtensionContentTypeProvider();
