@@ -14,9 +14,17 @@ namespace API.Moldels_DTOs
         public Priority Priority { get; set; }
         public string Description { get; set; }
         public DateTime ReportingTime { get; set; }
+
+       
+
         public int? AssetId { get; set; }
-        public int UserId { get; set; }
-        public int? SensorWarningId { get; set; }//test the null
+       
+        public int? SensorWarningId { get; set; }
+       
+        public int AppUserId { get; set; }
+      
+        
         public int SpaceId { get; set; }
+        
     }
 }

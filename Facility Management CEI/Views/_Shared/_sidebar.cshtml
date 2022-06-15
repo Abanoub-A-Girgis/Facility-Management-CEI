@@ -1,0 +1,388 @@
+﻿<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" key="t-menu">Menu</li>
+
+                <li>
+                    <a href="javascript: void(0);">Our Views</a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a class="nav-link text-primary"    asp-controller="Viewer" asp-action="ViewerTest">TestViewer</a></li>
+                        <li><a class="nav-link text-secondary"  asp-controller="Viewer" asp-action="Viewer">Viewer View</a></li>
+                        <li><a class="nav-link text-primary"    asp-controller="Home" asp-action="Uploader">Uploader</a></li>
+                        <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">ٌReports</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="SensorWarning" asp-action="Index">ٌSensorWarnings</a></li>
+                        <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="CreateTask">Create Task</a></li>
+                        <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks List</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="RoleManager">ٌCreateRole</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Register">ٌRegister</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="Assign">ٌAssign Roles to user</a></li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                       @* <i class="bx bx-home-circle"></i><span class="badge badge-pill badge-info float-right">04</span>*@
+                        <span key="t-dashboards">Dashboards</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                     @*   <li><a href=@Url.Action("Index", "index") key="t-default">Default</a></li>*@
+                     @*   <li><a href=@Url.Action("Index", "DashboardSaas") key="t-saas">Saas</a></li>*@
+                      @*  <li><a href=@Url.Action("Index", "DashboardCrypto") key="t-crypto">Crypto</a></li>*@
+                        <li><a href=@Url.Action("Index", "DashboardBlog") key="t-blog">Projects</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-layout"></i>
+                        <span key="t-layouts">Layouts</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow" key="t-vertical">Vertical</a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href=@Url.Action("Index", "LayoutsLightSidebar") key="t-light-sidebar">Light Sidebar</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsCompactSidebar") key="t-compact-sidebar">Compact Sidebar</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsIconSidebar") key="t-icon-sidebar">Icon Sidebar</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsBoxed") key="t-boxed-width">Boxed Width</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsPreloader") key="t-preloader">Preloader</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsColoredSidebar") key="t-colored-sidebar">Colored Sidebar</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsScrollable") key="t-scrollable">Scrollable</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow" key="t-horizontal">Horizontal</a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href=@Url.Action("Index", "LayoutsHorizontal") key="t-horizontal">Horizontal</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsHTopbarLight") key="t-topbar-light">Topbar light</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsHBoxed") key="t-boxed-width">Boxed width</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutHoriPreloader") key="t-preloader">Preloader</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsHColored") key="t-colored-topbar">Colored Header</a></li>
+                                <li><a href=@Url.Action("Index", "LayoutsHoriScrollable") key="t-scrollable">Scrollable</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu-title" key="t-apps">Apps</li>
+
+                <li>
+                    <a href=@Url.Action("Index", "Calendar") class=" waves-effect">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-calendar">Calendar</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href=@Url.Action("Index", "Chat") class=" waves-effect">
+                        <i class="bx bx-chat"></i>
+                    @*    <span class="badge badge-pill badge-success float-right">New</span>*@
+                        <span key="t-chat">Chat</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href=@Url.Action("Index", "FileManager") class="waves-effect">
+                        <i class="bx bx-file"></i>
+                      @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <span key="t-file-manager">File Manager</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-store"></i>
+                        <span key="t-ecommerce">Ecommerce</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "EcommerceProducts") key="t-products">Products</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceProductDetail") key="t-product-detail">Product Detail</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceOrders") key="t-orders">Orders</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceCustomers") key="t-customers">Customers</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceCart") key="t-cart">Cart</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceCheckout") key="t-checkout">Checkout</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceShops") key="t-shops">Shops</a></li>
+                        <li><a href=@Url.Action("Index", "EcommerceAddProduct") key="t-add-product">Add Product</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-bitcoin"></i>
+                        <span key="t-crypto">Crypto</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "CryptoWallet") key="t-wallet">Wallet</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoBuySell") key="t-buy">Buy/Sell</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoExchange") key="t-exchange">Exchange</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoLending") key="t-lending">Lending</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoOrders") key="t-orders">Orders</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoKycApplication") key="t-kyc">KYC Application</a></li>
+                        <li><a href=@Url.Action("Index", "CryptoIcoLanding") key="t-ico">ICO Landing</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-envelope"></i>
+                        <span key="t-email">Email</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "EmailInbox") key="t-inbox">Inbox</a></li>
+                        <li><a href=@Url.Action("Index", "EmailRead") key="t-read-email">Read Email</a></li>
+                        <li>
+                            <a href="javascript: void(0);">
+                              @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                                <span key="t-email-templates">Templates</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href=@Url.Action("Index", "EmailTemplateBasic") key="t-basic-action">Basic Action</a></li>
+                                <li><a href=@Url.Action("Index", "EmailTemplateAlert") key="t-alert-email">Alert Email</a></li>
+                                <li><a href=@Url.Action("Index", "EmailTemplateBilling") key="t-bill-email">Billing Email</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-receipt"></i>
+                        <span key="t-invoices">Invoices</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "InvoicesList") key="t-invoice-list">Invoice List</a></li>
+                        <li><a href=@Url.Action("Index", "InvoicesDetail") key="t-invoice-detail">Invoice Detail</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-briefcase-alt-2"></i>
+                        <span key="t-projects">Projects</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "ProjectsGrid") key="t-p-grid">Projects Grid</a></li>
+                        <li><a href=@Url.Action("Index", "ProjectsList") key="t-p-list">Projects List</a></li>
+                        <li><a href=@Url.Action("Index", "ProjectsOverview") key="t-p-overview">Project Overview</a></li>
+                        <li><a href=@Url.Action("Index", "ProjectsCreate") key="t-create-new">Create New</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-task"></i>
+                        <span key="t-tasks">Tasks</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "TasksList") key="t-task-list">Task List</a></li>
+                        <li><a href=@Url.Action("Index", "TasksKanban") key="t-kanban-board">Kanban Board</a></li>
+                        <li><a href=@Url.Action("Index", "TasksCreate") key="t-create-task">Create Task</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Contacts</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "ContactsGrid") key="t-user-grid">User Grid</a></li>
+                        <li><a href=@Url.Action("Index", "ContactsList") key="t-user-list">User List</a></li>
+                        <li><a href=@Url.Action("Index", "ContactsProfile") key="t-profile">Profile</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                      @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <i class="bx bx-detail"></i>
+                        <span key="t-blog">Blog</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "BlogList") key="t-blog-list">Blog List</a></li>
+                        <li><a href=@Url.Action("Index", "BlogGrid") key="t-blog-grid">Blog Grid</a></li>
+                        <li><a href=@Url.Action("Index", "BlogDetails") key="t-blog-details">Blog Details</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-title" key="t-pages">Pages</li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                       @* <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <i class="bx bx-user-circle"></i>
+                        <span key="t-authentication">Authentication</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "AuthLogin") key="t-login">Login</a></li>
+                        <li><a href=@Url.Action("Index", "AuthLogin2") key="t-login-2">Login 2</a></li>
+                        <li><a href=@Url.Action("Index", "AuthRegister") key="t-register">Register</a></li>
+                        <li><a href=@Url.Action("Index", "AuthRegister2") key="t-register-2">Register 2</a></li>
+                        <li><a href=@Url.Action("Index", "AuthRecoverpw") key="t-recover-password">Recover Password</a></li>
+                        <li><a href=@Url.Action("Index", "AuthRecoverpw2") key="t-recover-password-2">Recover Password 2</a></li>
+                        <li><a href=@Url.Action("Index", "AuthLockScreen") key="t-lock-screen">Lock Screen</a></li>
+                        <li><a href=@Url.Action("Index", "AuthLockScreen2") key="t-lock-screen-2">Lock Screen 2</a></li>
+                        <li><a href=@Url.Action("Index", "ConfirmMail") key="t-confirm-mail">Confirm Mail</a></li>
+                        <li><a href=@Url.Action("Index", "ConfirmMail2") key="t-confirm-mail-2">Confirm Mail 2</a></li>
+                        <li><a href=@Url.Action("Index", "EmailVerification") key="t-email-verification">Email verification</a></li>
+                        <li><a href=@Url.Action("Index", "EmailVerification2") key="t-email-verification-2">Email verification 2</a></li>
+                        <li><a href=@Url.Action("Index", "TwoStepVerification") key="t-two-step-verification">Two step verification</a></li>
+                        <li><a href=@Url.Action("Index", "TwoStepVerification2") key="t-two-step-verification-2">Two step verification 2</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-file"></i>
+                        <span key="t-utility">Utility</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "PagesStarter") key="t-starter-page">Starter Page</a></li>
+                        <li><a href=@Url.Action("Index", "PagesMaintenance") key="t-maintenance">Maintenance</a></li>
+                        <li><a href=@Url.Action("Index", "PagesComingsoon") key="t-coming-soon">Coming Soon</a></li>
+                        <li><a href=@Url.Action("Index", "PagesTimeline") key="t-timeline">Timeline</a></li>
+                        <li><a href=@Url.Action("Index", "PagesFaqs") key="t-faqs">FAQs</a></li>
+                        <li><a href=@Url.Action("Index", "PagesPricing") key="t-pricing">Pricing</a></li>
+                        <li><a href=@Url.Action("Index", "Pages404") key="t-error-404">Error 404</a></li>
+                        <li><a href=@Url.Action("Index", "Pages500") key="t-error-500">Error 500</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-title" key="t-components">Components</li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-tone"></i>
+                        <span key="t-ui-elements">UI Elements</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "UiAlerts") key="t-alerts">Alerts</a></li>
+                        <li><a href=@Url.Action("Index", "UiButtons") key="t-buttons">Buttons</a></li>
+                        <li><a href=@Url.Action("Index", "UiCards") key="t-cards">Cards</a></li>
+                        <li><a href=@Url.Action("Index", "UiCarousel") key="t-carousel">Carousel</a></li>
+                        <li><a href=@Url.Action("Index", "UiDropdowns") key="t-dropdowns">Dropdowns</a></li>
+                        <li><a href=@Url.Action("Index", "UiGrid") key="t-grid">Grid</a></li>
+                        <li><a href=@Url.Action("Index", "UiImages") key="t-images">Images</a></li>
+                        <li><a href=@Url.Action("Index", "UiLightbox") key="t-lightbox">Lightbox</a></li>
+                        <li><a href=@Url.Action("Index", "UiModals") key="t-modals">Modals</a></li>
+                        <li><a href=@Url.Action("Index", "UiRangeSlider") key="t-range-slider">Range Slider</a></li>
+                        <li><a href=@Url.Action("Index", "UiSessionTimeout") key="t-session-timeout">Session Timeout</a></li>
+                        <li><a href=@Url.Action("Index", "UiProgressbars") key="t-progress-bars">Progress Bars</a></li>
+                        <li><a href=@Url.Action("Index", "UiSweetAlert") key="t-sweet-alert">Sweet-Alert</a></li>
+                        <li><a href=@Url.Action("Index", "UiTabsAccordions") key="t-tabs-accordions">Tabs & Accordions</a></li>
+                        <li><a href=@Url.Action("Index", "UiTypography") key="t-typography">Typography</a></li>
+                        <li><a href=@Url.Action("Index", "UiVideo") key="t-video">Video</a></li>
+                        <li><a href=@Url.Action("Index", "UiGeneral") key="t-general">General</a></li>
+                        <li><a href=@Url.Action("Index", "UiColors") key="t-colors">Colors</a></li>
+                        <li><a href=@Url.Action("Index", "UiRating") key="t-rating">Rating</a></li>
+                        <li><a href=@Url.Action("Index", "UiNotifications") key="t-notifications">Notifications</a></li>
+                        <li><a href=@Url.Action("Index", "UiImageCropper") key="t-image-cropper">Image Cropper</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="bx bxs-eraser"></i>
+                        <span class="badge badge-pill badge-danger float-right">10</span>
+                        <span key="t-forms">Forms</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "FormElements") key="t-form-elements">Form Elements</a></li>
+                        <li><a href=@Url.Action("Index", "FormLayouts") key="t-form-layouts">Form Layouts</a></li>
+                        <li><a href=@Url.Action("Index", "FormValidation") key="t-form-validation">Form Validation</a></li>
+                        <li><a href=@Url.Action("Index", "FormAdvanced") key="t-form-advanced">Form Advanced</a></li>
+                        <li><a href=@Url.Action("Index", "FormEditors") key="t-form-editors">Form Editors</a></li>
+                        <li><a href=@Url.Action("Index", "FormUploads") key="t-form-upload">Form File Upload</a></li>
+                        <li><a href=@Url.Action("Index", "FormXeditable") key="t-form-xeditable">Form Xeditable</a></li>
+                        <li><a href=@Url.Action("Index", "FormRepeater") key="t-form-repeater">Form Repeater</a></li>
+                        <li><a href=@Url.Action("Index", "FormWizard") key="t-form-wizard">Form Wizard</a></li>
+                        <li><a href=@Url.Action("Index", "FormMask") key="t-form-mask">Form Mask</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-list-ul"></i>
+                        <span key="t-tables">Tables</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "TablesBasic") key="t-basic-tables">Basic Tables</a></li>
+                        <li><a href=@Url.Action("Index", "TablesDatatable") key="t-data-tables">Data Tables</a></li>
+                        <li><a href=@Url.Action("Index", "TablesResponsive") key="t-responsive-table">Responsive Table</a></li>
+                        <li><a href=@Url.Action("Index", "TablesEditable") key="t-editable-table">Editable Table</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bxs-bar-chart-alt-2"></i>
+                        <span key="t-charts">Charts</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "ChartsApex") key="t-apex-charts">Apex Charts</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsEchart") key="t-e-charts">E Charts</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsChartjs") key="t-chartjs-chart">Chartjs Chart</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsFlot") key="t-flot-chart">Flot Chart</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsTui") key="t-ui-chart">Toast UI Chart</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsKnob") key="t-knob-chart">Jquery Knob Chart</a></li>
+                        <li><a href=@Url.Action("Index", "ChartsSparkline") key="t-sparkline-chart">Sparkline Chart</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-aperture"></i>
+                        <span key="t-icons">Icons</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "IconsBoxicons") key="t-boxicons">Boxicons</a></li>
+                        <li><a href=@Url.Action("Index", "IconsMaterialDesign") key="t-material-design">Material Design</a></li>
+                        <li><a href=@Url.Action("Index", "IconsDripicons") key="t-dripicons">Dripicons</a></li>
+                        <li><a href=@Url.Action("Index", "IconsFontAwesome") key="t-font-awesome">Font awesome</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-map"></i>
+                        <span key="t-maps">Maps</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href=@Url.Action("Index", "MapsGoogle") key="t-g-maps">Google Maps</a></li>
+                        <li><a href=@Url.Action("Index", "MapsVector") key="t-v-maps">Vector Maps</a></li>
+                        <li><a href=@Url.Action("Index", "MapsLeaflet") key="t-l-maps">Leaflet Maps</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-share-alt"></i>
+                        <span key="t-multi-level">Multi Level</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="javascript: void(0);" key="t-level-1-1">Level 1.1</a></li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Level 1.2</a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="javascript: void(0);">Level 2.1</a></li>
+                                <li><a href="javascript: void(0);">Level 2.2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End -->

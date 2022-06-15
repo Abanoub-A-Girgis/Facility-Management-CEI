@@ -1,7 +1,10 @@
 using API.DB;
+using Facility_Management_CEI.APIs.Models;
+using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,14 +30,28 @@ namespace Facility_Management_CEI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
+            options.UseSqlServer(
+            Configuration.GetConnectionString("ProjectDataBase")));
             services.AddControllersWithViews();
 
+            services.AddIdentity<LogUser, IdentityRole>(
+            options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 8;
+                options.SignIn.RequireConfirmedAccount = false;
+
+            }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
+             .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
+
+            //////////////////////////////////////////////////
             services.AddControllers()
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
-
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectDataBase")));
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
+            //services.AddDbContext<API.DB.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectDataBase")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,14 +70,14 @@ namespace Facility_Management_CEI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Register}/{id?}");
             });
 
             var provider = new FileExtensionContentTypeProvider();
@@ -77,3 +94,4 @@ namespace Facility_Management_CEI
         }
     }
 }
+//update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext

@@ -8,9 +8,18 @@ namespace API.Moldels_DTOs
 {
     public class AssetDTO
     {
+        #region EntityProperties
+
+       
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? SpaceId { get; set; }//needed here
+        #endregion
+
+        #region Link with other entities
+        
+        public int? SpaceId { get; set; }
         public int FloorId { get; set; }
+        
+        #endregion
     }
 }

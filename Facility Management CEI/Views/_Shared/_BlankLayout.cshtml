@@ -1,0 +1,47 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title | Skote - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Icons Css -->
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" />
+    <!-- App Css-->
+    <link href="~/assets/css/app.min.css" rel="stylesheet" />
+
+    @RenderSection("styles", required: false)
+
+</head>
+
+<body>
+    @RenderBody()
+
+    <!-- JAVASCRIPT -->
+    <script src="~/assets/libs/jquery/jquery.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+    <!-- owl.carousel js -->
+    <script src="~/assets/libs/owl.carousel/owl.carousel.min.js"></script>
+    <!-- auth-2-carousel init -->
+    <script src="~/assets/js/pages/auth-2-carousel.init.js"></script>
+    <!-- two-step-verification js -->
+    <script src="~/assets/js/pages/two-step-verification.init.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+</html>

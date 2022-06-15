@@ -67,7 +67,6 @@ namespace Facility_Management_CEI.Controllers
 
                 var wexBimFileName = Path.GetFileName(wexBimFullPath);
 
-                ConfigurationManager.AppSettings.Set("wexBIMFileName", wexBimFileName);
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/" + wexBimFileName);
 
                 using (var wexBiMfile = System.IO.File.Create(wexBimFullPath))

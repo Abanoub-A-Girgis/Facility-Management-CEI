@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Leaflet";
+    ViewBag.pTitle = "Leaflet";
+    ViewBag.pageTitle = "Maps";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+
+
+<!-- leaflet Css -->
+<link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Example</h4>
+                <div id="leaflet-map" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Markers, circles and polygons</h4>
+                <div id="leaflet-map-marker" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Working with popups</h4>
+                <div id="leaflet-map-popup" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Markers with Custom Icons</h4>
+                <div id="leaflet-map-custom-icons" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Interactive Choropleth Map</h4>
+
+                <div id="leaflet-map-interactive-map" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Layer Groups and Layers Control</h4>
+                <div id="leaflet-map-group-control" class="leaflet-map"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+<!-- leaflet plugin -->
+<script src="~/assets/libs/leaflet/leaflet.js"></script>
+
+<!-- leaflet map.init -->
+<script src="~/assets/js/pages/leaflet-us-states.js"></script>
+<script src="~/assets/js/pages/leaflet-map.init.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+

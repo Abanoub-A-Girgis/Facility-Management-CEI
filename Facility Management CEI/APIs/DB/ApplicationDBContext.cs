@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace API.DB
 {
-    public class ApplicationDBContext:DbContext
+    public class ApplicationDBContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext>options):base(options)
+        //
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Task>()
-                .HasOne<User>(c => c.CreatedBy)
+                .HasOne<AppUser>(c => c.CreatedBy)
                 .WithMany(t => t.TasksCreated)
                 .HasForeignKey(p => p.CreatedById)
                 .OnDelete(DeleteBehavior.ClientSetNull);//ClientSetNull or ClientCascade will make no action in the database any way
@@ -28,7 +29,7 @@ namespace API.DB
         public DbSet<Asset> Assets { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<SensorWarning> SensorWarnings { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Incident> Incidents { get; set; }
         public DbSet<Models.Task> Tasks { get; set; }//Models.Task because there is an ambigousity between threading.Task and our task class
     }

@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @await Html.PartialAsync("~/Views/_Shared/_title_meta.cshtml")
+    @await Html.PartialAsync("~/Views/_Shared/_head_css.cshtml")
+
+</head>
+
+<body data-sidebar="dark" data-sidebar-size="small">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        @await Html.PartialAsync("~/Views/_Shared/_topbar.cshtml")
+        @await Html.PartialAsync("~/Views/_Shared/_sidebar.cshtml")
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @await Html.PartialAsync("~/Views/_Shared/_page_title.cshtml")
+
+                    @RenderBody()
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            @await Html.PartialAsync("~/Views/_Shared/_footer.cshtml")
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    @await Html.PartialAsync("~/Views/_Shared/_right_sidebar.cshtml")
+
+    @*@await Html.PartialAsync("~/Views/_Shared/_vendor_scripts.cshtml")*@
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+
+</html>
