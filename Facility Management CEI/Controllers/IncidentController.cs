@@ -67,10 +67,10 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//throgh an exception if not found 
                 }
-                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "id", "id");
-                ViewData["AssetId"] = new SelectList(_Context.Assets, "id", "id");
-                ViewData["UserId"] = new SelectList(_Context.Users, "id", "id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "id", "id");
+                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings.ToList(),"Id","Id");
+                ViewData["AssetId"] = new SelectList(_Context.Assets.ToList(),"Id","Id");
+                ViewData["UserId"] = new SelectList(_Context.Users.ToList(),"Id","Id");
+                ViewData["SpaceId"] = new SelectList(_Context.Spaces.ToList(),"Id","Id");
                 return View(Incident);//pass this student and return the view 
             }//the returned view contains the UI cells that will allow you to insert or edit records  
         }
@@ -100,10 +100,10 @@ namespace Facility_Management_CEI.Controllers
                     Incident.Description = incidentData.Description;
                     Incident.Priority= incidentData.Priority;
                     Incident.Status= incidentData.Status;
-                    ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings,"id","id");
-                    ViewData["AssetId"] = new SelectList(_Context.SensorWarnings, "id", "id");
-                    ViewData["UserId"] = new SelectList(_Context.SensorWarnings, "id", "id");
-                    ViewData["SpaceId"] = new SelectList(_Context.SensorWarnings, "id", "id");
+                    ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings.ToList(), "id","id");
+                    ViewData["AssetId"] = new SelectList(_Context.Assets.ToList(), "id", "id");
+                    ViewData["UserId"] = new SelectList(_Context.Users.ToList(), "id", "id");
+                    ViewData["SpaceId"] = new SelectList(_Context.Spaces.ToList(), "id", "id");
                     Incident.ReportingTime= DateTime.Now;
                     if (IsIncidentExist)//if this flag is true then update the current student data 
                     {

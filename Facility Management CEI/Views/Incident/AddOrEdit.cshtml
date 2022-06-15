@@ -27,7 +27,8 @@
                 <select @Html.DropDownList("Status", new List<SelectListItem> {
                     new SelectListItem { Text="Open",Value="0"},
                     new SelectListItem { Text="Completed",Value="1"},
-                    }, "choose Status", new { @class = "form-control" })  ></select>
+                    }, "choose Status", new { @class = "form-control" })  ></select> <!--the default value for our drop panel-->
+                    <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
@@ -37,24 +38,29 @@
                     new SelectListItem { Text="Medium",Value="2"},
                     new SelectListItem { Text="Low",Value="3"}
                     }, "choose Priority", new { @class = "form-control" })  ></select>
+                    <span asp-validation-for="Priority" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 <div class="form-group">
                     <label asp-for="SensorWarningId" class="control-label"></label>
-                    <input asp-for="SensorWarningId" class="form-control" />
+@*                    <select >@Html.DropDownList("SensorWarningId", (IEnumerable<SelectListItem>)ViewData["SensorWarningId"])</select>
+*@           <input asp-for="SensorWarningId" class="form-control" />
                     <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="AssetId" class="control-label"></label>
-                    <input asp-for="AssetId" class="form-control" />
-                    <span asp-validation-for="AssetId" class="text-danger"></span>
+                    <div>@Html.DropDownList("AssetId", (IEnumerable<SelectListItem>)ViewData["AssetId"])</div>
+@*                    <input asp-for="AssetId" class="form-control" />
+*@                    <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="SpaceId" class="control-label"></label>
-                    <input asp-for="SpaceId" class="form-control" />
+                    <div>@Html.DropDownList("SpaceId", (IEnumerable<SelectListItem>)ViewData["SpaceId"])</div>
+@*                    <input asp-for="SpaceId" class="form-control" />*@
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserId" class="control-label"></label>
+@*                    <select>@Html.DropDownList("UserId", (IEnumerable<SelectListItem>)ViewData["UserId"])</select>*@
                     <input asp-for="UserId" class="form-control" />
                     <span asp-validation-for="UserId" class="text-danger"></span>
                 </div>
