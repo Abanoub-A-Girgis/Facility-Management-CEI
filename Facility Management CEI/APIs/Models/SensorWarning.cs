@@ -19,7 +19,6 @@ namespace API.Models
         //[DataType(DataType.Date)]
         public DateTime? InvestigatDate { get; set; }
         #endregion
-
         #region Link with other
         [Required]
         public int SensorId { get; set; }

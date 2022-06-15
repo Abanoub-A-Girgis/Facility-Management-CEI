@@ -12,13 +12,23 @@ namespace Facility_Management_CEI.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<LogUser> _userManeger;
+        private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _Context { get; set; }
-        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context)
+        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context,SignInManager<LogUser> singInManager)
         {
             this._userManeger = userManger;
-            _Context = context;
+            this._Context = context;
+            this._signInManager = singInManager;
         }
 
+        [HttpGet]
+        //[Authorize(Roles ="Admin")]
+        public IActionResult Register()
+        {
+
+            return View();
+
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -61,23 +71,38 @@ namespace Facility_Management_CEI.Controllers
                 return View(model);
             }
         }
-
-        //[Authorize(Roles ="Admin")]
-        public IActionResult Register()
+        [HttpGet]
+        public async Task<IActionResult> LogIn()
         {
 
             return View();
+
 
         }
 
-        public IActionResult LogIn(LogInViewModel model)
+
+        [HttpPost]
+        public async Task<IActionResult> LogIn(LogInViewModel model)
         {
-            return View();
+     
+              var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
+              if (result.Succeeded)
+              {
+                return RedirectToAction("Index", "SensorWarning");
+              }
+              else
+              {
+                  
+                  return NotFound();
+              }
+                
+            
         }
 
-        public IActionResult LogOut()
+        public async Task< IActionResult> LogOut()
         {
-            return View();
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("LogIn");
         }
     }
 }

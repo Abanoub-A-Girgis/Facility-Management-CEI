@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -16,6 +16,7 @@ namespace Facility_Management_CEI.Controllers
             _context = context;
         }
 
+        //[Authorize(Roles ="Admin,Manger,Supervisor,Inspector")]
         public IActionResult Index()
         {
             var sensorsarning = _context.SensorWarnings
