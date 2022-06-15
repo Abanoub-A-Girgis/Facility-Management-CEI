@@ -1,7 +1,7 @@
-﻿@model API.Moldels_DTOs.IncedentDTO
+﻿@model API.Models.Incident
 @{
     ViewData["Title"] = "IncidentDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
 <div class="container p-3 my-3 border">
@@ -57,14 +57,14 @@
             @Html.DisplayFor(model => model.Status)
         </dd>
                 <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.AppUserId)
         </dt>
         <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.UserId)
+            @Html.DisplayFor(model => model.AppUserId)
         </dd>
     </dl>
     <div>
-        <a class="btn btn-primary" asp-action="Edit" asp-route-studentId="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="AddOrEdit" asp-route-IncidentId="@Model.Id">Edit</a>
         <a class="btn btn-danger" asp-action="Index">Back</a>
     </div>
 </div>

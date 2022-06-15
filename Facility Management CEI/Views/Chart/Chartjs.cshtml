@@ -4,7 +4,7 @@
     ViewBag.pTitle = "Building Reports";
     ViewBag.pageTitle = "Reports";
 
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
     //Recieving the table data frrom the controller
     List<API.Models.Asset> Assets = ViewBag.Assets;
     List<API.Models.Building> Building = ViewBag.Buildings;
@@ -12,7 +12,7 @@
     List<API.Models.Space> Spaces = ViewBag.Spaces;
     List<API.Models.SensorWarning> SensorWarnings = ViewBag.SensorWarnings;
     List<API.Models.Task> Tasks = ViewBag.Tasks;
-    List<API.Models.User> Users = ViewBag.Users;
+    List<API.Models.AppUser> Users = ViewBag.Users;
     List<API.Models.Incident> Incidents = ViewBag.Incidents;
     //List<API.Models.Sensor> Sensors = ViewBag.Sensors;
 }
@@ -334,10 +334,9 @@
 <script src="~/lib/simplebar/simplebar.min.js"></script>
 <script src="~/lib/node-waves/waves.min.js"></script>
 <script src="~/js/lang/jquery.multiLanguage.js"></script>
-
+<script src="~/lib/bootstrap/dist/css/bootstrap.min.css"></script>
 <!-- Chart JS -->
 <script src="~/lib/chart.js/Chart.bundle.min.js"></script>
-
 <script>
     !function ($) {
         "use strict";

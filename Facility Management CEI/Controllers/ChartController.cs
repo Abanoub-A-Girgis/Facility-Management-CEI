@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using API.DB;
+using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,7 @@ namespace Skote.Controllers
             ViewBag.Assets = await _context.Assets.ToListAsync();
             ViewBag.SensorWarnings = await _context.SensorWarnings.ToListAsync();
             ViewBag.Tasks = await _context.Tasks.ToListAsync();
-            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Users = await _context.AppUsers.ToListAsync();
             ViewBag.Incidents = await _context.Incidents.ToListAsync();
             //ViewBag.Sensors = await _context.Sensors.ToListAsync(); error occurs that unable to cast from string to int32
             return View();
