@@ -10,7 +10,6 @@ namespace Facility_Management_CEI.Controllers
 {
     public class RoleController : Controller
     {
-
         private readonly RoleManager<IdentityRole> _roleManger;
         private readonly ApplicationDBContext _context;
         private readonly UserManager<LogUser> _userManeger;
@@ -21,12 +20,6 @@ namespace Facility_Management_CEI.Controllers
            this._context=context;
            this._userManeger=userManager;
         }
-        public async Task<IActionResult> Index()
-        {
-            var roles=await _context.Roles.AsNoTracking().ToListAsync();
-            var userRoles = new UserRoles(roles);
-            return View(userRoles);
-        }
 
         [HttpGet]
         public IActionResult RoleManager()
@@ -35,11 +28,12 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RoleManager(string roleName)
+        public async Task<IActionResult> RoleManager(string name)
         {
-            await _roleManger.CreateAsync(new IdentityRole{ Name=roleName});
+            await _roleManger.CreateAsync(new IdentityRole{ Name= name });
             return View();
         }
+
         public async Task<IActionResult> Rmove(string roleName)
         {
             var role= await _roleManger.FindByIdAsync(roleName);
@@ -47,14 +41,14 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public IActionResult Assign()
+        public async Task<IActionResult> Assign()
         {
-   
-            return View();
-
+            var roles=await _context.Roles.AsNoTracking().ToListAsync();
+            var userRoles = new UserRoles(roles);
+            return View(userRoles);
         }
+
         [HttpPost]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
@@ -62,15 +56,10 @@ namespace Facility_Management_CEI.Controllers
             if (user != null)
             {
                 var role = await _roleManger.FindByNameAsync(ur.Role);
-                if (role != null)
-                {
-                    await _userManeger.AddToRoleAsync(user, ur.Role);
-                    return RedirectToAction("Index");
-                }
+                await _userManeger.AddToRoleAsync(user, ur.Role);
+                return RedirectToAction("Assign");
             }
-            return RedirectToAction("Index");
-
+            return RedirectToAction("Register");
         }
     }
-    
 }

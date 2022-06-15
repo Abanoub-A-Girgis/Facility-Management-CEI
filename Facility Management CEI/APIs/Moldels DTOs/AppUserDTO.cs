@@ -10,6 +10,7 @@ namespace API.Moldels_DTOs
 {
     public class AppUserDTO
     {
+
         #region Entity Properties
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -27,6 +28,7 @@ namespace API.Moldels_DTOs
         public string LogUserId { get; set; }
        
         #endregion
+
     }
     public class UserRoles
     {
@@ -36,10 +38,10 @@ namespace API.Moldels_DTOs
         }
         public UserRoles(List<IdentityRole> roles)
         {
-            Roles ??= new List<SelectListItem>(roles.Count());
+            Roles = new List<SelectListItem>();
             foreach(var item in roles)
             {
-                Roles.Add(new SelectListItem(item.Name,item.Id));
+                Roles.Add(new SelectListItem(item.Name,item.Name));
             }
         }
         public string UserName { get; set; }

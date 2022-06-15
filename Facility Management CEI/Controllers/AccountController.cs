@@ -2,6 +2,7 @@
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace Facility_Management_CEI.Controllers
                     FirstName = newUser.FirstName,
                     LastName = newUser.LastName,
                     LogUserId = newUser.Id,
-                    Type = 0
+                    Type = API.Enums.UserType.Agent
                 };
                 _Context.AppUsers.Add(appuser);
                 _Context.SaveChanges();
@@ -61,7 +62,7 @@ namespace Facility_Management_CEI.Controllers
             }
         }
 
-
+        //[Authorize(Roles ="Admin")]
         public IActionResult Register()
         {
 

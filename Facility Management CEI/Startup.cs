@@ -38,7 +38,11 @@ namespace Facility_Management_CEI
             services.AddIdentity<LogUser, IdentityRole>(
             options =>
             {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 8;
                 options.SignIn.RequireConfirmedAccount = false;
+
             }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
 
@@ -73,7 +77,7 @@ namespace Facility_Management_CEI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Register}/{id?}");
             });
 
             var provider = new FileExtensionContentTypeProvider();
