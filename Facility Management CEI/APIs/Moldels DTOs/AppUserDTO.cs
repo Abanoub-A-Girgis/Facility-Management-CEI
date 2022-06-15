@@ -39,7 +39,7 @@ namespace API.Moldels_DTOs
             Roles ??= new List<SelectListItem>(roles.Count());
             foreach(var item in roles)
             {
-                Roles.Add(new SelectListItem(item.Name,item.Id));
+                Roles.Add(new SelectListItem(item.Name,item.Name));
             }
         }
         public string UserName { get; set; }

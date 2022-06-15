@@ -21,7 +21,8 @@ namespace Facility_Management_CEI.Controllers
            this._context=context;
            this._userManeger=userManager;
         }
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Assign()
         {
             var roles=await _context.Roles.AsNoTracking().ToListAsync();
             var userRoles = new UserRoles(roles);
@@ -48,13 +49,13 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Assign()
-        {
+        //[HttpGet]
+        //public IActionResult Assign()
+        //{
    
-            return View();
+        //    return View();
 
-        }
+        //}
         [HttpPost]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
@@ -65,10 +66,10 @@ namespace Facility_Management_CEI.Controllers
                 if (role != null)
                 {
                     await _userManeger.AddToRoleAsync(user, ur.Role);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Assign");
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Register");
 
         }
     }
