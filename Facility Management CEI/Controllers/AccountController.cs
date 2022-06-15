@@ -2,6 +2,7 @@
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace Facility_Management_CEI.Controllers
             }
         }
 
-
+        //[Authorize(Roles ="Admin")]
         public IActionResult Register()
         {
 
