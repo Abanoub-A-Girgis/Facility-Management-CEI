@@ -40,7 +40,7 @@ namespace Facility_Management_CEI.Controllers
                     FirstName = newUser.FirstName,
                     LastName = newUser.LastName,
                     LogUserId = newUser.Id,
-                    Type = 0
+                    Type = API.Enums.UserType.Agent
                 };
                 _Context.AppUsers.Add(appuser);
                 _Context.SaveChanges();
