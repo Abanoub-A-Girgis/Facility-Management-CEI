@@ -1,35 +1,52 @@
 ﻿@model IEnumerable<API.Models.SensorWarning>
-
 @{
     ViewData["Title"]="SensorWarning";
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
-<h2>SensorWarning</h2>
+                <div class="card text-center">
+                  <div class="card-header">
+                    <h3>Sensors Warnings</h3>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">Invistegate Sensors Warnings and Assing It to Incident.</p>
+                  </div>
+                </div>
 
                 <div class="mt-4">
                     <div class="table-responsive">
-                        <table id="datatable" class="table table-hover dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
+                        <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Id)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Description)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Priority)</th>
-                                    <th>@Html.DisplayNameFor(model => model.IssueDate)</th>
-                                    <th>@Html.DisplayNameFor(model => model.SensorId)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.IssueDate)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.SensorId)</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.Description)</th>
+                                    <th scope="col">Room Type<th>
+                                    <th scope="col">Room Id<th>
+                                    
+                                    <th></th>
+                                   
                                 </tr>
                             </thead>
 
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>
+                                <tr >
+                                    <td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>
 
                                     <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Priority)</td>
                                     <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SensorId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Sensor.Space.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Sensor.Space.Id)</td>
+
+                                    <td class="text-center">
+                                        <a asp-action="Details" class="btn btn-danger" asp-route-StudentId="@item.Id">Assing to Incident</a> 
+                                    </td>
                                 </tr>
                                 }
                             </tbody>

@@ -1,9 +1,10 @@
-﻿using API.DB;
+﻿using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -17,16 +18,20 @@ namespace Facility_Management_CEI.Controllers
 
         public IActionResult Index()
         {
-            var sensorsarning = _context.SensorWarnings.Include(a => a.Sensor).ToList();
-                
+            var sensorsarning = _context.SensorWarnings
+                .Include(a => a.Sensor)
+                .ThenInclude(s=>s.Space)
+                .ToList();
+                // for test
+                // for test2
             if (sensorsarning == null)
             {
                 return NotFound();
             }
+
             else
             {
                 return View(sensorsarning);
-
             }
 
             //return View();

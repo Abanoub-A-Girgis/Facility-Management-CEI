@@ -13,6 +13,5 @@ namespace API.Enums
         Supervisor,
         Inspector,
         Agent
-
     }
 }
