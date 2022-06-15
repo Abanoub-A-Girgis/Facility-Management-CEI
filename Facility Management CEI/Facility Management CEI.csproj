@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migration\**" />
+    <Content Remove="Migration\**" />
+    <EmbeddedResource Remove="Migration\**" />
+    <None Remove="Migration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -19,10 +26,6 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="Xbim.Essentials" Version="5.1.323" />
     <PackageReference Include="Xbim.Geometry" Version="5.1.403" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migration\" />
   </ItemGroup>
 
 </Project>
