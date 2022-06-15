@@ -84,7 +84,7 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
-            var Agents = await _context.Users.Where(u => u.SuperId == InspectorId).ToListAsync();
+            var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var a in Agents)
@@ -101,12 +101,12 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
-            var Inspectors = await _context.Users.Where(u => u.SuperId == SupervisorId).ToListAsync();
+            var Inspectors = await _context.AppUsers.Where(u => u.SuperId == SupervisorId).ToListAsync();
             Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var i in Inspectors)
             {
-                var Agents = await _context.Users.Where(u => u.SuperId == i.Id).ToListAsync();
+                var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
                 foreach (var a in Agents)
                 {
                     int EmployeeId = a.Id;
@@ -121,15 +121,15 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
-            var Supervisors = _context.Users.Where(u => u.SuperId == ManagerId).ToList();
+            var Supervisors = _context.AppUsers.Where(u => u.SuperId == ManagerId).ToList();
             Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var supervisor in Supervisors)
             {
-                var Inspectors = await _context.Users.Where(u => u.SuperId == supervisor.Id).ToListAsync();
+                var Inspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
                 foreach (var i in Inspectors)
                 {
-                    var Agents = await _context.Users.Where(u => u.SuperId == i.Id).ToListAsync();
+                    var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
                     foreach (var a in Agents)
                     {
                         int EmployeeId = a.Id;
@@ -145,18 +145,18 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
-            var Mangagers = _context.Users.Where(u => u.SuperId == OwnerId).ToList();
+            var Mangagers = _context.AppUsers.Where(u => u.SuperId == OwnerId).ToList();
             Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var Manager in Mangagers)
             {
-                var Supervisors = _context.Users.Where(u => u.SuperId == Manager.Id).ToList();
+                var Supervisors = _context.AppUsers.Where(u => u.SuperId == Manager.Id).ToList();
                 foreach (var supervisor in Supervisors)
                 {
-                    var Inspectors = await _context.Users.Where(u => u.SuperId == supervisor.Id).ToListAsync();
+                    var Inspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
                     foreach (var i in Inspectors)
                     {
-                        var Agents = await _context.Users.Where(u => u.SuperId == i.Id).ToListAsync();
+                        var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
                         foreach (var a in Agents)
                         {
                             int EmployeeId = a.Id;
