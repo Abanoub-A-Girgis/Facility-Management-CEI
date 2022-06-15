@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<API.Models.Incident>//we are reading ftom the DB
 @{
     ViewData["Title"]="Incident";
-        Layout = "~/Views/Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
+        Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
 }
                 <div class="card text-center">
                   <div class="card-header">
@@ -29,7 +29,7 @@
                                     <th scope="col">@Html.DisplayNameFor(model => model.AssetId        )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.SensorWarningId)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.UserId         )</th>
+                                    <th scope="col">@Html.DisplayNameFor(model => model.AppUserId         )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.Description    )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
@@ -48,7 +48,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.AssetId        )</td>
                                     <td>@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SpaceId        )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.UserId         )</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AppUserId         )</td>
                                     <td>@Html.DisplayFor(modelItem => item.Description    )</td>
                                     <td>@Html.DisplayFor(modelItem => item.Priority       )</td>
                                     <td>@Html.DisplayFor(modelItem => item.ReportingTime  )</td>

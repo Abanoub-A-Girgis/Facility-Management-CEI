@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
 <h2>Deleting Incident</h2>
@@ -48,10 +48,10 @@
             @Html.DisplayFor(model => model.SpaceId)
         </dd>
                 <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.AppUserId)
         </dt>
         <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.UserId)
+            @Html.DisplayFor(model => model.AppUserId)
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.AssetId)

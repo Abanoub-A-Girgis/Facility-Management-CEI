@@ -1,4 +1,4 @@
-﻿using API.DB;
+﻿using Facility_Management_CEI.IdentityDb;
 using API.Models;
 using API.Moldels_DTOs;
 using Microsoft.AspNetCore.Http;
@@ -61,7 +61,7 @@ namespace Facility_Management_CEI.Controllers
                 //these are the values from the DB to be loaded at the page openeing 
                 ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
                 ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
+                ViewData["AppUserId"] = new SelectList(_Context.AppUsers, "Id", "Id");
                 ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
                 return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
             }
@@ -75,7 +75,7 @@ namespace Facility_Management_CEI.Controllers
                 }
                 ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
                 ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
+                ViewData["AppUserId"] = new SelectList(_Context.AppUsers, "Id", "Id");
                 ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
                 return View(Incident);//pass this Incident data to the view 
             }//the returned view contains the UI cells that will allow you to insert or edit records  
@@ -85,7 +85,7 @@ namespace Facility_Management_CEI.Controllers
         [ValidateAntiForgeryToken]
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
-        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,UserId,SpaceId,ReportingTime")] Incident incidentData)
+        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime")] Incident incidentData)
         {
             bool IsIncidentExist = false;//check if this student is already exsit
 
@@ -111,7 +111,7 @@ namespace Facility_Management_CEI.Controllers
                         Incident.Status = incidentData.Status;
                         Incident.SpaceId = incidentData.SpaceId;
                         Incident.SensorWarningId = incidentData.SensorWarningId;
-                        Incident.UserId = incidentData.UserId;
+                        Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
                         Incident.ReportingTime = Incident.ReportingTime;
                         _Context.Update(Incident);
@@ -123,7 +123,7 @@ namespace Facility_Management_CEI.Controllers
                         Incident.Priority = incidentData.Priority;
                         Incident.SpaceId = incidentData.SpaceId;
                         Incident.SensorWarningId = incidentData.SensorWarningId;
-                        Incident.UserId = incidentData.UserId;
+                        Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
                         Incident.Status = API.Enums.IncidentStatus.Open;
                         Incident.ReportingTime = DateTime.Now;
