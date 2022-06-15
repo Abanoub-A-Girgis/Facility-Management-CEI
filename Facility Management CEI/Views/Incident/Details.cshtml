@@ -1,4 +1,4 @@
-﻿@model API.Moldels_DTOs.IncedentDTO
+﻿@model API.Models.Incident
 @{
     ViewData["Title"] = "IncidentDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -64,7 +64,7 @@
         </dd>
     </dl>
     <div>
-        <a class="btn btn-primary" asp-action="Edit" asp-route-studentId="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="AddOrEdit" asp-route-IncidentId="@Model.Id">Edit</a>
         <a class="btn btn-danger" asp-action="Index">Back</a>
     </div>
 </div>

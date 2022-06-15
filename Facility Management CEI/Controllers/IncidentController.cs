@@ -58,6 +58,11 @@ namespace Facility_Management_CEI.Controllers
             ViewBag.IsEdit = IncidentId == null ? false : true;
             if (IncidentId == null)
             {
+                //these are the values from the DB to be loaded at the page openeing 
+                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+                ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
+                ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
+                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
                 return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
             }
             else
@@ -68,19 +73,19 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//throgh an exception if not found 
                 }
-                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings,"Id","Id");
-
-                ViewData["AssetId"] = new SelectList(_Context.Assets,"Id","Id");
-                ViewData["UserId"] = new SelectList(_Context.Users,"Id","Id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces,"Id","Id");
-                return View(Incident);//pass this student and return the view 
+                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+                ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
+                ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
+                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
+                return View(Incident);//pass this Incident data to the view 
             }//the returned view contains the UI cells that will allow you to insert or edit records  
         }
         // POST: IncidentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //Bind will pass the data of these parameters to the View data while run time, there are a viewBag.SensorWarningId
-        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,UserId,SpaceId,ReporingTime")] Incident incidentData)
+        //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
+        //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
+        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,UserId,SpaceId,ReportingTime")] Incident incidentData)
         {
             bool IsIncidentExist = false;//check if this student is already exsit
 
@@ -99,28 +104,29 @@ namespace Facility_Management_CEI.Controllers
             {
                 try
                 {
-                    //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
-                    Incident.Description = incidentData.Description;
-                    Incident.Priority= incidentData.Priority;
-                    Incident.Floor
-                    Incident.Status= incidentData.Status;
-                    ViewBag.WarningId = _Context.SensorWarnings.Select(sesnor => sesnor.Id);
-                    ViewBag.asset_Id = _Context.Assets.Select(asset => asset.Id);
-                    ViewBag.space_Id = _Context.Spaces.Select(sesnor => sesnor.Id);
-                    ViewBag.user_Id = _Context.Users.Select(sesnor => sesnor.Id);
-
-                    ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
-                    ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                    ViewData["UserId"] = new SelectList(_Context.Users, "Id", "Id");
-                    ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
-
-                    Incident.ReportingTime= DateTime.Now;
                     if (IsIncidentExist)//if this flag is true then update the current student data 
                     {
+                        Incident.Description = incidentData.Description;
+                        Incident.Priority = incidentData.Priority;
+                        Incident.Status = incidentData.Status;
+                        Incident.SpaceId = incidentData.SpaceId;
+                        Incident.SensorWarningId = incidentData.SensorWarningId;
+                        Incident.UserId = incidentData.UserId;
+                        Incident.AssetId = incidentData.AssetId;
+                        Incident.ReportingTime = Incident.ReportingTime;
                         _Context.Update(Incident);
                     }
                     else
                     {
+                        //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
+                        Incident.Description = incidentData.Description;
+                        Incident.Priority = incidentData.Priority;
+                        Incident.SpaceId = incidentData.SpaceId;
+                        Incident.SensorWarningId = incidentData.SensorWarningId;
+                        Incident.UserId = incidentData.UserId;
+                        Incident.AssetId = incidentData.AssetId;
+                        Incident.Status = API.Enums.IncidentStatus.Open;
+                        Incident.ReportingTime = DateTime.Now;
                         _Context.Add(Incident);//if this flag is false then add student data
                     }
                     await _Context.SaveChangesAsync();
@@ -156,18 +162,27 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? Incidentid)
         {
-            return View();
+            if (Incidentid == null)
+            {
+                return NotFound();
+            }
+            var Incident = await _Context.Incidents.FirstOrDefaultAsync(m => m.Id == Incidentid);
+
+            return View(Incident);
         }
 
         // POST: IncidentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int Incidentid)
         {
             try
             {
+                var Incident = await _Context.Incidents.FindAsync(Incidentid);
+                _Context.Incidents.Remove(Incident);
+                await _Context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -175,5 +190,9 @@ namespace Facility_Management_CEI.Controllers
                 return View();
             }
         }
+    }
+    public static class ReportingTime 
+    {
+        public static DateTime Reporting_Time { get; set; }
     }
 }

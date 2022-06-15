@@ -99,7 +99,6 @@ namespace Facility_Management_CEI.Controllers
 
         public ActionResult Echart()
         {
-            int x= 1;
             return View();
         }
 

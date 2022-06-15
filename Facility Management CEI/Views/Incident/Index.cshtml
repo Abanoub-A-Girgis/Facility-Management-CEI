@@ -7,9 +7,6 @@
                   <div class="card-header">
                     <h3>Incident</h3>
                   </div>
-
-
-
                   <div class="card-body">
                     <p class="card-text">Showing the Incident Inside our Building.</p>
                   </div>
@@ -37,6 +34,10 @@
                                     <th scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
+                                    <th scope="col">Edit Action</th>
+                                    <th scope="col">Details Action</th>
+                                    <th scope="col">Delete Action</th>
+
                                 </tr>
                             </thead>
 
@@ -44,7 +45,6 @@
                                 @foreach (var item in Model.ToList())
                                 {
                                 <tr >
-                                    <td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>
                                     <td>@Html.DisplayFor(modelItem => item.Id             )</td>
                                     <td>@Html.DisplayFor(modelItem => item.AssetId        )</td>
                                     <td>@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
@@ -56,10 +56,10 @@
                                     <td>@Html.DisplayFor(modelItem => item.Status         )</td>
                                      <td class="text-center">
                                         <!--
-                                               Button AddOrEdit which will return a view that will make the user add or edit a Incident
-                                               asp-action="AddOrEdit": the name of the action method that holds the Logic Code
-                                               asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
-                                               "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
+                                        Button AddOrEdit which will return a view that will make the user add or edit a Incident
+                                        asp-action="AddOrEdit": the name of the action method that holds the Logic Code
+                                        asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
+                                        "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
                                         <a asp-action="AddOrEdit" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
                                     </td>
 
@@ -81,7 +81,7 @@
                                                "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident
                                             -->
                                         <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">Delete</a>
-                                    /td>
+                                    </td>
                                 </tr>
                                 }
                             </tbody>

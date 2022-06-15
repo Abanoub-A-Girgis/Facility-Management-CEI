@@ -1,1 +1,76 @@
-﻿
+﻿@model API.Models.Incident
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Deleting Incident</h2>
+
+<h3>Would you like to continue?</h3>
+<div class="container p-3 my-3 border">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ReportingTime)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ReportingTime)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SensorWarningId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SensorWarningId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SpaceId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SpaceId)
+        </dd>
+                <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AssetId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AssetId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" name=IncidentId asp-for=Id />
+        <input class="btn btn-primary" type="submit" value="Yes" />
+        <a class="btn btn-danger" asp-action="Index">No</a>
+    </form>
+</div>
