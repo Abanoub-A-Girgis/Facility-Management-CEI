@@ -72,7 +72,7 @@ namespace Facility_Management_CEI.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> LogIn()
+        public /*async Task<*/IActionResult LogIn()
         {
 
             return View();
