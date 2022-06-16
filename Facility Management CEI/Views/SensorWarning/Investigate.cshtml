@@ -1,26 +1,84 @@
 ﻿@model API.Models.SensorWarning
 @{
-    ViewData["Title"] = "Warning Invetigation";
+    ViewData["Title"] = "Warning Investigation";
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
 <div class="container p-3 my-3 border">
+    <h1> Warning Investigation</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <hr />
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id"  class="form-control-plaintext shadow-none" readonly value="@Model.Id" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description"  class="form-control-plaintext shadow-none" readonly />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <input asp-for="Priority"  class="form-control-plaintext shadow-none" readonly />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IssueDate" class="control-label"></label>
+                    <input asp-for="IssueDate" class="form-control-plaintext shadow-none" readonly/>
+                    <span asp-validation-for="IssueDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SensorId" class="control-label"></label>
+                    <input asp-for="SensorId"  class="form-control-plaintext shadow-none" readonly />
+                    <span asp-validation-for="SensorId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvestigatDate" class="control-label"></label>
+                    <input asp-for="InvestigatDate"  class="form-control-plaintext shadow-none" readonly  value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
+                    <span asp-validation-for="InvestigatDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Investigated" class="control-label"></label>
+                    <p>True</p> <input asp-for="Investigated" type="hidden"  class="form-control-plaintext shadow-none" readonly value="@true">
+                    <span asp-validation-for="Investigated" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppUserId" class="control-label"></label>
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly/>
+                    <span asp-validation-for="AppUserId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                     <input class="btn btn-primary" type="submit" value="save" />
+                     <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
+                     <a class="btn btn-danger" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*
+<div class="container p-3 my-3 border">
     <h1>Warning Invetigation</h1>
     <hr />
     <form asp-action="Index">
-
         <dl class="row">
         <dt class="col-sm-3">
            @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class="col-sm-9">
-            <input asp-for="Id" class="form-control" readonly value="@Html.DisplayFor(model => model.Id)" />
+           @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-9">
-           <input asp-for="Description" class="form-control" readonly value="@Html.DisplayFor(model => model.Description)" />
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Priority)
@@ -60,9 +118,7 @@
        </dd>
     </dl>
     <div class="form-group">
-        <input class="btn btn-primary" type="submit" value="save" />
-        <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
-        <a class="btn btn-danger" asp-action="Index">Back</a>
+
     </div>
     </form>
-</div>
+</div>*@

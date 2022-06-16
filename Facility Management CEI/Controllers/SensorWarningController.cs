@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-<<<<<<< HEAD
 using API.Models;
 using API.Enums;
 using System.Collections.Generic;
-=======
 using Microsoft.AspNetCore.Authorization;
->>>>>>> 993aea41ef86b547efbef8bdf3e95a6542fb708f
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -22,12 +19,9 @@ namespace Facility_Management_CEI.Controllers
             _context = context;
         }
 
-<<<<<<< HEAD
-        public async Task <IActionResult> Index(int? warningId)
-=======
+
         //[Authorize(Roles ="Admin,Manger,Supervisor,Inspector")]
-        public IActionResult Index()
->>>>>>> 993aea41ef86b547efbef8bdf3e95a6542fb708f
+        public async Task<IActionResult> Index(int? warningId)
         {
             if (warningId==null)
             {
@@ -51,6 +45,7 @@ namespace Facility_Management_CEI.Controllers
                     var temp = random.Next(0, 100);
                     var Smoke = random.Next(0, 100);
                     var people = random.Next(0, 100);
+                    //this switch statment Priority Values
                     switch (MySensor.SensorType)
                     {
                         case SensorType.SpaceSensor:
@@ -120,7 +115,8 @@ namespace Facility_Management_CEI.Controllers
                             break;
                     }
                     WariningList.Add
-                    (new SensorWarning()
+                    (
+                      new SensorWarning()
                     {
                         IssueDate = DateTime.Now,
                         Description = $"there is a problem  at Storey: {MyFloor.FloorName} Witnin Space: {MySensor.Space.Name} -Id ({MySensor.Space.Id})",
@@ -133,21 +129,20 @@ namespace Facility_Management_CEI.Controllers
                 }
                 _context.AddRange(WariningList);
                 _context.SaveChanges();
-                return View(WariningList);
+                var Mylist = _context.SensorWarnings.ToList(); 
+                return View(Mylist);
             }
             return View();
-            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int Id, [Bind("IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate")] SensorWarning WarningData) 
+        public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate")] SensorWarning WarningData) 
         {
-            SensorWarning Warning = await _context.SensorWarnings.FindAsync(Id);
+            SensorWarning Warning = await _context.SensorWarnings.FindAsync(WarningData.Id);
             if (ModelState.IsValid)
             {
                 try
                 {
-
                     Warning.Description=WarningData.Description;
                     Warning.Investigated=WarningData.Investigated;
                     Warning.InvestigatDate=WarningData.InvestigatDate;
@@ -162,9 +157,9 @@ namespace Facility_Management_CEI.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(WarningData);
+            var Mylist = _context.SensorWarnings.ToList();
+            return NoContent();
         }
         public async Task<IActionResult> Ignore(int? WarningId)
         {

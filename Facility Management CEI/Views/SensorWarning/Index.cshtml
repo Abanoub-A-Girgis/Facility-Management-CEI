@@ -4,8 +4,13 @@
     Layout = "~/Views/_Shared/_Layout.cshtml";
     }
 
-@if (ViewContext.HttpContext.User.IsInRole("Admin"))
-{
+@*@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{*@
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+
                 <div class="card text-center">
                   <div class="card-header">
                     <h3>Sensors Warnings</h3>
@@ -28,7 +33,7 @@
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.InvestigatDate)</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AppUserId)</th>
                                     <th class="text-center" scope="col">Ignore Action</th>
-                                    <th class="text-center" scope="col">Assign Action</th>
+                                    <th class="text-center" scope="col">Investigate Action</th>
                                 </tr>
                             </thead>
 
@@ -41,9 +46,9 @@
                                     <td class="text-center">@Html.DisplayFor(modelItem => item.IssueDate)</td>
                                     <td class="text-center">@Html.DisplayFor(modelItem => item.SensorId)</td>
                                     <td class="text-center">@Html.DisplayFor(modelItem => item.Description)</td>
-                                    <td class="text-center"></td><!-- investihated Cell-->
-                                    <td class="text-center"></td><!-- Investigation Date Cell-->
-                                    <td class="text-center"></td><!--AppUser Id Cell-->
+                                    <td class="text-center">@Html.DisplayFor(modelItem => item.Investigated)</td><!-- investihated Cell-->
+                                    <td class="text-center">@Html.DisplayFor(modelItem => item.InvestigatDate)</td><!-- Investigation Date Cell-->
+                                    <td class="text-center">@Html.DisplayFor(modelItem => item.AppUserId)</td><!--AppUser Id Cell-->
                                     <td class="text-center">
                                     <a  asp-action="Ignore" class="btn btn-outline-danger"  asp-route-WarningId="@item.Id" >Ignore </a> 
                                     </td>
@@ -56,4 +61,10 @@
                         </table>
                     </div>
                 </div>
+<script>
+$(document).ready(function(){
+    $('#datatable').DataTable();
 }
+);
+</script>
+@*}*@
