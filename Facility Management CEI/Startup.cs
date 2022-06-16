@@ -74,7 +74,7 @@ namespace Facility_Management_CEI
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
-            string[] roleNames = { "Admin", "Owner","Manger", "Supervisor","Inspector","Agent" };
+            string[] roleNames = { "SystemAdmin", "Owner","Manger", "Supervisor","Inspector","Agent" };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -106,6 +106,7 @@ namespace Facility_Management_CEI
                 string adminPassword = "Admin!123";
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
+
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
