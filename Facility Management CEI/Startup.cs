@@ -72,9 +72,11 @@ namespace Facility_Management_CEI
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //initializing custom roles 
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
-            string[] roleNames = { "SystemAdmin", "Owner","Manger", "Supervisor","Inspector","Agent" };
+
+            string[] roleNames = { "SystemAdmin", "Owner","Manager", "Supervisor","Inspector","Agent" };
+
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -93,16 +95,21 @@ namespace Facility_Management_CEI
             var _user = await UserManager.FindByNameAsync("admin@email");
 
             // check if the user exists
+            var poweruser = new LogUser();
             if (_user == null)
             {
                 //Here you could create the super admin who will maintain the web app
-                var poweruser = new LogUser()
-                {
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    UserName = "admin@email",
 
-                };
+                poweruser.FirstName = "Admin";
+                poweruser.UserName = "Admin";
+                poweruser.UserName = "admin@email";
+
+              
+                 string adminPassword = "Admin!123";
+                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
+                 if (createPowerUser.Succeeded)
+                 {
+
                 string adminPassword = "Admin!123";
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
@@ -110,67 +117,15 @@ namespace Facility_Management_CEI
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                     await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
 
-                }
+                 }
             }
+
+
         }
 
-        //-----------------------------------
-        //--------------------------------
-
-        //private void createRolesandUsers()
-        //{
-        //    IdentityDb.ApplicationDBContext context = new ApplicationDBContext();
-
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-        //    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
-
-        //    // In Startup iam creating first Admin Role and creating a default Admin User     
-        //    if (!roleManager.RoleExists("Admin"))
-        //    {
-
-        //        // first we create Admin rool    
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Admin";
-        //        roleManager.Create(role);
-
-        //        //Here we create a Admin super user who will maintain the website                   
-
-        //        var user = new ApplicationUser();
-        //        user.UserName = "shanu";
-        //        user.Email = "syedshanumcain@gmail.com";
-
-        //        string userPWD = "A@Z200711";
-
-        //        var chkUser = UserManager.Create(user, userPWD);
-
-        //        //Add default User to Role Admin    
-        //        if (chkUser.Succeeded)
-        //        {
-        //            var result1 = UserManager.AddToRole(user.Id, "Admin");
-
-        //        }
-        //    }
-
-        //    // creating Creating Manager role     
-        //    if (!roleManager.RoleExists("Manager"))
-        //    {
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Manager";
-        //        roleManager.Create(role);
-
-        //    }
-
-        //    // creating Creating Employee role     
-        //    if (!roleManager.RoleExists("Employee"))
-        //    {
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Employee";
-        //        roleManager.Create(role);
-
-        //    }
+       
 
 
         //-------------------------
@@ -213,12 +168,7 @@ namespace Facility_Management_CEI
                 {
                     ContentTypeProvider = provider
                 });
-
-                //------------------------
-
-                //---------------------
             }
-
         }
     }
 
