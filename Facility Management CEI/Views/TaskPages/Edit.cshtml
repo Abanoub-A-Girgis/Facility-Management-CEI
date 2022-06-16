@@ -1,0 +1,83 @@
+﻿@using API.Enums
+@model API.Models.Task
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Task</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<TaskType>()"></select>
+                      <option selected="selected" class="form-control" value="">Choose Type</option>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<API.Enums.TaskStatus>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()"></select>
+                      <option selected="selected" class="form-control" value="">Choose Proirity</option>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FixingTime" class="control-label"></label>
+                <input asp-for="FixingTime" class="form-control" />
+                <span asp-validation-for="FixingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedById" class="control-label"></label>
+                <select asp-for="CreatedById" class="form-control" asp-items="ViewBag.CreatedById"></select>
+                <span asp-validation-for="CreatedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IncidentId" class="control-label"></label>
+                <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId"></select>
+                <span asp-validation-for="IncidentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedToId" class="control-label"></label>
+                <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToId"></select>
+                <span asp-validation-for="AssignedToId" class="text-danger"></span>
+            </div>
+           @* <div class="form-group">
+                <label asp-for="AssignedById" class="control-label"></label>
+                <select asp-for="AssignedById" class="form-control" asp-items="ViewBag.AssignedById"></select>
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            </div>*@
+             <div class="form-group">
+                <label asp-for="AssignedById" class="control-label"></label>
+                <input asp-for="AssignedById" class="form-control" />
+                <span asp-validation-for="AssignedById" asp-items="ViewBag.AssignedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="TaskList" class="btn btn-primary">Back to List</a>
+</div>

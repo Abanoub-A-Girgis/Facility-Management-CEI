@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Task List";
     ViewBag.pageTitle = "Tasks";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 @model IEnumerable<API.Models.Task>
 
@@ -49,6 +49,19 @@
                 <th scope="col">@task.Cost</th>
                 <th scope="col">@task.Status</th>
                 <th scope="col">@task.Type</th>
+                 <th scope="col"><div class="form-group">
+                   <a asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-primary" >Go TO List</a>
+                                </div>
+                </th> 
+                <th scope="col"><div class="form-group">
+                   <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary" >Go TO List</a>
+                                </div>
+                </th>    
+                <th scope="col"><div class="form-group">
+                   <a asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-primary" >Go TO List</a>
+                                </div>
+                </th> 
+            
                 </tr>
             }  
         </tbody>
