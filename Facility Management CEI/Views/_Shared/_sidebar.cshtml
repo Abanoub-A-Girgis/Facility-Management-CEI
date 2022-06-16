@@ -13,7 +13,7 @@
                     <a href="javascript: void(0);">Our Views</a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Login">ٌLogin</a></li>
-                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                        @if (ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
                         {
                             
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Register">ٌRegister</a></li>
