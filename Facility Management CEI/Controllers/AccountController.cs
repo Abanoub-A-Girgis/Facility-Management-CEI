@@ -93,8 +93,8 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
-              var test = await _userManeger.FindByNameAsync("admin@email");
-              RegisterAppUser(test);
+              //var test = await _userManeger.FindByNameAsync("admin@email");
+              //RegisterAppUser(test);
 
               var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
               if (result.Succeeded)

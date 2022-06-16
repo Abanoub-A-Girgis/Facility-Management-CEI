@@ -191,8 +191,5 @@ namespace Facility_Management_CEI.Controllers
             }
         }
     }
-    public static class ReportingTime 
-    {
-        public static DateTime Reporting_Time { get; set; }
-    }
+
 }
