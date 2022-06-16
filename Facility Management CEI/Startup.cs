@@ -74,7 +74,9 @@ namespace Facility_Management_CEI
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
+
             string[] roleNames = { "SystemAdmin", "Owner","Manager", "Supervisor","Inspector","Agent" };
+
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -97,21 +99,23 @@ namespace Facility_Management_CEI
             if (_user == null)
             {
                 //Here you could create the super admin who will maintain the web app
+
                 poweruser.FirstName = "Admin";
                 poweruser.UserName = "Admin";
                 poweruser.UserName = "admin@email";
 
-                //var var poweruser = new LogUser();
-                //{
-                //    FirstName = "Admin",
-                //    LastName = "Admin",
-                //    UserName = "admin@email",
-
-                //};
+              
                  string adminPassword = "Admin!123";
                  var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
                  if (createPowerUser.Succeeded)
                  {
+
+                string adminPassword = "Admin!123";
+
+                var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
+
+                if (createPowerUser.Succeeded)
+                {
                     //here we tie the new user to the role
                      await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
 
