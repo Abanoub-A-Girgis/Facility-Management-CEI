@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<API.Models.SensorWarning>
-@{
+    @{
     ViewData["Title"]="SensorWarning";
     Layout = "~/Views/_Shared/_Layout.cshtml";
-}
+    }
+
+@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{
                 <div class="card text-center">
                   <div class="card-header">
                     <h3>Sensors Warnings</h3>
@@ -53,4 +56,4 @@
                         </table>
                     </div>
                 </div>
-       
+}

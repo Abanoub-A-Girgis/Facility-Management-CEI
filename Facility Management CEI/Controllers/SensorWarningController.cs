@@ -4,9 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+<<<<<<< HEAD
 using API.Models;
 using API.Enums;
 using System.Collections.Generic;
+=======
+using Microsoft.AspNetCore.Authorization;
+>>>>>>> 993aea41ef86b547efbef8bdf3e95a6542fb708f
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -18,7 +22,12 @@ namespace Facility_Management_CEI.Controllers
             _context = context;
         }
 
+<<<<<<< HEAD
         public async Task <IActionResult> Index(int? warningId)
+=======
+        //[Authorize(Roles ="Admin,Manger,Supervisor,Inspector")]
+        public IActionResult Index()
+>>>>>>> 993aea41ef86b547efbef8bdf3e95a6542fb708f
         {
             if (warningId==null)
             {
