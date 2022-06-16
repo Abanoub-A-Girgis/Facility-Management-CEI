@@ -1,0 +1,68 @@
+﻿@model API.Models.SensorWarning
+@{
+    ViewData["Title"] = "Warning Invetigation";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+<div class="container p-3 my-3 border">
+    <h1>Warning Invetigation</h1>
+    <hr />
+    <form asp-action="Index">
+
+        <dl class="row">
+        <dt class="col-sm-3">
+           @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-9">
+            <input asp-for="Id" class="form-control" readonly value="@Html.DisplayFor(model => model.Id)" />
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+           <input asp-for="Description" class="form-control" readonly value="@Html.DisplayFor(model => model.Description)" />
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IssueDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IssueDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SensorId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SensorId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.InvestigatDate)
+        </dt>
+        <dd class="col-sm-9">
+            @DateTime.Now
+        </dd>        
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Investigated)
+        </dt>
+        <dd class="col-sm-9">
+            @true
+        </dd>
+                <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AppUserId)
+        </dt>
+        <dd class="col-sm-9">
+
+       </dd>
+    </dl>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="save" />
+        <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
+        <a class="btn btn-danger" asp-action="Index">Back</a>
+    </div>
+    </form>
+</div>
