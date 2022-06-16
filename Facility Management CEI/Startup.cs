@@ -33,11 +33,11 @@ namespace Facility_Management_CEI
 
 
         //------------------------
-       
- 
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
 
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
@@ -56,7 +56,7 @@ namespace Facility_Management_CEI
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
 
             //////////////////////////////////////////////////
-            
+
             services.AddControllersWithViews()  // to solve erro Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
@@ -75,7 +75,7 @@ namespace Facility_Management_CEI
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
 
-            string[] roleNames = { "SystemAdmin", "Owner","Manager", "Supervisor","Inspector","Agent" };
+            string[] roleNames = { "SystemAdmin", "Owner", "Manager", "Supervisor", "Inspector", "Agent" };
 
             IdentityResult roleResult;
 
@@ -86,9 +86,9 @@ namespace Facility_Management_CEI
                 if (!roleExist)
                 {
                     //create the roles and seed them to the database: 
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole (roleName));
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
-              
+
             }
 
             // find the user with the admin email 
@@ -104,39 +104,31 @@ namespace Facility_Management_CEI
                 poweruser.UserName = "Admin";
                 poweruser.UserName = "admin@email";
 
-              
-                 string adminPassword = "Admin!123";
-                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
-                 if (createPowerUser.Succeeded)
-                 {
 
                 string adminPassword = "Admin!123";
-
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
-
                 if (createPowerUser.Succeeded)
                 {
-                    //here we tie the new user to the role
-                     await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
 
-                 }
+                   //here we tie the new user to the role
+                   await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
+
+                    
+                }
+
+
             }
 
-
-        }
-
-       
-
-
-        //-------------------------
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
+            //-------------------------
+            public void Configure (IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
             {
 
-                CreateRoles(serviceProvider).Wait(); 
+                CreateRoles(serviceProvider).Wait();
 
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
+
                 }
                 else
                 {
@@ -171,5 +163,6 @@ namespace Facility_Management_CEI
             }
         }
     }
+}
 
 //update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext
