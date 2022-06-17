@@ -44,8 +44,9 @@
             <table id="UsersTable" class="w-100 table table-striped table-hover">
                     <thead>
                         <tr class="sticky-top">
-                            <th>Agent ID</th>
-                            <th>Agent Details</th>
+                            <th>User ID</th>
+                            <th>User Category</th>
+                            <th>User Details</th>
                             <th>Load Tasks</th>
                         </tr>
                     </thead>
@@ -54,8 +55,36 @@
                         {
                             <tr>
                                 <th>@Agent.Id</th>
-                                <td><button class="btn btn-info waves-effect waves-light">Agent Details</button></td>
+                                <td>Agent</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
                                 <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Inspector in ViewBag.Inspectors)
+                        {
+                            <tr>
+                                <th>@Inspector.Id</th>
+                                <td>Inspector</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Supervisor in ViewBag.Supervisors)
+                        {
+                            <tr>
+                                <th>@Supervisor.Id</th>
+                                <td>Supervisor</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Manager in ViewBag.Managers)
+                        {
+                            <tr>
+                                <th>@Manager.Id</th>
+                                <td>Manager</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">Show Tasks</button></td>
                             </tr>
                         }
                     </tbody>
@@ -114,6 +143,14 @@
                 });
         </script>*@
 
+        <div>
+            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
+        </div>
+        
         <script>
                 viewer.on('fps', function (fps) {
                     var overlayDiv = document.getElementById('overlayDiv');
@@ -273,7 +310,7 @@
                         {
                             text: "Show All",
                             action: function ( e, dt, node, config ) {
-                                    $("#ItemsTable").DataTable().column(0).search("").draw();
+                                    ShowAllData();
                             },
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         },
@@ -282,7 +319,8 @@
                             text: 'Save as excel sheet',
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         }
-                    ]
+                    ],
+                    "search": {regex: true}
                 }    
             );
         } );
@@ -291,9 +329,89 @@
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search("").draw();
         }
-        function ChangeData(id) {
+        function ChangeData(Id) {
             var itemsTable = $("#ItemsTable").DataTable()
-            itemsTable.column(0).search(id).draw();
+            itemsTable.column(0).search(Id).draw();
+        }
+        
+        var InspectorAgentsDic = {
+            @foreach(var inspector in ViewBag.InspectorAgentsDic)
+            {
+                @inspector.Key@::@Html.Raw(Json.Serialize(inspector.Value)),
+            }
+        }
+        
+        function ChangeDataInspector(Id) {
+            var agents = InspectorAgentsDic[Id]
+            var Regex = "";
+            $(agents).each(function(index, value) {
+                  Regex += value;
+                  var isLastElement = index == agents.length -1;
+                  if (isLastElement) {
+                      return false;
+                  }
+                Regex += "|";
+            });
+            //itemsTable.column(0).search("24|25", true, false).draw();
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
+        }
+
+        var SupervisorInspectorsDic = {
+            @foreach(var supervisor in ViewBag.SupervisorInspectorsDic)
+            {
+                @supervisor.Key@::@Html.Raw(Json.Serialize(supervisor.Value)),
+            }
+        }
+
+        function ChangeDataSupervisor(Id) {
+            var inspectors = SupervisorInspectorsDic[Id]
+            var agents = [];
+            var Regex = "";
+            $(inspectors).each(function(index, value) {
+                agents = agents.concat(InspectorAgentsDic[value]);
+            });
+            $(agents).each(function(index, value) {
+                Regex += value;
+                var isLastElement = index == agents.length -1;
+                if (isLastElement) {
+                    return false;
+                }
+                Regex += "|";
+            });
+            console.log(Regex)
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
+        }
+        
+        var ManagerSupervisorsDic = {
+            @foreach(var manager in ViewBag.ManagerSupervisorsDic)
+            {
+                @manager.Key@::@Html.Raw(Json.Serialize(manager.Value)),
+            }
+        }
+        
+        function ChangeDataManager(Id) {
+            var supervisors = ManagerSupervisorsDic[Id]
+            var agents = [];
+            var Regex = "";
+            $(supervisors).each(function(index, value) {
+                var inspectors = SupervisorInspectorsDic[value]
+                $(inspectors).each(function(index, value) {
+                    agents = agents.concat(InspectorAgentsDic[value]);
+                });
+            });
+            $(agents).each(function(index, value) {
+                Regex += value;
+                var isLastElement = index == agents.length -1;
+                if (isLastElement) {
+                    return false;
+                }
+                Regex += "|";
+            });
+            console.log(Regex)
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
         }
     </script>
 
