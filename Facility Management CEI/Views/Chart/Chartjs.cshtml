@@ -1,9 +1,9 @@
-﻿@using API.Models
+﻿<script src="~/lib/bootstrap/dist/css/bootstrap.min.css"></script>
+@using API.Models
 @{
     ViewBag.Title = "Building Reports";
     ViewBag.pTitle = "Building Reports";
     ViewBag.pageTitle = "Reports";
-
     Layout = "~/Views/_Shared/_Layout.cshtml";
     //Recieving the table data frrom the controller
     List<API.Models.Asset> Assets = ViewBag.Assets;
@@ -15,9 +15,7 @@
     List<API.Models.AppUser> Users = ViewBag.Users;
     List<API.Models.Incident> Incidents = ViewBag.Incidents;
     //List<API.Models.Sensor> Sensors = ViewBag.Sensors;
-}
 
-@{
     //Incident Pie Report Counters
     int openIncdentsCounter = 0;
     int CompletedIncdentsCounter = 0;
@@ -328,13 +326,19 @@
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<<<<<<< HEAD
+<script src="~/lib/metismenu/metisMenu.min.js"></script>
+<script src="~/lib/simplebar/simplebar.min.js"></script>
+<script src="~/lib/node-waves/waves.min.js"></script>
+<script src="~/js/lang/jquery.multiLanguage.js"></script>
+=======
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
 <script src="~/assets/libs/node-waves/waves.min.js"></script>
 <script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
 <style src="~/lib/bootstrap/dist/css/bootstrap.min.css"></style>
+>>>>>>> 993aea41ef86b547efbef8bdf3e95a6542fb708f
 <!-- Chart JS -->
 <script src="~/assets/libs/chart.js/Chart.bundle.min.js"></script>
 <script>

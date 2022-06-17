@@ -15,24 +15,25 @@
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Login">ٌLogin</a></li>
                         @if (ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
                         {
-                            
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Register">ٌRegister</a></li>
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="LogOut">ٌLogOut</a></li>
-                        <li><a class="nav-link text-primary"    asp-controller="Viewer" asp-action="ViewerTest">TestViewer</a></li>
-                        <li><a class="nav-link text-secondary"  asp-controller="Viewer" asp-action="Viewer">Viewer View</a></li>
+                        <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer View as Agent</a></li>
+                        <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer View as Inspector</a></li>
+                        <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Viewer View as Supervisor</a></li>
+                        <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsManager">Viewer View as Manager</a></li>
+                        <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer View as Owner</a></li>
                         <li><a class="nav-link text-primary"    asp-controller="Home" asp-action="Uploader">Uploader</a></li>
                         <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
-                        <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">ٌReports</a></li>
-                         <li><a class="nav-link text-secondary " asp-controller="SensorWarning" asp-action="Index">ٌSensorWarnings</a></li>
-                        <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="CreateTask">Create Task</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Sensors" asp-action="Index">Sensors</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="SensorWarning" asp-action="Index">SensorWarnings</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Incident" asp-action="Index">Incident</a></li>
                         <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks List</a></li>
-                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="RoleManager">ٌCreateRole</a></li>
-                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="Assign">ٌAssign Roles to user</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="RoleManager">CreateRole</a></li>
+                        <li><a class="nav-link text-secondary " asp-controller="Role" asp-action="Assign">Assign Roles to user</a></li>
                         }
-
                     </ul>
                 </li>
-
 
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
@@ -40,9 +41,9 @@
                         <span key="t-dashboards">Dashboards</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                     @*   <li><a href=@Url.Action("Index", "index") key="t-default">Default</a></li>*@
-                     @*   <li><a href=@Url.Action("Index", "DashboardSaas") key="t-saas">Saas</a></li>*@
-                      @*  <li><a href=@Url.Action("Index", "DashboardCrypto") key="t-crypto">Crypto</a></li>*@
+                    @*   <li><a href=@Url.Action("Index", "index") key="t-default">Default</a></li>*@
+                    @*   <li><a href=@Url.Action("Index", "DashboardSaas") key="t-saas">Saas</a></li>*@
+                    @*  <li><a href=@Url.Action("Index", "DashboardCrypto") key="t-crypto">Crypto</a></li>*@
                         <li><a href=@Url.Action("Index", "DashboardBlog") key="t-blog">Projects</a></li>
                     </ul>
                 </li>

@@ -119,11 +119,12 @@
                 <label asp-for="Type" class="control-label"></label>
                 <select 
                 @Html.DropDownList("Type", new List<SelectListItem> {  
+                new SelectListItem{Text="Choose type",Value="",Selected=true,Disabled=true},
                 new SelectListItem { Text="Preventive",Value="0"},  
                 new SelectListItem { Text="Corrective",Value="1"},
                 new SelectListItem { Text="Modification",Value="2"},
                 new SelectListItem { Text="Other",Value="3"}
-                }, "Choose Type", new { @class = "form-control" }) >
+                }, new { @class = "form-control" }) >
                 </select>
                 <span asp-validation-for="Type" 0="text-danger"></span>
             </div>
@@ -135,16 +136,17 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select @Html.DropDownList("Status", new List<SelectListItem> {  
+                    new SelectListItem{Text="Choose type",Value="",Selected=true,Disabled=true},
                     new SelectListItem { Text="NotAssigned",Value="0"},  
                     new SelectListItem { Text="WorkInProgress",Value="1"},
                     new SelectListItem { Text="Completed",Value="2"}
-                    }, "choose Status", new { @class = "form-control" })  ></select>
+                    }, new { @class = "form-control" })  ></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div> 
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
                 <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()">
-                       <option selected="selected" class="form-control" value="">Choose Proirity</option>
+                       <option selected="selected" class="form-control" disabled value="">Choose Proirity</option>
                 </select> 
                 @*<select @Html.DropDownList("Priorty", new List<SelectListItem> {  
                     new SelectListItem { Text="Severe",Value="0"},  
@@ -192,6 +194,6 @@
  <div class="form-group">
       <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-primary" >Go TO List</a>
  </div>
-@section Scripts {
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@

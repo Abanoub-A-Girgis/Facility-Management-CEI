@@ -34,11 +34,11 @@ namespace Facility_Management_CEI
 
 
         //------------------------
-       
- 
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
 
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
@@ -57,7 +57,7 @@ namespace Facility_Management_CEI
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
 
             //////////////////////////////////////////////////
-            
+
             services.AddControllersWithViews()  // to solve erro Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
@@ -74,9 +74,15 @@ namespace Facility_Management_CEI
         {
 
             //initializing custom roles 
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
+
             string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "SystemAdmin", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
+
+
+           
+
+
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -86,26 +92,24 @@ namespace Facility_Management_CEI
                 if (!roleExist)
                 {
                     //create the roles and seed them to the database: 
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole (roleName));
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
-              
+
             }
 
             // find the user with the admin email 
             var _user = await UserManager.FindByNameAsync("admin@email");
 
             // check if the user exists
+            var poweruser = new LogUser();
             if (_user == null)
             {
                 //Here you could create the super admin who will maintain the web app
-                var poweruser = new LogUser()
-                {
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    UserName = "admin@email",
 
-                };
-                string adminPassword = "Admin!123";
+                poweruser.FirstName = "Admin";
+                poweruser.UserName = "Admin";
+                poweruser.UserName = "admin@email";
+
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
                 
@@ -144,35 +148,29 @@ namespace Facility_Management_CEI
         //        user.UserName = "shanu";
         //        user.Email = "syedshanumcain@gmail.com";
 
-        //        string userPWD = "A@Z200711";
 
-        //        var chkUser = UserManager.Create(user, userPWD);
+                string adminPassword = "Admin!123";
+                var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
+                if (createPowerUser.Succeeded)
+                {
 
-        //        //Add default User to Role Admin    
-        //        if (chkUser.Succeeded)
-        //        {
-        //            var result1 = UserManager.AddToRole(user.Id, "Admin");
 
-        //        }
-        //    }
+                   //here we tie the new user to the role
+                   await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
 
-        //    // creating Creating Manager role     
-        //    if (!roleManager.RoleExists("Manager"))
-        //    {
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Manager";
-        //        roleManager.Create(role);
+                    
+                }
 
-        //    }
 
-        //    // creating Creating Employee role     
-        //    if (!roleManager.RoleExists("Employee"))
-        //    {
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Employee";
-        //        roleManager.Create(role);
+            }
 
-        //    }
+            //-------------------------
+            
+        }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        {
+
+            CreateRoles(serviceProvider).Wait();
 
 
         //-------------------------
@@ -202,28 +200,32 @@ namespace Facility_Management_CEI
                 app.UseAuthentication();
                 app.UseAuthorization();
 
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Account}/{action=Login}/{id?}");
-                });
 
-                var provider = new FileExtensionContentTypeProvider();
 
-                provider.Mappings[".wexBIM"] = "application/octet-stream";
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-                app.UseStaticFiles(new StaticFileOptions
-                {
-                    ContentTypeProvider = provider
-                });
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-                //------------------------
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
+            });
 
-                //---------------------
-            }
+            var provider = new FileExtensionContentTypeProvider();
 
+            provider.Mappings[".wexBIM"] = "application/octet-stream";
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
         }
     }
+}
 
 //update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext

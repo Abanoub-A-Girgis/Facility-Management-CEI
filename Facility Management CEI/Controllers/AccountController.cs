@@ -23,6 +23,8 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
 
+
+
         [HttpGet]
         //[Authorize(Roles ="Admin")]
         public IActionResult Register()
@@ -49,8 +51,20 @@ namespace Facility_Management_CEI.Controllers
 
                 };
                 var result=await _userManeger.CreateAsync(newUser, model.PassWord);
-                //RegisterAppUser(newUser);
 
+                
+
+
+
+                 var appuser = new AppUser()
+                {
+                    FirstName = newUser.FirstName,
+                    LastName = newUser.LastName,
+                    LogUserId = newUser.Id,
+                    Type = API.Enums.UserType.Agent
+                };
+                _Context.AppUsers.Add(appuser);
+                _Context.SaveChanges();
 
 
                 if (result.Succeeded)
@@ -103,6 +117,7 @@ namespace Facility_Management_CEI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
+
         {  
             var Admin = await _userManeger.FindByNameAsync("admin@email");
             if (Admin == null) //to Register the AppUser Of the Admin
@@ -119,6 +134,9 @@ namespace Facility_Management_CEI.Controllers
                 _Context.SaveChanges();
             }
          
+
+        {
+
 
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
               if (result.Succeeded)
