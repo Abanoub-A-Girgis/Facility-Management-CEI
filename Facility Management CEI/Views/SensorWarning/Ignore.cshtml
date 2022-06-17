@@ -1,0 +1,70 @@
+﻿@model API.Models.SensorWarning
+
+@{
+    ViewData["Title"] = "Ignore Warning";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+<h2>Ignore Warning</h2>
+
+<h3>Would you like to continue?</h3>
+<div class="container p-3 my-3 border">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.InvestigatDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.InvestigatDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Investigated)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Investigated)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IssueDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IssueDate)
+        </dd>
+                <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AppUserId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AppUserId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SensorId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SensorId)
+        </dd>
+
+    </dl>
+
+    <form asp-action="Ignore">
+        <input type="hidden" name=WarningId asp-for=Id />
+        <input class="btn btn-primary" type="submit" value="Yes" />
+        <a class="btn btn-danger" asp-action="Index">No</a>
+    </form>
+</div>

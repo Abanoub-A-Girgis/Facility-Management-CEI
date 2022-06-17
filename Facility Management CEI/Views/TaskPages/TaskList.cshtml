@@ -2,13 +2,27 @@
 @{
     ViewBag.Title = "Task List";
     ViewBag.pageTitle = "Tasks";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 @model IEnumerable<API.Models.Task>
 
 @{
     var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
 }
+<head>
+      <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    
+    <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+
+</head>
+  
         <div class="card text-center">
             <div class="card-header">
             <h3>List Of Tasks</h3>
@@ -19,8 +33,7 @@
          
    <div class="table-responsive">
      <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-     <thead class="thead-dark"> 
-        <thead>  
+     <thead class="thead-dark">
             <tr>  
             <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
@@ -32,12 +45,15 @@
             <th scope="col">@Html.DisplayNameFor(model => model.Cost)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.Type)</th>
+            <th scope="col">Details</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
             </tr>  
         </thead>
         <tbody>
             @foreach (var task in tasks)
             {  
-                <tr>
+               <tr>
                 @*<td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>*@
                 <th scope="col">@task.Id</th>
                 <th scope="col">@task.CreatedById</th>
@@ -49,7 +65,17 @@
                 <th scope="col">@task.Cost</th>
                 <th scope="col">@task.Status</th>
                 <th scope="col">@task.Type</th>
-                </tr>
+                <th scope="col">
+                   <a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-primary" >Details</a>            
+                </th > 
+                <th scope="col">
+                   <a scope="col" asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-secondary" >Edit</a>
+                </th>    
+                <th scope="col">
+                   <a scope="col" asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger" >Delete</a>
+                </th> 
+                
+               </tr>
             }  
         </tbody>
      </table>  
@@ -59,3 +85,9 @@
  <div class="form-group"> 
           <a asp-action="CreateTask" asp-route-id="" class="btn btn-primary" >Create New Task </a>
  </div>
+ <script>
+     $(document).ready(function () {
+            $('#datatable').DataTable();
+        } );
+
+ </script>

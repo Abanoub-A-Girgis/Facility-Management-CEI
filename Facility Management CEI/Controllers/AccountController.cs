@@ -21,6 +21,8 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
 
+
+
         [HttpGet]
         //[Authorize(Roles ="Admin")]
         public IActionResult Register()
@@ -29,6 +31,22 @@ namespace Facility_Management_CEI.Controllers
             return View();
 
         }
+
+        public void RegisterAppUser(LogUser user)
+        {
+            var appuser = new AppUser()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                LogUserId = user.Id,
+                Type = API.Enums.UserType.Agent
+            };
+            _Context.AppUsers.Add(appuser);
+            _Context.SaveChanges();
+        }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -44,8 +62,7 @@ namespace Facility_Management_CEI.Controllers
 
                 };
                 var result=await _userManeger.CreateAsync(newUser, model.PassWord);
-
-                var appuser = new AppUser()
+                 var appuser = new AppUser()
                 {
                     FirstName = newUser.FirstName,
                     LastName = newUser.LastName,
@@ -72,7 +89,7 @@ namespace Facility_Management_CEI.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> LogIn()
+        public /*async Task<*/IActionResult LogIn()
         {
 
             return View();
@@ -84,11 +101,12 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
-     
+
               var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
               if (result.Succeeded)
               {
                 return RedirectToAction("Index", "SensorWarning");
+
               }
               else
               {
