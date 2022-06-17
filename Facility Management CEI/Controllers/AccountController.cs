@@ -1,10 +1,12 @@
-﻿using API.Models;
+﻿using API.Enums;
+using API.Models;
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Facility_Management_CEI.Controllers
@@ -25,26 +27,13 @@ namespace Facility_Management_CEI.Controllers
         //[Authorize(Roles ="Admin")]
         public IActionResult Register()
         {
+            var user = new RegisterViewModel();//to send a model that has a list of roles
 
-            return View();
+            return View(user);
 
         }
 
-        public void RegisterAppUser(LogUser user)
-        {
-            var appuser = new AppUser()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                LogUserId = user.Id,
-                Type = API.Enums.UserType.Agent
-            };
-            _Context.AppUsers.Add(appuser);
-            _Context.SaveChanges();
-        }
-
-
-
+       
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -60,24 +49,46 @@ namespace Facility_Management_CEI.Controllers
 
                 };
                 var result=await _userManeger.CreateAsync(newUser, model.PassWord);
-                RegisterAppUser(newUser);
+                //RegisterAppUser(newUser);
 
 
 
                 if (result.Succeeded)
                 {
-                    return View();
+                    //here we tie the new user to the role
+                    var TestRoleLogUser = await _userManeger.AddToRoleAsync(newUser, model.Role);
+                    if (TestRoleLogUser.Succeeded)
+                    {
+                        //UserType AppUserType;
+                        var testParse =Enum.TryParse(model.Role, out UserType AppUserType);
+                        var appuser = new AppUser()
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            LogUserId = newUser.Id,
+                            Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
+                            BuildingId = model.BuildingId,
+                            SuperId = model.SuperId
+                        };
+                        _Context.AppUsers.Add(appuser);
+                        _Context.SaveChanges();
+
+                    }
+                    var user = new RegisterViewModel();//to send a model that has a list of roles
+                    return View(user);
                 }
                 else
                 {
+                    var user = new RegisterViewModel();//to send a model that has a list of roles
                     //need to be handeled 
-                    return View();
+                    return View(user);
                 }
             }
             else
             {
+                var user = new RegisterViewModel();
                 ViewData.Add("UserNameIsExist", "Username is already exist");
-                return View(model);
+                return View(user);
             }
         }
         [HttpGet]
@@ -92,11 +103,24 @@ namespace Facility_Management_CEI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
-        {
-              var test = await _userManeger.FindByNameAsync("admin@email");
-              RegisterAppUser(test);
+        {  
+            var Admin = await _userManeger.FindByNameAsync("admin@email");
+            if (Admin == null) //to Register the AppUser Of the Admin
+            {
+                var appuser = new AppUser()
 
-              var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
+                {
+                    FirstName = Admin.FirstName,
+                    LastName = Admin.LastName,
+                    LogUserId = Admin.Id,
+                    Type = API.Enums.UserType.SystemAdmin
+                };
+                _Context.AppUsers.Add(appuser);
+                _Context.SaveChanges();
+            }
+         
+
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
               if (result.Succeeded)
               {
                 return RedirectToAction("Index", "SensorWarning");

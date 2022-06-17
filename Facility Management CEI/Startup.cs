@@ -1,4 +1,5 @@
 using API.DB;
+using API.Enums;
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
@@ -69,12 +70,13 @@ namespace Facility_Management_CEI
         /// -------------------------------------------------
         /// 
 
-        private async Task CreateRoles(IServiceProvider serviceProvider)
+        private async Task CreateAdminLogUserWithRoles(IServiceProvider serviceProvider)
         {
+
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
-            string[] roleNames = { "SystemAdmin", "Owner","Manger", "Supervisor","Inspector","Agent" };
+            string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "SystemAdmin", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -106,16 +108,16 @@ namespace Facility_Management_CEI
                 string adminPassword = "Admin!123";
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
-
+                
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
 
                 }
             }
         }
-
+        #region code to copy from
         //-----------------------------------
         //--------------------------------
 
@@ -174,10 +176,12 @@ namespace Facility_Management_CEI
 
 
         //-------------------------
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
+        #endregion
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
             {
+                 
 
-                CreateRoles(serviceProvider).Wait(); 
+                 CreateAdminLogUserWithRoles(serviceProvider).Wait(); 
 
                 if (env.IsDevelopment())
                 {
