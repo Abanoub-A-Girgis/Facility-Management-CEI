@@ -59,9 +59,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SensorId)
         </dd>
-
     </dl>
-
     <form asp-action="Ignore">
         <input type="hidden" name=WarningId asp-for=Id />
         <input class="btn btn-primary" type="submit" value="Yes" />

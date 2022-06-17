@@ -34,7 +34,7 @@ namespace Skote.Controllers
             ViewBag.Tasks = await _context.Tasks.ToListAsync();
             ViewBag.Users = await _context.AppUsers.ToListAsync();
             ViewBag.Incidents = await _context.Incidents.ToListAsync();
-            //ViewBag.Sensors = await _context.Sensors.ToListAsync(); error occurs that unable to cast from string to int32
+            ViewBag.Sensors = await _context.Sensors.ToListAsync();// error occurs that unable to cast from string to int32
             return View();
         }
 

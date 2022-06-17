@@ -14,6 +14,7 @@ namespace API.Models
         public IncidentStatus Status { get; set; }
         public Priority Priority { get; set; }
         public string Description { get; set; }
+        public string  Comment { get; set; }
 
         //[DataType(DataType.Date)]//does not make the datetime have hour minutes and seconds 
         public DateTime ReportingTime { get; set; }
