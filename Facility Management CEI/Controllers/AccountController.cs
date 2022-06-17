@@ -16,7 +16,7 @@ namespace Facility_Management_CEI.Controllers
         private readonly UserManager<LogUser> _userManeger;
         private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _Context { get; set; }
-        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context,SignInManager<LogUser> singInManager)
+        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context, SignInManager<LogUser> singInManager)
         {
             this._userManeger = userManger;
             this._Context = context;
@@ -35,13 +35,13 @@ namespace Facility_Management_CEI.Controllers
 
         }
 
-       
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-          var newuser = await _userManeger.FindByNameAsync(model.UserName); //must be removed will throw exception
-            if(newuser == null)
+            var newuser = await _userManeger.FindByNameAsync(model.UserName); //must be removed will throw exception
+            if (newuser == null)
             {
                 var newUser = new LogUser()
                 {
@@ -50,22 +50,7 @@ namespace Facility_Management_CEI.Controllers
                     UserName = model.UserName,
 
                 };
-                var result=await _userManeger.CreateAsync(newUser, model.PassWord);
-
-                
-
-
-
-                 var appuser = new AppUser()
-                {
-                    FirstName = newUser.FirstName,
-                    LastName = newUser.LastName,
-                    LogUserId = newUser.Id,
-                    Type = API.Enums.UserType.Agent
-                };
-                _Context.AppUsers.Add(appuser);
-                _Context.SaveChanges();
-
+                var result = await _userManeger.CreateAsync(newUser, model.PassWord);
 
                 if (result.Succeeded)
                 {
@@ -74,7 +59,7 @@ namespace Facility_Management_CEI.Controllers
                     if (TestRoleLogUser.Succeeded)
                     {
                         //UserType AppUserType;
-                        var testParse =Enum.TryParse(model.Role, out UserType AppUserType);
+                        var testParse = Enum.TryParse(model.Role, out UserType AppUserType);
                         var appuser = new AppUser()
                         {
                             FirstName = model.FirstName,
@@ -108,17 +93,15 @@ namespace Facility_Management_CEI.Controllers
         [HttpGet]
         public /*async Task<*/IActionResult LogIn()
         {
-
             return View();
-
-
         }
 
 
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
 
-        {  
+        {
+            
             var Admin = await _userManeger.FindByNameAsync("admin@email");
             if (Admin == null) //to Register the AppUser Of the Admin
             {
@@ -133,30 +116,33 @@ namespace Facility_Management_CEI.Controllers
                 _Context.AppUsers.Add(appuser);
                 _Context.SaveChanges();
             }
-         
-
-        {
 
 
-            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord,false, lockoutOnFailure: false);
-              if (result.Succeeded)
-              {
-                return RedirectToAction("Index", "SensorWarning");
+            {
 
-              }
-              else
-              {
-                  
-                  return NotFound();
-              }
-                
-            
+
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Incident");
+
+                }
+                else
+                {
+
+                    return NotFound();
+                }
+
+
+            }
         }
 
-        public async Task< IActionResult> LogOut()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("LogIn");
-        }
+            public async Task<IActionResult> LogOut()
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("LogIn");
+            }
+        
     }
-}
+   }
+
