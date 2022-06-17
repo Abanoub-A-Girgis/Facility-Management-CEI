@@ -120,47 +120,48 @@ namespace Facility_Management_CEI
             }
 
             //-------------------------
-            public void Configure (IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+            
+        }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        {
+
+            CreateRoles(serviceProvider).Wait();
+
+            if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
 
-                CreateRoles(serviceProvider).Wait();
-
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-
-                }
-                else
-                {
-                    app.UseExceptionHandler("/Home/Error");
-                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                    app.UseHsts();
-                }
-
-
-                app.UseHttpsRedirection();
-                app.UseStaticFiles();
-
-                app.UseRouting();
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Account}/{action=Login}/{id?}");
-                });
-
-                var provider = new FileExtensionContentTypeProvider();
-
-                provider.Mappings[".wexBIM"] = "application/octet-stream";
-
-                app.UseStaticFiles(new StaticFileOptions
-                {
-                    ContentTypeProvider = provider
-                });
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
+            });
+
+            var provider = new FileExtensionContentTypeProvider();
+
+            provider.Mappings[".wexBIM"] = "application/octet-stream";
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
         }
     }
 }
