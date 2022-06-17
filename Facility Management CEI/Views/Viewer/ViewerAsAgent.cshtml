@@ -5,7 +5,7 @@
 @using System.Configuration
 @using API.Models
 @model Facility_Management_CEI.Controllers.ViewerParameter
-<h2>Agent Task</h2>
+<h2>All Tasks</h2>
 
 <head>
     <title>View as Agent</title>
@@ -15,6 +15,17 @@
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+    
+    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    
+    <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+
     <style>
         .table-hover > tbody > tr:hover {
             background-color: #D2D2D2;
@@ -28,8 +39,8 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-4 overflow-auto" style="max-height:650px">
-            <table class="w-100 table table-striped table-hover">
+        <div class="col-5">
+            <table id="ItemsTable" class="w-100 table table-striped table-hover">
                 <thead>
                     <tr class="sticky-top">
                         <th>Task ID</th>
@@ -39,19 +50,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                        @foreach (var t in ViewBag.Tasks)
-                        {
-                            <tr>
-                                <th>@t.Id</th>
-                                <td>@t.Incident.Asset.Name</td>
-                                <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@t.Incident.AssetId)">Zoom To</button></td>
-                            </tr>
-                        }
+                    @foreach (var t in ViewBag.Tasks)
+                    {
+                        <tr>
+                            <th>@t.Id</th>
+                            <td>@t.Incident.Asset.Name</td>
+                            <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
+                            <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@t.Incident.AssetId)">Zoom To</button></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
+@*            <button onclick="ChangeData1()">Change Data 1</button>
+            <button onclick="ChangeData2()">Change Data 2</button>*@
         </div>
-    <div class="col-8">
+    <div class="col-7">
         <canvas id="viewer" height="650" style="width: 100%;
                                    object-fit: contain;"></canvas>
         <div style="position: absolute;
@@ -119,22 +132,30 @@
                     @:listOfLow.push(@i);
                 }
             
-            var animateBool = true;
-            setInterval(animateObjects, 1000);
-            function animateObjects() {
-                if (animateBool) {
-                    viewer.setStyle(0, listOfSevere);
-                    viewer.setStyle(1, listOfHigh);
-                    viewer.setStyle(2, listOfMedium);
-                    viewer.setStyle(3, listOfLow);
-                    animateBool = false;
-                }
-                else {
-                    viewer.resetStyles()
-                    animateBool = true;
-                }
-            }
+            //var animateBool = true;
+            //setInterval(animateObjects, 1000);
+            //function animateObjects() {
+            //    if (animateBool) {
+            //        viewer.setStyle(0, listOfSevere);
+            //        viewer.setStyle(1, listOfHigh);
+            //        viewer.setStyle(2, listOfMedium);
+            //        viewer.setStyle(3, listOfLow);
+            //        animateBool = false;
+            //    }
+            //    else {
+            //        viewer.resetStyles()
+            //        animateBool = true;
+            //    }
+            //}
         </script>
+
+        <div>
+            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
+        </div>
 
         <div>
             <button onclick="CreateCanvas()">Clear</button>
@@ -217,6 +238,101 @@
             viewer.defineStyle(2, [255,224,32,255])
             viewer.defineStyle(3, [0,255,0,255])
         }
+
+        var animateSevereBool = true;
+        function ToggleHighLightSevere() {                    
+            animateSevereBool ? animateSevereBool = false : animateSevereBool = true;
+        }
+        
+        var animateHighBool = true;
+        function ToggleHighLightHigh() {
+            animateHighBool ? animateHighBool = false : animateHighBool = true;
+        }
+
+        var animateMediumBool = true;
+        function ToggleHighLightMedium() {
+            animateMediumBool ? animateMediumBool = false : animateMediumBool = true;
+        }
+
+        var animateLowBool = true;
+        function ToggleHighLightLow() {
+            animateLowBool ? animateLowBool = false : animateLowBool = true;
+        }
+        
+        var HighLightItemsBool = false;
+        var animation;
+        function ToggleHighLightItems() {
+            if (HighLightItemsBool) {
+                clearInterval(animation);
+                viewer.resetStyles();
+                HighLightItemsBool = false;
+            }
+            else {
+                var animateBool = true;
+                animation = setInterval(animateObjects, 1000);
+                function animateObjects() {
+                    if (animateBool) {
+                        if(animateSevereBool) {
+                            viewer.setStyle(0, listOfSevere);
+                        }
+                        if(animateHighBool) {
+                            viewer.setStyle(1, listOfHigh);
+                        }
+                        if (animateMediumBool) {
+                            viewer.setStyle(2, listOfMedium);
+                        }
+                        if (animateLowBool) {
+                            viewer.setStyle(3, listOfLow);
+                        }
+                        animateBool = false;
+                    }
+                    else {
+                        viewer.resetStyles()
+                        animateBool = true;
+                    }
+                    HighLightItemsBool = true;
+                }
+            }  
+        }
+        
+        $(document).ready(function () {
+            $('#ItemsTable').DataTable(
+                {
+                    "columnDefs": [
+                        { "searchable": false, "targets": [2,3] }
+                    ],
+                    dom: 'Blfrtip',
+                    buttons : [
+                        {
+      	                    extend: 'excelHtml5',
+                            text: 'Save as excel sheet',
+                            exportOptions: {
+                                columns: [ 0, 1 ]
+                            },
+                            className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                        }
+                    ]
+                }    
+            );
+        } );
+        
+        //var test1 = @Html.Raw(ViewBag.test1);
+        //var test2 = @Html.Raw(ViewBag.test2);
+        //function ChangeData1() {
+        //    testTable = $('#AgentTable').DataTable()
+        //    $.each(test1, function() {
+        //        testTable.rows.add([{0: this.Id,1: this.Name, 2: this.Name, 3: this.Name}])
+        //    });
+        //    testTable.columns.adjust().draw()
+        //}
+        
+        //function ChangeData2() {
+        //    testTable = $('#AgentTable').DataTable()
+        //    $.each(test2, function() {
+        //        testTable.rows.add([{0: this.Id,1: this.Name, 2: this.Name, 3: this.Name}])
+        //    });
+        //    testTable.columns.adjust().draw()
+        //}
     </script>
 
 </body>
