@@ -16,7 +16,6 @@ using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.SharedBldgElements;
 using Xbim.Ifc4.SharedBldgServiceElements;
 
-
 namespace API.Controllers
 {
     [Route("api/[controller]")]//the route that the request and response will take 
