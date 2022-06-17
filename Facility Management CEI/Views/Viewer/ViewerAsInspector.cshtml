@@ -4,7 +4,7 @@
 }
 @using System.Configuration
 @using API.Models
-@model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
+@model Facility_Management_CEI.Controllers.ViewerParameter
 <h2>Agent Task</h2>
 
 <head>
@@ -15,6 +15,17 @@
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+    
+    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    
+    <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+
     <style>
         .table-hover > tbody > tr:hover {
             background-color: #D2D2D2;
@@ -28,8 +39,29 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-4 overflow-auto" style="max-height:650px">
-            <table class="w-100 table table-striped table-hover">
+        <div class="col-5">
+        <div class="mb-3">
+            <table id="UsersTable" class="w-100 table table-striped table-hover">
+                    <thead>
+                        <tr class="sticky-top">
+                            <th>Agent ID</th>
+                            <th>Agent Details</th>
+                            <th>Load Tasks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Agent in ViewBag.Agents)
+                        {
+                            <tr>
+                                <th>@Agent.Id</th>
+                                <td><button class="btn btn-info waves-effect waves-light">Agent Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <table id="ItemsTable" class="w-100 table table-striped table-hover">
                 <thead>
                     <tr class="sticky-top">
                         <th>Agent ID</th>
@@ -53,7 +85,7 @@
                 </tbody>
             </table>
         </div>
-    <div class="col-8">
+    <div class="col-7">
         <canvas id="viewer" height="650" style="width: 100%;
                                    object-fit: contain;"></canvas>
         <div style="position: absolute;
@@ -103,24 +135,21 @@
             var listOfHigh = [];
             var listOfMedium = [];
             var listOfLow = [];
-            @foreach (var t in Model)
+            @foreach (var i in Model.Severe)
             {
-                @foreach (var i in t.Value.Severe)
-                {
-                    @:listOfSevere.push(@i);
-                }
-                @foreach (var i in t.Value.High)
-                {
-                    @:listOfHigh.push(@i);
-                }
-                @foreach (var i in t.Value.Medium)
-                {
-                    @:listOfMedium.push(@i);
-                }
-                @foreach (var i in t.Value.Low)
-                {
-                    @:listOfLow.push(@i);
-                }       
+                @:listOfSevere.push(@i);
+            }
+            @foreach (var i in Model.High)
+            {
+                @:listOfHigh.push(@i);
+            }
+            @foreach (var i in Model.Medium)
+            {
+                @:listOfMedium.push(@i);
+            }
+            @foreach (var i in Model.Low)
+            {
+                @:listOfLow.push(@i);
             }
 
             
@@ -221,6 +250,50 @@
             viewer.defineStyle(1, [255,160,16,255])
             viewer.defineStyle(2, [255,224,32,255])
             viewer.defineStyle(3, [0,255,0,255])
+        }
+        
+        $(document).ready(function () {
+            $('#UsersTable').DataTable(
+                {
+                    "columnDefs": [
+                    { "searchable": false, "targets": 1 }
+                    ]
+                }
+            );
+        } ); 
+
+        $(document).ready(function () {
+            $('#ItemsTable').DataTable(
+                {
+                    "columnDefs": [
+                        { "searchable": false, "targets": [3,4] }
+                    ],
+                    dom: 'Blfrtip',
+                    buttons : [
+                        {
+                            text: "Show All",
+                            action: function ( e, dt, node, config ) {
+                                    $("#ItemsTable").DataTable().column(0).search("").draw();
+                            },
+                            className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                        },
+                        {
+      	                    extend: 'excelHtml5',
+                            text: 'Save as excel sheet',
+                            className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                        }
+                    ]
+                }    
+            );
+        } );
+
+        function ShowAllData() {
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search("").draw();
+        }
+        function ChangeData(id) {
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(id).draw();
         }
     </script>
 
