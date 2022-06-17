@@ -32,6 +32,12 @@ namespace Facility_Management_CEI.Controllers
         public List<int> Medium = new List<int>();
         public List<int> Low = new List<int>();
     }
+
+    //public class testView
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+    //}
     
     public class ViewerController : Controller
     {
@@ -49,9 +55,13 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
         
-        public ViewerParameter fillViewParameterForAgents(List<API.Models.Task> Tasks)
+        public ViewerParameter fillViewParameterForAgents(List<API.Models.Task> Tasks, ViewerParameter viewerParam = null)
         {
-            ViewerParameter viewerParam = new ViewerParameter();
+            if (viewerParam == null)
+            {
+                viewerParam = new ViewerParameter();
+            }
+            
             foreach (var t in Tasks)
             {
                 if (t.Priority == API.Enums.Priority.Severe)
@@ -79,74 +89,87 @@ namespace Facility_Management_CEI.Controllers
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
+            //List<testView> test1 = new List<testView>(){ new testView { Id = 1, Name = "Potato" } };
+            //List<testView> test2 = new List<testView>() { new testView { Id = 2, Name = "orange"},
+            //                       new testView{ Id = 2, Name = "orange", }
+            //                    };
+            //ViewBag.test1 = JsonSerializer.Serialize(test1);
+            //ViewBag.test2 = JsonSerializer.Serialize(test2);
             return View(viewerParam);
         }
 
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
-            Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
+            ViewerParameter viewerParam = new ViewerParameter();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var a in Agents)
             {
                 int EmployeeId = a.Id;
                 var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
                 Tasks.AddRange(AgentTasks);
-                viewerParam[EmployeeId] = fillViewParameterForAgents(AgentTasks);
+                viewerParam= fillViewParameterForAgents(AgentTasks, viewerParam);
             }
             ViewBag.Tasks = Tasks;
+            ViewBag.Agents = Agents; 
             return View(viewerParam);
         }
-
-        [HttpPost]
+        
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
+            List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             var Inspectors = await _context.AppUsers.Where(u => u.SuperId == SupervisorId).ToListAsync();
-            Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
+            ViewerParameter viewerParam = new ViewerParameter();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var i in Inspectors)
             {
-                var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                foreach (var a in Agents)
+                var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
+                Agents.AddRange(InspectorAgents);
+                foreach (var a in InspectorAgents)
                 {
                     int EmployeeId = a.Id;
                     var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
                     Tasks.AddRange(AgentTasks);
-                    viewerParam[EmployeeId] = fillViewParameterForAgents(AgentTasks);
+                    viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
                 }
             }
             ViewBag.Tasks = Tasks;
+            ViewBag.Agents = Agents;
             return View(viewerParam);
         }
 
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
+            List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             var Supervisors = _context.AppUsers.Where(u => u.SuperId == ManagerId).ToList();
-            Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
+            ViewerParameter viewerParam = new ViewerParameter();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var supervisor in Supervisors)
             {
                 var Inspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
                 foreach (var i in Inspectors)
                 {
-                    var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                    foreach (var a in Agents)
+                    var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
+                    Agents.AddRange(InspectorAgents);
+                    foreach (var a in InspectorAgents)
                     {
                         int EmployeeId = a.Id;
                         var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
                         Tasks.AddRange(AgentTasks);
-                        viewerParam[EmployeeId] = fillViewParameterForAgents(AgentTasks);
+                        viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
                     }
                 }
             }
             ViewBag.Tasks = Tasks;
+            ViewBag.Agents = Agents; 
             return View(viewerParam);
         }
 
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
+            List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             var Mangagers = _context.AppUsers.Where(u => u.SuperId == OwnerId).ToList();
-            Dictionary<int, ViewerParameter> viewerParam = new Dictionary<int, ViewerParameter>();
+            ViewerParameter viewerParam = new ViewerParameter();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var Manager in Mangagers)
             {
@@ -156,17 +179,19 @@ namespace Facility_Management_CEI.Controllers
                     var Inspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
                     foreach (var i in Inspectors)
                     {
-                        var Agents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                        foreach (var a in Agents)
+                        var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
+                        Agents.AddRange(InspectorAgents);
+                        foreach (var a in InspectorAgents)
                         {
                             int EmployeeId = a.Id;
                             var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
                             Tasks.AddRange(AgentTasks);
-                            viewerParam[EmployeeId] = fillViewParameterForAgents(AgentTasks);
+                            viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
                         }
                     }
                 }
             }
+            ViewBag.Agents = Agents;
             ViewBag.Tasks = Tasks;
             return View(viewerParam);
         }
