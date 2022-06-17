@@ -1,0 +1,29 @@
+﻿@model API.Models.Building
+
+@{
+    ViewData["Title"] = "Building Details";
+}
+
+<h1>Building Details</h1>
+
+<div>
+@*    <h4>Building Details</h4>*@
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Path)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Path)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-danger" >Back to List</a>
+</div>
