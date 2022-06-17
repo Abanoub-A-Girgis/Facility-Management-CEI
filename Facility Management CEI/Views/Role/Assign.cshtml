@@ -1,8 +1,19 @@
 ﻿@using API.Moldels_DTOs
 @model UserRoles
 
-<form asp-controller="Role" asp-action="Assign" method="post">
-    <select  asp-items="@Model.Roles" asp-for="Roles"></select>
-    <input   asp-for="UserName" placeholder="UserName"/>
-    <button  type="submit">Add</button>
+<form class="form-row align-items-center" asp-controller="Role" asp-action="Assign" method="post">
+  <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="inlineFormCustomSelect"></select>
+
+  <label class="sr-only" for="inlineFormInputGroup">Username</label>
+  <div class="input-group mb-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">@@</div>
+    </div>
+    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Write UserName"asp-for="UserName">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-2">Add</button>
+  </div>
 </form>
+
+     
