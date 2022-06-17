@@ -38,6 +38,9 @@ namespace API.Models
         [Required]
         public string LogUserId { get; set; }
         public LogUser LogUser { get; set; }
+      
+
+
         #endregion
     }
     //[Route("AddNewStudent")]

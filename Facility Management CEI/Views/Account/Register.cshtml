@@ -108,6 +108,23 @@
                                             <input type="text" class="form-control" id="userpassword" placeholder="Enter password" asp-for="PassWord">
                                         </div>
 
+
+                                        <div class="form-group">
+                                            <label for="Role">UserType</label>
+                                            <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="Role"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SuperId">SuperId</label>
+                                            <input type="text" class="form-control" id="SuperId" placeholder="Enter SuperId" asp-for="SuperId">
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label for="BuildingId">BuildingId</label>
+                                            <input type="text" class="form-control" id="BuildingId" placeholder="Enter BuildingId" asp-for="BuildingId">
+                                        </div>
+
+
                                         <div>
                                             <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
                                         </div>
