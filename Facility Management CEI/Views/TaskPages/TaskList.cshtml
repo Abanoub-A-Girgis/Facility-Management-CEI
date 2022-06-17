@@ -9,7 +9,8 @@
 @{
     var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
 }
-    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<head>
+      <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -20,6 +21,8 @@
     
     <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
 
+</head>
+  
         <div class="card text-center">
             <div class="card-header">
             <h3>List Of Tasks</h3>
@@ -30,8 +33,7 @@
          
    <div class="table-responsive">
      <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-     <thead class="thead-dark"> 
-        <thead>  
+     <thead class="thead-dark">
             <tr>  
             <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.CreatedById)</th>
