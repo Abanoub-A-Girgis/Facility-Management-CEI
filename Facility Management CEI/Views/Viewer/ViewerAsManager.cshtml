@@ -4,7 +4,7 @@
 }
 @using System.Configuration
 @using API.Models
-@model Facility_Management_CEI.Controllers.ViewerParameter
+@model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 <h2>Agent Task</h2>
 
 <head>
@@ -149,7 +149,7 @@
             <label id="fps"> </label>
         </div>
 
-        <script>
+        @*<script>
             // Arrays to hold the item id's depending on their priority
             var listOfSevere = [];
             var listOfHigh = [];
@@ -188,8 +188,8 @@
                     animateBool = true;
                 }
             }
-        </script>
-
+        </script>*@
+        
         <div>
             <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
             <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
@@ -279,6 +279,87 @@
             viewer.defineStyle(2, [255,224,32,255])
             viewer.defineStyle(3, [0,255,0,255])
         }
+
+        var AgentItems = {
+            @foreach(var Items in Model)
+            {
+                @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low))],
+            }
+        }
+
+        var listOfSevere = [];
+        var listOfHigh = [];
+        var listOfMedium = [];
+        var listOfLow = [];
+
+        $.each(AgentItems, function(key, value) {
+            listOfSevere = listOfSevere.concat(value[0]);
+            listOfHigh = listOfHigh.concat(value[1]);
+            listOfMedium = listOfMedium.concat(value[2]);
+            listOfLow = listOfLow.concat(value[3]);
+        })
+        
+        var listOfSevere2 = listOfSevere;
+        var listOfHigh2 = listOfHigh;
+        var listOfMedium2 = listOfMedium;
+        var listOfLow2 = listOfLow;
+
+        
+        var animateSevereBool = true;
+        function ToggleHighLightSevere() {                    
+            animateSevereBool ? animateSevereBool = false : animateSevereBool = true;
+        }
+        
+        var animateHighBool = true;
+        function ToggleHighLightHigh() {
+            animateHighBool ? animateHighBool = false : animateHighBool = true;
+        }
+
+        var animateMediumBool = true;
+        function ToggleHighLightMedium() {
+            animateMediumBool ? animateMediumBool = false : animateMediumBool = true;
+        }
+
+        var animateLowBool = true;
+        function ToggleHighLightLow() {
+            animateLowBool ? animateLowBool = false : animateLowBool = true;
+        }
+        
+        var HighLightItemsBool = false;
+        var animation;
+        function ToggleHighLightItems() {
+            if (HighLightItemsBool) {
+                clearInterval(animation);
+                viewer.resetStyles();
+                HighLightItemsBool = false;
+            }
+            else {
+                var animateBool = true;
+                animation = setInterval(animateObjects, 1000);
+                function animateObjects() {
+                    if (animateBool) {
+                        if(animateSevereBool) {
+                            viewer.setStyle(0, listOfSevere);
+                        }
+                        if(animateHighBool) {
+                            viewer.setStyle(1, listOfHigh);
+                        }
+                        if (animateMediumBool) {
+                            viewer.setStyle(2, listOfMedium);
+                        }
+                        if (animateLowBool) {
+                            viewer.setStyle(3, listOfLow);
+                        }
+                        animateBool = false;
+                    }
+                    else {
+                        viewer.resetStyles()
+                        animateBool = true;
+                    }
+                    HighLightItemsBool = true;
+                }
+            }  
+        }
         
         $(document).ready(function () {
             $('#UsersTable').DataTable(
@@ -319,10 +400,18 @@
         function ShowAllData() {
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search("").draw();
+            listOfSevere = listOfSevere2;
+            listOfHigh = listOfHigh2;
+            listOfMedium = listOfMedium2;
+            listOfLow = listOfLow2;
         }
         function ChangeData(Id) {
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Id).draw();
+            listOfSevere = AgentItems[Id][0];
+            listOfHigh = AgentItems[Id][1];
+            listOfMedium = AgentItems[Id][2];
+            listOfLow = AgentItems[Id][3];
         }
         
         var InspectorAgentsDic = {
@@ -335,8 +424,16 @@
         function ChangeDataInspector(Id) {
             var agents = InspectorAgentsDic[Id]
             var Regex = "";
+            listOfSevere = [];
+            listOfHigh = [];
+            listOfMedium = [];
+            listOfLow = [];
             $(agents).each(function(index, value) {
                   Regex += value;
+                  listOfSevere = listOfSevere.concat(AgentItems[value][0]);
+                  listOfHigh = listOfHigh.concat(AgentItems[value][1]);
+                  listOfMedium = listOfMedium.concat(AgentItems[value][2]);
+                  listOfLow = listOfLow.concat(AgentItems[value][3]);
                   var isLastElement = index == agents.length -1;
                   if (isLastElement) {
                       return false;
@@ -359,11 +456,19 @@
             var supervisors = SupervisorInspectorsDic[Id]
             var agents = [];
             var Regex = "";
+            listOfSevere = [];
+            listOfHigh = [];
+            listOfMedium = [];
+            listOfLow = [];
             $(supervisors).each(function(index, value) {
                 agents = agents.concat(InspectorAgentsDic[value]);
             });
             $(agents).each(function(index, value) {
                 Regex += value;
+                listOfSevere = listOfSevere.concat(AgentItems[value][0]);
+                listOfHigh = listOfHigh.concat(AgentItems[value][1]);
+                listOfMedium = listOfMedium.concat(AgentItems[value][2]);
+                listOfLow = listOfLow.concat(AgentItems[value][3]);
                 var isLastElement = index == agents.length -1;
                 if (isLastElement) {
                     return false;
