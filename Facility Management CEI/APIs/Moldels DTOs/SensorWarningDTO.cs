@@ -16,10 +16,12 @@ namespace API.Moldels_DTOs
         public bool Investigated { get; set; }
        
         public DateTime? InvestigatDate { get; set; }
+        public string Comment { get; set; }
+
         #endregion
 
         #region Link with other
-       
+
         public int SensorId { get; set; }
         
         public int? AppUserId { get; set; }

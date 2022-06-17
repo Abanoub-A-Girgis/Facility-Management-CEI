@@ -21,16 +21,16 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Priority)
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Priority)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.AssetId)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.AssetId)
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.ReportingTime)
@@ -43,24 +43,30 @@
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SensorWarningId)
-        </dd>        
+        </dd> 
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AssetId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AssetId)
+        </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.SpaceId)
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SpaceId)
         </dd>
-                <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-                <dt class="col-sm-3">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.AppUserId)
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AppUserId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Comment)
         </dd>
     </dl>
     <div>

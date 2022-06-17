@@ -18,6 +18,8 @@ namespace API.Models
         public Priority Priority { get; set; }
         //[DataType(DataType.Date)]
         public DateTime? InvestigatDate { get; set; }
+        public string Comment { get; set; }
+
         #endregion
         #region Link with other
         [Required]

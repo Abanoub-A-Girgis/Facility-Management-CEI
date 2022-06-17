@@ -14,8 +14,7 @@ namespace API.Moldels_DTOs
         public Priority Priority { get; set; }
         public string Description { get; set; }
         public DateTime ReportingTime { get; set; }
-
-       
+        public string Comment { get; set; }
 
         public int? AssetId { get; set; }
        

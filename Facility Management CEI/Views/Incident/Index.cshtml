@@ -25,18 +25,19 @@
                         <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.Id             )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.AssetId        )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.SensorWarningId)</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.AppUserId         )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.Description    )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
-                                    <th scope="col">Edit Action</th>
-                                    <th scope="col">Details Action</th>
-                                    <th scope="col">Delete Action</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id             )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description    )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SensorWarningId)</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssetId        )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AppUserId      )</th>
+                                    <th class="text-center" scope="col" >@Html.DisplayNameFor(model => model.Comment       ) </th>
+                                    <th class="text-center" scope="col">Edit Action</th>
+                                    <th class="text-center" scope="col">Details Action</th>
+                                    <th class="text-center" scope="col">Delete Action</th>
                                 </tr>
                             </thead>
 
@@ -44,16 +45,17 @@
                                 @foreach (var item in Model.ToList())
                                 {
                                 <tr >
-                                    <td>@Html.DisplayFor(modelItem => item.Id             )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.AssetId        )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.SpaceId        )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.AppUserId         )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Description    )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Priority       )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.ReportingTime  )</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Status         )</td>
-                                     <td class="text-center">
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Id             )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Description    )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Status         )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Priority       )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.ReportingTime  )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AssetId        )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SpaceId        )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AppUserId      )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment       )</td>
+                                     <td class="text-center" scope="col">
                                         <!--
                                         Button AddOrEdit which will return a view that will make the user add or edit a Incident
                                         asp-action="AddOrEdit": the name of the action method that holds the Logic Code
@@ -62,7 +64,7 @@
                                         <a asp-action="AddOrEdit" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center" scope="col">
                                          <!--
                                             Button AddOrEdit which will return a view that will make the user Dispaly the Incident data 
                                             asp-action="Details": the name of the Action Method inside the Incident Controller
@@ -72,7 +74,7 @@
                                         <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center" scope="col">
                                         <!--
                                                Button Delete which will return a view that will make the user Delete the Incident data
                                                asp-action="Delete": the name of the Action Method inside the Incident Controller

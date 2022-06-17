@@ -85,7 +85,7 @@ namespace Facility_Management_CEI.Controllers
         [ValidateAntiForgeryToken]
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
-        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime")] Incident incidentData)
+        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime,Comment")] Incident incidentData)
         {
             bool IsIncidentExist = false;//check if this student is already exsit
 
@@ -114,17 +114,19 @@ namespace Facility_Management_CEI.Controllers
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
                         Incident.ReportingTime = Incident.ReportingTime;
+                        Incident.Comment= incidentData.Comment;
                         _Context.Update(Incident);
                     }
                     else
                     {
                         //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
-                        Incident.Description = incidentData.Description;
+                        Incident.Description =null;
                         Incident.Priority = incidentData.Priority;
                         Incident.SpaceId = incidentData.SpaceId;
                         Incident.SensorWarningId = incidentData.SensorWarningId;
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
+                        Incident.Comment =null;
                         Incident.Status = API.Enums.IncidentStatus.Open;
                         Incident.ReportingTime = DateTime.Now;
                         _Context.Add(Incident);//if this flag is false then add student data

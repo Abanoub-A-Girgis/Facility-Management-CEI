@@ -34,8 +34,8 @@ namespace Facility_Management_CEI.Controllers
                 List<SensorWarning> WariningList = new List<SensorWarning>();
                 for (int i = 0; i < TrialsNumber; i++)
                 {
-                    var SensorId = MyRandom.Next(0, count);
-                    var MySensor = Sensor.ElementAt(SensorId);
+                    var SensorIndex = MyRandom.Next(0, count);
+                    var MySensor = Sensor.ElementAt(SensorIndex);
                     var spaceId = MySensor.SpaceId;
                     var MySpace = _context.Spaces.ToList().Where(e => e.Id == spaceId).FirstOrDefault();
                     var SpaceName = MySpace.Name;
@@ -45,7 +45,7 @@ namespace Facility_Management_CEI.Controllers
                     var temp = random.Next(0, 100);
                     var Smoke = random.Next(0, 100);
                     var people = random.Next(0, 100);
-                    //this switch statment Priority Values
+                    //this switch statment Priority Value
                     switch (MySensor.SensorType)
                     {
                         case SensorType.SpaceSensor:
@@ -124,7 +124,8 @@ namespace Facility_Management_CEI.Controllers
                         Priority = priority,
                         InvestigatDate = null,
                         SensorId = MySensor.Id,
-                        AppUserId = null
+                        AppUserId = null,
+                        Comment=null
                     });
                 }
                 _context.AddRange(WariningList);
@@ -136,7 +137,7 @@ namespace Facility_Management_CEI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate")] SensorWarning WarningData) 
+        public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate,Comment")] SensorWarning WarningData) 
         {
             SensorWarning Warning = await _context.SensorWarnings.FindAsync(WarningData.Id);
             if (ModelState.IsValid)
@@ -150,6 +151,7 @@ namespace Facility_Management_CEI.Controllers
                     Warning.AppUserId=WarningData.AppUserId;
                     Warning.Priority=WarningData.Priority;
                     Warning.SensorId=WarningData.SensorId;
+                    Warning.Comment=WarningData.Comment;
                     _context.Update(Warning);
                     await _context.SaveChangesAsync();
                 }
@@ -160,16 +162,6 @@ namespace Facility_Management_CEI.Controllers
             }
             var Mylist = _context.SensorWarnings.ToList();
             return NoContent();
-        }
-        public async Task<IActionResult> Ignore(int? WarningId)
-        {
-            if (WarningId == null)
-            {
-                return NotFound();
-            }
-            var Incident = await _context.SensorWarnings.FirstOrDefaultAsync(m => m.Id == WarningId);
-
-            return View(Incident);
         }
         public async Task<ActionResult> Investigate(int? WarningId)
         {

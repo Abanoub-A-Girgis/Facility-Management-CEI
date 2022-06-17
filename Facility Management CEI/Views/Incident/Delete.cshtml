@@ -24,6 +24,12 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Priority)
         </dt>
         <dd class="col-sm-9">
@@ -60,11 +66,12 @@
             @Html.DisplayFor(model => model.AssetId)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Comment)
         </dt>
         <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.Comment)
         </dd>
+
 
     </dl>
 
