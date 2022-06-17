@@ -111,7 +111,7 @@ namespace Facility_Management_CEI
                 poweruser.UserName = "admin@email";
 
 
-                var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
+                var createPowerUser = await UserManager.CreateAsync(poweruser, "Admin!123");
                 
                 if (createPowerUser.Succeeded)
                 {
@@ -120,61 +120,8 @@ namespace Facility_Management_CEI
 
                 }
             }
+
         }
-        #region code to copy from
-        //-----------------------------------
-        //--------------------------------
-
-        //private void createRolesandUsers()
-        //{
-        //    IdentityDb.ApplicationDBContext context = new ApplicationDBContext();
-
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-        //    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
-
-        //    // In Startup iam creating first Admin Role and creating a default Admin User     
-        //    if (!roleManager.RoleExists("Admin"))
-        //    {
-
-        //        // first we create Admin rool    
-        //        var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-        //        role.Name = "Admin";
-        //        roleManager.Create(role);
-
-        //        //Here we create a Admin super user who will maintain the website                   
-
-        //        var user = new ApplicationUser();
-        //        user.UserName = "shanu";
-        //        user.Email = "syedshanumcain@gmail.com";
-
-
-                string adminPassword = "Admin!123";
-                var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
-                if (createPowerUser.Succeeded)
-                {
-
-
-                   //here we tie the new user to the role
-                   await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
-
-                    
-                }
-
-
-            }
-
-            //-------------------------
-            
-        }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
-        {
-
-            CreateRoles(serviceProvider).Wait();
-
-
-        //-------------------------
-        #endregion
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
             {
                  
@@ -191,15 +138,6 @@ namespace Facility_Management_CEI
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                     app.UseHsts();
                 }
-
-
-                app.UseHttpsRedirection();
-                app.UseStaticFiles();
-
-                app.UseRouting();
-                app.UseAuthentication();
-                app.UseAuthorization();
-
 
 
             app.UseHttpsRedirection();
@@ -227,5 +165,6 @@ namespace Facility_Management_CEI
         }
     }
 }
+
 
 //update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext
