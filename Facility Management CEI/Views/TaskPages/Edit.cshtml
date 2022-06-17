@@ -67,8 +67,8 @@
             </div>*@
              <div class="form-group">
                 <label asp-for="AssignedById" class="control-label"></label>
-                <input asp-for="AssignedById" class="form-control" />
-                <span asp-validation-for="AssignedById" asp-items="ViewBag.AssignedById" class="text-danger"></span>
+                <select asp-for="AssignedById" asp-items="ViewBag.AssignedById" class="form-control"></select>
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
