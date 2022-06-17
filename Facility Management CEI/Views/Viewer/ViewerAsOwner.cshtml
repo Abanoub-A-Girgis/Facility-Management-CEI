@@ -4,7 +4,7 @@
 }
 @using System.Configuration
 @using API.Models
-@model Facility_Management_CEI.Controllers.ViewerParameter
+@model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 <h2>Agent Task</h2>
 
 <head>
@@ -44,8 +44,9 @@
             <table id="UsersTable" class="w-100 table table-striped table-hover">
                     <thead>
                         <tr class="sticky-top">
-                            <th>Agent ID</th>
-                            <th>Agent Details</th>
+                            <th>User ID</th>
+                            <th>User Category</th>
+                            <th>User Details</th>
                             <th>Load Tasks</th>
                         </tr>
                     </thead>
@@ -54,8 +55,36 @@
                         {
                             <tr>
                                 <th>@Agent.Id</th>
-                                <td><button class="btn btn-info waves-effect waves-light">Agent Details</button></td>
+                                <td>Agent</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
                                 <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Inspector in ViewBag.Inspectors)
+                        {
+                            <tr>
+                                <th>@Inspector.Id</th>
+                                <td>Inspector</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Supervisor in ViewBag.Supervisors)
+                        {
+                            <tr>
+                                <th>@Supervisor.Id</th>
+                                <td>Supervisor</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)">Show Tasks</button></td>
+                            </tr>
+                        }
+                        @foreach (var Manager in ViewBag.Managers)
+                        {
+                            <tr>
+                                <th>@Manager.Id</th>
+                                <td>Manager</td>
+                                <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">Show Tasks</button></td>
                             </tr>
                         }
                     </tbody>
@@ -113,7 +142,7 @@
                     pickedId = id;
                 });
         </script>*@
-
+        
         <script>
                 viewer.on('fps', function (fps) {
                     var overlayDiv = document.getElementById('overlayDiv');
@@ -129,7 +158,7 @@
             <label id="fps"> </label>
         </div>
 
-        <script>
+@*        <script>
             // Arrays to hold the item id's depending on their priority
             var listOfSevere = [];
             var listOfHigh = [];
@@ -168,7 +197,15 @@
                     animateBool = true;
                 }
             }
-        </script>
+        </script>*@
+
+        <div>
+            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
+        </div>
 
         <div>
             <button onclick="CreateCanvas()">Clear</button>
@@ -251,6 +288,87 @@
             viewer.defineStyle(2, [255,224,32,255])
             viewer.defineStyle(3, [0,255,0,255])
         }
+
+        var AgentItems = {
+            @foreach(var Items in Model)
+            {
+                @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low))],
+            }
+        }
+
+        var listOfSevere = [];
+        var listOfHigh = [];
+        var listOfMedium = [];
+        var listOfLow = [];
+
+        $.each(AgentItems, function(key, value) {
+            listOfSevere = listOfSevere.concat(value[0]);
+            listOfHigh = listOfHigh.concat(value[1]);
+            listOfMedium = listOfMedium.concat(value[2]);
+            listOfLow = listOfLow.concat(value[3]);
+        })
+        
+        var listOfSevere2 = listOfSevere;
+        var listOfHigh2 = listOfHigh;
+        var listOfMedium2 = listOfMedium;
+        var listOfLow2 = listOfLow;
+
+        
+        var animateSevereBool = true;
+        function ToggleHighLightSevere() {                    
+            animateSevereBool ? animateSevereBool = false : animateSevereBool = true;
+        }
+        
+        var animateHighBool = true;
+        function ToggleHighLightHigh() {
+            animateHighBool ? animateHighBool = false : animateHighBool = true;
+        }
+
+        var animateMediumBool = true;
+        function ToggleHighLightMedium() {
+            animateMediumBool ? animateMediumBool = false : animateMediumBool = true;
+        }
+
+        var animateLowBool = true;
+        function ToggleHighLightLow() {
+            animateLowBool ? animateLowBool = false : animateLowBool = true;
+        }
+        
+        var HighLightItemsBool = false;
+        var animation;
+        function ToggleHighLightItems() {
+            if (HighLightItemsBool) {
+                clearInterval(animation);
+                viewer.resetStyles();
+                HighLightItemsBool = false;
+            }
+            else {
+                var animateBool = true;
+                animation = setInterval(animateObjects, 1000);
+                function animateObjects() {
+                    if (animateBool) {
+                        if(animateSevereBool) {
+                            viewer.setStyle(0, listOfSevere);
+                        }
+                        if(animateHighBool) {
+                            viewer.setStyle(1, listOfHigh);
+                        }
+                        if (animateMediumBool) {
+                            viewer.setStyle(2, listOfMedium);
+                        }
+                        if (animateLowBool) {
+                            viewer.setStyle(3, listOfLow);
+                        }
+                        animateBool = false;
+                    }
+                    else {
+                        viewer.resetStyles()
+                        animateBool = true;
+                    }
+                    HighLightItemsBool = true;
+                }
+            }  
+        }
         
         $(document).ready(function () {
             $('#UsersTable').DataTable(
@@ -273,16 +391,20 @@
                         {
                             text: "Show All",
                             action: function ( e, dt, node, config ) {
-                                    $("#ItemsTable").DataTable().column(0).search("").draw();
+                                    ShowAllData();
                             },
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         },
                         {
       	                    extend: 'excelHtml5',
                             text: 'Save as excel sheet',
+                            exportOptions: {
+                                columns: [ 0, 1 , 2]
+                            },
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         }
-                    ]
+                    ],
+                    "search": {regex: true}
                 }    
             );
         } );
@@ -290,10 +412,122 @@
         function ShowAllData() {
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search("").draw();
+            listOfSevere = listOfSevere2;
+            listOfHigh = listOfHigh2;
+            listOfMedium = listOfMedium2;
+            listOfLow = listOfLow2;
         }
-        function ChangeData(id) {
+        function ChangeData(Id) {
             var itemsTable = $("#ItemsTable").DataTable()
-            itemsTable.column(0).search(id).draw();
+            itemsTable.column(0).search(Id).draw();
+            listOfSevere = AgentItems[Id][0];
+            listOfHigh = AgentItems[Id][1];
+            listOfMedium = AgentItems[Id][2];
+            listOfLow = AgentItems[Id][3];
+        }
+        
+        var InspectorAgentsDic = {
+            @foreach(var inspector in ViewBag.InspectorAgentsDic)
+            {
+                @inspector.Key@::@Html.Raw(Json.Serialize(inspector.Value)),
+            }
+        }
+        
+        function ChangeDataInspector(Id) {
+            var agents = InspectorAgentsDic[Id]
+            var Regex = "";
+            listOfSevere = [];
+            listOfHigh = [];
+            listOfMedium = [];
+            listOfLow = [];
+            $(agents).each(function(index, value) {
+                  Regex += value;
+                  listOfSevere = listOfSevere.concat(AgentItems[value][0]);
+                  listOfHigh = listOfHigh.concat(AgentItems[value][1]);
+                  listOfMedium = listOfMedium.concat(AgentItems[value][2]);
+                  listOfLow = listOfLow.concat(AgentItems[value][3]);
+                  var isLastElement = index == agents.length -1;
+                  if (isLastElement) {
+                      return false;
+                  }
+                Regex += "|";
+            });
+            //itemsTable.column(0).search("24|25", true, false).draw();
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
+        }
+
+        var SupervisorInspectorsDic = {
+            @foreach(var supervisor in ViewBag.SupervisorInspectorsDic)
+            {
+                @supervisor.Key@::@Html.Raw(Json.Serialize(supervisor.Value)),
+            }
+        }
+
+        function ChangeDataSupervisor(Id) {
+            var inspectors = SupervisorInspectorsDic[Id]
+            var agents = [];
+            var Regex = "";
+            listOfSevere = [];
+            listOfHigh = [];
+            listOfMedium = [];
+            listOfLow = [];
+            $(inspectors).each(function(index, value) {
+                agents = agents.concat(InspectorAgentsDic[value]);
+            });
+            $(agents).each(function(index, value) {
+                Regex += value;
+                listOfSevere = listOfSevere.concat(AgentItems[value][0]);
+                listOfHigh = listOfHigh.concat(AgentItems[value][1]);
+                listOfMedium = listOfMedium.concat(AgentItems[value][2]);
+                listOfLow = listOfLow.concat(AgentItems[value][3]);
+                var isLastElement = index == agents.length -1;
+                if (isLastElement) {
+                    return false;
+                }
+                Regex += "|";
+            });
+            console.log(Regex)
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
+        }
+        
+        var ManagerSupervisorsDic = {
+            @foreach(var manager in ViewBag.ManagerSupervisorsDic)
+            {
+                @manager.Key@::@Html.Raw(Json.Serialize(manager.Value)),
+            }
+        }
+        
+        function ChangeDataManager(Id) {
+            var supervisors = ManagerSupervisorsDic[Id]
+            var agents = [];
+            var Regex = "";
+            listOfSevere = [];
+            listOfHigh = [];
+            listOfMedium = [];
+            listOfLow = [];            
+            $(supervisors).each(function(index, value) {
+                var inspectors = SupervisorInspectorsDic[value]
+                $(inspectors).each(function(index, value) {
+                    agents = agents.concat(InspectorAgentsDic[value]);
+                });
+            });
+            $(agents).each(function(index, value) {
+                Regex += value;
+                listOfSevere = listOfSevere.concat(AgentItems[value][0]);
+                listOfHigh = listOfHigh.concat(AgentItems[value][1]);
+                listOfMedium = listOfMedium.concat(AgentItems[value][2]);
+                listOfLow = listOfLow.concat(AgentItems[value][3]);
+                var isLastElement = index == agents.length -1;
+                if (isLastElement) {
+                    return false;
+                }
+                Regex += "|";
+            });
+            console.log(Regex)
+            var itemsTable = $("#ItemsTable").DataTable()
+            itemsTable.column(0).search(Regex, true, false).draw();
         }
     </script>
 

@@ -132,22 +132,30 @@
                     @:listOfLow.push(@i);
                 }
             
-            var animateBool = true;
-            setInterval(animateObjects, 1000);
-            function animateObjects() {
-                if (animateBool) {
-                    viewer.setStyle(0, listOfSevere);
-                    viewer.setStyle(1, listOfHigh);
-                    viewer.setStyle(2, listOfMedium);
-                    viewer.setStyle(3, listOfLow);
-                    animateBool = false;
-                }
-                else {
-                    viewer.resetStyles()
-                    animateBool = true;
-                }
-            }
+            //var animateBool = true;
+            //setInterval(animateObjects, 1000);
+            //function animateObjects() {
+            //    if (animateBool) {
+            //        viewer.setStyle(0, listOfSevere);
+            //        viewer.setStyle(1, listOfHigh);
+            //        viewer.setStyle(2, listOfMedium);
+            //        viewer.setStyle(3, listOfLow);
+            //        animateBool = false;
+            //    }
+            //    else {
+            //        viewer.resetStyles()
+            //        animateBool = true;
+            //    }
+            //}
         </script>
+
+        <div>
+            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
+        </div>
 
         <div>
             <button onclick="CreateCanvas()">Clear</button>
@@ -230,6 +238,62 @@
             viewer.defineStyle(2, [255,224,32,255])
             viewer.defineStyle(3, [0,255,0,255])
         }
+
+        var animateSevereBool = true;
+        function ToggleHighLightSevere() {                    
+            animateSevereBool ? animateSevereBool = false : animateSevereBool = true;
+        }
+        
+        var animateHighBool = true;
+        function ToggleHighLightHigh() {
+            animateHighBool ? animateHighBool = false : animateHighBool = true;
+        }
+
+        var animateMediumBool = true;
+        function ToggleHighLightMedium() {
+            animateMediumBool ? animateMediumBool = false : animateMediumBool = true;
+        }
+
+        var animateLowBool = true;
+        function ToggleHighLightLow() {
+            animateLowBool ? animateLowBool = false : animateLowBool = true;
+        }
+        
+        var HighLightItemsBool = false;
+        var animation;
+        function ToggleHighLightItems() {
+            if (HighLightItemsBool) {
+                clearInterval(animation);
+                viewer.resetStyles();
+                HighLightItemsBool = false;
+            }
+            else {
+                var animateBool = true;
+                animation = setInterval(animateObjects, 1000);
+                function animateObjects() {
+                    if (animateBool) {
+                        if(animateSevereBool) {
+                            viewer.setStyle(0, listOfSevere);
+                        }
+                        if(animateHighBool) {
+                            viewer.setStyle(1, listOfHigh);
+                        }
+                        if (animateMediumBool) {
+                            viewer.setStyle(2, listOfMedium);
+                        }
+                        if (animateLowBool) {
+                            viewer.setStyle(3, listOfLow);
+                        }
+                        animateBool = false;
+                    }
+                    else {
+                        viewer.resetStyles()
+                        animateBool = true;
+                    }
+                    HighLightItemsBool = true;
+                }
+            }  
+        }
         
         $(document).ready(function () {
             $('#ItemsTable').DataTable(
@@ -242,6 +306,9 @@
                         {
       	                    extend: 'excelHtml5',
                             text: 'Save as excel sheet',
+                            exportOptions: {
+                                columns: [ 0, 1 ]
+                            },
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         }
                     ]
