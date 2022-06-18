@@ -5,7 +5,7 @@
 @using System.Configuration
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
-<h2>Agent Task</h2>
+<h1 class="text-center text-uppercase font-weight-bold mb-5" style="font-size: 2.8rem;">Task Viewer Dashboard</h1>
 
 <head>
     <title>View as Agent</title>
@@ -25,6 +25,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     
     <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+    <link href="~/assets/libs/datatables.net/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" >
 
     <style>
         .table-hover > tbody > tr:hover {
@@ -35,59 +36,120 @@
             box-shadow: 0px -2px #343a40;
             color: white;
         }
+        .custom-control-input-light:focus~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:checked~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+          background-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:active~.custom-control-label-light::before {
+          background-color: #7CB9E8 !important;
+          border-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:focus:not(:checked)~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+        }
+        
+        table.dataTable thead>tr>th.sorting:before, table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:before, table.dataTable thead>tr>th.sorting_asc:after, table.dataTable thead>tr>th.sorting_desc:before, table.dataTable thead>tr>th.sorting_desc:after, table.dataTable thead>tr>th.sorting_asc_disabled:before, table.dataTable thead>tr>th.sorting_asc_disabled:after, table.dataTable thead>tr>th.sorting_desc_disabled:before, table.dataTable thead>tr>th.sorting_desc_disabled:after, table.dataTable thead>tr>td.sorting:before, table.dataTable thead>tr>td.sorting:after, table.dataTable thead>tr>td.sorting_asc:before, table.dataTable thead>tr>td.sorting_asc:after, table.dataTable thead>tr>td.sorting_desc:before, table.dataTable thead>tr>td.sorting_desc:after, table.dataTable thead>tr>td.sorting_asc_disabled:before, table.dataTable thead>tr>td.sorting_asc_disabled:after, table.dataTable thead>tr>td.sorting_desc_disabled:before, table.dataTable thead>tr>td.sorting_desc_disabled:after {
+                font-size: 1.8em;
+        }
     </style>
 </head>
 <body>
     <div class="row">
         <div class="col-5">
-        <div class="mb-3">
-            <table id="UsersTable" class="w-100 table table-striped table-hover">
+            <h3 class="text-center font-weight-bold">Subordinates</h3>
+            <div>
+                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
+                    <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
+                        <thead>
+                            <tr class="sticky-top">
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>User Details</th>
+                                <th>Load Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Agent in ViewBag.Agents)
+                            {
+                                <tr>
+                                    <th>@Agent.Id</th>
+                                    <td>@Agent.FirstName @Agent.LastName</td>
+                                    <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
+                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Tasks</h3>
+            <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
+                <table id="ItemsTable" class="w-100 table table-striped table-hover">
                     <thead>
                         <tr class="sticky-top">
                             <th>Agent ID</th>
-                            <th>Agent Details</th>
-                            <th>Load Tasks</th>
+                            <th>Task ID</th>
+                            <th>Asset Name</th>
+                            <th>Details</th>
+                            <th>Zoom To</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var Agent in ViewBag.Agents)
+                        @foreach (var task in ViewBag.Tasks)
                         {
                             <tr>
-                                <th>@Agent.Id</th>
-                                <td><button class="btn btn-info waves-effect waves-light">Agent Details</button></td>
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                                <th>@task.AssignedToId</th>
+                                <th>@task.Id</th>
+                                <td>@task.Incident.Asset.Name</td>
+                                <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            <table id="ItemsTable" class="w-100 table table-striped table-hover">
-                <thead>
-                    <tr class="sticky-top">
-                        <th>Agent ID</th>
-                        <th>Task ID</th>
-                        <th>Asset Name</th>
-                        <th>Details</th>
-                        <th>Zoom To</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var task in ViewBag.Tasks)
-                    {
-                        <tr>
-                            <th>@task.AssignedToId</th>
-                            <th>@task.Id</th>
-                            <td>@task.Incident.Asset.Name</td>
-                            <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
-                            <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
         </div>
     <div class="col-7">
         <canvas id="viewer" height="650" style="width: 100%;
                                    object-fit: contain;"></canvas>
+        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                top: 8px;
+                                                                left: 20px;
+                                                                z-index:5"">
+            <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+            @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()">
+                <label class="custom-control-label" for="Switch1">Items</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+            </div>
+
+        </div>
         <div style="position: absolute;
                     top: 8px;
                     right: 16px;
@@ -124,9 +186,7 @@
         </script>
 
         <div>
-            <label id="productId"> </label>
-            <br />
-            <label id="fps"> </label>
+            <div class="text-center font-weight-bold m-2" id="productId"></div>
         </div>
 
 @*        <script>
@@ -169,48 +229,54 @@
                 }
             }
         </script>*@
-        
-        <div>
-            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
-        </div>
-        
-        <div>
-            <button onclick="CreateCanvas()">Clear</button>
-            <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
-            <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
-            <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
-            <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
-        
-        </div>
 
-        <div>
-            <select id="cmbHide">
+        <div class="text-center">
+@*            <select id="cmbHide">
                 <option value="noAction">No action</option>
                 <option value="hideProduct">Hide product</option>
                 <option value="hideType">Hide type</option>
                 <option value="highlight">Highlight</option>
-            </select>
-            <button onclick="if (viewer) viewer.resetStates()">Show all</button>
+            </select>*@
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
             <script type="text/javascript">
 
                 var timer = 0;
+                
+                var option;
+                
+                function HideProduct() {
+                    option = "hideProduct";
+                }
+                
+                function HideType() {
+                    option = "hideType";
+                }
 
+                function Highlight() {
+                    option = "highlight";
+                }
+
+                function ResetAll() {
+                    if (viewer) {
+                        viewer.resetStates();
+                    }
+                    var div = document.getElementById('productId');
+                    if (div) {
+                        div.innerHTML = "";
+                    }
+                }
+                
                 viewer.on('pick', function (args) {
                     var id = args.id;
                     viewer.setCameraTarget(id);
                     pickedId = id;
                     document.getElementById('hiddenId').value = id;
-                    var span = document.getElementById('productId');
-                    if (span) {
-                        span.innerHTML = "Selected Product Id = " + id;
-                    }
 
-                    var cmb = document.getElementById('cmbHide');
-                    var option = cmb.value;
+                    //var cmb = document.getElementById('cmbHide');
+                    //var option = cmb.value;
                     switch (option) {
                         case 'hideProduct':
                             viewer.setState(xState.HIDDEN, [args.id]);
@@ -220,7 +286,12 @@
                             viewer.setState(xState.HIDDEN, type);
                             break;
                         case 'highlight':
+                            viewer.resetStates();
                             viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                            var div = document.getElementById('productId');
+                            if (div) {
+                                div.innerHTML = "Selected Asset Id = " + id;
+                            }
                             break;
                         default:
                             break;
@@ -342,14 +413,23 @@
         }
         
         $(document).ready(function () {
-            $('#UsersTable').DataTable(
+            $('#AgentsTable').DataTable(
                 {
                     "columnDefs": [
-                    { "searchable": false, "targets": 1 }
+                        {
+                            "searchable": false, "targets": [2, 3],
+                        }
+                    ],
+                    "autoWidth": false,
+                    "columns": [
+                        { "width": "15%" },
+                        { "width": "45%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
                     ]
                 }
             );
-        } ); 
+        } );        
 
         $(document).ready(function () {
             $('#ItemsTable').DataTable(
@@ -357,14 +437,14 @@
                     "columnDefs": [
                         { "searchable": false, "targets": [3,4] }
                     ],
-                    dom: 'Blfrtip',
+                    dom: '<"mb-2"B>lfrtip',
                     buttons : [
                         {
                             text: "Show All",
                             action: function ( e, dt, node, config ) {
                                     ShowAllData();
                             },
-                            className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                            className: 'btn btn-primary waves-effect waves-light mr-1'
                         },
                         {
       	                    extend: 'excelHtml5',
@@ -372,8 +452,17 @@
                             exportOptions: {
                                 columns: [ 0, 1 , 2]
                             },
-                            className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                            className: 'btn btn-primary waves-effect waves-light mr-1'
                         }
+                    ],
+                    "search": {regex: true},
+                    "autoWidth": false,
+                    "columns": [
+                        { "width": "15%" },
+                        { "width": "15%" },
+                        { "width": "30%" },
+                        { "width": "20%" },
+                        { "width": "20%" },
                     ]
                 }    
             );

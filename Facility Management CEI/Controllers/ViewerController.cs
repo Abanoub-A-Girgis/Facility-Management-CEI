@@ -86,8 +86,22 @@ namespace Facility_Management_CEI.Controllers
             return viewerParam;
         }
 
+        public IActionResult ViewerError()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> ViewerAsAgent(int EmployeeId)
         {
+            var Employee = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == EmployeeId);
+            if (Employee == null)
+            {
+                return Redirect("ViewerError");
+            }
+            if (Employee.Type != API.Enums.UserType.Agent)
+            {
+                return Redirect("ViewerError");
+            }
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
@@ -102,6 +116,15 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
+            var Inspector = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == InspectorId);
+            if (Inspector == null)
+            {
+                return Redirect("ViewerError");
+            }
+            if (Inspector.Type != API.Enums.UserType.Inspector)
+            {
+                return Redirect("ViewerError");
+            }
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             //ViewerParameter viewerParam = new ViewerParameter();
             Dictionary<int, ViewerParameter> viewerParamDic = new Dictionary<int, ViewerParameter>();
@@ -114,6 +137,7 @@ namespace Facility_Management_CEI.Controllers
                 //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
                 viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
             }
+            var TasksDto = Tasks;
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
             return View(viewerParamDic);
@@ -121,6 +145,15 @@ namespace Facility_Management_CEI.Controllers
         
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
+            var Supervisor = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == SupervisorId);
+            if (Supervisor == null)
+            {
+                return Redirect("ViewerError");
+            }
+            if (Supervisor.Type != API.Enums.UserType.Supervisor)
+            {
+                return Redirect("ViewerError");
+            }
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
             var Inspectors = await _context.AppUsers.Where(u => u.SuperId == SupervisorId).ToListAsync();
@@ -150,6 +183,15 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
+            var Manager = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == ManagerId);
+            if (Manager == null)
+            {
+                return Redirect("ViewerError");
+            }
+            if (Manager.Type != API.Enums.UserType.Manager)
+            {
+                return Redirect("ViewerError");
+            }
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
@@ -189,6 +231,15 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
+            var Owner = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == OwnerId);
+            if (Owner == null)
+            {
+                return Redirect("ViewerError");
+            }
+            if (Owner.Type != API.Enums.UserType.Owner)
+            {
+                return Redirect("ViewerError");
+            }
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Supervisors = new List<API.Models.AppUser>();
