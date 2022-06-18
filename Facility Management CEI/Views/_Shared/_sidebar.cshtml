@@ -1,4 +1,13 @@
-﻿<!-- ========== Left Sidebar Start ========== -->
+﻿<head>
+    <style>
+        .fa-eye:before
+        {
+            color: silver;
+        }
+    </style>
+</head>
+
+<!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
     <div data-simplebar class="h-100">
@@ -8,9 +17,12 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" key="t-menu">Menu</li>
-
+                
                 <li>
-                    <a href="javascript: void(0);">Our Views</a>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-eye"></i>
+                        <span key="t-views">Our Views</span>
+                    </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a class="nav-link text-secondary " asp-controller="Account" asp-action="Login">Login</a></li>
                         @if (ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
@@ -34,15 +46,15 @@
                     </ul>
                 </li>
 
-                <li>
+@*                <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                       @* <i class="bx bx-home-circle"></i><span class="badge badge-pill badge-info float-right">04</span>*@
+                       <i class="bx bx-home-circle"></i><span class="badge badge-pill badge-info float-right">04</span>
                         <span key="t-dashboards">Dashboards</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                    @*   <li><a href=@Url.Action("Index", "index") key="t-default">Default</a></li>*@
-                    @*   <li><a href=@Url.Action("Index", "DashboardSaas") key="t-saas">Saas</a></li>*@
-                    @*  <li><a href=@Url.Action("Index", "DashboardCrypto") key="t-crypto">Crypto</a></li>*@
+                       <li><a href=@Url.Action("Index", "index") key="t-default">Default</a></li>
+                       <li><a href=@Url.Action("Index", "DashboardSaas") key="t-saas">Saas</a></li>
+                      <li><a href=@Url.Action("Index", "DashboardCrypto") key="t-crypto">Crypto</a></li>
                         <li><a href=@Url.Action("Index", "DashboardBlog") key="t-blog">Projects</a></li>
                     </ul>
                 </li>
@@ -92,7 +104,7 @@
                 <li>
                     <a href=@Url.Action("Index", "Chat") class=" waves-effect">
                         <i class="bx bx-chat"></i>
-                    @*    <span class="badge badge-pill badge-success float-right">New</span>*@
+                        <span class="badge badge-pill badge-success float-right">New</span>
                         <span key="t-chat">Chat</span>
                     </a>
                 </li>
@@ -100,7 +112,7 @@
                 <li>
                     <a href=@Url.Action("Index", "FileManager") class="waves-effect">
                         <i class="bx bx-file"></i>
-                      @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <span class="badge badge-pill badge-success float-right" key="t-new">New</span>
                         <span key="t-file-manager">File Manager</span>
                     </a>
                 </li>
@@ -148,7 +160,7 @@
                         <li><a href=@Url.Action("Index", "EmailRead") key="t-read-email">Read Email</a></li>
                         <li>
                             <a href="javascript: void(0);">
-                              @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                                <span class="badge badge-pill badge-success float-right" key="t-new">New</span>
                                 <span key="t-email-templates">Templates</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -210,7 +222,7 @@
 
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                      @*  <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <span class="badge badge-pill badge-success float-right" key="t-new">New</span>
                         <i class="bx bx-detail"></i>
                         <span key="t-blog">Blog</span>
                     </a>
@@ -225,7 +237,7 @@
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                       @* <span class="badge badge-pill badge-success float-right" key="t-new">New</span>*@
+                        <span class="badge badge-pill badge-success float-right" key="t-new">New</span>
                         <i class="bx bx-user-circle"></i>
                         <span key="t-authentication">Authentication</span>
                     </a>
@@ -385,7 +397,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li>*@
 
             </ul>
         </div>
