@@ -59,7 +59,8 @@
                                 <th>@task.AssignedToId</th>
                                 <th>@task.Id</th>
                                 <td>@task.Incident.Asset.Name</td>
-                                <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
+                                @*<td><button class="btn btn-info waves-effect waves-light" onclick="">Details</button></td>*@
+                                <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
                                 <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
                             </tr>
                         }
@@ -315,7 +316,7 @@
             }
             else {
                 var animateBool = true;
-                animation = setInterval(animateObjects, 1000);
+                animation = setInterval(animateObjects, 500);
                 function animateObjects() {
                     if (animateBool) {
                         if(animateSevereBool) {
