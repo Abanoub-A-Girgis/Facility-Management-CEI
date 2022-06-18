@@ -26,7 +26,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-        //[Authorize(Roles ="Admin,Manger,Supervisor,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index(int? warningId)
         {
             if (warningId==null)
@@ -143,6 +143,7 @@ namespace Facility_Management_CEI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate,Comment")] SensorWarning WarningData) 
         {
             SensorWarning Warning = await _context.SensorWarnings.FindAsync(WarningData.Id);
@@ -169,6 +170,7 @@ namespace Facility_Management_CEI.Controllers
             var Mylist = _context.SensorWarnings.ToList();
             return NoContent();
         }
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<ActionResult> Investigate(int? WarningId)
         {
             var user2 = await _userManeger.GetUserAsync(User);

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<API.Models.Incident>//we are reading ftom the DB
+﻿@using Facility_Management_CEI.Controllers
+@model IEnumerable<API.Models.Incident>//we are reading ftom the DB
 @{
     ViewData["Title"]="Incident";
         Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
@@ -11,14 +12,21 @@
                     <p class="card-text">Showing the Incident Inside our Building.</p>
                   </div>
                 </div>
-                 <div class="card-header">
-                  <!--
-                     Button Create new Record which will return a view that will make the user inser new   Incident data
-                     asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
-                     no need to pass an id as we will create new one 
-                  -->
-                  <a class="btn btn-outline-primary" asp-action="AddOrEdit">Create New</a>
-                 </div>
+
+ 
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin","Inspector"))
+                {
+                     <div class="card-header">
+                      <!--
+                         Button Create new Record which will return a view that will make the user inser new   Incident data
+                         asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
+                         no need to pass an id as we will create new one 
+                      -->
+                      <a class="btn btn-outline-primary" asp-action="AddOrEdit">Create New</a>
+                     </div>
+    
+                }
+                
                 <!--this is the table headers-->
                 <div class="mt-4">
                     <div class="table-responsive">
@@ -55,35 +63,46 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SpaceId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AppUserId      )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment       )</td>
-                                     <td class="text-center" scope="col">
-                                        <!--
-                                        Button AddOrEdit which will return a view that will make the user add or edit a Incident
-                                        asp-action="AddOrEdit": the name of the action method that holds the Logic Code
-                                        asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
-                                        "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
-                                        <a asp-action="AddOrEdit" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
-                                    </td>
-
-                                    <td class="text-center" scope="col">
-                                         <!--
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    {
+                            
+                                         <td class="text-center" scope="col">
+                                            <!--
+                                            Button AddOrEdit which will return a view that will make the user add or edit a Incident
+                                            asp-action="AddOrEdit": the name of the action method that holds the Logic Code
+                                            asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
+                                            "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
+                                            <a asp-action="AddOrEdit" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
+                                         </td>
+                                    }
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    {
+                            
+                                         <td class="text-center" scope="col">
+                                            <!--
                                             Button AddOrEdit which will return a view that will make the user Dispaly the Incident data 
                                             asp-action="Details": the name of the Action Method inside the Incident Controller
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
-                                        -->
-                                        <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
-                                    </td>
-
-                                    <td class="text-center" scope="col">
-                                        <!--
+                                            -->
+                                            <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
+                                         </td>
+                                    }
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    {
+                            
+                                        <td class="text-center" scope="col">
+                                            <!--
                                                Button Delete which will return a view that will make the user Delete the Incident data
                                                asp-action="Delete": the name of the Action Method inside the Incident Controller
                                                asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                                "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident
                                             -->
-                                        <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">Delete</a>
-                                    </td>
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">Delete</a>
+                                        </td>
+                                    }
                                 </tr>
+
                                 }
                             </tbody>
                         </table>

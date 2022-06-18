@@ -1,4 +1,4 @@
-﻿
+﻿@using Facility_Management_CEI.Controllers
 @{
     ViewBag.Title = "Task List";
     ViewBag.pageTitle = "Tasks";
@@ -65,15 +65,27 @@
                 <th scope="col">@task.Cost</th>
                 <th scope="col">@task.Status</th>
                 <th scope="col">@task.Type</th>
-                <th scope="col">
-                   <a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >Details</a>            
-                </th > 
-                <th scope="col">
-                   <a scope="col" asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >Edit</a>
-                </th>    
-                <th scope="col">
-                   <a scope="col" asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>
-                </th> 
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector","Agent"))
+                        {
+                            
+                            <th scope="col">
+                            <a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >Details</a>            
+                            </th > 
+                        }
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                        {
+                            <th scope="col">
+                                <a scope="col" asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >Edit</a>
+                            </th>    
+                            
+                        }
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                        {
+                            
+                             <th scope="col">
+                                <a scope="col" asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>
+                            </th> 
+                        }
                 
                </tr>
             }  
@@ -82,9 +94,14 @@
    </div>
 </div>
 
- <div class="form-group"> 
+    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+    {
+    
+        <div class="form-group"> 
           <a asp-action="CreateTask" asp-route-id="" class="btn btn-outline-primary" >Create New Task </a>
- </div>
+        </div>
+    }
+
  <script>
      $(document).ready(function () {
             $('#datatable').DataTable();

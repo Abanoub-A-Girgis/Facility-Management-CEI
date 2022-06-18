@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -26,6 +27,8 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
         // GET: IncidentController
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Agent,Inspector")]
+
         public ActionResult Index()//index is considered to be the home page of our controller
         {
             var Incident = _Context.Incidents.ToList();
@@ -33,6 +36,8 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Details/5
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Agent,Inspector")]
+
         public async Task<ActionResult> Details(int? IncidentId)
         {
             if (IncidentId==null)//make sure that the id is not null 
@@ -51,10 +56,13 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Create
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+
         public ActionResult Create()
         {
             return View();
         }
+   
 
         public async Task<IActionResult> AddOrEdit(int? IncidentId)
         {
@@ -89,6 +97,8 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
         public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime,Comment")] Incident incidentData)
@@ -148,6 +158,8 @@ namespace Facility_Management_CEI.Controllers
             return View(incidentData);
         }
         // GET: IncidentController/Edit/5
+
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public ActionResult Edit(int id)
         {
             return View();
@@ -157,6 +169,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         //ValidateAntiForgeryToken attribute: is to prevent cross-site request forgery attacks. A cross-site request forgery is an attack in which a harmful script element, malicious command, or code is sent from the browser of a trusted user.
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -170,6 +183,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Delete/5
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int? Incidentid)
         {
             if (Incidentid == null)
@@ -184,6 +198,7 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int Incidentid)
         {
             try
