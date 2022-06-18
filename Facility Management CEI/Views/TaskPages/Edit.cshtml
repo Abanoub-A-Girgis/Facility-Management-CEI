@@ -1,13 +1,10 @@
 ﻿@using API.Enums
 @model API.Models.Task
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Task";
+    var UserId = ViewBag.UserId;
 }
-
-<h1>Edit</h1>
-
-<h4>Task</h4>
+<h1>Edit Task</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -32,7 +29,6 @@
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
                 <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()"></select>
-                     
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,36 +43,33 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedById" class="control-label"></label>
-                <select asp-for="CreatedById" class="form-control" asp-items="ViewBag.CreatedById"></select>
+                <input asp-for="CreatedById" class="form-control-plaintext shadow-none" readonly />
                 <span asp-validation-for="CreatedById" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="AssignedById" class="control-label"></label>
+                <input asp-for="AssignedById" class="form-control-plaintext shadow-none" readonly />
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedToId" class="control-label"></label>
+                <input asp-for="AssignedToId" class="form-control-plaintext shadow-none" readonly/>
+                <span asp-validation-for="AssignedToId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IncidentId" class="control-label"></label>
                 <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId"></select>
                 <span asp-validation-for="IncidentId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="AssignedToId" class="control-label"></label>
-                <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToId"></select>
-                <span asp-validation-for="AssignedToId" class="text-danger"></span>
-            </div>
-           @* <div class="form-group">
-                <label asp-for="AssignedById" class="control-label"></label>
-                <select asp-for="AssignedById" class="form-control" asp-items="ViewBag.AssignedById"></select>
-                <span asp-validation-for="AssignedById" class="text-danger"></span>
-            </div>*@
-             <div class="form-group">
-                <label asp-for="AssignedById" class="control-label"></label>
-                <select asp-for="AssignedById" asp-items="ViewBag.AssignedById" class="form-control"></select>
-                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            <div>
+             <label asp-for="Comment" class="control-label"></label>
+              <input asp-for="Comment" class="form-control" />
+              <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
 </div>

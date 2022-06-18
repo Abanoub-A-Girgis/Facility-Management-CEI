@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Building Components";
-    ViewBag.pageTitle = "Components";
+    ViewBag.Title = "Building Information";
+    ViewBag.pageTitle = "Information";
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
@@ -25,15 +25,20 @@
             </tr>  
         </thead>
         <tbody>
-            
                <tr>
                 @*<td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>*@
+                 <tr>
+                   <td scope="col">Building Personnel</td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="AppUsers" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                   </td>
+                 </tr>
                  <tr>
                    <td scope="col">Building</td>
                    <td scope="col">
                    <a scope="col" asp-controller="Buildings" asp-action="Index" class="btn btn-outline-info" >Details</a>
-                    </td>
-                 </tr>
+                   </td>
+                </tr>
                   <tr>
                     <td scope="col">Floors</td>
                      <td scope="col">
@@ -56,11 +61,8 @@
                    <td scope="col">Sensors</td>
                    <td scope="col">
                    <a scope="col" asp-controller="Sensors" asp-action="Index" class="btn btn-outline-info" >Details</a>
-                    </td>
+                   </td>
                  </tr>
-                  
-             
-
         </tbody>
      </table>  
 

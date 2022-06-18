@@ -1,0 +1,71 @@
+﻿@model IEnumerable<API.Models.AppUser>
+
+@{
+    ViewData["Title"] = "Building Personnel";
+}
+
+<h1>Building Personnel</h1>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.Building)
+            </th>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.Super)
+            </th class="text-center" scope="col">
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.LogUser)
+            </th>
+            <th class="text-center" scope="col">Edit</th>
+            <th class="text-center" scope="col">Details</th>
+            <th class="text-center" scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.Building.Id)
+            </td>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.Super.LogUserId)
+            </td>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.LogUser.Id)
+            </td>
+            <td class="text-center" scope="col">
+                <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td class="text-center" scope="col">
+                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Details</a> 
+            </td> 
+            <td class="text-center" scope="col">
+                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
