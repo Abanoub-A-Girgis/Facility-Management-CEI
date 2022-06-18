@@ -5,7 +5,7 @@
 @using System.Configuration
 @using API.Models
 @model Facility_Management_CEI.Controllers.ViewerParameter
-<h2>All Tasks</h2>
+<h1 class="text-center text-uppercase font-weight-bold mb-5" style="font-size: 2.8rem;">Task Viewer Dashboard</h1>
 
 <head>
     <title>View as Agent</title>
@@ -40,33 +40,70 @@
 <body>
     <div class="row">
         <div class="col-5">
-            <table id="ItemsTable" class="w-100 table table-striped table-hover">
-                <thead>
-                    <tr class="sticky-top">
-                        <th>Task ID</th>
-                        <th>Asset Name</th>
-                        <th>Details</th>
-                        <th>Zoom To</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var t in ViewBag.Tasks)
-                    {
-                        <tr>
-                            <th>@t.Id</th>
-                            <td>@t.Incident.Asset.Name</td>
-                            <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
-                            <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@t.Incident.AssetId)">Zoom To</button></td>
+            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Tasks</h3>
+            <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
+                <table id="ItemsTable" class="w-100 table table-striped table-hover">
+                    <thead>
+                        <tr class="sticky-top">
+                            <th>Agent ID</th>
+                            <th>Task ID</th>
+                            <th>Asset Name</th>
+                            <th>Details</th>
+                            <th>Zoom To</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in ViewBag.Tasks)
+                        {
+                            <tr>
+                                <th>@task.AssignedToId</th>
+                                <th>@task.Id</th>
+                                <td>@task.Incident.Asset.Name</td>
+                                <td><button class="btn btn-info waves-effect waves-light">Details</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 @*            <button onclick="ChangeData1()">Change Data 1</button>
             <button onclick="ChangeData2()">Change Data 2</button>*@
         </div>
     <div class="col-7">
         <canvas id="viewer" height="650" style="width: 100%;
                                    object-fit: contain;"></canvas>
+        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                top: 8px;
+                                                                left: 20px;
+                                                                z-index:5"">
+            <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+            @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()">
+                <label class="custom-control-label" for="Switch1">Items</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+            </div>
+
+        </div>
         <div style="position: absolute;
                     top: 8px;
                     right: 16px;
@@ -103,9 +140,7 @@
         </script>
 
         <div>
-            <label id="productId"> </label>
-            <br />
-            <label id="fps"> </label>
+            <div class="text-center font-weight-bold m-2" id="productId"></div>
         </div>
 
         <script>
@@ -149,47 +184,53 @@
             //}
         </script>
 
-        <div>
-            <button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>
-        </div>
-
-        <div>
-            <button onclick="CreateCanvas()">Clear</button>
-            <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
-            <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
-            <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
-            <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
-        
-        </div>
-
-        <div>
-            <select id="cmbHide">
+        <div class="text-center">
+@*            <select id="cmbHide">
                 <option value="noAction">No action</option>
                 <option value="hideProduct">Hide product</option>
                 <option value="hideType">Hide type</option>
                 <option value="highlight">Highlight</option>
-            </select>
-            <button onclick="if (viewer) viewer.resetStates()">Show all</button>
+            </select>*@
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
             <script type="text/javascript">
 
                 var timer = 0;
+                
+                var option;
+                
+                function HideProduct() {
+                    option = "hideProduct";
+                }
+                
+                function HideType() {
+                    option = "hideType";
+                }
 
+                function Highlight() {
+                    option = "highlight";
+                }
+
+                function ResetAll() {
+                    if (viewer) {
+                        viewer.resetStates();
+                    }
+                    var div = document.getElementById('productId');
+                    if (div) {
+                        div.innerHTML = "";
+                    }
+                }
+                
                 viewer.on('pick', function (args) {
                     var id = args.id;
                     viewer.setCameraTarget(id);
                     pickedId = id;
                     document.getElementById('hiddenId').value = id;
-                    var span = document.getElementById('productId');
-                    if (span) {
-                        span.innerHTML = "Selected Product Id = " + id;
-                    }
 
-                    var cmb = document.getElementById('cmbHide');
-                    var option = cmb.value;
+                    //var cmb = document.getElementById('cmbHide');
+                    //var option = cmb.value;
                     switch (option) {
                         case 'hideProduct':
                             viewer.setState(xState.HIDDEN, [args.id]);
@@ -199,7 +240,12 @@
                             viewer.setState(xState.HIDDEN, type);
                             break;
                         case 'highlight':
+                            viewer.resetStates();
                             viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                            var div = document.getElementById('productId');
+                            if (div) {
+                                div.innerHTML = "Selected Asset Id = " + id;
+                            }
                             break;
                         default:
                             break;
