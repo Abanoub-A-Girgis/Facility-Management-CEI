@@ -29,7 +29,6 @@ namespace Skote.Controllers
             ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id");
             ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
-           
             return View();
         }
         [HttpPost]

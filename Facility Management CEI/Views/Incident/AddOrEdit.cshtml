@@ -1,8 +1,10 @@
 ﻿@model API.Models.Incident
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "ViewBag.PageName";
     Layout = "~/Views/_Shared/_Layout.cshtml";
+    var x = ViewBag.UserId;
+    var y = 1;
 }
 
 <div class="container p-3 my-3 border">
@@ -18,6 +20,11 @@
                     <input type="hidden" asp-for="Id" />
                 }
                 <div class="form-group">
+                    <!--this form inputs will be bind at the back end using the posy method 
+                       asp-for="Description": this will be mapped to the bind attribute string values that the Description 
+                       values writtin in the UI will be binded at the ack end using this mapping 
+
+                    -->
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
@@ -46,20 +53,21 @@
                     <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AssetId" class="control-label"></label>
-                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId"></select>
-                    <span asp-validation-for="AssetId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="SpaceId" class="control-label"></label>
                     <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="AppUserId" class="control-label"></label>
-                    <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@x" readonly />
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="AssetId" class="control-label"></label>
+                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId"></select>
+                    <span asp-validation-for="AssetId" class="text-danger"></span>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="Comment" class="control-label"></label>
                     <input asp-for="Comment" class="form-control" />

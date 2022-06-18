@@ -6,7 +6,9 @@ using Facility_Management_CEI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Facility_Management_CEI.Controllers
@@ -32,7 +34,6 @@ namespace Facility_Management_CEI.Controllers
             var user = new RegisterViewModel();//to send a model that has a list of roles
 
             return View(user);
-
         }
 
 
@@ -99,12 +100,11 @@ namespace Facility_Management_CEI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
-
         {
-            
-            var Admin = await _userManeger.FindByNameAsync("admin@email");
-            if (Admin == null) //to Register the AppUser Of the Admin
+            var UsersList = await _Context.AppUsers.ToListAsync();
+            if (UsersList.Count == 0) 
             {
+                var Admin = await _userManeger.FindByNameAsync("admin@email");
                 var appuser = new AppUser()
 
                 {
@@ -115,12 +115,24 @@ namespace Facility_Management_CEI.Controllers
                 };
                 _Context.AppUsers.Add(appuser);
                 _Context.SaveChanges();
-            }
 
+            }
+            //var Admin = await _userManeger.FindByNameAsync("admin@email");
+            //if (Admin != null) //to Register the AppUser Of the Admin
+            //{
+            //    var appuser = new AppUser()
+
+            //    {
+            //        FirstName = Admin.FirstName,
+            //        LastName = Admin.LastName,
+            //        LogUserId = Admin.Id,
+            //        Type = API.Enums.UserType.SystemAdmin
+            //    };
+            //    _Context.AppUsers.Add(appuser);
+            //    _Context.SaveChanges();
+            //}
 
             {
-
-
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {

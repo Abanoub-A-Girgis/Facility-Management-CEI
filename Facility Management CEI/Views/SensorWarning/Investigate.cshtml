@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Warning Investigation";
     Layout = "~/Views/_Shared/_Layout.cshtml";
+    var x = ViewBag.AppUserId;
 }
 
 <div class="container p-3 my-3 border">
@@ -50,7 +51,7 @@
 
                 <div class="form-group">
                     <label asp-for="AppUserId" class="control-label"></label>
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly/>
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">

@@ -8,15 +8,21 @@ using API.Models;
 using API.Enums;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Facility_Management_CEI.APIs.Models;
 
 namespace Facility_Management_CEI.Controllers
 {
     public class SensorWarningController : Controller
     {
+        private readonly UserManager<LogUser> _userManeger;
+        private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _context { get; set; }
-        public SensorWarningController(ApplicationDBContext context)
+        public SensorWarningController(UserManager<LogUser> userManger, ApplicationDBContext context, SignInManager<LogUser> singInManager)
         {
-            _context = context;
+            this._userManeger = userManger;
+            this._context = context;
+            this._signInManager = singInManager;
         }
 
 
@@ -165,6 +171,9 @@ namespace Facility_Management_CEI.Controllers
         }
         public async Task<ActionResult> Investigate(int? WarningId)
         {
+            var user2 = await _userManeger.GetUserAsync(User);
+            var userI = user2.Id;
+            ViewBag.AppUserId = _context.AppUsers.ToList().Where(u=>u.LogUserId== userI).FirstOrDefault().Id;
             if (WarningId == null)//make sure that the id is not null 
             {
                 return NotFound();//return not found page if the id is null

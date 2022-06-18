@@ -9,15 +9,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Facility_Management_CEI.APIs.Models;
 
 namespace Facility_Management_CEI.Controllers
 {
     public class IncidentController : Controller
     {
+        private readonly UserManager<LogUser> _userManeger;
+        private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _Context { get; set; }
-        public IncidentController(ApplicationDBContext context)
+        public IncidentController(UserManager<LogUser> userManger, ApplicationDBContext context, SignInManager<LogUser> singInManager)
         {
-            _Context = context;
+            this._userManeger = userManger;
+            this._Context = context;
+            this._signInManager = singInManager;
         }
         // GET: IncidentController
         public ActionResult Index()//index is considered to be the home page of our controller
@@ -56,13 +62,17 @@ namespace Facility_Management_CEI.Controllers
             //on the other hand if the id has a value then the user wants to update a current record 
             ViewBag.PageName = IncidentId == null ? "Create Incident" : "Edit Incident";
             ViewBag.IsEdit = IncidentId == null ? false : true;
+
+            //these are the values from the DB to be loaded at the page openeing 
+            ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+            ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
+            ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
+            // this code is used to get the id of the current logged in user 
+            var user = await _userManeger.GetUserAsync(User);
+            var userId = user.Id;
+            ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
             if (IncidentId == null)
             {
-                //these are the values from the DB to be loaded at the page openeing 
-                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
-                ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                ViewData["AppUserId"] = new SelectList(_Context.AppUsers, "Id", "Id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
                 return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
             }
             else
@@ -73,10 +83,6 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//throgh an exception if not found 
                 }
-                ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
-                ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                ViewData["AppUserId"] = new SelectList(_Context.AppUsers, "Id", "Id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
                 return View(Incident);//pass this Incident data to the view 
             }//the returned view contains the UI cells that will allow you to insert or edit records  
         }
@@ -120,15 +126,15 @@ namespace Facility_Management_CEI.Controllers
                     else
                     {
                         //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
-                        Incident.Description =null;
+                        Incident.Description = incidentData.Description;
                         Incident.Priority = incidentData.Priority;
                         Incident.SpaceId = incidentData.SpaceId;
                         Incident.SensorWarningId = incidentData.SensorWarningId;
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
-                        Incident.Comment =null;
-                        Incident.Status = API.Enums.IncidentStatus.Open;
-                        Incident.ReportingTime = DateTime.Now;
+                        Incident.Comment =null;//at the creation a comment will not be writtin - the comment is used to close the incident 
+                        Incident.Status = incidentData.Status;
+                        Incident.ReportingTime = Incident.ReportingTime;
                         _Context.Add(Incident);//if this flag is false then add student data
                     }
                     await _Context.SaveChangesAsync();

@@ -184,16 +184,11 @@
             </div>
             <div class="form-group">
                 <input asp-action="CreateTask" type="submit" value="CreateTask" class="btn btn-primary" />
+                <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-primary" >Go TO List</a>
             </div>
-           
-
         </form>
     </div>
 </div>
-
- <div class="form-group">
-      <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-primary" >Go TO List</a>
- </div>
 @*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }*@
