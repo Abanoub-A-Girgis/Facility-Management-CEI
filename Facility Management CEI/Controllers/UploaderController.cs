@@ -16,6 +16,7 @@ using Xbim.ModelGeometry.Scene;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -36,6 +37,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         [RequestFormLimits(MultipartBodyLengthLimit = 2147483648)]
         [RequestSizeLimit(2147483648)]
+        [Authorize(Roles = "SystemAdmin,Owner")]
         public async Task<IActionResult> Uploader(IFormFile file)
         {
             if (file.Length > 0)

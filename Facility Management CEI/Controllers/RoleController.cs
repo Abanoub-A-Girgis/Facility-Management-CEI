@@ -1,9 +1,12 @@
 ﻿using API.Moldels_DTOs;
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Facility_Management_CEI.Controllers
@@ -22,12 +25,14 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult RoleManager()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> RoleManager(string name)
         {
             await _roleManger.CreateAsync(new IdentityRole{ Name= name });
@@ -42,6 +47,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Assign()
         {
             var roles=await _context.Roles.AsNoTracking().ToListAsync();
@@ -50,6 +56,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
             var user = await _userManeger.FindByNameAsync(ur.UserName);
@@ -61,5 +68,19 @@ namespace Facility_Management_CEI.Controllers
             }
             return RedirectToAction("Register");
         }
+
     }
+    public static class PrincipalExtensions
+    {
+        //public static bool IsInAllRoles(this IPrincipal principal, params string[] roles)
+        //{
+        //    return roles.All(r => principal.IsInRole(r));
+        //}
+
+        public static bool IsInAnyRoles(this IPrincipal principal, params string[] roles)
+        {
+            return roles.Any(r => principal.IsInRole(r));
+        }
+    }
+
 }

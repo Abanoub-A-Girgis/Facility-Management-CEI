@@ -11,6 +11,7 @@ using API.Models;
 using Task = API.Models.Task;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using API.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
 
@@ -29,6 +30,7 @@ namespace Skote.Controllers
         }
 
         //Create ur task
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task <IActionResult> CreateTask()
         {
             //ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
@@ -42,6 +44,7 @@ namespace Skote.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> CreateTask([Bind(" Id,AssignedById,AssignedToId,Cost,CreatedById,Description,IncidentId,FixingTime,Type,Status,Priority")] Task task)
         {
 
@@ -60,6 +63,7 @@ namespace Skote.Controllers
         }
    
         [HttpGet]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Agent")]
         public IActionResult TaskList()
         {
             var tasks = _Context.Tasks.ToList();
@@ -67,6 +71,7 @@ namespace Skote.Controllers
             return View();
         }
         //show details by id we may call is search
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Agent")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -87,7 +92,7 @@ namespace Skote.Controllers
 
             return View(task);
         }
-
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,6 +116,7 @@ namespace Skote.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Description,Status,Priority,Cost,FixingTime,IncidentId,CreatedById,AssignedToId,AssignedById,Comment")] Task task)
         {
 
@@ -207,6 +213,7 @@ namespace Skote.Controllers
             return View(TaskData);
         }
         //delete func..it's important to create this before using any http verb as it works like get and then we use post verb in the next function 
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -230,6 +237,7 @@ namespace Skote.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var task = await _Context.Tasks.FindAsync(id);
