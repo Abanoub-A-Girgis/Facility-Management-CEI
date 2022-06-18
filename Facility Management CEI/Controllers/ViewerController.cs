@@ -137,7 +137,6 @@ namespace Facility_Management_CEI.Controllers
                 //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
                 viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
             }
-            var TasksDto = Tasks;
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
             return View(viewerParamDic);

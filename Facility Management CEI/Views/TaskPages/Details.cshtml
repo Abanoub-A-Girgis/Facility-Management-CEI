@@ -1,78 +1,297 @@
-﻿@model API.Models.Task
+﻿@using API.Enums
+@model API.Models.Task
 
 @{
     ViewData["Title"] = "Details";
 }
+<head>
+    <title>Task Details</title>
+    <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+</head>
 
 <h1>Details</h1>
 
 <div>
     <h4>Task</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Priority)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Priority)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FixingTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FixingTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy.LogUserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Incident)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Incident.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedTo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssignedTo.LogUserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssignedBy.LogUserId)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-5">
+            <dl class="row">
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Priority)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Priority)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Cost)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Cost)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.FixingTime)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.FixingTime)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.CreatedBy.LogUserId)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Incident)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Incident.Id)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.AssignedTo)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.AssignedTo.LogUserId)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.AssignedBy)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.AssignedBy.LogUserId)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-7">
+
+            <canvas id="viewer" height="650" style="width: 100%;
+                                   object-fit: contain;"></canvas>
+            <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                    top: 8px;
+                                                                    left: 20px;
+                                                                    z-index:5"">
+                <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+                @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()">
+                    <label class="custom-control-label" for="Switch1">Items</label>
+                </div>
+                @*<div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+                </div>*@
+
+            </div>
+            <div style="position: absolute;
+                        top: 8px;
+                        right: 16px;
+                        z-index:5" id="overlayDiv"></div>
+            <script type="text/javascript">
+                var viewer = new xViewer('viewer');
+                viewer.load('/data/SampleHouse.wexbim');
+                //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                var navCube = new xNavigationCube();
+                navCube.ratio = .1;
+                viewer.addPlugin(navCube);
+                viewer.start();
+                viewer.defineStyle(0, [255,0,0,255])
+                viewer.defineStyle(1, [255,160,16,255])
+                viewer.defineStyle(2, [255,224,32,255])
+                viewer.defineStyle(3, [0,255,0,255])
+            </script>
+
+            <script>
+                    viewer.on('fps', function (fps) {
+                        var overlayDiv = document.getElementById('overlayDiv');
+                        if (overlayDiv) {
+                            overlayDiv.innerHTML = "FPS: " + fps;
+                        }
+                    });
+            </script>
+
+            <div>
+                <div class="text-center font-weight-bold m-2" id="productId"></div>
+            </div>
+
+            <div class="text-center">
+    @*            <select id="cmbHide">
+                    <option value="noAction">No action</option>
+                    <option value="hideProduct">Hide product</option>
+                    <option value="hideType">Hide type</option>
+                    <option value="highlight">Highlight</option>
+                </select>*@
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <script type="text/javascript">
+
+                    var timer = 0;
+                
+                    var option;
+                
+                    function HideProduct() {
+                        option = "hideProduct";
+                    }
+                
+                    function HideType() {
+                        option = "hideType";
+                    }
+
+                    function Highlight() {
+                        option = "highlight";
+                    }
+
+                    function ResetAll() {
+                        if (viewer) {
+                            viewer.resetStates();
+                        }
+                        var div = document.getElementById('productId');
+                        if (div) {
+                            div.innerHTML = "";
+                        }
+                    }
+                
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                        document.getElementById('hiddenId').value = id;
+
+                        //var cmb = document.getElementById('cmbHide');
+                        //var option = cmb.value;
+                        switch (option) {
+                            case 'hideProduct':
+                                viewer.setState(xState.HIDDEN, [args.id]);
+                                break;
+                            case 'hideType':
+                                var type = viewer.getProductType(args.id);
+                                viewer.setState(xState.HIDDEN, type);
+                                break;
+                            case 'highlight':
+                                viewer.resetStates();
+                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                                var div = document.getElementById('productId');
+                                if (div) {
+                                    div.innerHTML = "Selected Asset Id = " + id;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        var time = (new Date()).getTime();
+                        if (time - timer < 200)
+                            viewer.zoomTo(id);
+                        timer = time;
+
+                    });
+                </script>
+                <input name="hiddenId" type="hidden" id="hiddenId" />
+            </div>
+
+        </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
     <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
 </div>
+
+
+<script>
+
+    function CreateCanvas() {
+        var htmlContent = document.createElement('canvas');
+        htmlContent.id = "viewer";
+        htmlContent.width = "500";
+        htmlContent.height = "300";
+        document.getElementById("viewer").remove();
+        var ParentElement = document.getElementById("content");
+        ParentElement.insertBefore(htmlContent, ParentElement.firstChild);
+        viewer = new xViewer('viewer');
+        navCube = new xNavigationCube();
+        navCube.ratio = .1;
+        viewer.addPlugin(navCube);
+        viewer.start();
+        viewer.defineStyle(0, [255,0,0,255])
+        viewer.defineStyle(1, [255,160,16,255])
+        viewer.defineStyle(2, [255,224,32,255])
+        viewer.defineStyle(3, [0,255,0,255])
+    }
+
+    var HighLightItemsBool = false;
+    var animation;
+    function ToggleHighLightItems() {
+        if (HighLightItemsBool) {
+            clearInterval(animation);
+            viewer.resetStyles();
+            HighLightItemsBool = false;
+        }
+        else {
+            var animateBool = true;
+            animation = setInterval(animateObjects, 500);
+            function animateObjects() {
+                if (animateBool) {
+                    if("@Model.Priority" == "@Priority.Severe") {
+                        viewer.setStyle(0, [@Model.Incident.AssetId]);
+                    }
+                    if("@Model.Priority" == "@Priority.High") {
+                        viewer.setStyle(1, [@Model.Incident.AssetId]);
+                    }
+                    if ("@Model.Priority" == "@Priority.Medium") {
+                        viewer.setStyle(2, [@Model.Incident.AssetId]);
+                    }
+                    if ("@Model.Priority" == "@Priority.Low") {
+                        viewer.setStyle(3, [@Model.Incident.AssetId]);
+                    }
+                    animateBool = false;
+                }
+                else {
+                    viewer.resetStyles()
+                    animateBool = true;
+                }
+                HighLightItemsBool = true;
+            }
+        }  
+    }
+        
+</Script>
