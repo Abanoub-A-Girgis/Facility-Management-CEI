@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Building Components";
+    ViewBag.pageTitle = "Components";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+
+  
+        <div class="card text-center">
+            <div class="card-header">
+            <h3>Building Components</h3>
+            </div>
+        </div>
+       
+<td class="mt-4">
+         
+   <td class="table-responsive">
+     <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+     <thead class="thead-dark">
+            <tr>  
+            <th scope="col">Component</th>
+            <th scope="col">Details</th>
+            
+            </tr>  
+        </thead>
+        <tbody>
+            
+               <tr>
+                @*<td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>*@
+                 <tr>
+                   <td scope="col">Building</td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="Buildings" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                    </td>
+                 </tr>
+                  <tr>
+                    <td scope="col">Floors</td>
+                     <td scope="col">
+                   <a scope="col" asp-controller="Floors" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                    </td>
+                  </tr>
+                 <tr>
+                   <td scope="col">Spaces</td>
+                    <td scope="col">
+                   <a scope="col" asp-controller="Spaces" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td scope="col">Assets</td>
+                    <td scope="col">
+                   <a scope="col" asp-controller="Assets" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                    </td>
+                 </tr>
+                 <tr>
+                   <td scope="col">Sensors</td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="Sensors" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                    </td>
+                 </tr>
+                  
+             
+
+        </tbody>
+     </table>  
+

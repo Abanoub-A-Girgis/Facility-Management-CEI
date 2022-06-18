@@ -1,0 +1,29 @@
+﻿@model API.Models.Floor
+
+@{
+    ViewData["Title"] = "Floors Details";
+}
+
+<h1>Floors Details</h1>
+
+<div>
+    <h4>Floor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FloorName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FloorName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Building)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Building.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-danger" asp-action="Index">Back to List</a>
+</div>

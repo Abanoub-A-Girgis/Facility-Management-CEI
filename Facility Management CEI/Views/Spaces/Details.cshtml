@@ -1,0 +1,29 @@
+﻿@model API.Models.Space
+
+@{
+    ViewData["Title"] = "Spaces Details";
+}
+
+<h1>Spaces Details</h1>
+
+<div>
+    <h4>Space</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Floor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Floor.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-danger" >Back to List</a>
+</div>
