@@ -1,0 +1,40 @@
+﻿@using API.Enums
+@model API.Models.Task
+@{
+    ViewData["Title"] = "Edit Task";
+    var UserId = ViewBag.UserId;
+}
+<h1>Edit Task</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Assign">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="IncidentId" class="control-label"></label>
+                <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId"></select>
+                <span asp-validation-for="IncidentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedToId" class="control-label"></label>
+                <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToId"></select>
+                <span asp-validation-for="AssignedToId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedById" class="control-label"></label>
+                <input asp-for="AssignedById" class="form-control-plaintext shadow-none" readonly value="@UserId"/>
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedById" class="control-label"></label>
+                <input asp-for="CreatedById" class="form-control-plaintext shadow-none" readonly />
+                <span asp-validation-for="CreatedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

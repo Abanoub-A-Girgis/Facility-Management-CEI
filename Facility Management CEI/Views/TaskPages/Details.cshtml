@@ -10,11 +10,11 @@
     <h4>Task</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -29,10 +29,40 @@
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Priority)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Priority)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedById)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Incident)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IncidentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssignedToId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssignedBy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssignedById)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Cost)
@@ -47,29 +77,14 @@
             @Html.DisplayFor(model => model.FixingTime)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
+            @Html.DisplayNameFor(model => model.Comment)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy.LogUserId)
+            @Html.DisplayFor(model => model.Comment)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Incident)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Incident.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedTo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssignedTo.LogUserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssignedBy.LogUserId)
-        </dd>
+
+
+
     </dl>
 </div>
 <div>
