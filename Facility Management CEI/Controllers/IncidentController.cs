@@ -27,7 +27,7 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
         // GET: IncidentController
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Agent,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
 
         public ActionResult Index()//index is considered to be the home page of our controller
         {
@@ -159,7 +159,7 @@ namespace Facility_Management_CEI.Controllers
         }
         // GET: IncidentController/Edit/5
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public ActionResult Edit(int id)
         {
             return View();
@@ -169,7 +169,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         //ValidateAntiForgeryToken attribute: is to prevent cross-site request forgery attacks. A cross-site request forgery is an attack in which a harmful script element, malicious command, or code is sent from the browser of a trusted user.
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try

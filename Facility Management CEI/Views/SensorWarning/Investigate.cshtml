@@ -1,4 +1,5 @@
-﻿@model API.Models.SensorWarning
+﻿@using Facility_Management_CEI.Controllers
+@model API.Models.SensorWarning
 @{
     ViewData["Title"] = "Warning Investigation";
     Layout = "~/Views/_Shared/_Layout.cshtml";
@@ -48,7 +49,6 @@
                     <p>True</p> <input asp-for="Investigated" type="hidden"  class="form-control-plaintext shadow-none" readonly value="@true">
                     <span asp-validation-for="Investigated" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="AppUserId" class="control-label"></label>
                     <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
@@ -60,9 +60,13 @@
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                     <input class="btn btn-primary" type="submit" value="save" />
-                     <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
-                     <a class="btn btn-danger" asp-action="Index">Back</a>
+                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                    {
+                        <input class="btn btn-primary" type="submit" value="save" />
+                        <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
+                        <a class="btn btn-danger" asp-action="Index">Back</a>
+                    }
+
                 </div>
             </form>
         </div>
