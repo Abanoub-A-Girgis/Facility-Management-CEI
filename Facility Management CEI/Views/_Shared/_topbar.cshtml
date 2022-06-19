@@ -1,4 +1,7 @@
-﻿<header id="page-topbar">
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Facility_Management_CEI.APIs.Models.LogUser> usermanager
+
+<header id="page-topbar">
     <div class="navbar-header">
         <div class="d-flex">
             <!-- LOGO -->
@@ -372,24 +375,27 @@
                     <i class="bx bx-fullscreen"></i>
                 </button>
             </div>
-            <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-@*                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/Rania.jpg" asp-append-version="true"
-                            alt="Header Avatar">*@
-                    <span class="d-none d-xl-inline-block ml-1">User Name</span>
-                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span key="t-profile">Profile</span></a>
-@*                    <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> <span key="t-my-wallet">My Wallet</span></a>
-                    <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> <span key="t-settings">Settings</span></a>
-                    <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> <span key="t-lock-screen">Lock screen</span></a>
-                    <div class="dropdown-divider"></div>*@
-                    <a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    @*                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/Rania.jpg" asp-append-version="true"
+                                alt="Header Avatar">*@                        
+                        <span class="d-none d-xl-inline-block ml-1">@usermanager.Users.Where(x => x.Id == usermanager.GetUserId(User)).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()</span>
+                        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <!-- item-->
+                        <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span key="t-profile">Profile</span></a>
+    @*                    <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> <span key="t-my-wallet">My Wallet</span></a>
+                        <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> <span key="t-settings">Settings</span></a>
+                        <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> <span key="t-lock-screen">Lock screen</span></a>
+                        <div class="dropdown-divider"></div>*@
+                        <a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+                    </div>
                 </div>
-            </div>
+            }
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
                     <i class="bx bx-cog bx-spin"></i>
