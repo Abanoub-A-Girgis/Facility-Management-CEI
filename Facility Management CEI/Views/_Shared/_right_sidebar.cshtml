@@ -36,6 +36,39 @@
                 <input type="checkbox" class="custom-control-input theme-choice" id="rtl-mode-switch" data-appStyle="~assets/css/app-rtl.min.css" />
                 <label class="custom-control-label" for="rtl-mode-switch">RTL Mode</label>
             </div>
+            <div class="custom-control custom-switch mb-5">
+                <input type="checkbox" class="custom-control-input theme-choice" id="LanguageSwitch" data-appStyle="~assets/css/app-rtl.min.css" onchange="ChangeLanguage()"/>
+                <label class="custom-control-label" for="LanguageSwitch">
+                    <english>عربي</english>
+                    <arabic class="d-none">English</arabic>
+                </label>
+                <script>
+                    var Language = "english";
+                        function ChangeLanguage() {
+                            var english = $('english');
+                            var arabic = ('arabic');
+                            if (Language == "english") {
+                                Language = "arabic";
+                                $(english).each(function() {
+                                    $(this).addClass("d-none")
+                                    console.log(this)
+                                });
+                                $(arabic).each(function() {
+                                    $(this).removeClass("d-none")
+                                });
+                            }
+                            else {
+                                Language = "english";
+                                $(arabic).each(function() {
+                                    $(this).addClass("d-none")
+                                });
+                                $(english).each(function() {
+                                    $(this).removeClass("d-none")
+                                });
+                            }
+                        }
+                </script>
+            </div>
 
 
         </div>
