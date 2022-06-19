@@ -25,7 +25,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     
     <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
-    <link href="~/assets/libs/datatables.net/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" >
+@*    <link href="~/assets/libs/datatables.net/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" >*@
     
     <style>
         .table-hover > tbody > tr:hover {
@@ -177,9 +177,9 @@
                     <thead>
                         <tr class="sticky-top">
                             <th>Agent ID</th>
+                            <th>Agent Name</th>
                             <th>Task ID</th>
                             <th>Asset Name</th>
-                            <th>Details</th>
                             <th>Zoom To</th>
                         </tr>
                     </thead>
@@ -188,10 +188,11 @@
                         {
                             <tr>
                                 <th>@task.AssignedToId</th>
+                                <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
                                 <th>@task.Id</th>
                                 <td>@task.Incident.Asset.Name</td>
                                 @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
-                                <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
+                                @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
                                 <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
                             </tr>
                         }
@@ -199,207 +200,207 @@
                 </table>
             </div>
         </div>
-    <div class="col-7">
-        <canvas id="viewer" height="650" style="width: 100%;
-                                   object-fit: contain;"></canvas>
+        <div class="col-7">
+            <canvas id="viewer" height="650" style="width: 100%;
+                                       object-fit: contain;"></canvas>
         
-        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
-                                                                top: 8px;
-                                                                left: 20px;
-                                                                z-index:5"">
-            <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
-            @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()">
-                <label class="custom-control-label" for="Switch1">Items</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
-            </div>
+            <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                    top: 8px;
+                                                                    left: 20px;
+                                                                    z-index:5"">
+                <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+                @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()" autocomplete="off">
+                    <label class="custom-control-label" for="Switch1">Items</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+                </div>
 
-        </div>
-        <div style="position: absolute;
-                    top: 8px;
-                    right: 16px;
-                    z-index:5" id="fpsDiv"></div>
-        <script type="text/javascript">
-            var viewer = new xViewer('viewer');
-            viewer.load('../data/SampleHouse.wexbim');
-            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
-            var navCube = new xNavigationCube();
-            navCube.ratio = .1;
-            viewer.addPlugin(navCube);
-            viewer.start();
-            viewer.defineStyle(0, [255,0,0,255])
-            viewer.defineStyle(1, [255,160,16,255])
-            viewer.defineStyle(2, [255,224,32,255])
-            viewer.defineStyle(3, [0,255,0,255])
-        </script>
+            </div>
+            <div style="position: absolute;
+                        top: 8px;
+                        right: 16px;
+                        z-index:5" id="fpsDiv"></div>
+            <script type="text/javascript">
+                var viewer = new xViewer('viewer');
+                viewer.load('../data/SampleHouse.wexbim');
+                //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                var navCube = new xNavigationCube();
+                navCube.ratio = .1;
+                viewer.addPlugin(navCube);
+                viewer.start();
+                viewer.defineStyle(0, [255,0,0,255])
+                viewer.defineStyle(1, [255,160,16,255])
+                viewer.defineStyle(2, [255,224,32,255])
+                viewer.defineStyle(3, [0,255,0,255])
+            </script>
 
-        @*<script> 
-                viewer.on('pick', function (args) {
-                    var id = args.id;
-                    viewer.setCameraTarget(id);
-                    pickedId = id;
-                });
-        </script>*@
+            @*<script> 
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                    });
+            </script>*@
         
-        <script>
-                viewer.on('fps', function (fps) {
-                    var fpsDiv = document.getElementById('fpsDiv');
-                    if (fpsDiv) {
-                        fpsDiv.innerHTML = "FPS: " + fps;
-                    }
-                });
-        </script>
+            <script>
+                    viewer.on('fps', function (fps) {
+                        var fpsDiv = document.getElementById('fpsDiv');
+                        if (fpsDiv) {
+                            fpsDiv.innerHTML = "FPS: " + fps;
+                        }
+                    });
+            </script>
 
-        <div>
-            <div class="text-center font-weight-bold m-2" id="productId"></div>
-        </div>
+            <div>
+                <div class="text-center font-weight-bold m-2" id="productId"></div>
+            </div>
 
-@*        <script>
-            // Arrays to hold the item id's depending on their priority
-            var listOfSevere = [];
-            var listOfHigh = [];
-            var listOfMedium = [];
-            var listOfLow = [];
-            @foreach (var i in Model.Severe)
-            {
-                @:listOfSevere.push(@i);
-            }
-            @foreach (var i in Model.High)
-            {
-                @:listOfHigh.push(@i);
-            }
-            @foreach (var i in Model.Medium)
-            {
-                @:listOfMedium.push(@i);
-            }
-            @foreach (var i in Model.Low)
-            {
-                @:listOfLow.push(@i);
-            }
+    @*        <script>
+                // Arrays to hold the item id's depending on their priority
+                var listOfSevere = [];
+                var listOfHigh = [];
+                var listOfMedium = [];
+                var listOfLow = [];
+                @foreach (var i in Model.Severe)
+                {
+                    @:listOfSevere.push(@i);
+                }
+                @foreach (var i in Model.High)
+                {
+                    @:listOfHigh.push(@i);
+                }
+                @foreach (var i in Model.Medium)
+                {
+                    @:listOfMedium.push(@i);
+                }
+                @foreach (var i in Model.Low)
+                {
+                    @:listOfLow.push(@i);
+                }
 
             
-            var animateBool = true;
-            setInterval(animateObjects, 1000);
-            function animateObjects() {
-                if (animateBool) {
-                    viewer.setStyle(0, listOfSevere);
-                    viewer.setStyle(1, listOfHigh);
-                    viewer.setStyle(2, listOfMedium);
-                    viewer.setStyle(3, listOfLow);
-                    animateBool = false;
-                }
-                else {
-                    viewer.resetStyles()
-                    animateBool = true;
-                }
-            }
-        </script>*@
-
-@*        <div>
-            <button onclick="CreateCanvas()">Clear</button>
-            <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
-            <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
-            <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
-            <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
-        </div>*@
-
-        <div class="text-center">
-@*            <select id="cmbHide">
-                <option value="noAction">No action</option>
-                <option value="hideProduct">Hide product</option>
-                <option value="hideType">Hide type</option>
-                <option value="highlight">Highlight</option>
-            </select>*@
-            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
-            <script type="text/javascript">
-
-                var timer = 0;
-                
-                var option;
-                
-                function HideProduct() {
-                    option = "hideProduct";
-                }
-                
-                function HideType() {
-                    option = "hideType";
-                }
-
-                function Highlight() {
-                    option = "highlight";
-                }
-
-                function ResetAll() {
-                    if (viewer) {
-                        viewer.resetStates();
+                var animateBool = true;
+                setInterval(animateObjects, 1000);
+                function animateObjects() {
+                    if (animateBool) {
+                        viewer.setStyle(0, listOfSevere);
+                        viewer.setStyle(1, listOfHigh);
+                        viewer.setStyle(2, listOfMedium);
+                        viewer.setStyle(3, listOfLow);
+                        animateBool = false;
                     }
-                    var div = document.getElementById('productId');
-                    if (div) {
-                        div.innerHTML = "";
+                    else {
+                        viewer.resetStyles()
+                        animateBool = true;
                     }
                 }
-                
-                viewer.on('pick', function (args) {
-                    var id = args.id;
-                    viewer.setCameraTarget(id);
-                    pickedId = id;
-                    document.getElementById('hiddenId').value = id;
+            </script>*@
 
-                    //var cmb = document.getElementById('cmbHide');
-                    //var option = cmb.value;
-                    switch (option) {
-                        case 'hideProduct':
-                            viewer.setState(xState.HIDDEN, [args.id]);
-                            break;
-                        case 'hideType':
-                            var type = viewer.getProductType(args.id);
-                            viewer.setState(xState.HIDDEN, type);
-                            break;
-                        case 'highlight':
+    @*        <div>
+                <button onclick="CreateCanvas()">Clear</button>
+                <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
+                <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
+                <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
+                <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
+            </div>*@
+
+            <div class="text-center">
+    @*            <select id="cmbHide">
+                    <option value="noAction">No action</option>
+                    <option value="hideProduct">Hide product</option>
+                    <option value="hideType">Hide type</option>
+                    <option value="highlight">Highlight</option>
+                </select>*@
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <script type="text/javascript">
+
+                    var timer = 0;
+                
+                    var option;
+                
+                    function HideProduct() {
+                        option = "hideProduct";
+                    }
+                
+                    function HideType() {
+                        option = "hideType";
+                    }
+
+                    function Highlight() {
+                        option = "highlight";
+                    }
+
+                    function ResetAll() {
+                        if (viewer) {
                             viewer.resetStates();
-                            viewer.setState(xState.HIGHLIGHTED, [args.id]);
-                            var div = document.getElementById('productId');
-                            if (div) {
-                                div.innerHTML = "Selected Asset Id = " + id;
-                            }
-                            break;
-                        default:
-                            break;
+                        }
+                        var div = document.getElementById('productId');
+                        if (div) {
+                            div.innerHTML = "";
+                        }
                     }
+                
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                        document.getElementById('hiddenId').value = id;
 
-                    var time = (new Date()).getTime();
-                    if (time - timer < 200)
-                        viewer.zoomTo(id);
-                    timer = time;
+                        //var cmb = document.getElementById('cmbHide');
+                        //var option = cmb.value;
+                        switch (option) {
+                            case 'hideProduct':
+                                viewer.setState(xState.HIDDEN, [args.id]);
+                                break;
+                            case 'hideType':
+                                var type = viewer.getProductType(args.id);
+                                viewer.setState(xState.HIDDEN, type);
+                                break;
+                            case 'highlight':
+                                viewer.resetStates();
+                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                                var div = document.getElementById('productId');
+                                if (div) {
+                                    div.innerHTML = "Selected Asset Id = " + id;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
 
-                });
-            </script>
-            <input name="hiddenId" type="hidden" id="hiddenId" />
+                        var time = (new Date()).getTime();
+                        if (time - timer < 200)
+                            viewer.zoomTo(id);
+                        timer = time;
+
+                    });
+                </script>
+                <input name="hiddenId" type="hidden" id="hiddenId" />
+            </div>
         </div>
-    </div>
     </div>
 
 
@@ -585,7 +586,8 @@
             $('#ItemsTable').DataTable(
                 {
                     "columnDefs": [
-                        { "searchable": false, "targets": [3,4] }
+                            { "searchable": false, "targets": [4], },
+                            { "targets": [0], "visible": false, }
                     ],
                     dom: '<"mb-2"B>lfrtip',
                     buttons : [
@@ -600,7 +602,7 @@
       	                    extend: 'excelHtml5',
                             text: 'Save as excel sheet',
                             exportOptions: {
-                                columns: [ 0, 1 , 2]
+                                columns: [ 0, 1, 2, 3]
                             },
                             className: 'btn btn-primary waves-effect waves-light mr-1'
                         }
@@ -608,15 +610,16 @@
                     "search": {regex: true},
                     "autoWidth": false,
                     "columns": [
-                        { "width": "15%" },
-                        { "width": "15%" },
+                        { "width": "0%" },
                         { "width": "30%" },
                         { "width": "20%" },
+                        { "width": "30%" },
                         { "width": "20%" },
-                    ]
+                    ],
+                    stateSave: true
                 }    
             );
-        } );
+            } );
 
         function ShowAllData() {
             var itemsTable = $("#ItemsTable").DataTable()

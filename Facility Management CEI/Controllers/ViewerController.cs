@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Facility_Management_CEI.IdentityDb;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Facility_Management_CEI.APIs.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -41,18 +44,16 @@ namespace Facility_Management_CEI.Controllers
     
     public class ViewerController : Controller
     {
+        private readonly UserManager<LogUser> _userManager;
         public ApplicationDBContext _context { get; set; }
 
         private readonly ILogger<HomeController> _logger;
 
-        public ViewerController(ILogger<HomeController> logger, ApplicationDBContext context)
+        public ViewerController(UserManager<LogUser> userManager, ILogger<HomeController> logger, ApplicationDBContext context)
         {
+            _userManager = userManager;
             _logger = logger;
             _context = context;
-        }
-        public IActionResult ViewerTest()
-        {
-            return View();
         }
         
         public ViewerParameter fillViewParameterForAgents(List<API.Models.Task> Tasks)
@@ -90,18 +91,17 @@ namespace Facility_Management_CEI.Controllers
         {
             return View();
         }
-
+        
+        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor, Inspector, Agent")]
         public async Task<IActionResult> ViewerAsAgent(int EmployeeId)
         {
-            var Employee = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == EmployeeId);
-            if (Employee == null)
+            var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            if (AppUser.Type == API.Enums.UserType.Agent && AppUser.Id != EmployeeId)
             {
-                return Redirect("ViewerError");
+                return StatusCode(401, "Unauthorized Access");
             }
-            if (Employee.Type != API.Enums.UserType.Agent)
-            {
-                return Redirect("ViewerError");
-            }
+            
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
@@ -114,45 +114,60 @@ namespace Facility_Management_CEI.Controllers
             return View(viewerParam);
         }
 
+        public async Task fillViewerParamDic(int EmployeeId, Dictionary<int, ViewerParameter> viewerParamDic, List<API.Models.Task> Tasks)
+        {
+            var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
+            Tasks.AddRange(AgentTasks);
+            //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
+            viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+        }
+
+        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor, Inspector")]
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
-            var Inspector = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == InspectorId);
-            if (Inspector == null)
+            var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            if (AppUser.Type == API.Enums.UserType.Inspector && AppUser.Id != InspectorId)
             {
-                return Redirect("ViewerError");
+                return StatusCode(401, "Unauthorized Access");
             }
-            if (Inspector.Type != API.Enums.UserType.Inspector)
-            {
-                return Redirect("ViewerError");
-            }
+
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             //ViewerParameter viewerParam = new ViewerParameter();
             Dictionary<int, ViewerParameter> viewerParamDic = new Dictionary<int, ViewerParameter>();
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var a in Agents)
             {
-                int EmployeeId = a.Id;
-                var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
-                Tasks.AddRange(AgentTasks);
-                //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
-                viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+                //int EmployeeId = a.Id;
+                //var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
+                //Tasks.AddRange(AgentTasks);
+                ////viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
+                //viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+                await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
             }
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
             return View(viewerParamDic);
         }
         
+        public async Task<List<API.Models.AppUser>> fillInspectorAgentsDic(int Id,Dictionary<int, int[]> InspectorAgentsDic, List<API.Models.AppUser> Agents)
+        {
+            var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == Id).ToListAsync();
+            Agents.AddRange(InspectorAgents);
+            InspectorAgentsDic.Add(Id, InspectorAgents.Select(a => a.Id).ToArray());
+            return InspectorAgents;
+        }
+
+        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor")]
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
-            var Supervisor = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == SupervisorId);
-            if (Supervisor == null)
+            var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            if (AppUser.Type == API.Enums.UserType.Supervisor && AppUser.Id != SupervisorId)
             {
-                return Redirect("ViewerError");
+                return StatusCode(401, "Unauthorized Access");
             }
-            if (Supervisor.Type != API.Enums.UserType.Supervisor)
-            {
-                return Redirect("ViewerError");
-            }
+
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
             var Inspectors = await _context.AppUsers.Where(u => u.SuperId == SupervisorId).ToListAsync();
@@ -161,16 +176,13 @@ namespace Facility_Management_CEI.Controllers
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var i in Inspectors)
             {
-                var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                Agents.AddRange(InspectorAgents);
-                InspectorAgentsDic.Add(i.Id, InspectorAgents.Select(a => a.Id).ToArray());
+                //var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
+                //Agents.AddRange(InspectorAgents);
+                //InspectorAgentsDic.Add(i.Id, InspectorAgents.Select(a => a.Id).ToArray());
+                var InspectorAgents = await fillInspectorAgentsDic(i.Id, InspectorAgentsDic, Agents);
                 foreach (var a in InspectorAgents)
                 {
-                    int EmployeeId = a.Id;
-                    var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
-                    Tasks.AddRange(AgentTasks);
-                    //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
-                    viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+                    await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
                 }
             }
             ViewBag.Tasks = Tasks;
@@ -180,17 +192,24 @@ namespace Facility_Management_CEI.Controllers
             return View(viewerParamDic);
         }
 
+        public async Task<List<API.Models.AppUser>> fillSupervisorInspectorsDic(int Id, Dictionary<int, int[]> SupervisorInspectorsDic, List<API.Models.AppUser> Inspectors)
+        {
+            var SupervisorInspectors = await _context.AppUsers.Where(u => u.SuperId == Id).ToListAsync();
+            Inspectors.AddRange(SupervisorInspectors);
+            SupervisorInspectorsDic.Add(Id, SupervisorInspectors.Select(i => i.Id).ToArray());
+            return SupervisorInspectors;
+        }
+
+        [Authorize(Roles = "SystemAdmin, Owner, Manager")]
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
-            var Manager = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == ManagerId);
-            if (Manager == null)
+            var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            if (AppUser.Type == API.Enums.UserType.Manager && AppUser.Id != ManagerId)
             {
-                return Redirect("ViewerError");
+                return StatusCode(401, "Unauthorized Access");
             }
-            if (Manager.Type != API.Enums.UserType.Manager)
-            {
-                return Redirect("ViewerError");
-            }
+
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
@@ -201,21 +220,16 @@ namespace Facility_Management_CEI.Controllers
             List<API.Models.Task> Tasks = new List<API.Models.Task>();
             foreach (var supervisor in Supervisors)
             {
-                var SupervisorInspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
-                Inspectors.AddRange(SupervisorInspectors);
-                SupervisorInspectorsDic.Add(supervisor.Id, SupervisorInspectors.Select(i => i.Id).ToArray());
+                //var SupervisorInspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
+                //Inspectors.AddRange(SupervisorInspectors);
+                //SupervisorInspectorsDic.Add(supervisor.Id, SupervisorInspectors.Select(i => i.Id).ToArray());
+                var SupervisorInspectors = await fillSupervisorInspectorsDic(supervisor.Id, SupervisorInspectorsDic, Inspectors);
                 foreach (var i in SupervisorInspectors)
                 {
-                    var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                    Agents.AddRange(InspectorAgents);
-                    InspectorAgentsDic.Add(i.Id, InspectorAgents.Select(a => a.Id).ToArray());
+                    var InspectorAgents = await fillInspectorAgentsDic(i.Id, InspectorAgentsDic, Agents);
                     foreach (var a in InspectorAgents)
                     {
-                        int EmployeeId = a.Id;
-                        var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
-                        Tasks.AddRange(AgentTasks);
-                        //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
-                        viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+                        await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
                     }
                 }
             }
@@ -228,17 +242,9 @@ namespace Facility_Management_CEI.Controllers
             return View(viewerParamDic);
         }
 
+        [Authorize(Roles = "SystemAdmin, Owner")]
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
-            var Owner = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == OwnerId);
-            if (Owner == null)
-            {
-                return Redirect("ViewerError");
-            }
-            if (Owner.Type != API.Enums.UserType.Owner)
-            {
-                return Redirect("ViewerError");
-            }
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Supervisors = new List<API.Models.AppUser>();
@@ -256,21 +262,13 @@ namespace Facility_Management_CEI.Controllers
                 ManagerSupervisorsDic.Add(Manager.Id, ManagerSupervisors.Select(s => s.Id).ToArray());
                 foreach (var supervisor in ManagerSupervisors)
                 {
-                    var SupervisorInspectors = await _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToListAsync();
-                    Inspectors.AddRange(SupervisorInspectors);
-                    SupervisorInspectorsDic.Add(supervisor.Id, SupervisorInspectors.Select(i => i.Id).ToArray());
+                    var SupervisorInspectors = await fillSupervisorInspectorsDic(supervisor.Id, SupervisorInspectorsDic, Inspectors);
                     foreach (var i in SupervisorInspectors)
                     {
-                        var InspectorAgents = await _context.AppUsers.Where(u => u.SuperId == i.Id).ToListAsync();
-                        Agents.AddRange(InspectorAgents);
-                        InspectorAgentsDic.Add(i.Id, InspectorAgents.Select(a => a.Id).ToArray());
+                        var InspectorAgents = await fillInspectorAgentsDic(i.Id, InspectorAgentsDic, Agents);
                         foreach (var a in InspectorAgents)
                         {
-                            int EmployeeId = a.Id;
-                            var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
-                            Tasks.AddRange(AgentTasks);
-                            //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
-                            viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
+                            await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
                         }
                     }
                 }
