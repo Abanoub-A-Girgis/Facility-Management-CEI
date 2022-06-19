@@ -28,7 +28,7 @@ namespace Facility_Management_CEI.Controllers
 
 
         [HttpGet]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult Register()
         {
             var user = new RegisterViewModel();//to send a model that has a list of roles
@@ -37,8 +37,8 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-
         [HttpPost]
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             var newuser = await _userManeger.FindByNameAsync(model.UserName); //must be removed will throw exception
@@ -97,7 +97,6 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
@@ -117,20 +116,8 @@ namespace Facility_Management_CEI.Controllers
                 _Context.SaveChanges();
 
             }
-            //var Admin = await _userManeger.FindByNameAsync("admin@email");
-            //if (Admin != null) //to Register the AppUser Of the Admin
-            //{
-            //    var appuser = new AppUser()
 
-            //    {
-            //        FirstName = Admin.FirstName,
-            //        LastName = Admin.LastName,
-            //        LogUserId = Admin.Id,
-            //        Type = API.Enums.UserType.SystemAdmin
-            //    };
-            //    _Context.AppUsers.Add(appuser);
-            //    _Context.SaveChanges();
-            //}
+
 
             {
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
@@ -156,5 +143,6 @@ namespace Facility_Management_CEI.Controllers
             }
         
     }
-   }
+
+}
 

@@ -11,7 +11,6 @@ using Xbim.Ifc;
 //using Xbim.Ifc2x3.Interfaces;
 //using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc4.BuildingControlsDomain;
-
 using Xbim.Ifc4.HvacDomain;
 using Xbim.Ifc4.Interfaces;
 using Xbim.Ifc4.Kernel;
