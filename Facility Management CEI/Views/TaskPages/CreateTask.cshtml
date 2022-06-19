@@ -45,7 +45,7 @@
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
                 <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()">
-                       <option selected="selected" class="form-control" disabled value="">Choose Proirity</option>
+                <option selected="selected" class="form-control" disabled value="">Choose Proirity</option>
                 </select> 
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
