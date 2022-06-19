@@ -1,61 +1,66 @@
 ﻿@model API.Models.Incident
-
 @{
     ViewData["Title"] = "ViewBag.PageName";
     Layout = "~/Views/_Shared/_Layout.cshtml";
-    var x = ViewBag.UserId;
+    var UserId = ViewBag.UserId;
 }
 
 <div class="container p-3 my-3 border">
     <h1> @ViewBag.PageName</h1>
-
-@x=new List<SelectListItem> new List<SelectListItem> {new SelectListItem { Text="Open",Value="0"}} 
     <div class="row">
         <div class="col-sm-6">
             <hr />
-            <form asp-action="AddOrEdit">
+            <form asp-action="EditOrAdd">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    }
-                    
-                    
                 @if (@ViewBag.IsEdit)
                 {
                     <input type="hidden" asp-for="Id" />
-                    @x.add(new SelectListItem { Text="Completed",Value="1"})
-
                 }
                 <div class="form-group">
                     <!--this form inputs will be bind at the back end using the posy method 
                        asp-for="Description": this will be mapped to the bind attribute string values that the Description 
                        values writtin in the UI will be binded at the ack end using this mapping 
-
                     -->
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+                @if (@ViewBag.IsEdit)
+                {
                 <div class="form-group">
                 <label asp-for="Status" class="control-label"></label><!-- creating our drop down list for statuts enum-->
-
                 <select @Html.DropDownList("Status", new List<SelectListItem> {
+                    new SelectListItem { Text="Choose Status", Disabled = true },
                     new SelectListItem { Text="Open",Value="0"},
-                    new SelectListItem { Text="Completed",Value="1"} @*,new SelectListItem { Text="Choose Status", Disabled = true }*@
+                    new SelectListItem { Text="Completed",Value="1"} ,
                     }, new { @class = "form-control" })  ></select><!--the default value for our drop panel-->
                     <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
+                }
+                else
+                {
+                <div class="form-group">
+                <label asp-for="Status" class="control-label"></label><!-- creating our drop down list for statuts enum-->
+                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly />
+                <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
+                </div>
+                }
                 <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label><!-- creating our drop down list for statuts enum-->
                 <select @Html.DropDownList("Priorty", new List<SelectListItem> {
+                    new SelectListItem { Text="Choose Priority", Disabled = true },
                     new SelectListItem { Text="Severe",Value="0"},
                     new SelectListItem { Text="High",Value="1"},
                     new SelectListItem { Text="Medium",Value="2"},
-                    new SelectListItem { Text="Low",Value="3"},new SelectListItem { Text="Choose Priority", Disabled = true }
+                    new SelectListItem { Text="Low",Value="3"},
                     }, new { @class = "form-control" })  ></select><!--the default value for our drop panel-->
                     <span asp-validation-for="Priority" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 <div class="form-group">
                     <label asp-for="SensorWarningId" class="control-label"></label>
-                    <select asp-for="SensorWarningId" class ="form-control" asp-items="ViewBag.SensorWarningId" ></select>
+                    <select asp-for="SensorWarningId" class ="form-control" asp-items="ViewBag.SensorWarningId" >
+                    <option selected="selected" class="form-control" value=""></option>
+                    </select>
                     <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -65,12 +70,14 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="AppUserId" class="control-label"></label>
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@x" readonly />
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" readonly />
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="AssetId" class="control-label"></label>
-                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId"></select>
+                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId">
+                    <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
+                    </select>
                     <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
 
@@ -87,3 +94,4 @@
         </div>
     </div>
 </div>
+
