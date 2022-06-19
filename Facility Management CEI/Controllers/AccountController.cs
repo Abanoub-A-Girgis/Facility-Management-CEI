@@ -124,11 +124,9 @@ namespace Facility_Management_CEI.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction("TaskList", "TaskPages");
-
                 }
                 else
                 {
-
                     return NotFound();
                 }
 
