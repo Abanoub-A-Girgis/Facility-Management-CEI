@@ -22,6 +22,7 @@ namespace Skote.Controllers
         {
             _context = context;
         }
+
         // GET: Chart
         [Authorize(Roles = "SystemAdmin,Owner,Manager")]
         public async Task<IActionResult> Chartjs()

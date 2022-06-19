@@ -175,7 +175,7 @@ namespace Facility_Management_CEI.Controllers
         {
             var user2 = await _userManeger.GetUserAsync(User);
             var userI = user2.Id;
-            ViewBag.AppUserId = _context.AppUsers.ToList().Where(u=>u.LogUserId== userI).FirstOrDefault().Id;
+            ViewBag.AppUserId =   _context.AppUsers.ToList().Where(u => u.LogUserId == userI).FirstOrDefault().Id;
             if (WarningId == null)//make sure that the id is not null 
             {
                 return NotFound();//return not found page if the id is null
