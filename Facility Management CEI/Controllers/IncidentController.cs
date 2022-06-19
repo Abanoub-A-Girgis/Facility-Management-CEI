@@ -64,7 +64,7 @@ namespace Facility_Management_CEI.Controllers
         }
    
 
-        public async Task<IActionResult> AddOrEdit(int? IncidentId)
+        public async Task<IActionResult> EditOrAdd(int? IncidentId)
         {
             //if the id is null then the user wants to create a new record and the page name will beCreate student
             //on the other hand if the id has a value then the user wants to update a current record 
@@ -72,7 +72,7 @@ namespace Facility_Management_CEI.Controllers
             ViewBag.IsEdit = IncidentId == null ? false : true;
 
             //these are the values from the DB to be loaded at the page openeing 
-            ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+            ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings,"Id","Id");
             ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
             ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
             // this code is used to get the id of the current logged in user 
@@ -101,7 +101,7 @@ namespace Facility_Management_CEI.Controllers
 
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
-        public async Task<IActionResult> AddOrEdit(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime,Comment")] Incident incidentData)
+        public async Task<IActionResult> EditOrAdd(int Id,[Bind("AssetId,Description,Priority,SensorWarningId,Status,AppUserId,SpaceId,ReportingTime,Comment")] Incident incidentData)
         {
             bool IsIncidentExist = false;//check if this student is already exsit
 
@@ -129,7 +129,7 @@ namespace Facility_Management_CEI.Controllers
                         Incident.SensorWarningId = incidentData.SensorWarningId;
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
-                        Incident.ReportingTime = Incident.ReportingTime;
+                        //Incident.ReportingTime = Incident.ReportingTime;
                         Incident.Comment= incidentData.Comment;
                         _Context.Update(Incident);
                     }
@@ -143,8 +143,8 @@ namespace Facility_Management_CEI.Controllers
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
                         Incident.Comment =null;//at the creation a comment will not be writtin - the comment is used to close the incident 
-                        Incident.Status = incidentData.Status;
-                        Incident.ReportingTime = Incident.ReportingTime;
+                        Incident.Status = API.Enums.IncidentStatus.Open;
+                        Incident.ReportingTime = DateTime.Now;
                         _Context.Add(Incident);//if this flag is false then add student data
                     }
                     await _Context.SaveChangesAsync();
