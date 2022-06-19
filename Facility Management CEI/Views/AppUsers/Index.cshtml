@@ -25,10 +25,10 @@
                 @Html.DisplayNameFor(model => model.Building)
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.Super)
+                @Html.DisplayNameFor(model => model.SuperId)
             </th class="text-center" scope="col">
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.LogUser)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th class="text-center" scope="col">Edit</th>
             <th class="text-center" scope="col">Details</th>
@@ -51,10 +51,10 @@
                 @Html.DisplayFor(modelItem => item.Building.Id)
             </td>
             <td class="text-center" scope="col">
-                @Html.DisplayFor(modelItem => item.Super.LogUserId)
+                @Html.DisplayFor(modelItem => item.SuperId)
             </td>
             <td class="text-center" scope="col">
-                @Html.DisplayFor(modelItem => item.LogUser.Id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td class="text-center" scope="col">
                 <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
