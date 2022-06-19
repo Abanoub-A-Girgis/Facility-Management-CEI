@@ -22,7 +22,7 @@
                              asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
                              no need to pass an id as we will create new one 
                           -->
-                          <a class="btn btn-outline-primary" asp-action="AddOrEdit">Create New</a>
+                          <a class="btn btn-outline-primary" asp-action="EditOrAdd">Create New</a>
                      </div>
     
                 }
@@ -72,7 +72,7 @@
                                             asp-action="AddOrEdit": the name of the action method that holds the Logic Code
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
-                                            <a asp-action="AddOrEdit" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
+                                            <a asp-action="EditOrAdd" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
                                          </td>
                                     }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
