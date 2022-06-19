@@ -88,7 +88,8 @@
         }    
     );
     } );
-
+    var ItemsTableHeading = $("#BottomTableHeading")[0]
+    
     function ShowAllData() {
         var itemsTable = $("#ItemsTable").DataTable()
         itemsTable.column(0).search("").draw();
@@ -96,7 +97,9 @@
         listOfHigh = listOfHigh2;
         listOfMedium = listOfMedium2;
         listOfLow = listOfLow2;
+        ItemsTableHeading.innerText = "All Tasks"
     }
+    
     function ChangeData(Id) {
         var itemsTable = $("#ItemsTable").DataTable()
         itemsTable.column(0).search(Id).draw();
@@ -104,6 +107,7 @@
         listOfHigh = AgentItems[Id][1];
         listOfMedium = AgentItems[Id][2];
         listOfLow = AgentItems[Id][3];
+        ItemsTableHeading.innerText = "Tasks for Agent " + Id
     }
 
 </script>
