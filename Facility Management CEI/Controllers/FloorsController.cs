@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using Facility_Management_CEI.IdentityDb;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -20,6 +21,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Floors
+        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Index()
         {
             var applicationDBContext = _context.Floors.Include(f => f.Building);
@@ -27,6 +29,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Floors/Details/5
+        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using Facility_Management_CEI.IdentityDb;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -20,17 +21,20 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Buildings
+        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public IActionResult BuildingComponents()
         {
             return View();
         }
         // GET: Buildings
+        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Buildings.ToListAsync());
         }
 
         // GET: Buildings/Details/5
+        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

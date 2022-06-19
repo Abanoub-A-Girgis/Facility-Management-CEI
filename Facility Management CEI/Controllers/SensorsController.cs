@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using Facility_Management_CEI.IdentityDb;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -18,7 +19,7 @@ namespace Facility_Management_CEI.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Owner")]
         // GET: Sensors
         public async Task<IActionResult> Index()
         {
@@ -27,6 +28,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Sensors/Details/5
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
