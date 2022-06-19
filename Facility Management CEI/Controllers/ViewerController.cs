@@ -96,12 +96,14 @@ namespace Facility_Management_CEI.Controllers
         public async Task<IActionResult> ViewerAsAgent(int EmployeeId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
             if(AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 EmployeeId = AppUser.Id;
             }
             
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
@@ -126,12 +128,14 @@ namespace Facility_Management_CEI.Controllers
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 InspectorId = AppUser.Id;
             }
-
+            
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+            
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             //ViewerParameter viewerParam = new ViewerParameter();
             Dictionary<int, ViewerParameter> viewerParamDic = new Dictionary<int, ViewerParameter>();
@@ -162,11 +166,13 @@ namespace Facility_Management_CEI.Controllers
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 SupervisorId = AppUser.Id;
             }
+
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
@@ -204,11 +210,13 @@ namespace Facility_Management_CEI.Controllers
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 ManagerId = AppUser.Id;
             }
+
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
@@ -246,11 +254,13 @@ namespace Facility_Management_CEI.Controllers
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 OwnerId = AppUser.Id;
             }
+
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
