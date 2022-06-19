@@ -35,6 +35,29 @@
             box-shadow: 0px -2px #343a40;
             color: white;
         }
+
+        .custom-control-input-light:focus~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:checked~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+          background-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:active~.custom-control-label-light::before {
+          background-color: #7CB9E8 !important;
+          border-color: #7CB9E8 !important;
+        }
+
+        .custom-control-input-light:focus:not(:checked)~.custom-control-label-light::before {
+          border-color: #7CB9E8 !important;
+        }
+        
+        table.dataTable thead>tr>th.sorting:before, table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:before, table.dataTable thead>tr>th.sorting_asc:after, table.dataTable thead>tr>th.sorting_desc:before, table.dataTable thead>tr>th.sorting_desc:after, table.dataTable thead>tr>th.sorting_asc_disabled:before, table.dataTable thead>tr>th.sorting_asc_disabled:after, table.dataTable thead>tr>th.sorting_desc_disabled:before, table.dataTable thead>tr>th.sorting_desc_disabled:after, table.dataTable thead>tr>td.sorting:before, table.dataTable thead>tr>td.sorting:after, table.dataTable thead>tr>td.sorting_asc:before, table.dataTable thead>tr>td.sorting_asc:after, table.dataTable thead>tr>td.sorting_desc:before, table.dataTable thead>tr>td.sorting_desc:after, table.dataTable thead>tr>td.sorting_asc_disabled:before, table.dataTable thead>tr>td.sorting_asc_disabled:after, table.dataTable thead>tr>td.sorting_desc_disabled:before, table.dataTable thead>tr>td.sorting_desc_disabled:after {
+                font-size: 1.8em;
+        }
+        
     </style>
 </head>
 <body>
@@ -45,7 +68,6 @@
                 <table id="ItemsTable" class="w-100 table table-striped table-hover">
                     <thead>
                         <tr class="sticky-top">
-                            <th>Agent ID</th>
                             <th>Task ID</th>
                             <th>Asset Name</th>
                             <th>Details</th>
@@ -56,7 +78,6 @@
                         @foreach (var task in ViewBag.Tasks)
                         {
                             <tr>
-                                <th>@task.AssignedToId</th>
                                 <th>@task.Id</th>
                                 <td>@task.Incident.Asset.Name</td>
                                 @*<td><button class="btn btn-info waves-effect waves-light" onclick="">Details</button></td>*@
@@ -70,198 +91,198 @@
 @*            <button onclick="ChangeData1()">Change Data 1</button>
             <button onclick="ChangeData2()">Change Data 2</button>*@
         </div>
-    <div class="col-7">
-        <canvas id="viewer" height="650" style="width: 100%;
-                                   object-fit: contain;"></canvas>
-        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
-                                                                top: 8px;
-                                                                left: 20px;
-                                                                z-index:5"">
-            <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
-            @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
-            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()">
-                <label class="custom-control-label" for="Switch1">Items</label>
+        <div class="col-7">
+            <canvas id="viewer" height="650" style="width: 100%;
+                                       object-fit: contain;"></canvas>
+            <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                    top: 8px;
+                                                                    left: 20px;
+                                                                    z-index:5"">
+                <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+                @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+                <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()" autocomplete="off">
+                    <label class="custom-control-label" for="Switch1">Items</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+                </div>
+
             </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
-            </div>
-            <div class="custom-control custom-switch mb-1">
-                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
-                <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
-            </div>
-
-        </div>
-        <div style="position: absolute;
-                    top: 8px;
-                    right: 16px;
-                    z-index:5" id="overlayDiv"></div>
-        <script type="text/javascript">
-            var viewer = new xViewer('viewer');
-            viewer.load('../data/SampleHouse.wexbim');
-            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
-            var navCube = new xNavigationCube();
-            navCube.ratio = .1;
-            viewer.addPlugin(navCube);
-            viewer.start();
-            viewer.defineStyle(0, [255,0,0,255])
-            viewer.defineStyle(1, [255,160,16,255])
-            viewer.defineStyle(2, [255,224,32,255])
-            viewer.defineStyle(3, [0,255,0,255])
-        </script>
-
-        @*<script> 
-                viewer.on('pick', function (args) {
-                    var id = args.id;
-                    viewer.setCameraTarget(id);
-                    pickedId = id;
-                });
-        </script>*@
-
-        <script>
-                viewer.on('fps', function (fps) {
-                    var overlayDiv = document.getElementById('overlayDiv');
-                    if (overlayDiv) {
-                        overlayDiv.innerHTML = "FPS: " + fps;
-                    }
-                });
-        </script>
-
-        <div>
-            <div class="text-center font-weight-bold m-2" id="productId"></div>
-        </div>
-
-        <script>
-            // Arrays to hold the item id's depending on their priority
-            var listOfSevere = [];
-            var listOfHigh = [];
-            var listOfMedium = [];
-            var listOfLow = [];
-        
-            @foreach (var i in Model.Severe)
-                {
-                    @:listOfSevere.push(@i);
-                }
-            @foreach (var i in Model.High)
-                {
-                    @:listOfHigh.push(@i);
-                }
-             @foreach (var i in Model.Medium)
-                {
-                    @:listOfMedium.push(@i);
-                }
-            @foreach (var i in Model.Low)
-                {
-                    @:listOfLow.push(@i);
-                }
-            
-            //var animateBool = true;
-            //setInterval(animateObjects, 1000);
-            //function animateObjects() {
-            //    if (animateBool) {
-            //        viewer.setStyle(0, listOfSevere);
-            //        viewer.setStyle(1, listOfHigh);
-            //        viewer.setStyle(2, listOfMedium);
-            //        viewer.setStyle(3, listOfLow);
-            //        animateBool = false;
-            //    }
-            //    else {
-            //        viewer.resetStyles()
-            //        animateBool = true;
-            //    }
-            //}
-        </script>
-
-        <div class="text-center">
-@*            <select id="cmbHide">
-                <option value="noAction">No action</option>
-                <option value="hideProduct">Hide product</option>
-                <option value="hideType">Hide type</option>
-                <option value="highlight">Highlight</option>
-            </select>*@
-            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
-            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+            <div style="position: absolute;
+                        top: 8px;
+                        right: 16px;
+                        z-index:5" id="overlayDiv"></div>
             <script type="text/javascript">
-
-                var timer = 0;
-                
-                var option;
-                
-                function HideProduct() {
-                    option = "hideProduct";
-                }
-                
-                function HideType() {
-                    option = "hideType";
-                }
-
-                function Highlight() {
-                    option = "highlight";
-                }
-
-                function ResetAll() {
-                    if (viewer) {
-                        viewer.resetStates();
-                    }
-                    var div = document.getElementById('productId');
-                    if (div) {
-                        div.innerHTML = "";
-                    }
-                }
-                
-                viewer.on('pick', function (args) {
-                    var id = args.id;
-                    viewer.setCameraTarget(id);
-                    pickedId = id;
-                    document.getElementById('hiddenId').value = id;
-
-                    //var cmb = document.getElementById('cmbHide');
-                    //var option = cmb.value;
-                    switch (option) {
-                        case 'hideProduct':
-                            viewer.setState(xState.HIDDEN, [args.id]);
-                            break;
-                        case 'hideType':
-                            var type = viewer.getProductType(args.id);
-                            viewer.setState(xState.HIDDEN, type);
-                            break;
-                        case 'highlight':
-                            viewer.resetStates();
-                            viewer.setState(xState.HIGHLIGHTED, [args.id]);
-                            var div = document.getElementById('productId');
-                            if (div) {
-                                div.innerHTML = "Selected Asset Id = " + id;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-
-                    var time = (new Date()).getTime();
-                    if (time - timer < 200)
-                        viewer.zoomTo(id);
-                    timer = time;
-
-                });
+                var viewer = new xViewer('viewer');
+                viewer.load('../data/SampleHouse.wexbim');
+                //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                var navCube = new xNavigationCube();
+                navCube.ratio = .1;
+                viewer.addPlugin(navCube);
+                viewer.start();
+                viewer.defineStyle(0, [255,0,0,255])
+                viewer.defineStyle(1, [255,160,16,255])
+                viewer.defineStyle(2, [255,224,32,255])
+                viewer.defineStyle(3, [0,255,0,255])
             </script>
-            <input name="hiddenId" type="hidden" id="hiddenId" />
+
+            @*<script> 
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                    });
+            </script>*@
+
+            <script>
+                    viewer.on('fps', function (fps) {
+                        var overlayDiv = document.getElementById('overlayDiv');
+                        if (overlayDiv) {
+                            overlayDiv.innerHTML = "FPS: " + fps;
+                        }
+                    });
+            </script>
+
+            <div>
+                <div class="text-center font-weight-bold m-2" id="productId"></div>
+            </div>
+
+            <script>
+                // Arrays to hold the item id's depending on their priority
+                var listOfSevere = [];
+                var listOfHigh = [];
+                var listOfMedium = [];
+                var listOfLow = [];
+        
+                @foreach (var i in Model.Severe)
+                    {
+                        @:listOfSevere.push(@i);
+                    }
+                @foreach (var i in Model.High)
+                    {
+                        @:listOfHigh.push(@i);
+                    }
+                 @foreach (var i in Model.Medium)
+                    {
+                        @:listOfMedium.push(@i);
+                    }
+                @foreach (var i in Model.Low)
+                    {
+                        @:listOfLow.push(@i);
+                    }
+            
+                //var animateBool = true;
+                //setInterval(animateObjects, 1000);
+                //function animateObjects() {
+                //    if (animateBool) {
+                //        viewer.setStyle(0, listOfSevere);
+                //        viewer.setStyle(1, listOfHigh);
+                //        viewer.setStyle(2, listOfMedium);
+                //        viewer.setStyle(3, listOfLow);
+                //        animateBool = false;
+                //    }
+                //    else {
+                //        viewer.resetStyles()
+                //        animateBool = true;
+                //    }
+                //}
+            </script>
+
+            <div class="text-center">
+    @*            <select id="cmbHide">
+                    <option value="noAction">No action</option>
+                    <option value="hideProduct">Hide product</option>
+                    <option value="hideType">Hide type</option>
+                    <option value="highlight">Highlight</option>
+                </select>*@
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <script type="text/javascript">
+
+                    var timer = 0;
+                
+                    var option;
+                
+                    function HideProduct() {
+                        option = "hideProduct";
+                    }
+                
+                    function HideType() {
+                        option = "hideType";
+                    }
+
+                    function Highlight() {
+                        option = "highlight";
+                    }
+
+                    function ResetAll() {
+                        if (viewer) {
+                            viewer.resetStates();
+                        }
+                        var div = document.getElementById('productId');
+                        if (div) {
+                            div.innerHTML = "";
+                        }
+                    }
+                
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                        document.getElementById('hiddenId').value = id;
+
+                        //var cmb = document.getElementById('cmbHide');
+                        //var option = cmb.value;
+                        switch (option) {
+                            case 'hideProduct':
+                                viewer.setState(xState.HIDDEN, [args.id]);
+                                break;
+                            case 'hideType':
+                                var type = viewer.getProductType(args.id);
+                                viewer.setState(xState.HIDDEN, type);
+                                break;
+                            case 'highlight':
+                                viewer.resetStates();
+                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                                var div = document.getElementById('productId');
+                                if (div) {
+                                    div.innerHTML = "Selected Asset Id = " + id;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        var time = (new Date()).getTime();
+                        if (time - timer < 200)
+                            viewer.zoomTo(id);
+                        timer = time;
+
+                    });
+                </script>
+                <input name="hiddenId" type="hidden" id="hiddenId" />
+            </div>
         </div>
-    </div>
     </div>
 
 
@@ -354,7 +375,7 @@
       	                    extend: 'excelHtml5',
                             text: 'Save as excel sheet',
                             exportOptions: {
-                                columns: [ 0, 1 ]
+                                columns: [ 0, 1]
                             },
                             className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
                         }

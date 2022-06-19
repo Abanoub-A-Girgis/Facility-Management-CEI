@@ -1,0 +1,110 @@
+﻿@using API.Models
+
+<div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
+    <table id="ItemsTable" class="w-100 table table-striped table-hover">
+        <thead>
+            <tr class="sticky-top">
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Task ID</th>
+                <th>Asset Name</th>
+                <th>Details</th>
+                <th>Zoom To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in ViewBag.Tasks)
+            {
+                <tr>
+                    <th>@task.AssignedToId</th>
+                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + "" + a.LastName).FirstOrDefault())</th>
+                    <th>@task.Id</th>
+                    <td>@task.Incident.Asset.Name</td>
+                    @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
+                    <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
+                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#AgentsTable').DataTable(
+            {
+                "columnDefs": [
+                    {
+                        "searchable": false, "targets": [2, 3],
+                    }
+                ],
+                "autoWidth": false,
+                "columns": [
+                    { "width": "15%" },
+                    { "width": "45%" },
+                    { "width": "20%" },
+                    { "width": "20%" },
+                ]
+            }
+        );
+    } );        
+
+    $(document).ready(function () {
+    $('#ItemsTable').DataTable(
+        {
+            "columnDefs": [
+                    { "searchable": false, "targets": [4, 5], },
+                    { "targets": [0], "visible": false, }
+            ],
+            dom: '<"mb-2"B>lfrtip',
+            buttons : [
+                {
+                    text: "Show All",
+                    action: function ( e, dt, node, config ) {
+                            ShowAllData();
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1'
+                },
+                {
+      	            extend: 'excelHtml5',
+                    text: 'Save as excel sheet',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 , 3]
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1'
+                }
+            ],
+            "search": {regex: true},
+            "autoWidth": false,
+            "columns": [
+                { "width": "0%" },
+                { "width": "25%" },
+                { "width": "10%" },
+                { "width": "25%" },
+                { "width": "20%" },
+                { "width": "20%" },
+            ],
+            stateSave: true
+        }    
+    );
+    } );
+
+    function ShowAllData() {
+        var itemsTable = $("#ItemsTable").DataTable()
+        itemsTable.column(0).search("").draw();
+        listOfSevere = listOfSevere2;
+        listOfHigh = listOfHigh2;
+        listOfMedium = listOfMedium2;
+        listOfLow = listOfLow2;
+    }
+    function ChangeData(Id) {
+        var itemsTable = $("#ItemsTable").DataTable()
+        itemsTable.column(0).search(Id).draw();
+        listOfSevere = AgentItems[Id][0];
+        listOfHigh = AgentItems[Id][1];
+        listOfMedium = AgentItems[Id][2];
+        listOfLow = AgentItems[Id][3];
+    }
+
+</script>
+
