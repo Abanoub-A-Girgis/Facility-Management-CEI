@@ -37,7 +37,6 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-
         [HttpPost]
         [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -98,7 +97,6 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
@@ -118,6 +116,9 @@ namespace Facility_Management_CEI.Controllers
                 _Context.SaveChanges();
 
             }
+
+
+
             {
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
                 if (result.Succeeded)
