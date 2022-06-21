@@ -135,13 +135,12 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 InspectorId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
             else
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
-
-            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             //ViewerParameter viewerParam = new ViewerParameter();
@@ -177,13 +176,12 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 SupervisorId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
             else
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
-
-            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             Dictionary<int, int[]> InspectorAgentsDic = new Dictionary<int, int[]>();
@@ -225,13 +223,12 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 ManagerId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
             else
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
-
-            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
@@ -273,13 +270,12 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 OwnerId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
             else
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
-
-            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
