@@ -102,7 +102,7 @@ namespace Facility_Management_CEI.Controllers
                 EmployeeId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            else
+            else if(EmployeeId == 0)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -137,7 +137,7 @@ namespace Facility_Management_CEI.Controllers
                 InspectorId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            else
+            else if (InspectorId == 0)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -178,7 +178,7 @@ namespace Facility_Management_CEI.Controllers
                 SupervisorId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            else
+            else if (SupervisorId == 0)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -225,7 +225,7 @@ namespace Facility_Management_CEI.Controllers
                 ManagerId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            else
+            else if (ManagerId == 0)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -272,7 +272,7 @@ namespace Facility_Management_CEI.Controllers
                 OwnerId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            else
+            else if (OwnerId == 0)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
