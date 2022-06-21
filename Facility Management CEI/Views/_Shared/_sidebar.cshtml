@@ -42,7 +42,7 @@
                             <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Account" asp-action="Register">Register</a></li>
                             //<li><a class="nav-link text-secondary " asp-controller="Account" asp-action="LogOut">LogOut</a></li>
-                            <li><a class="nav-link text-primary" asp-controller="Home" asp-action="Uploader">Uploader</a></li>
+                            <li><a class="nav-link text-primary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer View as Agent</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsManager">Viewer View as Manager</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer View as Inspector</a></li>
@@ -56,7 +56,7 @@
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Owner"))
                         {
-                           <li><a class="nav-link text-primary" asp-controller="Home" asp-action="Uploader">Uploader</a></li>
+                           <li><a class="nav-link text-primary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer View</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>

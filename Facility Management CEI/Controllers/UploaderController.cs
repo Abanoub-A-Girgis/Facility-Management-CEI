@@ -17,28 +17,35 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Facility_Management_CEI.IdentityDb;
+using Microsoft.AspNetCore.Identity;
+using Facility_Management_CEI.APIs.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Facility_Management_CEI.Controllers
 {
     public class UploaderController : Controller
     {
+        private readonly UserManager<LogUser> _userManager;
+        public ApplicationDBContext _context { get; set; }
+        
         private readonly ILogger<HomeController> _logger;
 
         public UploaderController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-        public ActionResult Uploader()
+        
+        [Authorize(Roles = "SystemAdmin, Owner")]
+        public ActionResult Index()
         {
-
             return View();
         }
-
+        
         [HttpPost]
         [RequestFormLimits(MultipartBodyLengthLimit = 2147483648)]
         [RequestSizeLimit(2147483648)]
-        [Authorize(Roles = "SystemAdmin,Owner")]
-        public async Task<IActionResult> Uploader(IFormFile file)
+        public async Task<IActionResult> Index(IFormFile file)
         {
             if (file.Length > 0)
             {
@@ -50,9 +57,13 @@ namespace Facility_Management_CEI.Controllers
                 }
                 ConvertToWexBIM(path);
                 ViewBag.Message = "File Uploaded Successfully";
-            }
+                //Populate Database with ifcdata
 
-            return RedirectToAction("Viewer");
+                //Add building information
+                
+            }
+            
+            return RedirectToAction("Viewer/ViewerAsOwner");
         }
 
         void ConvertToWexBIM(string filePath)
@@ -63,13 +74,12 @@ namespace Facility_Management_CEI.Controllers
                 var context = new Xbim3DModelContext(model);
                 context.CreateContext();
 
-
                 // physical full path in drive
                 var wexBimFullPath = Path.ChangeExtension(filePath, "wexBIM");
 
                 var wexBimFileName = Path.GetFileName(wexBimFullPath);
 
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/" + wexBimFileName);
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/" + wexBimFileName);
 
                 using (var wexBiMfile = System.IO.File.Create(wexBimFullPath))
                 {
