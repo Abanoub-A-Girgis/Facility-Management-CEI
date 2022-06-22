@@ -15,7 +15,9 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Description)
+            @*@Html.DisplayNameFor(model => model.Description)*@
+            <english>@Html.DisplayNameFor(model => model.Description)</english>
+            <arabic class="d-none">الوصف</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Description)
