@@ -54,10 +54,18 @@
         <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.FixingTime  )</th>
         <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Cost        )</th>
         <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment     )</th>
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+        {
         <th class="text-center" scope="col">Assign</th>
-        <th class="text-center" scope="col">Details</th>
         <th class="text-center" scope="col">Edit</th>
+                        
+        }
+        <th class="text-center" scope="col">Details</th>
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+        {
         <th class="text-center" scope="col">Delete</th>
+                        
+        }
         </tr>  
      </thead>
         <tbody>
@@ -95,7 +103,7 @@
                     </th > 
                 }
        
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                 {
                     <th class="text-center" scope="col">
                         <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>

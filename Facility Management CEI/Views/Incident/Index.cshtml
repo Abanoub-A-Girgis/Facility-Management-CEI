@@ -33,7 +33,7 @@
                         <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id             )</th>
+                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id             )*@ID</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description    )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
@@ -43,9 +43,22 @@
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AppUserId      )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment       ) </th>
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    {
+                        
                                     <th class="text-center" scope="col">Edit</th>
+                                    }
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    {
                                     <th class="text-center" scope="col">Details</th>
+                        
+                                    }
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    {
                                     <th class="text-center" scope="col">Delete</th>
+                        
+                                    }
+
                                 </tr>
                             </thead>
 
