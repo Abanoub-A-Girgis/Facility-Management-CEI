@@ -1,5 +1,4 @@
-﻿<script src="~/lib/bootstrap/dist/css/bootstrap.min.css"></script>
-@using API.Models
+﻿@using API.Models
 @{
     ViewBag.Title = "Building Reports";
     ViewBag.pTitle = "Building Reports";
@@ -155,12 +154,17 @@
     Chart js is a canvas based that uses canves to draw Charts
     so first you need to establsh canvas node and pass it to chart js to drwa within
 -->
+
+<head>
+    
+</head>
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Incidnts History</h4>
                 <canvas id="lineChart" height="300"> </canvas>
+                <button onclick="printPdf($('#lineChart'))">Print PDF</button>
 
             </div>
         </div>
@@ -212,25 +216,16 @@
                     <div class="col-4" style="text-align:center;">
                         <h5 class="mb-0">@Tasks.Count</h5>
                         <p class="text-muted text-truncate">Total Tasks</p>
-                </div>
+                    </div>
                 <canvas id="doughnut" height="260"></canvas>
 
+                </div>
             </div>
-        </div>
+        </div> 
     </div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/lib/metismenu/metisMenu.min.js"></script>
-<script src="~/lib/simplebar/simplebar.min.js"></script>
-<script src="~/lib/node-waves/waves.min.js"></script>
-<script src="~/js/lang/jquery.multiLanguage.js"></script>
-<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="~/assets/libs/node-waves/waves.min.js"></script>
-<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
-<style src="~/lib/bootstrap/dist/css/bootstrap.min.css"></style>
+<script src="~/assets/libs/jsPDF/jspdf.min.js"></script>
 <!-- Chart JS -->
 <script src="~/assets/libs/chart.js/Chart.bundle.min.js"></script>
 <script>
@@ -448,7 +443,7 @@
                 this.respChart($("#polarArea"), 'PolarArea', polarChart);
             },
             $.ChartJs = new ChartJs, $.ChartJs.Constructor = ChartJs
-
+            
     }(window.jQuery),
 
         //initializing
@@ -456,4 +451,28 @@
             "use strict";
             $.ChartJs.init()
         }(window.jQuery);
+    
+    function printPdf(element) {
+        var element_img = element[0].toDataURL("image/png", 1.0);
+        
+        var pdf = new jsPDF('l');
+        
+        //var imgProps = pdf.getImageProperties(element_img)
+        
+        var pageWidth = pdf.internal.pageSize.getWidth();
+        var pageHeight = pdf.internal.pageSize.getHeight();
+
+        var ratio = pageWidth / element[0].width * 0.75;
+
+        var canvasWidth = element[0].width * ratio;
+        var canvasHeight = element[0].height * ratio;
+
+        var marginX = (pageWidth - canvasWidth) / 2;
+        var marginY = (pageHeight - canvasHeight) / 2;
+        
+        pdf.addImage(element_img, 'JPEG', marginX, marginY, canvasWidth, canvasHeight);
+        
+        var output = pdf.output("bloburl")
+        window.open(output);
+    }
 </script>
