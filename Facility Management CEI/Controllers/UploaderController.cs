@@ -67,6 +67,13 @@ namespace Facility_Management_CEI.Controllers
             //return RedirectToAction("ViewerAsOwner", "Viewer");
         }
 
+        [HttpPost]
+        public IActionResult ClearDatabase()
+        {
+            new API.Controllers.IFCController(_context).ClearDatabase();
+            return RedirectToAction("Login", "Account");
+        }
+
         void ConvertToWexBIM(string filePath)
         {
             //  const string fileName = "../../my.ifc";

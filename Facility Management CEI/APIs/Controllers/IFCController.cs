@@ -425,7 +425,7 @@ namespace API.Controllers
 
         [Route("ClearDatabase")]
         [HttpDelete]
-        public string ClearDatabase()
+        public void ClearDatabase()
         {
 
             Building[] Bui = _Context.Buildings.ToArray();
@@ -456,7 +456,6 @@ namespace API.Controllers
             _Context.Tasks.RemoveRange(Tas);
 
             _Context.SaveChanges();
-            return "Done";
         }
 
     }

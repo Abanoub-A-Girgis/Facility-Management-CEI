@@ -42,6 +42,11 @@
         </div>
     </div> <!-- end col -->
 </div>
+@using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post))
+{
+     <input class="btn btn-danger" type="submit" value="Clear Database"/>
+}
+
 
 <script>
     Dropzone.autoDiscover = false;
