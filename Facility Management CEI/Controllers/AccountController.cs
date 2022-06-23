@@ -123,7 +123,7 @@ namespace Facility_Management_CEI.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("TaskList", "TaskPages");
+                    return RedirectToAction("HomePage", "HomePage");
 
                 }
                 else

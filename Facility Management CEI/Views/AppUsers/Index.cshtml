@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th class="text-center" scope="col">
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th class="text-center" scope="col">
@@ -26,10 +29,10 @@
             </th>
             <th class="text-center" scope="col">
                 @Html.DisplayNameFor(model => model.SuperId)
-            </th class="text-center" scope="col">
-            <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.Id)
             </th>
+            <th class="text-center" scope="col">
+                Supervisor Name
+            </th >
             <th class="text-center" scope="col">Edit</th>
             <th class="text-center" scope="col">Details</th>
             <th class="text-center" scope="col">Delete</th>
@@ -38,6 +41,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td class="text-center" scope="col">
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -54,7 +60,7 @@
                 @Html.DisplayFor(modelItem => item.SuperId)
             </td>
             <td class="text-center" scope="col">
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Super.FirstName) @Html.DisplayFor(modelItem => item.Super.LastName)
             </td>
             <td class="text-center" scope="col">
                 <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
