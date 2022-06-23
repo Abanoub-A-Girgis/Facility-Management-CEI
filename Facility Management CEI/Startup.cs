@@ -38,8 +38,6 @@ namespace Facility_Management_CEI
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
             Configuration.GetConnectionString("ProjectDataBase")));
@@ -58,7 +56,7 @@ namespace Facility_Management_CEI
 
             //////////////////////////////////////////////////
 
-            services.AddControllersWithViews()  // to solve erro Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
+            services.AddControllersWithViews()  // to solve error Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
@@ -78,10 +76,6 @@ namespace Facility_Management_CEI
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
 
             string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "SystemAdmin", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
-
-
-           
-
 
             IdentityResult roleResult;
 
@@ -124,8 +118,6 @@ namespace Facility_Management_CEI
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
             {
-                 
-
                  CreateAdminLogUserWithRoles(serviceProvider).Wait(); 
 
                 if (env.IsDevelopment())

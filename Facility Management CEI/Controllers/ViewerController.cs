@@ -47,12 +47,9 @@ namespace Facility_Management_CEI.Controllers
         private readonly UserManager<LogUser> _userManager;
         public ApplicationDBContext _context { get; set; }
 
-        private readonly ILogger<HomeController> _logger;
-
-        public ViewerController(UserManager<LogUser> userManager, ILogger<HomeController> logger, ApplicationDBContext context)
+        public ViewerController(UserManager<LogUser> userManager, ApplicationDBContext context)
         {
             _userManager = userManager;
-            _logger = logger;
             _context = context;
         }
         
@@ -100,7 +97,7 @@ namespace Facility_Management_CEI.Controllers
             if(AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 EmployeeId = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
             else if(EmployeeId == 0)
             {
@@ -135,7 +132,7 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 InspectorId = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
             else if (InspectorId == 0)
             {
@@ -176,7 +173,7 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 SupervisorId = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
             else if (SupervisorId == 0)
             {
@@ -223,7 +220,7 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 ManagerId = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
             else if (ManagerId == 0)
             {
@@ -270,7 +267,7 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 OwnerId = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
             else if (OwnerId == 0)
             {
