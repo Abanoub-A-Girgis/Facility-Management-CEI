@@ -13,7 +13,7 @@
         <h6 class="text-center mb-0">Choose Layouts</h6>
 
         <div class="p-4">
-            <div class="mb-2">
+            @*<div class="mb-2">
                 <img src="~/assets/images/layouts/layout-1.jpg" class="img-fluid img-thumbnail" alt="">
             </div>
             <div class="custom-control custom-switch mb-3">
@@ -35,12 +35,12 @@
             <div class="custom-control custom-switch mb-5">
                 <input type="checkbox" class="custom-control-input theme-choice" id="rtl-mode-switch" data-appStyle="~assets/css/app-rtl.min.css" />
                 <label class="custom-control-label" for="rtl-mode-switch">RTL Mode</label>
-            </div>
+            </div>*@
             <div class="custom-control custom-switch mb-5">
-                <input type="checkbox" class="custom-control-input theme-choice" id="LanguageSwitch" data-appStyle="~assets/css/app-rtl.min.css" onchange="ChangeLanguage()"/>
+                <input type="checkbox" class="custom-control-input theme-choice" id="LanguageSwitch" onchange="ChangeLanguage()"/>
                 <label class="custom-control-label" for="LanguageSwitch">
-                    <english>عربي</english>
-                    <arabic class="d-none">English</arabic>
+                    <english>English</english>
+                    <arabic class="d-none">عربي</arabic>
                 </label>
                 <script>
                     var Language = "english";
@@ -56,6 +56,9 @@
                                 $(arabic).each(function() {
                                     $(this).removeClass("d-none")
                                 });
+                                $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+                                $("#app-style").attr('href', '/assets/css/app-rtl.min.css');
+                                sessionStorage.setItem("is_visited", "rtl-mode-switch");
                             }
                             else {
                                 Language = "english";
@@ -65,6 +68,9 @@
                                 $(english).each(function() {
                                     $(this).removeClass("d-none")
                                 });
+                                $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+                                $("#app-style").attr('href', '/assets/css/app.min.css');
+                                sessionStorage.setItem("is_visited", "light-mode-switch");
                             }
                         }
                 </script>

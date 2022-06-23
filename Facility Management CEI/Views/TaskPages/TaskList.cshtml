@@ -39,52 +39,60 @@
   }
   
    <div class="table-responsive">
-     <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-     <thead class="thead-dark">
-            <tr>  
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id          )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status      )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Type        )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority    )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.CreatedById )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.IncidentId  )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssignedById)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssignedToId)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.FixingTime  )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Cost        )</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment     )</th>
-            <th class="text-center" scope="col">Assign</th>
-            <th class="text-center" scope="col">Details</th>
-            <th class="text-center" scope="col">Edit</th>
-            <th class="text-center" scope="col">Delete</th>
-            </tr>  
-        </thead>
+   <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+     <thead>
+        <tr>  
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id          )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status      )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Type        )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority    )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.CreatedById )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.IncidentId  )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssignedById)</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssignedToId)</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.FixingTime  )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Cost        )</th>
+        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment     )</th>
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+        {
+        <th class="text-center" scope="col">Assign</th>
+        <th class="text-center" scope="col">Edit</th>
+                        
+        }
+        <th class="text-center" scope="col">Details</th>
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+        {
+        <th class="text-center" scope="col">Delete</th>
+                        
+        }
+        </tr>  
+     </thead>
         <tbody>
             @foreach (var task in tasks)
             {  
-               <tr>
-                <th class="text-center" scope="col">@task.Id          </th>
-                <th class="text-center" scope="col">@task.Description </th>
-                <th class="text-center" scope="col">@task.Status      </th>
-                <th class="text-center" scope="col">@task.Type        </th>
-                <th class="text-center" scope="col">@task.Priority    </th>
-                <th class="text-center" scope="col">@task.CreatedById </th>
-                <th class="text-center" scope="col">@task.IncidentId  </th>
-                <th class="text-center" scope="col">@task.AssignedById</th>
-                <th class="text-center" scope="col">@task.AssignedToId</th>
-                <th class="text-center" scope="col">@task.FixingTime  </th>
-                <th class="text-center" scope="col">@task.Cost        </th>
-                <th class="text-center" scope="col">@task.Comment     </th>
+                <tr>
+                    <th class="text-center" scope="col">@task.Id          </th>
+                    <td class="text-center" scope="col">@task.Description </td>
+                    <td class="text-center" scope="col">@task.Status      </td>
+                    <td class="text-center" scope="col">@task.Type        </td>
+                    <td class="text-center" scope="col">@task.Priority    </td>
+                    <td class="text-center" scope="col">@task.CreatedById </td>
+                    <td class="text-center" scope="col">@task.IncidentId  </td>
+                    <td class="text-center" scope="col">@task.AssignedById</td>
+                    <td class="text-center" scope="col">@task.AssignedToId</td>
+                    <td class="text-center" scope="col">@task.FixingTime  </td>
+                    <td class="text-center" scope="col">@task.Cost        </td>
+                    <td class="text-center" scope="col">@task.Comment     </td>
 
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                 {
                     <th class="text-center" scope="col">
-                       <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >Assign</a>
+                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >Assign</a>
                     </th> 
 
                     <th class="text-center" scope="col">
-                       <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >Edit</a>
+                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >Edit</a>
                     </th>   
                 }
        
@@ -95,14 +103,14 @@
                     </th > 
                 }
        
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                 {
                     <th class="text-center" scope="col">
-                       <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>
+                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>
                     </th> 
                 }
                 
-               </tr>
+                </tr>
             }  
         </tbody>
      </table>  

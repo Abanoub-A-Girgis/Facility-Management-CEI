@@ -15,7 +15,7 @@
             <form asp-action="Index">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
+                    <label @*asp-for="Id"*@ class="control-label">ID</label>
                     <input asp-for="Id"  class="form-control-plaintext shadow-none" readonly value="@Model.Id" />
                     <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
@@ -30,17 +30,20 @@
                     <span asp-validation-for="Priority" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="IssueDate" class="control-label"></label>
+                    <label @*asp-for="IssueDate"*@ class="control-label">Issue Date</label>
                     <input asp-for="IssueDate" class="form-control-plaintext shadow-none" readonly/>
                     <span asp-validation-for="IssueDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="SensorId" class="control-label"></label>
+                    <label @*asp-for="SensorId"*@ class="control-label">
+                        <english>Sensor ID</english>
+                       @* <arabic class="d-none"></arabic>*@
+                    </label>
                     <input asp-for="SensorId"  class="form-control-plaintext shadow-none" readonly />
                     <span asp-validation-for="SensorId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="InvestigatDate" class="control-label"></label>
+                    <label @*asp-for="InvestigatDate"*@ class="control-label">Investagete Date</label>
                     <input asp-for="InvestigatDate"  class="form-control-plaintext shadow-none" readonly  value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
                     <span asp-validation-for="InvestigatDate" class="text-danger"></span>
                 </div>
@@ -50,7 +53,7 @@
                     <span asp-validation-for="Investigated" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AppUserId" class="control-label"></label>
+                    <label @*asp-for="AppUserId" *@class="control-label">User ID</label>
                     <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
@@ -63,7 +66,7 @@
                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                     {
                         <input class="btn btn-primary" type="submit" value="save" />
-                        <a class="btn btn-primary" asp-controller="Incident" asp-action="AddOrEdit" >Assign To Incident</a>
+                        <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >Assign To Incident</a>
                         <a class="btn btn-danger" asp-action="Index">Back</a>
                     }
 

@@ -5,8 +5,8 @@
         <thead>
             <tr class="sticky-top">
                 <th>Agent ID</th>
-                <th>Agent Name</th>
                 <th>Task ID</th>
+                <th>Agent Name</th>
                 <th>Asset Name</th>
                 <th>Details</th>
                 <th>Zoom To</th>
@@ -17,8 +17,8 @@
             {
                 <tr>
                     <th>@task.AssignedToId</th>
-                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + "" + a.LastName).FirstOrDefault())</th>
                     <th>@task.Id</th>
+                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + "" + a.LastName).FirstOrDefault())</th>
                     <td>@task.Incident.Asset.Name</td>
                     @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                     <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
@@ -78,9 +78,9 @@
             "autoWidth": false,
             "columns": [
                 { "width": "0%" },
+                { "width": "15%" },
                 { "width": "25%" },
-                { "width": "10%" },
-                { "width": "25%" },
+                { "width": "20%" },
                 { "width": "20%" },
                 { "width": "20%" },
             ],
@@ -88,7 +88,8 @@
         }    
     );
     } );
-
+    var ItemsTableHeading = $("#BottomTableHeading")[0]
+    
     function ShowAllData() {
         var itemsTable = $("#ItemsTable").DataTable()
         itemsTable.column(0).search("").draw();
@@ -96,7 +97,9 @@
         listOfHigh = listOfHigh2;
         listOfMedium = listOfMedium2;
         listOfLow = listOfLow2;
+        ItemsTableHeading.innerText = "All Tasks"
     }
+    
     function ChangeData(Id) {
         var itemsTable = $("#ItemsTable").DataTable()
         itemsTable.column(0).search(Id).draw();
@@ -104,6 +107,7 @@
         listOfHigh = AgentItems[Id][1];
         listOfMedium = AgentItems[Id][2];
         listOfLow = AgentItems[Id][3];
+        ItemsTableHeading.innerText = "Tasks for Agent " + Id
     }
 
 </script>

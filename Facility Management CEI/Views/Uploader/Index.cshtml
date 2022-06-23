@@ -6,7 +6,7 @@
 
 <h2>Uploader</h2>
 
-@using (Html.BeginForm("Index", "Uploader", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Uploader", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <label for="file">Filename:</label>
     <input type="file" name="file" id="file" accept=".ifc" />

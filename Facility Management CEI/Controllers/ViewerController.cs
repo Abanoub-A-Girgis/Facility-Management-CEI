@@ -92,16 +92,21 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
         
-        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor, Inspector, Agent")]
+        [Authorize(Roles = "SystemAdmin, Agent")]
         public async Task<IActionResult> ViewerAsAgent(int EmployeeId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
-            if (AppUser.Type == API.Enums.UserType.Agent && AppUser.Id != EmployeeId)
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            if(AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
-                return StatusCode(401, "Unauthorized Access");
+                EmployeeId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-            
+            else if(EmployeeId == 0)
+            {
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+            }
+
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
@@ -122,16 +127,21 @@ namespace Facility_Management_CEI.Controllers
             viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
         }
 
-        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor, Inspector")]
+        [Authorize(Roles = "SystemAdmin, Inspector")]
         public async Task<IActionResult> ViewerAsInspector(int InspectorId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
-            if (AppUser.Type == API.Enums.UserType.Inspector && AppUser.Id != InspectorId)
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
-                return StatusCode(401, "Unauthorized Access");
+                InspectorId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
             }
-
+            else if (InspectorId == 0)
+            {
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+            }
+            
             var Agents = await _context.AppUsers.Where(u => u.SuperId == InspectorId).ToListAsync();
             //ViewerParameter viewerParam = new ViewerParameter();
             Dictionary<int, ViewerParameter> viewerParamDic = new Dictionary<int, ViewerParameter>();
@@ -158,14 +168,19 @@ namespace Facility_Management_CEI.Controllers
             return InspectorAgents;
         }
 
-        [Authorize(Roles = "SystemAdmin, Owner, Manager, Supervisor")]
+        [Authorize(Roles = "SystemAdmin, Supervisor")]
         public async Task<IActionResult> ViewerAsSupervisor(int SupervisorId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
-            if (AppUser.Type == API.Enums.UserType.Supervisor && AppUser.Id != SupervisorId)
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
-                return StatusCode(401, "Unauthorized Access");
+                SupervisorId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+            }
+            else if (SupervisorId == 0)
+            {
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -200,14 +215,19 @@ namespace Facility_Management_CEI.Controllers
             return SupervisorInspectors;
         }
 
-        [Authorize(Roles = "SystemAdmin, Owner, Manager")]
+        [Authorize(Roles = "SystemAdmin, Manager")]
         public async Task<IActionResult> ViewerAsManager(int ManagerId)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
-            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
-            if (AppUser.Type == API.Enums.UserType.Manager && AppUser.Id != ManagerId)
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
-                return StatusCode(401, "Unauthorized Access");
+                ManagerId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+            }
+            else if (ManagerId == 0)
+            {
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -245,6 +265,18 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin, Owner")]
         public async Task<IActionResult> ViewerAsOwner(int OwnerId)
         {
+            var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+            var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            {
+                OwnerId = AppUser.Id;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path);
+            }
+            else if (OwnerId == 0)
+            {
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+            }
+
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Inspectors = new List<API.Models.AppUser>();
             List<API.Models.AppUser> Supervisors = new List<API.Models.AppUser>();

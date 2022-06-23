@@ -63,7 +63,7 @@ namespace Facility_Management_CEI.Controllers
             return View();
         }
    
-
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> EditOrAdd(int? IncidentId)
         {
             //if the id is null then the user wants to create a new record and the page name will beCreate student
@@ -71,7 +71,11 @@ namespace Facility_Management_CEI.Controllers
             ViewBag.PageName = IncidentId == null ? "Create Incident" : "Edit Incident";
             ViewBag.IsEdit = IncidentId == null ? false : true;
             //these are the values from the DB to be loaded at the page openeing 
+<<<<<<< HEAD
             ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings,"Id","Id");
+=======
+            ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
+>>>>>>> c3a9aca1db12701adaea9276f22f0a74fc486830
             ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
             ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
             // this code is used to get the id of the current logged in user 
