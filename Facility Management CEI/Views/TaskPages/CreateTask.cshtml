@@ -16,16 +16,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <select 
                 @Html.DropDownList("Type", new List<SelectListItem> {  
                 new SelectListItem{Text="Choose type",Value="",Selected=true,Disabled=true},
                 new SelectListItem { Text="Preventive",Value="0"},  
                 new SelectListItem { Text="Corrective",Value="1"},
                 new SelectListItem { Text="Modification",Value="2"},
                 new SelectListItem { Text="Other",Value="3"},new SelectListItem { Text="Choose type", Disabled = true }
-                }, new { @class = "form-control" }) >
-                </select>
-                <span asp-validation-for="Type" 0="text-danger"></span>
+                }, new { @class = "form-control" })
+                <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -34,12 +32,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select @Html.DropDownList("Status", new List<SelectListItem> {  
+                @Html.DropDownList("Status", new List<SelectListItem> {  
                     new SelectListItem{Text="Choose type",Value="",Selected=true,Disabled=true},
                     new SelectListItem { Text="NotAssigned",Value="0"},  
                     new SelectListItem { Text="WorkInProgress",Value="1"},
                     new SelectListItem { Text="Completed",Value="2"},new SelectListItem { Text="Choose Status", Disabled = true }
-                    }, new { @class = "form-control" })  ></select>
+                    }, new { @class = "form-control" })
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div> 
             <div class="form-group">
