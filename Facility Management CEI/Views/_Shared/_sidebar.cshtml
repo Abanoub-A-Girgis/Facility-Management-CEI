@@ -57,7 +57,7 @@
                         @if (ViewContext.HttpContext.User.IsInRole("Owner"))
                         {
                            <li><a class="nav-link text-secondary" asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
-                           <li><a class="nav-link text-secondary" asp-controller="Home" asp-action="Uploader">Uploader</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
