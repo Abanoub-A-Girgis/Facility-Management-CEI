@@ -59,7 +59,7 @@
                     new SelectListItem { Text="High",Value="1"},
                     new SelectListItem { Text="Medium",Value="2"},
                     new SelectListItem { Text="Low",Value="3"},
-                    }, new { @class = "form-control" })  ></select><!--the default value for our drop panel-->
+                    }, new { @class = "form-control" })></select><!--the default value for our drop panel-->
                     <span asp-validation-for="Priority" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
 
@@ -109,5 +109,7 @@
     </div>
 </div>
 
-
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@
