@@ -127,7 +127,7 @@ namespace Facility_Management_CEI.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return View();
                 }
 
 
