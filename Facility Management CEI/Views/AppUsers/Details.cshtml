@@ -1,4 +1,5 @@
-﻿@model API.Models.AppUser
+﻿@using Facility_Management_CEI.Controllers
+@model API.Models.AppUser
 
 @{
     ViewData["Title"] = "Employee Details";
@@ -48,7 +49,13 @@
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">Edit</a> |
+    @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+    {
+        
+        <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">Edit</a> 
+    }
+        
     <a asp-action="Index"  class="btn btn-danger">Back to List</a>
 </div>

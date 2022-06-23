@@ -1,14 +1,19 @@
-﻿@model IEnumerable<API.Models.AppUser>
+﻿@using Facility_Management_CEI.Controllers
+
+@model IEnumerable<API.Models.AppUser>
 
 @{
     ViewData["Title"] = "Building Personnel";
 }
 
 <h1>Building Personnel</h1>
-
+@if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+{
 <p>
-    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+    <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>Create New</a>
 </p>
+    
+}
 <table class="table">
     <thead>
         <tr>
@@ -33,9 +38,17 @@
             <th class="text-center" scope="col">
                 Supervisor Name
             </th >
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            {
+                
             <th class="text-center" scope="col">Edit</th>
+            }
             <th class="text-center" scope="col">Details</th>
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            {
             <th class="text-center" scope="col">Delete</th>
+                
+            }
         </tr>
     </thead>
     <tbody>
@@ -62,15 +75,23 @@
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.Super.FirstName) @Html.DisplayFor(modelItem => item.Super.LastName)
             </td>
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            {
             <td class="text-center" scope="col">
-                <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
+            <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
             </td>
+            }
+
             <td class="text-center" scope="col">
                 <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Details</a> 
             </td> 
+
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            {
             <td class="text-center" scope="col">
-                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
             </td>
+            }
         </tr>
 }
     </tbody>
