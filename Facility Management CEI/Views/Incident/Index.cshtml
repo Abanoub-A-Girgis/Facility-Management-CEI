@@ -53,7 +53,7 @@
                                     <th class="text-center" scope="col">Details</th>
                         
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                                     {
                                     <th class="text-center" scope="col">Delete</th>
                         
@@ -101,7 +101,7 @@
                                             <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
                                          </td>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                                     {
                             
                                         <td class="text-center" scope="col">
