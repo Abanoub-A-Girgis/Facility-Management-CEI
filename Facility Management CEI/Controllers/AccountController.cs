@@ -15,14 +15,16 @@ namespace Facility_Management_CEI.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly RoleManager<IdentityRole> _roleManger;
         private readonly UserManager<LogUser> _userManeger;
         private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _Context { get; set; }
-        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context, SignInManager<LogUser> singInManager)
+        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context, RoleManager<IdentityRole> roleManger, SignInManager<LogUser> singInManager)
         {
             this._userManeger = userManger;
             this._Context = context;
             this._signInManager = singInManager;
+            this._roleManger = roleManger;
         }
 
 
@@ -100,6 +102,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
+           
             var UsersList = await _Context.AppUsers.ToListAsync();
             if (UsersList.Count == 0) 
             {
@@ -116,13 +119,32 @@ namespace Facility_Management_CEI.Controllers
                 _Context.SaveChanges();
 
             }
-
-
+            
 
             {
+                var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);
+                //if (SignedInLogUser != null)
+                //{
+                var SignedInAppUser = SignedInLogUser.AppUser;
+                if (SignedInAppUser != null)
+                {
+                    var RoleOfAppUser = SignedInAppUser.Type.ToString();
+                    //var role = await _roleManger.FindByNameAsync(RoleOfAppUser);
+                    var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
+                    if (!Flag)
+                    {
+                        var ttt = await _userManeger.RemoveFromRolesAsync(SignedInLogUser, Enum.GetNames(typeof(UserType)));
+                        await _userManeger.AddToRoleAsync(SignedInLogUser, RoleOfAppUser);
+
+                    }
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    
+
+                    //}
                     return RedirectToAction("HomePage", "HomePage");
                 }
                 else
