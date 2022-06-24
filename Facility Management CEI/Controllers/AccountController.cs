@@ -122,7 +122,7 @@ namespace Facility_Management_CEI.Controllers
             
 
             {
-                var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);
+                var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);//need to be tested with ramy code
                 if (SignedInLogUser != null)
                 {
                     var SignedInAppUser = SignedInLogUser.AppUser;
