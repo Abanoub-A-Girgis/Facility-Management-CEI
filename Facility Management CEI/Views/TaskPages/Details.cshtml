@@ -162,8 +162,8 @@
                         z-index:5" id="overlayDiv"></div>
             <script type="text/javascript">
                 var viewer = new xViewer('viewer');
-                viewer.load('/data/SampleHouse.wexbim');
-                //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                //viewer.load('/data/SampleHouse.wexbim');
+                viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
                 var navCube = new xNavigationCube();
                 navCube.ratio = .1;
                 viewer.addPlugin(navCube);
