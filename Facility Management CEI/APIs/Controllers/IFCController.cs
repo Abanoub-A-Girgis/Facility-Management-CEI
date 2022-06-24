@@ -247,7 +247,7 @@ namespace API.Controllers
 
                 #region SensorData
 
-                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>().Where(s => s.Name.Value.ToString().Contains("ensor")).ToList();
+                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>().Where(s => s.ObjectType.Value.ToString().Contains("ensor")).ToList();
                 var GettingSensorOfIfcAlarm = building.OfType<IfcDistributionControlElement>().ToList();
                 var GettingSensorOfIfcValve = building.OfType<IfcFlowController>().ToList();
                 List<Sensor> sensors = new List<Sensor>();
