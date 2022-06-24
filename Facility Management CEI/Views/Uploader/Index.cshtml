@@ -4,13 +4,114 @@
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
+<head>
+    <script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+</head>
+
 <h2>Uploader</h2>
-
-@using (Html.BeginForm("Uploader", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">  
+                <h4 class="card-title">IFC File Upload Form</h4>
+                <div>
+                    @using (Html.BeginForm("Index", "Uploader", FormMethod.Post, new { @name = "myDropzone",  id = "myDropzone", @enctype = "multipart/form-data" }))
+                    {
+                        <div>
+                            <div id="previews" class="dz-default dz-message box__input dropzone">
+                                <div class="text-center p-5">
+                                    <div class="mb-3">
+                                        <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                                    </div>
+                                    <h4>Drop IFC file here or click to upload.</h4>
+                                </div>
+                            </div>
+                            <div class="text-center" id="previewFiles"></div>
+                        </div>
+                            <div class="text-center mt-4">
+                            <input id="submitButton" class="btn btn-primary waves-effect waves-light" type="submit" name="Submit"/>
+                            <button id="loadingButton" class="d-none btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                            <span>@ViewBag.Message</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>
+@using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post))
 {
-    <label for="file">Filename:</label>
-    <input type="file" name="file" id="file" accept=".ifc" />
-
-    <input type="submit" />
-    <span>@ViewBag.Message</span>
+     <input class="btn btn-danger" type="submit" value="Clear Database"/>
 }
+
+
+<script>
+    Dropzone.autoDiscover = false;
+
+    $(document).ready(function () {
+        $('#myDropzone').dropzone({
+           //parameter name value
+            paramName: "file",
+            //clickable div id
+            clickable: '#previews',
+           //preview files container Id
+            previewsContainer: "#previewFiles",
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFiles: 1,
+            //url:"Uploader/Index",
+            addRemoveLinks: true,
+            dictResponseError: 'Server not Configured',
+            acceptedFiles: ".ifc",// use this to restrict file type
+            init: function () {
+                var self = this;
+                // config
+                self.options.addRemoveLinks = true;
+                self.options.dictRemoveFile = "Delete";
+                //New file added
+                self.on("addedfile", function (file) {
+                    console.log('new file added ', file);
+                    $('.dz-success-mark').hide();
+                    $('.dz-error-mark').hide();
+                });
+                // Send file starts
+                self.on("sending", function (file) {
+                    console.log('upload started', file);
+                    $('.meter').show();
+                });
+
+                // File upload Progress
+                self.on("totaluploadprogress", function (progress) {
+                    console.log("progress ", progress);
+                    $('.roller').width(progress + '%');
+                });
+
+                this.on("maxfilesexceeded", function(file){
+                    alert("Only one file is allowed");
+                });
+
+                $('#submitButton').on("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                      // Validate form here if needed
+                        if (self.getQueuedFiles().length > 0) {
+                            $('#submitButton')[0].classList.add("d-none")
+                            $('#loadingButton')[0].classList.remove("d-none")
+                            self.processQueue();
+                        } else {
+                            self.uploadFiles([]);
+                            $('#myDropzone').submit();
+                        }
+                });
+
+                this.on("complete", function() {
+                    window.location = "../Viewer/ViewerAsOwner"
+                });
+            }
+        });
+    })
+</script>

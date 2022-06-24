@@ -13,7 +13,7 @@
 </head>
 
 <!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
+<div id="SideBar" class="vertical-menu d-none">
 
     <div data-simplebar class="h-100">
 
@@ -38,16 +38,15 @@
                         
                         @if (ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
                         {
-                            <li><a class="nav-link text-secondary"  asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
-                            <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Account" asp-action="Register">Register</a></li>
                             //<li><a class="nav-link text-secondary " asp-controller="Account" asp-action="LogOut">LogOut</a></li>
                             <li><a class="nav-link text-primary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer View as Agent</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsManager">Viewer View as Manager</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer View as Inspector</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Viewer View as Supervisor</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer View as Owner</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Building Viewer as Agent</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsManager">Building Viewer as Manager</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Building Viewer as Inspector</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Building Viewer as Supervisor</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Building Viewer as Owner</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
@@ -56,37 +55,26 @@
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Owner"))
                         {
-                           <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
-                           <li><a class="nav-link text-secondary"   asp-controller="Home" asp-action="Uploader">Uploader</a></li>
-                           <li><a class="nav-link text-secondary"  asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer</a></li>
-                           <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
-                           <li><a class="nav-link text-secondary " asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Building Viewer</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
+                           <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
 
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Manager"))
                         {
-                            <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
-                            <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsManager">Viewer</a></li>
-                            <li><a class="nav-link text-secondary " asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
-                            <li><a class="nav-link text-secondary " asp-controller="Incident" asp-action="Index">Incident</a></li>
-                            <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
-                            <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
-                            <li><a class="nav-link text-secondary " asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
-                           <li><a class="nav-link text-primary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
-                           <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
-                        }
-                        @if (ViewContext.HttpContext.User.IsInRole("Manager"))
-                        {
-                            <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsManager">Viewer View</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
+                            <li><a class="nav-link text-secondary" asp-area="" asp-controller="Viewer" asp-action="ViewerAsManager">Building Viewer</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Supervisor"))
                         {
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Viewer</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Building Viewer</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
@@ -94,7 +82,8 @@
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Inspector"))
                         {
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Building Viewer</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
@@ -102,9 +91,9 @@
 
                         @if (ViewContext.HttpContext.User.IsInRole("Agent"))
                         {
-                            <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer</a></li>
-                            <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="HomePage" asp-action="HomePage">Home Page</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Building Viewer</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
                         }
 
                     </ul>

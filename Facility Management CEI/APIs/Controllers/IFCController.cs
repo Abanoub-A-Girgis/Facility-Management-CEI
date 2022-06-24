@@ -1,4 +1,5 @@
-﻿using API.DB;
+﻿using Facility_Management_CEI.IdentityDb;
+using API.Enums;
 using API.Models;
 using API.Moldels_DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +9,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xbim.Common;
 using Xbim.Ifc;
-//using Xbim.Ifc2x3.Interfaces;
-//using Xbim.Ifc2x3.ProductExtension;
-using Xbim.Ifc4.BuildingControlsDomain;
-using Xbim.Ifc4.HvacDomain;
-using Xbim.Ifc4.Interfaces;
-using Xbim.Ifc4.Kernel;
-using Xbim.Ifc4.ProductExtension;
-using Xbim.Ifc4.SharedBldgElements;
-using Xbim.Ifc4.SharedBldgServiceElements;
+////////////////////////////////////////////
+//using Xbim.Ifc4.BuildingControlsDomain;
+//using Xbim.Ifc4.HvacDomain;
+//using Xbim.Ifc4.Interfaces;
+//using Xbim.Ifc4.Kernel;
+//using Xbim.Ifc4.ProductExtension;
+//using Xbim.Ifc4.SharedBldgElements;
+//using Xbim.Ifc4.SharedBldgServiceElements;
+/////////////////////////////////////////////
+using Xbim.Ifc2x3.BuildingcontrolsDomain;
+using Xbim.Ifc2x3.Interfaces;
+using Xbim.Ifc2x3.ProductExtension;
+using Xbim.Ifc2x3.SharedBldgElements;
+using Xbim.Ifc2x3.Kernel;
+using Xbim.Ifc2x3.SharedBldgServiceElements;
+using System.Net.Http;
+using System.IO;
 
 namespace API.Controllers
 {
@@ -24,6 +33,7 @@ namespace API.Controllers
     [ApiController]//Controller type 
     public class IFCController : Controller
     {
+        private readonly HttpClient _client;
         public ApplicationDBContext _Context { get; set; }
         public IFCController(ApplicationDBContext context)
         {
@@ -32,8 +42,9 @@ namespace API.Controllers
 
         [Route("AddBuildingDataFromIFC")]
         [HttpPost]
-        public void AddBuildingDataFromIFC(string FilePath)
+        public void AddBuildingDataFromIFC(string fileName)
         {
+            string FilePath = Path.Combine("wwwroot\\data", fileName);
             using (IfcStore Model = IfcStore.Open($"{FilePath}"))
             {
                 //stepModel.Instances: retreiving all the elements inside our model
@@ -43,7 +54,7 @@ namespace API.Controllers
                 Building Mybuilding = new Building();
                 Mybuilding.Id = building.OfType<IfcBuilding>().FirstOrDefault().EntityLabel;
                 Mybuilding.Name = building.OfType<IfcBuilding>().FirstOrDefault().Name.Value;
-                Mybuilding.Path = FilePath;
+                Mybuilding.Path = "data/" + fileName;
                 _Context.Buildings.Add(Mybuilding);
                 _Context.SaveChanges();
                 #endregion
@@ -89,94 +100,176 @@ namespace API.Controllers
                 #endregion
 
                 #region AssetData
-                var Assets = building.OfType<IIfcRelContainedInSpatialStructure>();//getting all the assets within the Ifc file (IIFc interface is more general for Ifc Version than Ifc that will need tp specify a certain compatable formate)
-
-                List<Asset> SpacesAssets = new List<Asset>();
-
-                    foreach (var Space in FloorSpaces)
+                var RelatedAssets = building.OfType<IfcRelContainedInSpatialStructure>();//getting all the assets within the Ifc file (IIFc interface is more general for Ifc Version than Ifc that will need tp specify a certain compatable formate)
+                var Doors = building.OfType<IfcDoor>().ToList();//For adding the Dooors
+                var Windows = building.OfType<IfcWindow>().ToList();//Forr adding the Windows
+                var RelSpace = building.OfType<IfcRelSpaceBoundary>();//For adding elements that are related to a space to give it a space id
+                var PipesAndDucts = building.OfType<IfcFlowSegment>();//Get Pipes & Ducts
+                var Columns = building.OfType<IfcColumn>();//To get Columns 
+                var Slabs = building.OfType<IfcSlab>();//To get Columns 
+                var Walls = building.OfType<IfcWall>();//To get Columns 
+                var beams = building.OfType<IfcBeam>();//To get Columns 
+                List<Asset> AssetsList = new List<Asset>();//Our List that hass all the assets
+                //Doors Loop
+                foreach (var Door in Doors)
+                {
+                    if (Door.IsContainedIn == null)//making sure that the Door is contained in a floor some times it gives null exception
+                        continue;
+                    AssetsList.Add(new Asset
                     {
-                        var SpaceAssets = Assets.Where(con => con.RelatingStructure.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
-                        if (SpaceAssets == null)
-                            continue;
-                        var AssetsInSpace = SpaceAssets.RelatedElements;//getting the furniture within our space 
-                        foreach (var Asset in AssetsInSpace)//getting each asset in our selected space 
-                        {
-                            SpacesAssets.Add(//feedign our Asset object with the data needed for database  
-                            new Asset
-                            {
-                                Id = Asset.EntityLabel,
-                                Name = Asset.Name.Value,
-                                SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
-                                FloorId=Space.FloorId
-                        });
-                        }
-                    
-                
-                //    var Pipes = building.OfType<IfcPipeSegment>();
-                //    var SpacePipe = Pipes.Where(con => con.IsContainedIn.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
-                //    if (SpacePipe == null)
-                //        continue;
-                //    foreach (var Pipe in Pipes)
-                //    {
-                //        SpacesAssets.Add(//feedign our Asset object with the data needed for database  
-                //        new Asset
-                //        {
-                //            Id = Pipe.EntityLabel,
-                //            Name = Pipe.Name.Value,
-                //            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
-                //        });
-                //    }
-                //    var Ducts = building.OfType<IfcDuctSegment>();
-                //    var SpaceDuct = Ducts.Where(con => con.IsContainedIn.EntityLabel == Space.Id).FirstOrDefault();//return the space that is a relating object to the furniture
-                //    if (SpaceDuct == null)
-                //        continue;
-                //    foreach (var duct in Ducts)
-                //    {
-                //        SpacesAssets.Add(//feedign our Asset object with the data needed for database  
-                //        new Asset
-                //        {
-                //            Id = duct.EntityLabel,
-                //            Name = duct.Name.Value,
-                //            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
-                //        });
-                //    }
+                        Id = Door.EntityLabel,
+                        Name = $"{Door.ObjectType.Value}:{Door.Name.Value}",
+                        SpaceId = Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel,
+                        FloorId = Door.IsContainedIn.EntityLabel
+                    });
                 }
-                _Context.Assets.AddRange(SpacesAssets);
+                //Windows Loop
+                foreach (var Window in Windows)
+                {
+                    AssetsList.Add(new Asset
+                    {
+                        Id = Window.EntityLabel,
+                        Name = $"{Window.ObjectType.Value}:{Window.Name.Value}",
+                        SpaceId = null,
+                        FloorId = Window.IsContainedIn.EntityLabel
+                    });
+                }
+                //Ducts and pipe Loop
+                foreach (var item in PipesAndDucts)
+                {
+                    if (item.IsContainedIn == null)
+                        continue;
+                    AssetsList.Add(new Asset
+                    {
+                        Id = item.EntityLabel,
+                        Name = $"{item.ObjectType.Value}:{item.Name.Value}",
+                        SpaceId = null,
+                        FloorId = item.IsContainedIn.EntityLabel
+                    });
+                }
+                //getting Furniture located in a space 
+                foreach (var Space in FloorSpaces)
+                {
+                    var x = RelatedAssets.Where(con => con.RelatingStructure.EntityLabel == Space.Id);//List Contains Single element
+                    var SpaceRelAssets = x.FirstOrDefault();//return the space that is a relating object to the furniture    
+                    if (SpaceRelAssets == null)
+                        continue;
+
+                    var RelAssetsInSpace = SpaceRelAssets.RelatedElements.ToList();//getting the furniture within our space 
+
+                    foreach (var Asset in RelAssetsInSpace)//getting each asset in our selected space 
+                    {
+                        AssetsList.Add(//feedign our Asset object with the data needed for database  
+                        new Asset
+                        {
+                            Id = Asset.EntityLabel,
+                            Name = $"{Asset.ObjectType.Value} : {Asset.Name.Value}",
+                            SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
+                            FloorId = Space.FloorId
+                        });
+                    }
+                }
+                //getting the columns 
+                foreach (var column in Columns)
+                {
+                    if (column.IsContainedIn == null)
+                        continue;
+                    AssetsList.Add(new Asset
+                    {
+                        Id = column.EntityLabel,
+                        Name = $"{column.ObjectType.Value}:{column.Name.Value}",
+                        SpaceId = null,
+                        FloorId = column.IsContainedIn.EntityLabel
+                    });
+                }
+                //getting the Slabs 
+                foreach (var slab in Slabs)
+                {
+                    if (slab.IsContainedIn == null)
+                        continue;
+                    AssetsList.Add(new Asset
+                    {
+                        Id = slab.EntityLabel,
+                        Name = $"{slab.ObjectType.Value}:{slab.Name.Value}",
+                        SpaceId = null,
+                        FloorId = slab.IsContainedIn.EntityLabel
+                    });
+                }
+                //getting the Walls 
+                foreach (var wall in Walls)
+                {
+                    if (wall.IsContainedIn == null)
+                        continue;
+                    AssetsList.Add(new Asset
+                    {
+                        Id = wall.EntityLabel,
+                        Name = $"{wall.ObjectType.Value}:{wall.Name.Value}",
+                        SpaceId = null,
+                        FloorId = wall.IsContainedIn.EntityLabel
+                    });
+                }
+                //getting the Beams
+                foreach (var beam in beams)
+                {
+                    if (beam.IsContainedIn == null)
+                        continue;
+                    AssetsList.Add(new Asset
+                    {
+                        Id = beam.EntityLabel,
+                        Name = $"{beam.ObjectType.Value}:{beam.Name.Value}",
+                        SpaceId = null,
+                        FloorId = beam.IsContainedIn.EntityLabel
+                    });
+                }
+
+                //IFcRelSpace Boundary Elements (the elements that are connected to a physical Space) 
+                //this must be the last loop as it might includes a duplicate element which is investigated in this loop
+                foreach (var item in RelSpace)
+                {
+                    if (item.RelatedBuildingElement == null)//in case that the Boundary are virtual then it wont contain any elements
+                        continue;
+                    if (AssetsList.Any(ele => ele.Id == item.RelatedBuildingElement.EntityLabel))
+                        continue;
+                    //getting all the structural elements+ Door With spaces Id
+                    AssetsList.Add(
+                        new Asset
+                        {
+                            Id = item.RelatedBuildingElement.EntityLabel,
+                            Name = $"{item.RelatedBuildingElement.ObjectType.Value} : {item.RelatedBuildingElement.Name.Value}",
+                            SpaceId = item.RelatingSpace.EntityLabel,
+                            FloorId = FloorSpaces.Where(sp => sp.Id == item.RelatingSpace.EntityLabel).FirstOrDefault().FloorId
+                        });
+                }
+
+                _Context.Assets.AddRange(AssetsList);
                 _Context.SaveChanges();
                 #endregion
 
                 #region SensorData
 
-                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>().Where(s => s.Name.Value.ToString().Contains("ensor")).ToList();
-                var GettingSensorsOfIFCAlarm = building.OfType<IfcAlarm>().ToList();
-                var GettingSensorOfIfcSensor = building.OfType<IfcSensor>();
-                var GettingSensorOfIfcValve = building.OfType<IfcValve>();
+                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>().Where(s => s.ObjectType.Value.ToString().Contains("ensor")).ToList();
+                var GettingSensorOfIfcAlarm = building.OfType<IfcDistributionControlElement>().ToList();
+                var GettingSensorOfIfcValve = building.OfType<IfcFlowController>().ToList();
                 List<Sensor> sensors = new List<Sensor>();
                 //1st Loop Collection
                 foreach (var sensor in GettingSensorsOfElementProxy)
                 {
                     if (sensor is null)//ensure that ths list Contains no values 
                         continue;
-                    //var x = sensor.ConnectedTo;
-                    //if (x.Count() == 0)
-                    //    continue;
                     sensors.Add(new Sensor()
                     {
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
                         SensorType = Enums.SensorType.SpaceSensor,
-                        AssetId =null
+                        AssetId = null
                     });
                 }
                 //2nd Loop Collection
-                foreach (var sensor in GettingSensorsOfIFCAlarm)
+                foreach (var sensor in GettingSensorOfIfcAlarm)
                 {
                     if (sensor is null)
                         continue;
-                    //var x = sensor.ConnectedTo;
-                    //if (x.Count() == 0)
-                    //    continue;
                     sensors.Add(new Sensor()
                     {
                         Id = sensor.EntityLabel,
@@ -186,28 +279,6 @@ namespace API.Controllers
                         AssetId = null
 
                     });
-                }
-                //3rd Loop Collection
-
-                foreach (var sensor in GettingSensorOfIfcSensor)
-                {
-                    if (sensor is null)
-                        continue;
-
-                    sensors.Add(new Sensor()
-                    {
-                        Id = sensor.EntityLabel,
-                        Name = sensor.Name.Value,
-                        SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
-                        SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
-                        AssetId =null
-
-                    });
-                }
-                //4th Loop Collection
-                foreach (var sensor in GettingSensorOfIfcValve)
-                {
-                    
                 }
                 _Context.Sensors.AddRange(sensors);
                 _Context.SaveChanges();
@@ -221,7 +292,7 @@ namespace API.Controllers
         {
             var BuildingList = _Context.Buildings.FirstOrDefault();
             BuildingDTO buildingDTO = new BuildingDTO();
-            buildingDTO.Id=BuildingList.Id;
+            buildingDTO.Id = BuildingList.Id;
             buildingDTO.Name = BuildingList.Name;
             buildingDTO.Path = BuildingList.Path;
             return buildingDTO;
@@ -275,7 +346,7 @@ namespace API.Controllers
                     Id = asset.Id,
                     Name = asset.Name,
                     SpaceId = asset.SpaceId
-                    
+
                 });
             }
             return assetDTOs;
@@ -320,7 +391,7 @@ namespace API.Controllers
                     Priority = Task.Priority,
                     Cost = Task.Cost,
                     FixingTime = Task.FixingTime,
-                    //IncidentId = Task.IncidentId,
+                    IncidentId = Task.IncidentId,
                     AssignedToId = Task.AssignedToId,
                     AssignedById = Task.AssignedById,
                     CreatedById = Task.CreatedById,
@@ -343,7 +414,7 @@ namespace API.Controllers
                 Priority = task.Priority,
                 Cost = task.Cost,
                 FixingTime = task.FixingTime,
-                //IncidentId = task.IncidentId,
+                IncidentId = task.IncidentId,
                 AssignedToId = task.AssignedToId,
                 AssignedById = task.AssignedById,
                 CreatedById = task.CreatedById
@@ -354,44 +425,38 @@ namespace API.Controllers
 
         [Route("ClearDatabase")]
         [HttpDelete]
-        public string ClearDatabase(string PassWord)
+        public void ClearDatabase()
         {
-            if (PassWord == "Jimmy")
-            {
-                Building[] Bui = _Context.Buildings.ToArray();
-                _Context.Buildings.RemoveRange(Bui);
 
-                Floor[] Flo = _Context.Floors.ToArray();
-                _Context.Floors.RemoveRange(Flo);
+            Building[] Bui = _Context.Buildings.ToArray();
+            _Context.Buildings.RemoveRange(Bui);
 
-                Space[] Spa = _Context.Spaces.ToArray();
-                _Context.Spaces.RemoveRange(Spa);
+            Floor[] Flo = _Context.Floors.ToArray();
+            _Context.Floors.RemoveRange(Flo);
 
-                Asset[] Asse = _Context.Assets.ToArray();
-                _Context.Assets.RemoveRange(Asse);
+            Space[] Spa = _Context.Spaces.ToArray();
+            _Context.Spaces.RemoveRange(Spa);
 
-                Sensor[] Sen = _Context.Sensors.ToArray();
-                _Context.Sensors.RemoveRange(Sen);
+            Asset[] Asse = _Context.Assets.ToArray();
+            _Context.Assets.RemoveRange(Asse);
 
-                SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
-                _Context.SensorWarnings.RemoveRange(SenWar);
+            Sensor[] Sen = _Context.Sensors.ToArray();
+            _Context.Sensors.RemoveRange(Sen);
 
-                AppUser[] Use = _Context.AppUsers.ToArray();
-                _Context.AppUsers.RemoveRange(Use);
+            SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
+            _Context.SensorWarnings.RemoveRange(SenWar);
 
-                Incident[] Inc = _Context.Incidents.ToArray();
-                _Context.Incidents.RemoveRange(Inc);
+            AppUser[] Use = _Context.AppUsers.ToArray();
+            _Context.AppUsers.RemoveRange(Use);
 
-                Models.Task[] Tas = _Context.Tasks.ToArray();
-                _Context.Tasks.RemoveRange(Tas);
+            Incident[] Inc = _Context.Incidents.ToArray();
+            _Context.Incidents.RemoveRange(Inc);
 
-                _Context.SaveChanges();
-                return "Done";
-            }
-            else return "Wrong PassWord";
+            Models.Task[] Tas = _Context.Tasks.ToArray();
+            _Context.Tasks.RemoveRange(Tas);
+
+            _Context.SaveChanges();
         }
 
-        
     }
 }
-
