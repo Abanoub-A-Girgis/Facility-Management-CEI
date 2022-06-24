@@ -51,8 +51,8 @@ namespace Facility_Management_CEI.Controllers
         public IActionResult Create()
         {
             ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id");
-            ViewData["LogUserId"] = new SelectList(_context.LogUsers, "Id", "Id");
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "LogUserId");
+            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id");
+            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id");
             return View();
         }
 
@@ -70,8 +70,8 @@ namespace Facility_Management_CEI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
-            ViewData["LogUserId"] = new SelectList(_context.LogUsers, "Id", "Id", appUser.LogUserId);
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "LogUserId", appUser.SuperId);
+            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id",appUser.Id);
+            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
             return View(appUser);
         }
 
@@ -89,8 +89,8 @@ namespace Facility_Management_CEI.Controllers
                 return NotFound();
             }
             ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
-            ViewData["LogUserId"] = new SelectList(_context.LogUsers, "Id", "Id", appUser.LogUserId);
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "LogUserId", appUser.SuperId);
+            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
+            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
             return View(appUser);
         }
 
@@ -127,9 +127,9 @@ namespace Facility_Management_CEI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
-            ViewData["LogUserId"] = new SelectList(_context.LogUsers, "Id", "Id", appUser.LogUserId);
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "LogUserId", appUser.SuperId);
-            return View(appUser);
+            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
+            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: AppUsers/Delete/5

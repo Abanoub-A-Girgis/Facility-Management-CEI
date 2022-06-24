@@ -173,6 +173,7 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<ActionResult> Investigate(int? WarningId)
         {
+
             var user2 = await _userManeger.GetUserAsync(User);
             var userI = user2.Id;
             ViewBag.AppUserId =   _context.AppUsers.ToList().Where(u => u.LogUserId == userI).FirstOrDefault().Id;
