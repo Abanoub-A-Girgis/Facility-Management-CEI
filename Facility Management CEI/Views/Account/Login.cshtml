@@ -125,7 +125,7 @@
 
                                         <div class="form-group">
                                             <label for="username">User Name</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Enter User Name" asp-for="UserName">
+                                            <input type="text" class="form-control" id="usernameEng" placeholder="Enter User Name" asp-for="UserName">
                                             <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
 
@@ -134,7 +134,7 @@
                                                 <a href=@Url.Action("Recoverpw2", "Auth") class="text-muted">Forgot password?</a>
                                             </div>*@
                                             <label for="userpassword" >Password</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="Enter password" asp-for="PassWord">
+                                            <input type="password" class="form-control" id="userpasswordEng" placeholder="Enter password" asp-for="PassWord">
                                             <span asp-validation-for="PassWord" class="text-danger"></span>
                                         </div>
 
@@ -160,7 +160,7 @@
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
                                             <label for="username">إسم المستخدم</label>
-                                            <input type="text" class="form-control" id="username" placeholder="أدخل إسم المستخدم" asp-for="UserName">
+                                            <input type="text" class="form-control" id="usernameAr" placeholder="أدخل إسم المستخدم" asp-for="UserName">
                                             <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
 
@@ -169,7 +169,7 @@
                                                 <a href=@Url.Action("Recoverpw2", "Auth") class="text-muted">Forgot password?</a>
                                             </div>*@
                                             <label for="userpassword" >كلمة السر</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="أدخل كلمة السر" asp-for="PassWord">
+                                            <input type="password" class="form-control" id="userpasswordAr" placeholder="أدخل كلمة السر" asp-for="PassWord">
                                             <span asp-validation-for="PassWord" class="text-danger"></span>
                                         </div>
 

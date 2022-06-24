@@ -12,7 +12,7 @@ File: Main Js File
 
     'use strict';
     //// Default Language
-    var default_lang = 'eng';
+    var default_lang = 'English';
 
     //function setLanguage(lang) {
     //    if (document.getElementById("header-lang-img")) {
@@ -193,7 +193,7 @@ File: Main Js File
             } else {
                 $(".right-bar input:checkbox").prop('checked', false);
                 $("#" + alreadyVisited).prop('checked', true);
-                updateThemeSetting(alreadyVisited);
+                //updateThemeSetting(alreadyVisited);
             }
         }
 
@@ -225,11 +225,11 @@ File: Main Js File
     //   }
     //}
 
-    function initLanguage() {
-        // Auto Loader
-        if (Language != null && Language !== default_lang)
-            setLanguage(Language);
-    }
+    //function initLanguage() {
+    //    // Auto Loader
+    //    if (Language != null && Language !== default_lang)
+    //        setLanguage(Language);
+    //}
 
     function init() {
         initMetisMenu();
@@ -242,7 +242,7 @@ File: Main Js File
         initDropdownMenu();
         initComponents();
         initSettings();
-        initLanguage();
+        //initLanguage();
         initPreloader();
         Waves.init();
     }
