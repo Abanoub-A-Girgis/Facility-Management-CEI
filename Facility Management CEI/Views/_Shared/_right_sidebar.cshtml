@@ -43,7 +43,7 @@
                     <arabic class="d-none">عربي</arabic>
                 </label>
                 <script>
-
+                    
                     var english = $('english');
                     var arabic = $('arabic');
 
@@ -89,7 +89,8 @@
                         var lang = localStorage.getItem('language')
                         if (lang == "arabic") 
                             switchtoArabic();
-                        $('body')[0].classList.remove("d-none")
+                        $('body')[0].classList.remove("invisible");
+                        $('#SideBar')[0].classList.remove("d-none");
                     });
                 </script>
             </div>

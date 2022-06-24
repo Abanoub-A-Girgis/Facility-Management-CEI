@@ -99,7 +99,7 @@ namespace Facility_Management_CEI.Controllers
                 EmployeeId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
-            else if(EmployeeId == 0)
+            else if(EmployeeId == 0 || AppUser.BuildingId == null)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -134,7 +134,7 @@ namespace Facility_Management_CEI.Controllers
                 InspectorId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
-            else if (InspectorId == 0)
+            else if (InspectorId == 0 || AppUser.BuildingId == null)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -175,7 +175,7 @@ namespace Facility_Management_CEI.Controllers
                 SupervisorId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
-            else if (SupervisorId == 0)
+            else if (SupervisorId == 0 || AppUser.BuildingId == null)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -222,7 +222,7 @@ namespace Facility_Management_CEI.Controllers
                 ManagerId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
-            else if (ManagerId == 0)
+            else if (ManagerId == 0 || AppUser.BuildingId == null)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
@@ -269,7 +269,7 @@ namespace Facility_Management_CEI.Controllers
                 OwnerId = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
             }
-            else if (OwnerId == 0)
+            else if (OwnerId == 0 || AppUser.BuildingId == null)
             {
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
