@@ -9,7 +9,10 @@
   
         <div class="card text-center">
             <div class="card-header">
-            <h3>Building Components</h3>
+            <h3>
+                 <english>Building Components</english>
+                <arabic class="d-none">مكونات المنشأة</arabic>
+            </h3>
             </div>
         </div>
        
@@ -19,8 +22,14 @@
      <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
      <thead class="thead-dark">
             <tr>  
-            <th scope="col">Component</th>
-            <th scope="col">Details</th>
+            <th scope="col">
+                <english>Components</english>
+                <arabic class="d-none">المحتويات </arabic>
+            </th>
+            <th scope="col">
+                 <english>Details</english>
+                <arabic class="d-none">التفاصيل </arabic>
+            </th>
             
             </tr>  
         </thead>
@@ -28,39 +37,74 @@
                <tr>
                 @*<td scope="row" ><a href="javascript: void(0);" class="text-body font-weight-bold">#SK3215</a></td>*@
                  <tr>
-                   <td scope="col">Building Personnel</td>
                    <td scope="col">
-                   <a scope="col" asp-controller="AppUsers" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                          <english>Building Personnel</english>
+                          <arabic class="d-none">العاملين بالمنشأة</arabic>
+                   </td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="AppUsers" asp-action="Index" class="btn btn-outline-info" >
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
                    </td>
                  </tr>
                  <tr>
-                   <td scope="col">Building</td>
                    <td scope="col">
-                   <a scope="col" asp-controller="Buildings" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                       <english> Building</english>
+                       <arabic class="d-none"> المنشأة</arabic>
+                   </td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="Buildings" asp-action="Index" class="btn btn-outline-info" >
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
                    </td>
                 </tr>
                   <tr>
-                    <td scope="col">Floors</td>
+                    <td scope="col"> 
+                        <english> Floors</english>
+                       <arabic class="d-none"> الطوابق</arabic>
+                   </td>
                      <td scope="col">
-                   <a scope="col" asp-controller="Floors" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                   <a scope="col" asp-controller="Floors" asp-action="Index" class="btn btn-outline-info" >
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
                     </td>
                   </tr>
                  <tr>
-                   <td scope="col">Spaces</td>
-                    <td scope="col">
-                   <a scope="col" asp-controller="Spaces" asp-action="Index" class="btn btn-outline-info" >Details</a>
-                    </td>
-                 </tr>
-                 <tr>
-                    <td scope="col">Assets</td>
-                    <td scope="col">
-                   <a scope="col" asp-controller="Assets" asp-action="Index" class="btn btn-outline-info" >Details</a>
-                    </td>
-                 </tr>
-                 <tr>
-                   <td scope="col">Sensors</td>
                    <td scope="col">
-                   <a scope="col" asp-controller="Sensors" asp-action="Index" class="btn btn-outline-info" >Details</a>
+                         <english> Spaces</english>
+                       <arabic class="d-none"> الفراغات</arabic>
+                   </td>
+                    <td scope="col">
+                   <a scope="col" asp-controller="Spaces" asp-action="Index" class="btn btn-outline-info" >
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td scope="col">
+                        <english> Assets</english>
+                       <arabic class="d-none"> الأصول والموجودات</arabic>
+                   </td>
+                    <td scope="col">
+                   <a scope="col" asp-controller="Assets" asp-action="Index" class="btn btn-outline-info" > 
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
+                    </td>
+                 </tr>
+                 <tr>
+                   <td scope="col">
+                        <english> Sensors</english>
+                       <arabic class="d-none"> المستشعرات </arabic></td>
+                   <td scope="col">
+                   <a scope="col" asp-controller="Sensors" asp-action="Index" class="btn btn-outline-info" > 
+                       <english> Details</english>
+                       <arabic class="d-none"> التفاصيل</arabic>
+                   </a>
                    </td>
                  </tr>
         </tbody>
