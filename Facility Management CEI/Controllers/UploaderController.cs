@@ -28,12 +28,11 @@ namespace Facility_Management_CEI.Controllers
     {
         private readonly UserManager<LogUser> _userManager;
         public ApplicationDBContext _context { get; set; }
-        
-        private readonly ILogger<HomeController> _logger;
-
-        public UploaderController(ILogger<HomeController> logger)
+      
+        public UploaderController(UserManager<LogUser> userManager, ApplicationDBContext context)
         {
-            _logger = logger;
+            _userManager = userManager;
+            _context = context;
         }
         
         [Authorize(Roles = "SystemAdmin, Owner")]
@@ -45,7 +44,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         [RequestFormLimits(MultipartBodyLengthLimit = 2147483648)]
         [RequestSizeLimit(2147483648)]
-        public async Task<IActionResult> Index(IFormFile file)
+        public async Task Index(IFormFile file)
         {
             if (file.Length > 0)
             {
@@ -58,12 +57,21 @@ namespace Facility_Management_CEI.Controllers
                 ConvertToWexBIM(path);
                 ViewBag.Message = "File Uploaded Successfully";
                 //Populate Database with ifcdata
-
-                //Add building information
-                
+                new API.Controllers.IFCController(_context).AddBuildingDataFromIFC(fileName);
+                // Adding Building to owner
+                var LogUserId = (await _userManager.GetUserAsync(User)).Id;
+                var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
+                AppUser.BuildingId = _context.Buildings.Where(b => b.Path == "data/" + fileName).FirstOrDefault().Id;
+                _context.SaveChanges();
             }
-            
-            return RedirectToAction("Viewer/ViewerAsOwner");
+            //return RedirectToAction("ViewerAsOwner", "Viewer");
+        }
+
+        [HttpPost]
+        public IActionResult ClearDatabase()
+        {
+            new API.Controllers.IFCController(_context).ClearDatabase();
+            return RedirectToAction("Login", "Account");
         }
 
         void ConvertToWexBIM(string filePath)

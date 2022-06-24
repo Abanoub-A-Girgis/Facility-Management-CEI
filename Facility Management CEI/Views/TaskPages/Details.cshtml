@@ -44,81 +44,80 @@
     <hr />
     <div class="row">
         <div class="col-5">
-            <dl class="row">
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Id)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Id)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Status)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Status)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Type)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Type)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Priority)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Priority)
-                </dd>
-                 <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.CreatedBy)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.CreatedById)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Incident)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.IncidentId)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.AssignedTo)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.AssignedToId)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.AssignedBy)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.AssignedById)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Cost)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Cost)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.FixingTime)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.FixingTime)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Comment)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Comment)
-                </dd>
-
-            </dl>
+             <dl class="row">
+ <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedBy.FirstName) @Html.DisplayFor(model => model.CreatedBy.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Incident)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IncidentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssignedBy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssignedBy.FirstName) @Html.DisplayFor(model => model.AssignedBy.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FixingTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FixingTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+    </dl>
         </div>
         <div class="col-7">
 
@@ -162,8 +161,8 @@
                         z-index:5" id="overlayDiv"></div>
             <script type="text/javascript">
                 var viewer = new xViewer('viewer');
-                viewer.load('/data/SampleHouse.wexbim');
-                //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                //viewer.load('/data/SampleHouse.wexbim');
+                viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
                 var navCube = new xNavigationCube();
                 navCube.ratio = .1;
                 viewer.addPlugin(navCube);

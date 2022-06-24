@@ -1,4 +1,5 @@
-﻿@model API.Models.AppUser
+﻿@using Facility_Management_CEI.Controllers
+@model API.Models.AppUser
 
 @{
     ViewData["Title"] = "Employee Details";
@@ -10,6 +11,12 @@
     <h4>AppUser</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -29,26 +36,33 @@
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Building)
+            @Html.DisplayNameFor(model => model.BuildingId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Building.Id)
+            @Html.DisplayFor(model => model.BuildingId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Super)
+            @Html.DisplayNameFor(model => model.SuperId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Super.LogUserId)
+            @Html.DisplayFor(model => model.SuperId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LogUser)
+         <dt class = "col-sm-2">
+           Supervisor Name
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LogUser.Id)
+            @Html.DisplayFor(model => model.Super.FirstName)
         </dd>
+
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">Edit</a> |
+    @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+    {
+        
+        <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">Edit</a> 
+    }
+        
     <a asp-action="Index"  class="btn btn-danger">Back to List</a>
 </div>

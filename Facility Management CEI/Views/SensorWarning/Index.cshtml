@@ -13,10 +13,16 @@
 
                 <div class="card text-center">
                   <div class="card-header">
-                    <h3>Sensors Warnings</h3>
+                    <h3>
+                        <english>Sensors Warnings</english>
+                        <arabic class="d-none">تنبيهات من المستشعرات</arabic>
+                    </h3>
                   </div>
                   <div class="card-body">
-                    <p class="card-text">Invistegate Sensors Warnings and Assing It to Incident.</p>
+                    <p class="card-text">
+                        <english>Invistegate Sensors Warnings and Assing It to Incident.</english>
+                        <arabic class="d-none">أفحص تنبيه المستشعر وحرره الى حادثة</arabic>
+                    </p>
                   </div>
                 </div>
                 <div class="mt-4">
@@ -24,16 +30,46 @@
                         <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id)</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.IssueDate)*@ Issue Date</th>
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.SensorId)*@ Sensor ID</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description)</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Investigated)</th>
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.InvestigatDate)*@ Investigated Date</th>
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.AppUserId)*@ User ID</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment)</th>
-                                    <th class="text-center" scope="col">Investigate</th>
+                                    <th class="text-center" scope="col">
+                                        <english>ID</english>
+                                        <arabic class="d-none">الكود</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Priority)</english>
+                                        <arabic class="d-none">الأهمية</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Issue Date</english>
+                                        <arabic class="d-none">وقت الحدوث</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Sensor ID</english>
+                                        <arabic class="d-none">كود المستشعر</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Description)</english>
+                                        <arabic class="d-none">التوصيف</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Investigated)</english>
+                                        <arabic class="d-none">تم الفحص</arabic>
+                                     </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Investigated Date</english>
+                                        <arabic class="d-none">تاريخ الفحص</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>User ID</english>
+                                        <arabic class="d-none">كود المستخدم</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Comment)</english>
+                                        <arabic class="d-none">ملاحظات</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Investigate</english>
+                                        <arabic class="d-none">فحص التنبيه</arabic>
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -51,7 +87,10 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AppUserId)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment)</td>
                                     <td class="text-center" scope="col">
-                                    <a  asp-action="Investigate" class="btn btn-outline-primary"  asp-route-WarningId="@item.Id">Investigate</a> 
+                                    <a  asp-action="Investigate" class="btn btn-outline-primary"  asp-route-WarningId="@item.Id">
+                                        <english>Investigate</english>
+                                        <arabic class="d-none">فحص</arabic>
+                                    </a> 
                                     </td>
                                 </tr>
                                 }
@@ -65,4 +104,7 @@ $(document).ready(function(){
 }
 );
 </script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 @*}*@
