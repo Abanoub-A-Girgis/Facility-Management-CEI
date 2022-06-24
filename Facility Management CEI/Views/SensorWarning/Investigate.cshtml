@@ -15,93 +15,173 @@
     <div class="row">
         <div class="col-sm-6">
             <hr />
-            <form asp-action="Index">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label @*asp-for="Id"*@ class="control-label">
-                        <english>ID</english>
-                        <arabic class="d-none">الكود</arabic>
-                    </label>
-                    <input asp-for="Id"  class="form-control-plaintext shadow-none" readonly value="@Model.Id" />
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="Description"*@ class="control-label">
-                        <english>Description</english>
-                        <arabic class="d-none">التوصيف</arabic>
-                    </label>
-                    <input asp-for="Description"  class="form-control-plaintext shadow-none" readonly />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="Priority"*@ class="control-label">
-                        <english>Priority</english>
-                        <arabic class="d-none">الأهمية</arabic>
-                    </label>
-                    <input asp-for="Priority"  class="form-control-plaintext shadow-none" readonly />
-                    <span asp-validation-for="Priority" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="IssueDate"*@ class="control-label">
-                        <english>Issue Date</english>
-                        <arabic class="d-none">وقت الحدوث</arabic>
-                    </label>
-                    <input asp-for="IssueDate" class="form-control-plaintext shadow-none" readonly/>
-                    <span asp-validation-for="IssueDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="SensorId"*@ class="control-label">
-                       <english>Sensor ID</english>
-                       <arabic class="d-none">كود المستشعر</arabic>
-                    </label>
-                    <input asp-for="SensorId"  class="form-control-plaintext shadow-none" readonly />
-                    <span asp-validation-for="SensorId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="InvestigatDate"*@ class="control-label">
-                        <english>Investagete Date</english>
-                        <arabic class="d-none">تاريخ الفحص</arabic>
-                    </label>
-                    <input asp-for="InvestigatDate"  class="form-control-plaintext shadow-none" readonly  value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
-                    <span asp-validation-for="InvestigatDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="Investigated"*@ class="control-label">
-                        <english>Investigated</english>
-                        <arabic class="d-none">تم الفحص</arabic>
-                    </label>
-                    <p>True</p> <input asp-for="Investigated" type="hidden"  class="form-control-plaintext shadow-none" readonly value="@true">
-                    <span asp-validation-for="Investigated" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="AppUserId" *@class="control-label">
-                        <english> User ID</english>
-                        <arabic class="d-none">كود المستخدم</arabic>
-                    </label>
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
-                    <span asp-validation-for="AppUserId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label @*asp-for="Comment"*@ class="control-label">
-                        <english>Comment</english>
-                        <arabic class="d-none">ملاحظاة</arabic>
-                    </label>
-                    <input asp-for="Comment"  class="form-control-plaintext"/>
-                    <span asp-validation-for="Comment" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
-                    {
-                        <input class="btn btn-primary" type="submit" value="save" />
-                        <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >Assign To Incident</a>
-                        <a class="btn btn-danger" asp-action="Index">Back</a>
-                    }
+            <arabic class="d-none">
+                <form asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label @*asp-for="Id"*@ class="control-label">
+                            <arabic class="d-none">الكود</arabic>
+                        </label>
+                        <input asp-for="Id"  class="form-control-plaintext shadow-none" readonly value="@Model.Id" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Description"*@ class="control-label">
+                            <arabic class="d-none">التوصيف</arabic>
+                        </label>
+                        <input asp-for="Description"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Priority"*@ class="control-label">
+                            <arabic class="d-none">الأهمية</arabic>
+                        </label>
+                        <input asp-for="Priority"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="IssueDate"*@ class="control-label">
+                            <english>Issue Date</english>
+                            <arabic class="d-none">وقت الحدوث</arabic>
+                        </label>
+                        <input asp-for="IssueDate" class="form-control-plaintext shadow-none" readonly/>
+                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="SensorId"*@ class="control-label">
+                           <arabic class="d-none">كود المستشعر</arabic>
+                        </label>
+                        <input asp-for="SensorId"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="SensorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="InvestigatDate"*@ class="control-label">
+                            <arabic class="d-none">تاريخ الفحص</arabic>
+                        </label>
+                        <input asp-for="InvestigatDate"  class="form-control-plaintext shadow-none" readonly  value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
+                        <span asp-validation-for="InvestigatDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Investigated"*@ class="control-label">
+                            <english>Investigated</english>
+                            <arabic class="d-none">تم الفحص</arabic>
+                        </label>
+                        <p>True</p> <input asp-for="Investigated" type="hidden"  class="form-control-plaintext shadow-none" readonly value="@true">
+                        <span asp-validation-for="Investigated" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="AppUserId" *@class="control-label">
+                            <arabic class="d-none">كود المستخدم</arabic>
+                        </label>
+                        <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
+                        <span asp-validation-for="AppUserId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Comment"*@ class="control-label">
+                            <arabic class="d-none">ملاحظة</arabic>
+                        </label>
+                        <input asp-for="Comment"  class="form-control-plaintext"/>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                        {
+                            <input class="btn btn-primary" type="submit" value="احفظ" />
+                            <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >حرر حادثة</a>
+                            <a class="btn btn-danger" asp-action="Index">للقائمة الرئيسية</a>
+                        }
 
-                </div>
-            </form>
+                    </div>
+                </form>
+            </arabic>
+
+            <english>
+                <form asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label @*asp-for="Id"*@ class="control-label">
+                            <english>ID</english>
+                        </label>
+                        <input asp-for="Id"  class="form-control-plaintext shadow-none" readonly value="@Model.Id" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Description"*@ class="control-label">
+                            <english>Description</english>
+                        </label>
+                        <input asp-for="Description"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Priority"*@ class="control-label">
+                            <english>Priority</english>
+                            <arabic class="d-none">الأهمية</arabic>
+                        </label>
+                        <input asp-for="Priority"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="IssueDate"*@ class="control-label">
+                            <english>Issue Date</english>
+                        </label>
+                        <input asp-for="IssueDate" class="form-control-plaintext shadow-none" readonly/>
+                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="SensorId"*@ class="control-label">
+                            <english>Sensor ID</english>
+                        </label>
+                        <input asp-for="SensorId"  class="form-control-plaintext shadow-none" readonly />
+                        <span asp-validation-for="SensorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="InvestigatDate"*@ class="control-label">
+                            <english>Investagete Date</english>
+                        </label>
+                        <input asp-for="InvestigatDate"  class="form-control-plaintext shadow-none" readonly  value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")"/>
+                        <span asp-validation-for="InvestigatDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Investigated"*@ class="control-label">
+                            <english>Investigated</english>
+                        </label>
+                        <p>True</p> <input asp-for="Investigated" type="hidden"  class="form-control-plaintext shadow-none" readonly value="@true">
+                        <span asp-validation-for="Investigated" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="AppUserId" *@class="control-label">
+                            <english> User ID</english>
+                        </label>
+                        <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
+                        <span asp-validation-for="AppUserId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label @*asp-for="Comment"*@ class="control-label">
+                            <english>Comment</english>
+                        </label>
+                        <input asp-for="Comment"  class="form-control-plaintext"/>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                        {
+                            <input class="btn btn-primary" type="submit" value="save" />
+                            <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >Assign To Incident</a>
+                            <a class="btn btn-danger" asp-action="Index">Back</a>
+                        }
+
+                    </div>
+                </form>
+            </english>
+            
+
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 @*
 <div class="container p-3 my-3 border">
     <h1>Warning Invetigation</h1>
