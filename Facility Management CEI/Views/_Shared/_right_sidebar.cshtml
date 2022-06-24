@@ -43,36 +43,58 @@
                     <arabic class="d-none">عربي</arabic>
                 </label>
                 <script>
-                    var Language = "english";
-                        function ChangeLanguage() {
-                            var english = $('english');
-                            var arabic = ('arabic');
-                            if (Language == "english") {
-                                Language = "arabic";
-                                $(english).each(function() {
-                                    $(this).addClass("d-none")
-                                    console.log(this)
-                                });
-                                $(arabic).each(function() {
-                                    $(this).removeClass("d-none")
-                                });
-                                $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-                                $("#app-style").attr('href', '/assets/css/app-rtl.min.css');
-                                sessionStorage.setItem("is_visited", "rtl-mode-switch");
-                            }
-                            else {
-                                Language = "english";
-                                $(arabic).each(function() {
-                                    $(this).addClass("d-none")
-                                });
-                                $(english).each(function() {
-                                    $(this).removeClass("d-none")
-                                });
-                                $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-                                $("#app-style").attr('href', '/assets/css/app.min.css');
-                                sessionStorage.setItem("is_visited", "light-mode-switch");
-                            }
+
+                    var english = $('english');
+                    var arabic = $('arabic');
+
+                    function ChangeLanguage() {
+                        var Language = localStorage.getItem('language');
+                        if (Language == "english") {
+                            Language = "arabic";
+                            switchtoArabic();
+                            localStorage.setItem('language', Language);
                         }
+                        else {
+                            Language = "english";
+                            switchtoEnglish();
+                            localStorage.setItem('language', Language);
+                        }
+                    }
+
+                    function switchtoArabic() {
+                        $(english).each(function () {
+                            $(this).addClass("d-none")
+                        });
+                        $(arabic).each(function () {
+                            $(this).removeClass("d-none")
+                        });
+                        $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+                        $("#app-style").attr('href', '/assets/css/app-rtl.min.css');
+                        sessionStorage.setItem("is_visited", "rtl-mode-switch");
+                    }
+
+                    function switchtoEnglish() {
+                        $(arabic).each(function () {
+                            $(this).addClass("d-none")
+                        });
+                        $(english).each(function () {
+                            $(this).removeClass("d-none")
+                        });
+                        $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+                        $("#app-style").attr('href', '/assets/css/app.min.css');
+                        sessionStorage.setItem("is_visited", "light-mode-switch");
+                    }
+
+                    $(document).ready(function() {
+                        var lang = localStorage.getItem('language')
+                        if (lang == "english") {
+                            switchtoEnglish();
+                        }
+                        else {
+                            switchtoArabic();
+                        }
+                        $('body')[0].classList.remove("d-none")
+                    });
                 </script>
             </div>
 

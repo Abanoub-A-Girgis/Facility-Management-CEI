@@ -11,44 +11,42 @@ File: Main Js File
 (function ($) {
 
     'use strict';
-
-    var language = localStorage.getItem('language');
-    // Default Language
+    //// Default Language
     var default_lang = 'eng';
 
-    function setLanguage(lang) {
-        if (document.getElementById("header-lang-img")) {
-            if (lang == 'eng') {
-                document.getElementById("header-lang-img").src = "/assets/images/flags/us.jpg";
-            } else if (lang == 'sp') {
-                document.getElementById("header-lang-img").src = "/assets/images/flags/spain.jpg";
-            }
-            else if (lang == 'gr') {
-                document.getElementById("header-lang-img").src = "/assets/images/flags/germany.jpg";
-            }
-            else if (lang == 'it') {
-                document.getElementById("header-lang-img").src = "/assets/images/flags/italy.jpg";
-            }
-            else if (lang == 'ru') {
-                document.getElementById("header-lang-img").src = "/assets/images/flags/russia.jpg";
-            }
-            localStorage.setItem('language', lang);
-            language = localStorage.getItem('language');
-            getLanguage();
-        }
-    }
+    //function setLanguage(lang) {
+    //    if (document.getElementById("header-lang-img")) {
+    //        if (lang == 'eng') {
+    //            document.getElementById("header-lang-img").src = "/assets/images/flags/us.jpg";
+    //        } else if (lang == 'sp') {
+    //            document.getElementById("header-lang-img").src = "/assets/images/flags/spain.jpg";
+    //        }
+    //        else if (lang == 'gr') {
+    //            document.getElementById("header-lang-img").src = "/assets/images/flags/germany.jpg";
+    //        }
+    //        else if (lang == 'it') {
+    //            document.getElementById("header-lang-img").src = "/assets/images/flags/italy.jpg";
+    //        }
+    //        else if (lang == 'ru') {
+    //            document.getElementById("header-lang-img").src = "/assets/images/flags/russia.jpg";
+    //        }
+    //        localStorage.setItem('language', lang);
+    //        language = localStorage.getItem('language');
+    //        getLanguage();
+    //    }
+    //}
 
-    // Multi language setting
-    function getLanguage() {
-        (language == null) ? setLanguage(default_lang) : false;
-        $.getJSON('/assets/lang/' + language + '.json', function (lang) {
-            $('html').attr('lang', language);
-            $.each(lang, function (index, val) {
-                (index === 'head') ? $(document).attr("title", val['title']) : false;
-                $("[key='" + index + "']").text(val);
-            });
-        });
-    }
+    //// Multi language setting
+    //function getLanguage() {
+    //    (language == null) ? setLanguage(default_lang) : false;
+    //    $.getJSON('/assets/lang/' + language + '.json', function (lang) {
+    //        $('html').attr('lang', language);
+    //        $.each(lang, function (index, val) {
+    //            (index === 'head') ? $(document).attr("title", val['title']) : false;
+    //            $("[key='" + index + "']").text(val);
+    //        });
+    //    });
+    //}
 
     function initMetisMenu() {
         //metis menu
@@ -142,21 +140,21 @@ File: Main Js File
         }
     }
 
-    function initRightSidebar() {
-        // right side-bar toggle
-        $('.right-bar-toggle').on('click', function (e) {
-            $('body').toggleClass('right-bar-enabled');
-        });
+    //function initRightSidebar() {
+    //    // right side-bar toggle
+    //    $('.right-bar-toggle').on('click', function (e) {
+    //        $('body').toggleClass('right-bar-enabled');
+    //    });
 
-        $(document).on('click', 'body', function (e) {
-            if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
-                return;
-            }
+    //    $(document).on('click', 'body', function (e) {
+    //        if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
+    //            return;
+    //        }
 
-            $('body').removeClass('right-bar-enabled');
-            return;
-        });
-    }
+    //        $('body').removeClass('right-bar-enabled');
+    //        return;
+    //    });
+    //}
 
     function initDropdownMenu() {
         $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
@@ -205,35 +203,32 @@ File: Main Js File
 
     }
 
-    function updateThemeSetting(id) {
-       if ($("#light-mode-switch").prop("checked") == true && id === "light-mode-switch") {
-           $("#dark-mode-switch").prop("checked", false);
-           $("#rtl-mode-switch").prop("checked", false);
-           $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-           $("#app-style").attr('href', '/assets/css/app.min.css');
-           sessionStorage.setItem("is_visited", "light-mode-switch");
-       } else if ($("#dark-mode-switch").prop("checked") == true && id === "dark-mode-switch") {
-           $("#light-mode-switch").prop("checked", false);
-           $("#rtl-mode-switch").prop("checked", false);
-           $("#bootstrap-style").attr('href', '/assets/css/bootstrap-dark.min.css');
-           $("#app-style").attr('href', '/assets/css/app-dark.min.css');
-           sessionStorage.setItem("is_visited", "dark-mode-switch");
-       } else if ($("#rtl-mode-switch").prop("checked") == true && id === "rtl-mode-switch") {
-           $("#light-mode-switch").prop("checked", false);
-           $("#dark-mode-switch").prop("checked", false);
-           $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-           $("#app-style").attr('href', '/assets/css/app-rtl.min.css');
-           sessionStorage.setItem("is_visited", "rtl-mode-switch");
-       }
-    }
+    //function updateThemeSetting(id) {
+    //   if ($("#light-mode-switch").prop("checked") == true && id === "light-mode-switch") {
+    //       $("#dark-mode-switch").prop("checked", false);
+    //       $("#rtl-mode-switch").prop("checked", false);
+    //       $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+    //       $("#app-style").attr('href', '/assets/css/app.min.css');
+    //       sessionStorage.setItem("is_visited", "light-mode-switch");
+    //   } else if ($("#dark-mode-switch").prop("checked") == true && id === "dark-mode-switch") {
+    //       $("#light-mode-switch").prop("checked", false);
+    //       $("#rtl-mode-switch").prop("checked", false);
+    //       $("#bootstrap-style").attr('href', '/assets/css/bootstrap-dark.min.css');
+    //       $("#app-style").attr('href', '/assets/css/app-dark.min.css');
+    //       sessionStorage.setItem("is_visited", "dark-mode-switch");
+    //   } else if ($("#rtl-mode-switch").prop("checked") == true && id === "rtl-mode-switch") {
+    //       $("#light-mode-switch").prop("checked", false);
+    //       $("#dark-mode-switch").prop("checked", false);
+    //       $("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+    //       $("#app-style").attr('href', '/assets/css/app-rtl.min.css');
+    //       sessionStorage.setItem("is_visited", "rtl-mode-switch");
+    //   }
+    //}
 
     function initLanguage() {
         // Auto Loader
-        if (language != null && language !== default_lang)
-            setLanguage(language);
-        $('.language').on('click', function (e) {
-            setLanguage($(this).attr('data-lang'));
-        });
+        if (Language != null && Language !== default_lang)
+            setLanguage(Language);
     }
 
     function init() {
@@ -243,7 +238,7 @@ File: Main Js File
         initMenuItemScroll();
         initHoriMenuActive();
         initFullScreen();
-        initRightSidebar();
+        /*initRightSidebar();*/
         initDropdownMenu();
         initComponents();
         initSettings();
