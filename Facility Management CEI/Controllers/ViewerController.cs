@@ -102,7 +102,7 @@ namespace Facility_Management_CEI.Controllers
             else if(EmployeeId != 0)
             {
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == EmployeeId).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if(EmployeeId == 0 || AppUser.BuildingId == null)
             {
@@ -142,7 +142,7 @@ namespace Facility_Management_CEI.Controllers
             else if (InspectorId != 0)
             {
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == InspectorId).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (InspectorId == 0 || AppUser.BuildingId == null)
             {
@@ -188,7 +188,7 @@ namespace Facility_Management_CEI.Controllers
             else if (SupervisorId != 0)
             {
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == SupervisorId).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (SupervisorId == 0 || AppUser.BuildingId == null)
             {
@@ -240,7 +240,7 @@ namespace Facility_Management_CEI.Controllers
             else if (ManagerId != 0)
             {
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == ManagerId).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (ManagerId == 0 || AppUser.BuildingId == null)
             {
@@ -292,7 +292,7 @@ namespace Facility_Management_CEI.Controllers
             else if (OwnerId != 0)
             {
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == OwnerId).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (OwnerId == 0 || AppUser.BuildingId == null)
             {
