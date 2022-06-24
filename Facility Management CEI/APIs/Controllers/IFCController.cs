@@ -33,7 +33,6 @@ namespace API.Controllers
     [ApiController]//Controller type 
     public class IFCController : Controller
     {
-        private readonly HttpClient _client;
         public ApplicationDBContext _Context { get; set; }
         public IFCController(ApplicationDBContext context)
         {
