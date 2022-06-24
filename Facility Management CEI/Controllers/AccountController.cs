@@ -129,7 +129,6 @@ namespace Facility_Management_CEI.Controllers
                     if (SignedInAppUser != null)
                     {
                         var RoleOfAppUser = SignedInAppUser.Type.ToString();
-                        //var role = await _roleManger.FindByNameAsync(RoleOfAppUser);
                         var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
                         if (!Flag)
                         {
