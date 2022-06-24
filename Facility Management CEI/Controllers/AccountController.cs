@@ -123,19 +123,20 @@ namespace Facility_Management_CEI.Controllers
 
             {
                 var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);
-                //if (SignedInLogUser != null)
-                //{
-                var SignedInAppUser = SignedInLogUser.AppUser;
-                if (SignedInAppUser != null)
+                if (SignedInLogUser != null)
                 {
-                    var RoleOfAppUser = SignedInAppUser.Type.ToString();
-                    //var role = await _roleManger.FindByNameAsync(RoleOfAppUser);
-                    var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
-                    if (!Flag)
+                    var SignedInAppUser = SignedInLogUser.AppUser;
+                    if (SignedInAppUser != null)
                     {
-                        var ttt = await _userManeger.RemoveFromRolesAsync(SignedInLogUser, Enum.GetNames(typeof(UserType)));
-                        await _userManeger.AddToRoleAsync(SignedInLogUser, RoleOfAppUser);
+                        var RoleOfAppUser = SignedInAppUser.Type.ToString();
+                        //var role = await _roleManger.FindByNameAsync(RoleOfAppUser);
+                        var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
+                        if (!Flag)
+                        {
+                            var ttt = await _userManeger.RemoveFromRolesAsync(SignedInLogUser, Enum.GetNames(typeof(UserType)));
+                            await _userManeger.AddToRoleAsync(SignedInLogUser, RoleOfAppUser);
 
+                        }
                     }
                 }
 
@@ -144,7 +145,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     
 
-                    //}
+                    
                     return RedirectToAction("HomePage", "HomePage");
                 }
                 else
