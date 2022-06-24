@@ -25,8 +25,6 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
 
-
-
         [HttpGet]
         [Authorize(Roles = "SystemAdmin")]
         public IActionResult Register()
@@ -35,7 +33,6 @@ namespace Facility_Management_CEI.Controllers
 
             return View(user);
         }
-
 
         [HttpPost]
         [Authorize(Roles = "SystemAdmin")]
