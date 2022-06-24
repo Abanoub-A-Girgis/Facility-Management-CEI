@@ -56,7 +56,6 @@
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Owner"))
                         {
-<<<<<<< HEAD
                            <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
                            <li><a class="nav-link text-secondary"   asp-controller="Home" asp-action="Uploader">Uploader</a></li>
                            <li><a class="nav-link text-secondary"  asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer</a></li>
@@ -73,11 +72,8 @@
                             <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
                             <li><a class="nav-link text-secondary " asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
                             <li><a class="nav-link text-secondary " asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
-=======
                            <li><a class="nav-link text-primary" asp-controller="Uploader" asp-action="Index">Uploader</a></li>
-                           <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsOwner">Viewer View</a></li>
                            <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
-                           <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Manager"))
                         {
@@ -87,11 +83,10 @@
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Chart" asp-action="Chartjs">Reports</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Buildings" asp-action="BuildingComponents">Building Information</a></li>
->>>>>>> c3a9aca1db12701adaea9276f22f0a74fc486830
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Supervisor"))
                         {
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Viewer View</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsSupervisor">Viewer</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
@@ -99,7 +94,7 @@
                         }
                         @if (ViewContext.HttpContext.User.IsInRole("Inspector"))
                         {
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer View</a></li>
+                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsInspector">Viewer</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="SensorWarning" asp-action="Index">Sensor Warnings</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Incident" asp-action="Index">Incident</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
@@ -107,17 +102,9 @@
 
                         @if (ViewContext.HttpContext.User.IsInRole("Agent"))
                         {
-
-<<<<<<< HEAD
                             <li><a class="nav-link text-secondary"  asp-controller="Home" asp-action="Viewer">Viewer Home</a></li>
                             <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer</a></li>
                             <li><a class="nav-link text-secondary "  asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
-=======
-                            <li><a class="nav-link text-secondary" asp-controller="Viewer" asp-action="ViewerAsAgent">Viewer View as Agent</a></li>
-
-                            <li><a class="nav-link text-secondary" asp-controller="TaskPages" asp-action="TaskList">Tasks</a></li>
-
->>>>>>> c3a9aca1db12701adaea9276f22f0a74fc486830
                         }
 
                     </ul>

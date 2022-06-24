@@ -19,6 +19,7 @@ namespace Skote.Controllers
 {
     public class TaskPagesController : Controller
     {
+        bool IsEdited = true; //ths is made to distenguish if the element is in edit state or create state
         private readonly UserManager<LogUser> _userManeger;
         private readonly SignInManager<LogUser> _signInManager;
         public ApplicationDBContext _Context { get; set; }
@@ -33,9 +34,9 @@ namespace Skote.Controllers
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task <IActionResult> CreateTask()
         {
-            //ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
-            //ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
-            //ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id");
+            IsEdited = false;
+            ViewBag.IsEdited = IsEdited;
+            //the next 3 lines are made to find the sign in user 
             var user = await _userManeger.GetUserAsync(User);
             var userId = user.Id;
             ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
@@ -50,14 +51,11 @@ namespace Skote.Controllers
 
             if (ModelState.IsValid)
             {
+                task.Status = API.Enums.TaskStatus.NotAssigned;
                 _Context.Add(task);
                 await _Context.SaveChangesAsync();
                 return RedirectToAction("TaskList");
             }
-
-            //ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
-            //ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id");
-            //ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "Id");
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
             return View(task);
         }
@@ -68,6 +66,7 @@ namespace Skote.Controllers
         {
             var tasks = _Context.Tasks.ToList();
             ViewBag.ListOfTasks = tasks;
+            ViewBag.Users = _Context.AppUsers.ToList();
             return View();
         }
         //show details by id we may call is search
@@ -145,7 +144,6 @@ namespace Skote.Controllers
                 }
                 return RedirectToAction(nameof(TaskList));
             }
-            //ViewData["CreatedById"] = new SelectList(_Context.AppUsers, "Id", "LogUserId", task.CreatedById);
             ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedById);
             ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id", task.IncidentId);
@@ -166,7 +164,6 @@ namespace Skote.Controllers
             var user = await _userManeger.GetUserAsync(User);
             var userId = user.Id;
             ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
-            //ViewData["AssignedById"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedById);
             ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
             ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id", task.IncidentId);
             return View(task);
@@ -186,7 +183,8 @@ namespace Skote.Controllers
 
                 try
                 {
-                    task.IncidentId = TaskData.IncidentId;
+                    task.Status = API.Enums.TaskStatus.WorkInProgress;
+                    //task.IncidentId = TaskData.IncidentId;
                     task.CreatedById=TaskData.CreatedById;
                     task.AssignedToId=TaskData.AssignedToId;
                     task.AssignedById=TaskData.AssignedById;
