@@ -34,13 +34,13 @@
         </div>
        
 <div class="mt-4">
-    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+@*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
   {
 
       <div class="form-group"> 
         <a asp-action="CreateTask" asp-route-id="" class="btn btn-outline-primary" >Create New Task </a>
       </div>
-  }
+  }*@
   
    <div class="table-responsive">
    <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

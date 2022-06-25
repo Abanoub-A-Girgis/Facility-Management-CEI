@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "CreateTask";
     var UserId = ViewBag.UserId;
+    var IncidentId = ViewBag.IncidentId;
+    var x = 1;
 }
 
 <h1>Create</h1>
@@ -44,11 +46,16 @@
 
             <div class="form-group">
                 <input asp-for="CreatedById" class="form-control-plaintext shadow-none" hidden value="@UserId"/>
+                <span asp-validation-for="CreatedById" class="text-danger"></span>
+
             </div>
             <div class="form-group">
-                <label asp-for="IncidentId" class="control-label"></label>
-                <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
-            </div>
+@*                <label asp-for="IncidentId" class="control-label"></label>
+*@                <input asp-for="IncidentId" class="form-control-plaintext shadow-none" hidden value="@IncidentId"/>
+                  <span asp-validation-for="IncidentId" class="text-danger"></span>
+
+@*                <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
+*@            </div>
             <div class="form-group">
                 <input asp-action="CreateTask" type="submit" value="CreateTask" class="btn btn-primary" />
                 <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-danger" >Back</a>
