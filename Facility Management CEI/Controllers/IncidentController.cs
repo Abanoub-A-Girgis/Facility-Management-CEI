@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Configuration;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -78,9 +79,12 @@ namespace Facility_Management_CEI.Controllers
             // this code is used to get the id of the current logged in user 
             var user = await _userManeger.GetUserAsync(User);
             var userId = user.Id;
-            ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
+            var appuser = _Context.AppUsers.Where(u => u.LogUserId == userId).Include(u => u.Building).FirstOrDefault();
+            ViewBag.UserId = appuser.Id;
             if (IncidentId == null)
             {
+                string FilePath = appuser.Building.Path;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
                 return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
             }
             else
@@ -142,7 +146,7 @@ namespace Facility_Management_CEI.Controllers
                         Incident.SensorWarningId = incidentData.SensorWarningId;
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
-                        Incident.Comment =null;//at the creation a comment will not be writtin - the comment is used to close the incident 
+                        Incident.Comment = null;//at the creation a comment will not be writtin - the comment is used to close the incident 
                         Incident.Status = API.Enums.IncidentStatus.Open;
                         Incident.ReportingTime = DateTime.Now;
                         _Context.Add(Incident);//if this flag is false then add student data
