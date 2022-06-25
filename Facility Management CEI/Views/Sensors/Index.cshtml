@@ -6,10 +6,15 @@
 }
  <div class="card text-center">
    <div class="card-header">
-     <h3>Sensors List</h3>
+     <h3>
+        <english> Sensors List </english>
+        <arabic class="d-none"> قائمة المستشعرات </arabic>
+     </h3>
    </div>
    <div class="card-body">
-     <p class="card-text">Our Building Sensors </p>
+     <p class="card-text">
+         <english>  Our Building Sensors </english>
+        <arabic class="d-none">  قائمة المستشعرات الخاصة بالمنشأة  </arabic> </p>
    </div>
  </div>
  <div class="mt-4">
@@ -17,11 +22,25 @@
          <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
              <thead class="thead-dark">
         <tr>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Name) </th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SensorType)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Space)</th>
-            <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Asset)</th>
-            <th class="text-center" scope="col">Details Action</th>
+            <th class="text-center" scope="col">
+                    <english>@Html.DisplayNameFor(model => model.Name)</english>
+                    <arabic class="d-none">  اسم المستشعر </arabic>
+            </th>
+            <th class="text-center" scope="col">
+                    <english>@Html.DisplayNameFor(model => model.SensorType)</english>
+                    <arabic class="d-none">  نوع المستشعر </arabic>
+            </th>
+            <th class="text-center" scope="col">
+                       <english>@Html.DisplayNameFor(model => model.Space)</english>
+                        <arabic class="d-none">  كود الفراغ </arabic>
+            </th>
+            <th class="text-center" scope="col">
+                 <english>@Html.DisplayNameFor(model => model.Asset)</english>
+                <arabic class="d-none">   اسم العنصر </arabic></th>
+            <th class="text-center" scope="col"> 
+                <english>Details</english>
+                <arabic class="d-none">   التفاصيل  </arabic>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +51,10 @@
             <td class="text-center">@Html.DisplayFor(modelItem => item.Space.Id)</td>
             <td class="text-center">@Html.DisplayFor(modelItem => item.Asset.Id)</td>
             <td class="text-center">
-                <a asp-action="Details" class="btn btn-outline-primary"  asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" class="btn btn-outline-primary"  asp-route-id="@item.Id"> 
+                    <english>Details</english>
+                    <arabic class="d-none">   التفاصيل  </arabic>
+                </a> 
             </td>
         </tr>
 }
@@ -40,3 +62,6 @@
 </table>
 </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
