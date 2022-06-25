@@ -29,7 +29,7 @@
   
         <div class="card text-center">
             <div class="card-header">
-            <h3>List Of Tasks</h3>
+            <h3><english>List Of Tasks</english><arabic class="d-none">قائمة المهام</arabic></h3>
             </div>
         </div>
        
@@ -127,3 +127,15 @@
         } );
 
  </script>
+
+                 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@
