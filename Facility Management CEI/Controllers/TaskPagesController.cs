@@ -14,11 +14,9 @@ using API.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
-using Xbim.Ifc;
 using System.Configuration;
-using Xbim.Ifc2x3.MaterialResource;
 
-namespace Skote.Controllers
+namespace Facility_Management_CEI.Controllers
 {
     public class TaskPagesController : Controller
     {
@@ -65,9 +63,82 @@ namespace Skote.Controllers
    
         [HttpGet]
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Agent")]
-        public IActionResult TaskList()
+        public async Task<IActionResult> TaskList()
         {
-            var tasks = _Context.Tasks.ToList();
+            var LogUserId = (await _userManeger.GetUserAsync(User)).Id;
+            var AppUser = _Context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
+            List<Task> tasks = new List<Task>();
+            //if(AppUser.Type == UserType.SystemAdmin)
+            //{ 
+            //    tasks = _Context.Tasks.ToList(); 
+            //}
+            //else if (AppUser.Type == UserType.Owner)
+            //{
+            //    var Managers = _Context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
+            //    foreach (var Manager in Managers)
+            //    {
+            //        var ManagerSupervisors = _Context.AppUsers.Where(u => u.SuperId == Manager.Id).ToList();
+            //        foreach (var supervisor in ManagerSupervisors)
+            //        {
+            //            var SupervisorInspectors = _Context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToList();
+            //            foreach (var inspector in SupervisorInspectors)
+            //            {
+            //                var InspectorAgents = _Context.AppUsers.Where(u => u.SuperId == inspector.Id).ToList();
+            //                foreach (var Agent in InspectorAgents)
+            //                {
+            //                    tasks.AddRange(_Context.Tasks.Where(t => t.AssignedToId == Agent.Id).ToList());
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //else if (AppUser.Type == UserType.Manager)
+            //{
+            //    var Supervisors = _Context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
+            //    foreach (var supervisor in Supervisors)
+            //    {
+            //        var SupervisorInspectors = _Context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToList();
+            //        foreach (var inspector in SupervisorInspectors)
+            //        {
+            //            var InspectorAgents = _Context.AppUsers.Where(u => u.SuperId == inspector.Id).ToList();
+            //            foreach (var Agent in InspectorAgents)
+            //            {
+            //                tasks.AddRange(_Context.Tasks.Where(t => t.AssignedToId == Agent.Id).ToList());
+            //            }
+            //        }
+            //    }
+            //}
+            //else if (AppUser.Type == UserType.Supervisor)
+            //{
+            //    var Inspectors = _Context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
+            //    foreach (var inspector in Inspectors)
+            //    {
+            //        var InspectorAgents = _Context.AppUsers.Where(u => u.SuperId == inspector.Id).ToList();
+            //        foreach (var Agent in InspectorAgents)
+            //        {
+            //            tasks.AddRange(_Context.Tasks.Where(t => t.AssignedToId == Agent.Id).ToList());
+            //        }
+            //    }
+            //}
+
+            //else if (AppUser.Type == UserType.Inspector)
+            //{
+            //    var Agents = _Context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
+            //    foreach (var Agent in Agents)
+            //    {
+            //        tasks.AddRange(_Context.Tasks.Where(t => t.AssignedToId == Agent.Id).ToList());
+            //    }
+            //}
+
+            if (AppUser.Type == UserType.Agent)
+            {
+                tasks.AddRange(_Context.Tasks.Where(t => t.AssignedToId == AppUser.Id).ToList());
+            }
+            else
+            {
+                tasks = _Context.Tasks.ToList();
+            }
+
             ViewBag.ListOfTasks = tasks;
             ViewBag.Users = _Context.AppUsers.ToList();
             return View();
@@ -82,28 +153,34 @@ namespace Skote.Controllers
             }
             //include what you need to be joined in your view must be exist
             var task = await _Context.Tasks
-                .Include(t => t.AssignedBy)
-                .Include(t => t.AssignedTo)
-                .Include(t => t.CreatedBy)
+                //.Include(t => t.AssignedBy)
+                //.Include(t => t.AssignedTo)
+                //.Include(t => t.CreatedBy)
                 .Include(t => t.Incident)
                 .ThenInclude(i => i.Space)
                 .ThenInclude(s => s.Floor)
                 .ThenInclude(f => f.Building)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (task == null)
             {
                 return NotFound();
             }
 
             string FilePath = task.Incident.Space.Floor.Building.Path;
-            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
-            //List<IfcMaterial> Materials;
+            ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+
+            //List<IfcMaterial> Materials = new List<IfcMaterial>();
 
             //using (IfcStore Model = IfcStore.Open("wwwroot/" + FilePath))
             //{
             //    var building = Model.Instances;
-            //    var asset = building.FirstOrDefault(i => i.EntityLabel == task.Incident.AssetId).Material;
-            //    var test = "test";
+            //    var asset = building.FirstOrDefault(i => i.EntityLabel == task.Incident.AssetId);
+            //    var assetType = asset.ExpressType.Name.ToString();
+            //    if (assetType == "IfcDoor")
+            //    {
+            //        Materials = (((IfcMaterialList)((IfcDoor)asset).Material).Materials.ToList());
+            //    }
             //}
 
             //ViewBag.Materials = Materials;
@@ -238,9 +315,9 @@ namespace Skote.Controllers
             }
 
             var task = await _Context.Tasks
-                .Include(t => t.AssignedBy)
-                .Include(t => t.AssignedTo)
-                .Include(t => t.CreatedBy)
+                //.Include(t => t.AssignedBy)
+                //.Include(t => t.AssignedTo)
+                //.Include(t => t.CreatedBy)
                 .Include(t => t.Incident)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
@@ -261,9 +338,6 @@ namespace Skote.Controllers
             await _Context.SaveChangesAsync();
             return RedirectToAction(nameof(TaskList));
         }
-
-
-
 
         private bool TaskExists(int id)
         {
