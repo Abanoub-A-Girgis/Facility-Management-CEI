@@ -4,26 +4,32 @@
     ViewData["Title"] = "Building Details";
 }
 
-<h1>Building Details</h1>
+<h1>
+    <english>Building Details</english>
+    <arabic class="d-none"> تفاصيل المنشأ</arabic>
+</h1>
 
 <div>
 @*    <h4>Building Details</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            <english> ID</english>
+            <arabic class="d-none"> الكود</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            <english> @Html.DisplayNameFor(model => model.Name)</english>
+            <arabic class="d-none"> الإسم</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Path)
+            <english>@Html.DisplayNameFor(model => model.Path)</english>
+            <arabic class="d-none"> مسار الملف</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Path)
@@ -31,5 +37,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-danger" >Back to List</a>
+       <a asp-action="Index" class="btn btn-danger" >
+            <english> Back to List</english>
+            <arabic class="d-none"> العودة للخلف </arabic>
+       </a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

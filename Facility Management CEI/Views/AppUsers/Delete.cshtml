@@ -62,3 +62,6 @@
         <a asp-action="Index" class="btn btn-danger">Back to List</a>
     </form>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
