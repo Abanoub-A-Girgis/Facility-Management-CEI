@@ -85,10 +85,19 @@
 
 
     </dl>
-
-    <form asp-action="Delete">
+    <english>
+        <form asp-action="Delete">
         <input type="hidden" name=IncidentId asp-for=Id />
         <input class="btn btn-primary" type="submit" value="Yes" />
         <a class="btn btn-danger" asp-action="Index">No</a>
     </form>
+    </english>
+    <arabic class="d-none">
+        <form asp-action="Delete">
+        <input type="hidden" name=IncidentId asp-for=Id />
+        <input class="btn btn-primary" type="submit" value="نعم" />
+        <a class="btn btn-danger" asp-action="Index">لا</a>
+    </form>
+    </arabic>
+    
 </div>
