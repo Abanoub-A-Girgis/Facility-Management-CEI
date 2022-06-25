@@ -33,7 +33,7 @@ namespace Facility_Management_CEI.Controllers
 
         //Create ur task
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
-        public async Task <IActionResult> CreateTask()
+        public async Task <IActionResult> CreateTask(int? IncidentId)
         {
             IsEdited = false;
             ViewBag.IsEdited = IsEdited;
@@ -41,7 +41,8 @@ namespace Facility_Management_CEI.Controllers
             var user = await _userManeger.GetUserAsync(User);
             var userId = user.Id;
             ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
-            ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
+            ViewBag.IncidentId=IncidentId;
+            //ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
             return View();
         }
         [HttpPost]
@@ -57,7 +58,7 @@ namespace Facility_Management_CEI.Controllers
                 await _Context.SaveChangesAsync();
                 return RedirectToAction("TaskList");
             }
-            ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
+            //ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id");
             return View(task);
         }
    
