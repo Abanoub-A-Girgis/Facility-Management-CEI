@@ -164,7 +164,7 @@
             <div class="card-body">
                 <h4 class="card-title mb-4">Incidnts History</h4>
                 <canvas id="lineChart" height="300"> </canvas>
-                <button onclick="printPdf($('#lineChart'))">Print PDF</button>
+                <button class="btn btn-outline-primary" onclick="printPdf($('#lineChart'))">Print PDF</button>
 
             </div>
         </div>
@@ -174,7 +174,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Building Personnel</h4>
-                <canvas id="bar" height="300"></canvas>
+                <canvas id="bar" height="300" ></canvas>
+                <button class="btn btn-outline-primary" onclick="printPdf($('#bar'))">Print PDF</button>
+
             </div>
         </div>
     </div> <!-- end col -->
@@ -200,9 +202,8 @@
                         <h5 class="mb-0">@CompletedIncdentsCounter</h5>
                     </div>
                 </div>
-
                 <canvas id="pie" height="260"></canvas>
-
+                <button class="btn btn-outline-primary" onclick="printPdf($('#pie'))">Print PDF</button>
             </div>
         </div>
     </div> <!-- end col -->
@@ -218,6 +219,7 @@
                         <p class="text-muted text-truncate">Total Tasks</p>
                     </div>
                 <canvas id="doughnut" height="260"></canvas>
+                <button class="btn btn-outline-primary" onclick="printPdf($('#pie'))">Print PDF</button>
 
                 </div>
             </div>
