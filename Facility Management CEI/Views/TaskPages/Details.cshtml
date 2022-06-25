@@ -3,8 +3,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
-
+    //var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
 }
 <head>
     <title>Task Details</title>
@@ -192,6 +191,7 @@
                     <option value="hideType">Hide type</option>
                     <option value="highlight">Highlight</option>
                 </select>*@
+                <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@Model.Incident.AssetId)">Zoom to Item</button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
@@ -199,7 +199,7 @@
                 <script type="text/javascript">
 
                     var timer = 0;
-                
+                    var highlightedId;
                     var option;
                 
                     function HideProduct() {
@@ -241,12 +241,14 @@
                                 viewer.setState(xState.HIDDEN, type);
                                 break;
                             case 'highlight':
-                                viewer.resetStates();
+                                //viewer.resetStates();
+                                viewer.setState(xState.UNDEFINED, [highlightedId]);
                                 viewer.setState(xState.HIGHLIGHTED, [args.id]);
                                 var div = document.getElementById('productId');
                                 if (div) {
                                     div.innerHTML = "Selected Asset Id = " + id;
                                 }
+                                highlightedId = id;
                                 break;
                             default:
                                 break;
