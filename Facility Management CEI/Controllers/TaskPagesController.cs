@@ -80,11 +80,11 @@ namespace Skote.Controllers
             {
                 return NotFound();
             }
-
+            //include what you need to be joined in your view must be exist
             var task = await _Context.Tasks
-                //.Include(t => t.AssignedBy)
-                //.Include(t => t.AssignedTo)
-                //.Include(t => t.CreatedBy)
+                .Include(t => t.AssignedBy)
+                .Include(t => t.AssignedTo)
+                .Include(t => t.CreatedBy)
                 .Include(t => t.Incident)
                 .ThenInclude(i => i.Space)
                 .ThenInclude(s => s.Floor)

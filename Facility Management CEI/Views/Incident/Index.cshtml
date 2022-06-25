@@ -1,32 +1,33 @@
 ﻿@using Facility_Management_CEI.Controllers
 @model IEnumerable<API.Models.Incident>//we are reading ftom the DB
 @{
-    ViewData["Title"]="Incident";
-        Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
+    ViewData["Title"] = "Incident";
+    Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
+    var UsersList =(List<API.Models.AppUser>) ViewBag.Users;
 }
-                <div class="card text-center">
-                  <div class="card-header">
-                    <h3>Incident</h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text">Showing the Incident Inside our Building.</p>
-                  </div>
-                </div>
+<div class="card text-center">
+    <div class="card-header">
+        <h3>Incident</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Showing the Incident Inside our Building.</p>
+    </div>
+</div>
 
- 
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin","Inspector"))
-                {
-                     <div class="card-header">
-                          <!--
-                             Button Create new Record which will return a view that will make the user inser new   Incident data
-                             asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
-                             no need to pass an id as we will create new one 
-                          -->
-                          <a class="btn btn-outline-primary" asp-action="EditOrAdd">Create New</a>
-                     </div>
-    
-                }
-                
+
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+{
+    <div class="card-header">
+        <!--
+        Button Create new Record which will return a view that will make the user inser new   Incident data
+        asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
+        no need to pass an id as we will create new one 
+        -->
+        <a class="btn btn-outline-primary" asp-action="EditOrAdd">Create New</a>
+    </div>
+
+}
+
                 <!--this is the table headers-->
                 <div class="mt-4">
                     <div class="table-responsive">
@@ -38,11 +39,16 @@
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
+                                    <th class="text-center" scope="col">Created By</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SensorWarningId)</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssetId        )</th>
                                     <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AppUserId      )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment       ) </th>
+                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment        ) </th>
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    {
+                                    <th class="text-center" scope="col">Creat Task</th>
+                        
+                                    }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
                                     {
                         
@@ -71,11 +77,24 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Status         )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Priority       )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.ReportingTime  )</td>
+                                    <td class="text-center" scope="col">@UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AssetId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SpaceId        )</td>
-                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AppUserId      )</td>
-                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment       )</td>
+                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment        )</td>
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    {
+                            
+                                         <td class="text-center" scope="col">
+                                            <!--
+                                            Button AddOrEdit which will return a view that will make the user Dispaly the Incident data 
+                                            asp-action="Details": the name of the Action Method inside the Incident Controller
+                                            asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
+                                            "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
+                                            -->
+                                            <a class="btn btn-outline-info" asp-controller="TaskPages" asp-action="CreateTask">Create Task</a>
+                                         </td>
+                                    }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin"))
                                     {
                             
@@ -101,6 +120,7 @@
                                             <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
                                          </td>
                                     }
+
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                                     {
                             

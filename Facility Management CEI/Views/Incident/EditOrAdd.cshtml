@@ -4,6 +4,10 @@
     ViewData["Title"] = "ViewBag.PageName";
     Layout = "~/Views/_Shared/_Layout.cshtml";
     var UserId = ViewBag.UserId;
+    //var SensorWarningList =(List<API.Models.SensorWarning>) ViewBag.SensorWarning;//an unboxing must be made 
+    //var model = Model;
+    var MyWarning = ViewBag.SensorWarning;
+    var x = 1;
 
 }
 
@@ -19,7 +23,6 @@
                 @if (@ViewBag.IsEdit)
                 {
                     <input type="hidden" asp-for="Id" />
-
                 }
                 <div class="form-group">
                     <!--this form inputs will be bind at the back end using the posy method 
@@ -46,8 +49,7 @@
                 else
                 {
                 <div class="form-group">
-                <label asp-for="Status" class="control-label"></label><!-- creating our drop down list for statuts enum-->
-                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly />
+                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" hidden />
                 <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 }
@@ -64,24 +66,21 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="SensorWarningId" class="control-label"></label>
-
-                    <select asp-for="SensorWarningId" class ="form-control" asp-items="ViewBag.SensorWarningId" >
-                    <option selected="selected" class="form-control" value=""></option>
-                    </select>
-
-                    <span asp-validation-for="SensorWarningId" class="text-danger"></span>
+                 <input asp-for="SensorWarningId"  class="form-control-plaintext shadow-none" value="@MyWarning" hidden />
+                 <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="SpaceId" class="control-label"></label>
-                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
+                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId">
+                    <option selected="selected" class="form-control" value=""></option>
+
+                    </select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AppUserId" class="control-label"></label>
 
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" readonly />
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" hidden />
 
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
