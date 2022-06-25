@@ -66,3 +66,6 @@
         <a class="btn btn-danger" asp-action="Index">No</a>
     </form>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}  

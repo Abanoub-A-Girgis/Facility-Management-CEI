@@ -5,68 +5,79 @@
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
-<h2>Deleting Incident</h2>
+<h2><english>Deleting Incident</english><arabic class="d-none">حذف الحادثة</arabic></h2>
 
-<h3>Would you like to continue?</h3>
+<h3><english>Would you like to continue?</english><arabic class="d-none">هل تريد الإستمرار؟</arabic></h3>
 <div class="container p-3 my-3 border">
     <hr />
     <dl class="row">
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Id)
+            <english>ID</english>
+            <arabic class="d-none">الكود</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Description)
+           <english>@Html.DisplayNameFor(model => model.Description)</english>
+            <arabic class="d-none">الوصف</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Status)
+            <english>@Html.DisplayNameFor(model => model.Status)</english>
+            <arabic class="d-none">الحالة</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Priority)
+            <english>@Html.DisplayNameFor(model => model.Priority)</english>
+            <arabic class="d-none">الأهمية</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Priority)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.ReportingTime)
+            <english>Reporting Time</english>
+            <arabic class="d-none">وقت الإبلاغ</arabic>
+            
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.ReportingTime)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.SensorWarningId)
+             <english>Sensor Warning ID</english>
+            <arabic class="d-none">كود تنبيه المستشعر</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SensorWarningId)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.SpaceId)
+            <english>Space ID</english>
+            <arabic class="d-none">كود الفراغ</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SpaceId)
         </dd>
                 <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.AppUserId)
+            <english>User ID</english>
+            <arabic class="d-none">كود المستخدم</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AppUserId)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.AssetId)
+            <english>Asset ID</english>
+            <arabic class="d-none">كود الأصل</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AssetId)
         </dd>
         <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Comment)
+            <english>@Html.DisplayNameFor(model => model.Comment)</english>
+            <arabic class="d-none">ملاحظات</arabic>
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Comment)
@@ -74,10 +85,19 @@
 
 
     </dl>
-
-    <form asp-action="Delete">
+    <english>
+        <form asp-action="Delete">
         <input type="hidden" name=IncidentId asp-for=Id />
         <input class="btn btn-primary" type="submit" value="Yes" />
         <a class="btn btn-danger" asp-action="Index">No</a>
     </form>
+    </english>
+    <arabic class="d-none">
+        <form asp-action="Delete">
+        <input type="hidden" name=IncidentId asp-for=Id />
+        <input class="btn btn-primary" type="submit" value="نعم" />
+        <a class="btn btn-danger" asp-action="Index">لا</a>
+    </form>
+    </arabic>
+    
 </div>

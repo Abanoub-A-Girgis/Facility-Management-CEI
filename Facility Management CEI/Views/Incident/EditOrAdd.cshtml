@@ -12,12 +12,13 @@
 }
 
 <div class="container p-3 my-3 border">
-    <h1> @ViewBag.PageName</h1>
+    <h1> <english>@ViewBag.PageName</english><arabic class="d-none">الحادثة</arabic></h1> @*need to be translated*@ 
 
     <div class="row">
         <div class="col-sm-6">
             <hr />
-            <form asp-action="EditOrAdd">
+            <english>
+                <form asp-action="EditOrAdd">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 @if (@ViewBag.IsEdit)
@@ -30,14 +31,14 @@
                        values writtin in the UI will be binded at the ack end using this mapping 
 
                     -->
-                    <label asp-for="Description" class="control-label"></label>
+                    <label  class="control-label">Description</label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 @if (@ViewBag.IsEdit)
                 {
                 <div class="form-group">
-                <label asp-for="Status" class="control-label"></label><!-- creating our drop down list for statuts enum-->
+                <label class="control-label">Status</label><!-- creating our drop down list for statuts enum-->
                 @Html.DropDownList("Status", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Status", Disabled = true },
                     new SelectListItem { Text="Open",Value="0"},
@@ -49,12 +50,14 @@
                 else
                 {
                 <div class="form-group">
+
                 <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" hidden />
+
                 <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 }
                 <div class="form-group">
-                <label asp-for="Priority" class="control-label"></label><!-- creating our drop down list for statuts enum-->
+                <label class="control-label">Priority</label><!-- creating our drop down list for statuts enum-->
                 @Html.DropDownList("Priorty", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Priority", Disabled = true },
                     new SelectListItem { Text="Severe",Value="0"},
@@ -66,26 +69,28 @@
                 </div>
 
                 <div class="form-group">
+
                  <input asp-for="SensorWarningId"  class="form-control-plaintext shadow-none" value="@MyWarning" hidden />
                  <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="SpaceId" class="control-label"></label>
-                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId">
-                    <option selected="selected" class="form-control" value=""></option>
 
-                    </select>
+
+                <div class="form-group">
+                    <label class="control-label">Space ID</label>
+                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label class="control-label">User ID</label>
+
 
                     <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" hidden />
 
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AssetId" class="control-label"></label>
+                    <label  class="control-label">Asset ID</label>
 
                     <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId">
                     <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
@@ -95,7 +100,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Comment" class="control-label"></label>
+                    <label class="control-label">Comment</label>
                     <input asp-for="Comment" class="form-control" />
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
@@ -104,6 +109,102 @@
                     <a class="btn btn-danger" asp-action="Index">Back</a>
                 </div>
             </form>
+            </english>
+            <arabic class="d-none">
+                <form asp-action="EditOrAdd">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (@ViewBag.IsEdit)
+                {
+                    <input type="hidden" asp-for="Id" />
+
+                }
+                <div class="form-group">
+                    <!--this form inputs will be bind at the back end using the posy method 
+                       asp-for="Description": this will be mapped to the bind attribute string values that the Description 
+                       values writtin in the UI will be binded at the ack end using this mapping 
+
+                    -->
+                    <label  class="control-label">التوصيف</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                @if (@ViewBag.IsEdit)
+                {
+                <div class="form-group">
+                <label class="control-label">الحالة</label><!-- creating our drop down list for statuts enum-->
+                @Html.DropDownList("Status", new List<SelectListItem> {
+                    new SelectListItem { Text="Choose Status", Disabled = true },
+                    new SelectListItem { Text="Open",Value="0"},
+                    new SelectListItem { Text="Completed",Value="1"} ,
+                    }, new { @class = "form-control" })<!--the default value for our drop panel-->
+                    <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
+                </div>
+                }
+                else
+                {
+                <div class="form-group">
+                <label class="control-label">الحالة</label><!-- creating our drop down list for statuts enum-->
+                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly />
+                <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
+                </div>
+                }
+                <div class="form-group">
+                <label class="control-label">الأهمية</label><!-- creating our drop down list for statuts enum-->
+                @Html.DropDownList("Priorty", new List<SelectListItem> {
+                    new SelectListItem { Text="Choose Priority", Disabled = true },
+                    new SelectListItem { Text="Severe",Value="0"},
+                    new SelectListItem { Text="High",Value="1"},
+                    new SelectListItem { Text="Medium",Value="2"},
+                    new SelectListItem { Text="Low",Value="3"},
+                    }, new { @class = "form-control" })<!--the default value for our drop panel-->
+                    <span asp-validation-for="Priority" class="text-danger"></span> <!-- data vaidation for the inserted value-->
+                </div>
+
+                <div class="form-group">
+                    <label  class="control-label">كود تنبيه المستشعر</label>
+
+                    <select asp-for="SensorWarningId" class ="form-control" asp-items="ViewBag.SensorWarningId" >
+                    <option selected="selected" class="form-control" value=""></option>
+                    </select>
+
+                    <span asp-validation-for="SensorWarningId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">كود الفراغ</label>
+                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
+                    <span asp-validation-for="SpaceId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">كود المستخدم</label>
+
+                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" readonly />
+
+                    <span asp-validation-for="AppUserId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label  class="control-label">كود الأصل</label>
+
+                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId">
+                    <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
+                    </select>
+
+                    <span asp-validation-for="AssetId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">ملاحظات</label>
+                    <input asp-for="Comment" class="form-control" />
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="حفظ" />
+                    <a class="btn btn-danger" asp-action="Index">الرجوع إلى القائمة</a>
+                </div>
+            </form>
+            </arabic>
+            
         </div>
     </div>
 </div>
@@ -112,3 +213,12 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 @* <span asp-validation-for="Comment" class="text-danger"></span>*@
+                
+
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@

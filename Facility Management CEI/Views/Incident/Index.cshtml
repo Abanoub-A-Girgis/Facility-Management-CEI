@@ -28,40 +28,114 @@
 
 }
 
+                <div class="card text-center">
+                  <div class="card-header">
+                    <h3><english>Incidents</english><arabic class="d-none">الحوادث</arabic></h3>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text"><english>Showing the Incident Inside our Building.</english><arabic class="d-none">إظهار الحوادث داخل المبنى</arabic></p>
+                  </div>
+                </div>
+
+ 
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin","Inspector"))
+                {
+                     <div class="card-header">
+                          <!--
+                             Button Create new Record which will return a view that will make the user inser new   Incident data
+                             asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
+                             no need to pass an id as we will create new one 
+                          -->
+                          <a class="btn btn-outline-primary" asp-action="EditOrAdd"><english>Create New</english><arabic class="d-none">إنشاء حادثه جديدة</arabic></a>
+                     </div>
+    
+                }
+                
+
                 <!--this is the table headers-->
                 <div class="mt-4">
                     <div class="table-responsive">
                         <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id             )*@ID</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description    )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status         )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority       )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.ReportingTime  )</th>
-                                    <th class="text-center" scope="col">Created By</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SensorWarningId)</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.AssetId        )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.SpaceId        )</th>
-                                    <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment        ) </th>
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+
+                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id             )*@
+                                        <english>ID</english>
+                                        <arabic class="d-none">الكود</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Description    )</english>
+                                        <arabic class="d-none">التوصيف</arabic>                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Status         )</english>
+                                        <arabic class="d-none">الحالة</arabic> 
+                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Priority       )</english>
+                                        <arabic class="d-none">الأهمية</arabic> 
+                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Reporting Time</english>
+                                        <arabic class="d-none">وقت الإبلاغ</arabic> 
+                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Created By</english>
+                                        <arabic class="d-none">إنشاء من قبل</arabic>
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Sensor Warning ID</english>
+                                        <arabic class="d-none">كود تنبيه المستشعر</arabic>
+                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Asset ID</english>
+                                        <arabic class="d-none">كود الأصل</arabic>
+                                        
+                                    </th>
+                                    <th class="text-center" scope="col">
+                                        <english>Space ID</english>
+                                        <arabic class="d-none">كود الفراغ</arabic>
+                                        
+                                    </th>
+                                    
+                                    <th class="text-center" scope="col">
+                                        <english>@Html.DisplayNameFor(model => model.Comment       )</english>
+                                        <arabic class="d-none">ملاحظات</arabic>
+                                         
+
+                                    </th>
+                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                                     {
-                                    <th class="text-center" scope="col">Creat Task</th>
+                                    <th class="text-center" scope="col">
+                                        <english>Creat Task</english>
+                                        <arabic class="d-none">إنشاء مهمة</arabic>
+                                    </th>
                         
                                     }
+
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
                                     {
                         
-                                    <th class="text-center" scope="col">Edit</th>
+                                    <th class="text-center" scope="col">
+                                        <english>Edit</english>
+                                        <arabic class="d-none">تعديل</arabic></th>
                                     }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                                     {
-                                    <th class="text-center" scope="col">Details</th>
+                                    <th class="text-center" scope="col">
+                                        <english>Details</english>
+                                        <arabic class="d-none">التفاصيل</arabic></th>
                         
                                     }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                                     {
-                                    <th class="text-center" scope="col">Delete</th>
+                                    <th class="text-center" scope="col">
+                                        <english>Delete</english>
+                                        <arabic class="d-none">حذف</arabic></th>
                         
                                     }
 
@@ -104,7 +178,11 @@
                                             asp-action="AddOrEdit": the name of the action method that holds the Logic Code
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
-                                            <a asp-action="EditOrAdd" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">Edit</a>
+                                            <a asp-action="EditOrAdd" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">
+                                                <english>Edit</english>
+                                                <arabic class="d-none">تعديل</arabic>
+
+                                            </a>
                                          </td>
                                     }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
@@ -117,7 +195,11 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">Details</a>
+                                            <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">
+                                                
+                                                <english>Details</english>
+                                                <arabic class="d-none">التفاصيل</arabic>
+                                            </a>
                                          </td>
                                     }
 
@@ -131,7 +213,12 @@
                                                asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                                "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident
                                             -->
-                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">Delete</a>
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">
+                                                
+                                                <english>Delete</english>
+                                                <arabic class="d-none">حذف</arabic>
+
+                                            </a>
                                         </td>
                                     }
                                 </tr>
@@ -141,4 +228,15 @@
                         </table>
                     </div>
                 </div>
-       
+    
+                
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@

@@ -4,20 +4,28 @@
     ViewData["Title"] = "Floors Details";
 }
 
-<h1>Floors Details</h1>
+<h1>
+    <english> Floor Details</english>
+    <arabic class="d-none">تفاصيل الطابق </arabic>
+</h1>
 
 <div>
-    <h4>Floor</h4>
+@*    <h4>
+         <english> Floor </english>
+         <arabic class="d-none">الطوابق</arabic>
+    </h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FloorName)
+            <english> @Html.DisplayNameFor(model => model.FloorName) </english>
+            <arabic class="d-none">اسم الطابق </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FloorName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Building)
+            <english>@Html.DisplayNameFor(model => model.Building)</english>
+            <arabic class="d-none">كود المنشأة </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Building.Id)
@@ -25,5 +33,12 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-danger" asp-action="Index">Back to List</a>
+    <a class="btn btn-danger" asp-action="Index">
+        <english>Back to List</english>
+        <arabic class="d-none">العودة إلى القائمة </arabic>
+    </a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -4,32 +4,39 @@
     ViewData["Title"] = "Sensors Details";
 }
 
-<h1>Sensors Details</h1>
+<h1>
+        <english>   Sensor Details </english>
+        <arabic class="d-none">  تفاصيل المستشعر </arabic>
+</h1>
 
 <div>
-    <h4>Sensor</h4>
+@*    <h4>Sensor</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            <english>@Html.DisplayNameFor(model => model.Name)</english>
+            <arabic class="d-none">  اسم المستشعر </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SensorType)
+            <english>@Html.DisplayNameFor(model => model.SensorType)</english>
+            <arabic class="d-none">  نوع المستشعر </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SensorType)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Space)
+             <english>@Html.DisplayNameFor(model => model.Space)</english>
+            <arabic class="d-none">  كود الفراغ </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Space.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Asset)
+                <english>@Html.DisplayNameFor(model => model.Asset)</english>
+                <arabic class="d-none">   اسم العنصر </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Asset.Id)
@@ -37,5 +44,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+    <a asp-action="Index" class="btn btn-danger">
+        <english>Back to List</english>
+        <arabic class="d-none">   العودة الى القائمة  </arabic>
+     </a>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

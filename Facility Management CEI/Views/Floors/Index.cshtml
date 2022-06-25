@@ -4,16 +4,22 @@
     ViewData["Title"] = "Floors List";
 }
 
-<h1>Floors List</h1>
+<h1>
+    <english> Floors List</english>
+    <arabic class="d-none">قائمة الطوابق </arabic>
+</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FloorName)
+                <english>  @Html.DisplayNameFor(model => model.FloorName)</english>
+                <arabic class="d-none">اسم الطابق  </arabic>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Building)
+                <english>@Html.DisplayNameFor(model => model.Building)</english>
+                <arabic class="d-none">كود المنشأة  </arabic>
+                
             </th>
             <th></th>
         </tr>
@@ -28,9 +34,16 @@
                 @Html.DisplayFor(modelItem => item.Building.Id)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                    <english>Details</english>
+                    <arabic class="d-none">التفاصيل </arabic> 
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
