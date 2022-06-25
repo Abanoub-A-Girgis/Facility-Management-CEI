@@ -10,7 +10,7 @@
         <div class="card text-center">
             <div class="card-header">
             <h3>
-                 <english>Building Components</english>
+                <english>Building Components</english>
                 <arabic class="d-none">مكونات المنشأة</arabic>
             </h3>
             </div>
@@ -110,3 +110,6 @@
         </tbody>
      </table>  
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}  

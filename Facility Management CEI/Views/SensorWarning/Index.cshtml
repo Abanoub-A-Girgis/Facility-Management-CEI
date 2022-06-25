@@ -2,6 +2,9 @@
     @{
     ViewData["Title"]="SensorWarning";
     Layout = "~/Views/_Shared/_Layout.cshtml";
+    var x = ViewBag.AppUserId;
+    var My_user =(List<API.Models.AppUser>) ViewBag.Users;
+    var UserName =$"{My_user.FirstOrDefault(u=>u.Id==x).FirstName} {My_user.FirstOrDefault(u=>u.Id==x).LastName}" ;
     }
 
 @*@if (ViewContext.HttpContext.User.IsInRole("Admin"))
@@ -59,8 +62,8 @@
                                         <arabic class="d-none">تاريخ الفحص</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>User ID</english>
-                                        <arabic class="d-none">كود المستخدم</arabic>
+                                        <english>Invsetigated By</english>
+                                        <arabic class="d-none">تم الفحص من قبل</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
                                         <english>@Html.DisplayNameFor(model => model.Comment)</english>
@@ -84,7 +87,7 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Description)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Investigated)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.InvestigatDate)</td>
-                                    <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AppUserId)</td>
+                                    <td class="text-center" scope="col">@UserName</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment)</td>
                                     <td class="text-center" scope="col">
                                     <a  asp-action="Investigate" class="btn btn-outline-primary"  asp-route-WarningId="@item.Id">

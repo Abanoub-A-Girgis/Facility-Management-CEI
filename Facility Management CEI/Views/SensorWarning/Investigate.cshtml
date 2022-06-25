@@ -4,6 +4,8 @@
     ViewData["Title"] = "Warning Investigation";
     Layout = "~/Views/_Shared/_Layout.cshtml";
     var x = ViewBag.AppUserId;
+    var My_user =(List<API.Models.AppUser>) ViewBag.Users;
+    var UserName =$"{My_user.FirstOrDefault(u=>u.Id==x).FirstName} {My_user.FirstOrDefault(u=>u.Id==x).LastName}" ;
 }
 
 <div class="container p-3 my-3 border">
@@ -71,7 +73,7 @@
                     </div>
                     <div class="form-group">
                         <label @*asp-for="AppUserId" *@class="control-label">
-                            <arabic class="d-none">كود المستخدم</arabic>
+                            <arabic class="d-none">كود طالب الفحص</arabic>
                         </label>
                         <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" readonly value="@x"/>
                         <span asp-validation-for="AppUserId" class="text-danger"></span>
@@ -166,7 +168,7 @@
                         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                         {
                             <input class="btn btn-primary" type="submit" value="save" />
-                            <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >Assign To Incident</a>
+                            <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" asp-route-SensorWarningId="@Model.Id"  >Assign To Incident</a>
                             <a class="btn btn-danger" asp-action="Index">Back</a>
                         }
 

@@ -4,20 +4,25 @@
     ViewData["Title"] = "Spaces Details";
 }
 
-<h1>Spaces Details</h1>
+<h1>  
+    <english> Space Details</english>
+    <arabic class="d-none">  تفاصيل الفراغ  </arabic>
+</h1>
 
 <div>
-    <h4>Space</h4>
+@*    <h4>Space</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+              <english> @Html.DisplayNameFor(model => model.Name)</english>
+              <arabic class="d-none"> اسم الطابق  </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Floor)
+               <english> @Html.DisplayNameFor(model => model.Floor)</english>
+              <arabic class="d-none">كود الطابق</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Floor.Id)
@@ -25,5 +30,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-danger" >Back to List</a>
+    <a asp-action="Index" class="btn btn-danger" >
+        <english>Back to List</english>
+        <arabic class="d-none"> العودة الى القائمة</arabic>
+    </a>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

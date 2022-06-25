@@ -4,15 +4,31 @@
     ViewData["Title"] = "ViewBag.PageName";
     Layout = "~/Views/_Shared/_Layout.cshtml";
     var UserId = ViewBag.UserId;
-
+    //var SensorWarningList =(List<API.Models.SensorWarning>) ViewBag.SensorWarning;//an unboxing must be made 
+    //var model = Model;
+    var MyWarning = ViewBag.SensorWarning;
 }
 
-<div class="container p-3 my-3 border">
+<head>
+    <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
+    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+    <style>
+        .form-control:disabled {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+
     <h1> <english>@ViewBag.PageName</english><arabic class="d-none">الحادثة</arabic></h1> @*need to be translated*@ 
 
     <div class="row">
-        <div class="col-sm-6">
-            <hr />
+        <div class="col-5">
+            <hr/>
             <english>
                 <form asp-action="EditOrAdd">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,7 +36,6 @@
                 @if (@ViewBag.IsEdit)
                 {
                     <input type="hidden" asp-for="Id" />
-
                 }
                 <div class="form-group">
                     <!--this form inputs will be bind at the back end using the posy method 
@@ -28,7 +43,7 @@
                        values writtin in the UI will be binded at the ack end using this mapping 
 
                     -->
-                    <label  class="control-label">Description</label>
+                    <label class="control-label">Description</label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
@@ -47,8 +62,9 @@
                 else
                 {
                 <div class="form-group">
-                <label class="control-label">Status</label><!-- creating our drop down list for statuts enum-->
-                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly />
+
+                <input asp-for="Status" class="form-control-plaintext shadow-none" value="Open" hidden />
+
                 <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 }
@@ -65,31 +81,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label  class="control-label">Sensor Warning ID</label>
 
-                    <select asp-for="SensorWarningId" class ="form-control" asp-items="ViewBag.SensorWarningId" >
-                    <option selected="selected" class="form-control" value=""></option>
-                    </select>
-
-                    <span asp-validation-for="SensorWarningId" class="text-danger"></span>
+                 <input asp-for="SensorWarningId" class="form-control-plaintext shadow-none" value="@MyWarning" hidden />
+                 <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+@*                <div class="form-group">
                     <label class="control-label">Space ID</label>
                     <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <label class="control-label">User ID</label>
-
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" readonly />
-
+                    <input asp-for="AppUserId" class="form-control-plaintext shadow-none" value="@UserId" hidden />
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label  class="control-label">Asset ID</label>
 
-                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId">
+                    <select asp-for="AssetId" id="AssetIdEn" class="form-control" asp-items="ViewBag.AssetId" disabled>
                     <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
                     </select>
 
@@ -98,7 +108,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Comment</label>
-                    <input asp-for="Comment" class="form-control" />
+                    <input asp-for="Comment" class="form-control"/>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -142,7 +152,7 @@
                 {
                 <div class="form-group">
                 <label class="control-label">الحالة</label><!-- creating our drop down list for statuts enum-->
-                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly />
+                <input asp-for="Status"  class="form-control-plaintext shadow-none" value="Open" readonly/>
                 <span asp-validation-for="Status" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 }
@@ -168,43 +178,180 @@
                     <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+@*                <div class="form-group">
                     <label class="control-label">كود الفراغ</label>
                     <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <label class="control-label">كود المستخدم</label>
-
-                    <input asp-for="AppUserId"  class="form-control-plaintext shadow-none" value="@UserId" readonly />
-
+                    <input asp-for="AppUserId" class="form-control-plaintext shadow-none" value="@UserId" readonly/>
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label  class="control-label">كود الأصل</label>
-
-                    <select asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId">
-                    <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
+                    <select id="AssetIdAr" asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId" disabled>
+                        <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
                     </select>
-
                     <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">ملاحظات</label>
-                    <input asp-for="Comment" class="form-control" />
+                    <input asp-for="Comment" class="form-control"/>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input class="btn btn-primary" type="submit" value="حفظ" />
+                    <input class="btn btn-primary" type="submit" value="حفظ"/>
                     <a class="btn btn-danger" asp-action="Index">الرجوع إلى القائمة</a>
                 </div>
             </form>
             </arabic>
             
         </div>
+        <div class="col-7">
+
+            <canvas id="viewer" height="650" style="width: 100%;
+                                   object-fit: contain;"></canvas>
+                @*<div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+                </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
+                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+                </div>*@
+            <div style="position: absolute;
+                        top: 8px;
+                        right: 16px;
+                        z-index:5" id="overlayDiv"></div>
+            <script type="text/javascript">
+                var viewer = new xViewer('viewer');
+                //viewer.load('/data/SampleHouse.wexbim');
+                viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+                var navCube = new xNavigationCube();
+                navCube.ratio = .1;
+                viewer.addPlugin(navCube);
+                viewer.start();
+                viewer.defineStyle(0, [255,0,0,255])
+                viewer.defineStyle(1, [255,160,16,255])
+                viewer.defineStyle(2, [255,224,32,255])
+                viewer.defineStyle(3, [0,255,0,255])
+            </script>
+
+            <script>
+                    viewer.on('fps', function (fps) {
+                        var overlayDiv = document.getElementById('overlayDiv');
+                        if (overlayDiv) {
+                            overlayDiv.innerHTML = "FPS: " + fps;
+                        }
+                    });
+            </script>
+
+            <div>
+                <div class="text-center font-weight-bold m-2" id="productId"></div>
+            </div>
+
+            <div class="text-center">
+    @*            <select id="cmbHide">
+                    <option value="noAction">No action</option>
+                    <option value="hideProduct">Hide product</option>
+                    <option value="hideType">Hide type</option>
+                    <option value="highlight">Highlight</option>
+                </select>*@
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <script type="text/javascript">
+
+                    var timer = 0;
+                    var highlightedId;
+                    var option;
+                
+                    function HideProduct() {
+                        option = "hideProduct";
+                    }
+                
+                    function HideType() {
+                        option = "hideType";
+                    }
+
+                    function Highlight() {
+                        option = "highlight";
+                    }
+
+                    function ResetAll() {
+                        if (viewer) {
+                            viewer.resetStates();
+                        }
+                        var div = document.getElementById('productId');
+                        if (div) {
+                            div.innerHTML = "";
+                        }
+                    }
+                
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                        document.getElementById('hiddenId').value = id;
+
+                        //var cmb = document.getElementById('cmbHide');
+                        //var option = cmb.value;
+                        switch (option) {
+                            case 'hideProduct':
+                                viewer.setState(xState.HIDDEN, [args.id]);
+                                if (args.id == highlightedId)
+                                {
+                                    highlightedId = null;
+                                }
+                                break;
+                            case 'hideType':
+                                var type = viewer.getProductType(args.id);
+                                viewer.setState(xState.HIDDEN, type);
+                                if (type == viewer.getProductType(highlightedId))
+                                {
+                                    highlightedId = null;
+                                }
+                                break;
+                            case 'highlight':
+                                //viewer.ResetAll();
+                                viewer.setState(xState.UNDEFINED, [highlightedId]);
+                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                                var div = document.getElementById('productId');
+                                if (div) {
+                                    div.innerHTML = "Selected Asset Id = " + id;
+                                }
+                                $('#AssetIdEn').val(id);
+                                $('#AssetIdAr').val(id);
+                                highlightedId = id;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        var time = (new Date()).getTime();
+                        if (time - timer < 200)
+                            viewer.zoomTo(id);
+                        timer = time;
+
+                    });
+                </script>
+                <input name="hiddenId" type="hidden" id="hiddenId" />
+            </div>
+
+        </div>
     </div>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

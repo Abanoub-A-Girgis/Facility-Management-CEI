@@ -4,23 +4,30 @@
     ViewData["Title"] = "Building List";
 }
 
-<h1>Building List</h1>
+<h1> 
+    <english> Building List</english>
+    <arabic class="d-none"> قائمة المبنى</arabic>
+</h1>
 
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                <english> ID</english>
+                <arabic class="d-none"> الكود</arabic>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <english> @Html.DisplayNameFor(model => model.Name)</english>
+                <arabic class="d-none"> الإسم</arabic>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Path)
+                <english>@Html.DisplayNameFor(model => model.Path)</english>
+                <arabic class="d-none"> مسار الملف</arabic>
             </th>
             <th>
-                Details
+                <english>Details</english>
+                <arabic class="d-none"> التفاصيل</arabic>
             </th>
             
         </tr>
@@ -38,9 +45,15 @@
                 @Html.DisplayFor(modelItem => item.Path)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id"> 
+                <english>Details</english>
+                <arabic class="d-none"> التفاصيل</arabic></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

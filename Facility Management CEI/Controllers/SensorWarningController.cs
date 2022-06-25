@@ -29,6 +29,10 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index(int? warningId)
         {
+            var user2 = await _userManeger.GetUserAsync(User);
+            var userI = user2.Id;
+            ViewBag.AppUserId = _context.AppUsers.ToList().Where(u => u.LogUserId == userI).FirstOrDefault().Id;
+            ViewBag.Users = _context.AppUsers.ToList();
             if (warningId==null)
             {
                 int TrialsNumber = 3;
@@ -177,6 +181,7 @@ namespace Facility_Management_CEI.Controllers
             var user2 = await _userManeger.GetUserAsync(User);
             var userI = user2.Id;
             ViewBag.AppUserId =   _context.AppUsers.ToList().Where(u => u.LogUserId == userI).FirstOrDefault().Id;
+            ViewBag.Users = _context.AppUsers.ToList();
             if (WarningId == null)//make sure that the id is not null 
             {
                 return NotFound();//return not found page if the id is null

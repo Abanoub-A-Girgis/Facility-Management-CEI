@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Configuration;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -29,9 +30,10 @@ namespace Facility_Management_CEI.Controllers
         // GET: IncidentController
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
 
-        public ActionResult Index()//index is considered to be the home page of our controller
+        public async Task<ActionResult> Index()//index is considered to be the home page of our controller
         {
-            var Incident = _Context.Incidents.ToList();
+            var Incident = await _Context.Incidents.ToListAsync();
+            ViewBag.Users = await _Context.AppUsers.ToListAsync();
             return View(Incident);//pass the incident table to our view to be used inside the model property 
         }
 
@@ -64,22 +66,25 @@ namespace Facility_Management_CEI.Controllers
         }
    
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
-        public async Task<IActionResult> EditOrAdd(int? IncidentId)
+        public async Task<IActionResult> EditOrAdd(int? IncidentId,int? SensorWarningId)//SensorWarningId waht is comming from the sesnor warning View
         {
             //if the id is null then the user wants to create a new record and the page name will beCreate student
             //on the other hand if the id has a value then the user wants to update a current record 
             ViewBag.PageName = IncidentId == null ? "Create Incident" : "Edit Incident";
             ViewBag.IsEdit = IncidentId == null ? false : true;
+            ViewBag.SensorWarning = SensorWarningId;
             //these are the values from the DB to be loaded at the page openeing 
-            ViewData["SensorWarningId"] = new SelectList(_Context.SensorWarnings, "Id", "Id");
             ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
             ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
             // this code is used to get the id of the current logged in user 
             var user = await _userManeger.GetUserAsync(User);
             var userId = user.Id;
-            ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
+            var appuser = _Context.AppUsers.Where(u => u.LogUserId == userId).Include(u => u.Building).FirstOrDefault();
+            ViewBag.UserId = appuser.Id;
             if (IncidentId == null)
             {
+                string FilePath = appuser.Building.Path;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
                 return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
             }
             else
@@ -141,7 +146,7 @@ namespace Facility_Management_CEI.Controllers
                         Incident.SensorWarningId = incidentData.SensorWarningId;
                         Incident.AppUserId = incidentData.AppUserId;
                         Incident.AssetId = incidentData.AssetId;
-                        Incident.Comment =null;//at the creation a comment will not be writtin - the comment is used to close the incident 
+                        Incident.Comment = null;//at the creation a comment will not be writtin - the comment is used to close the incident 
                         Incident.Status = API.Enums.IncidentStatus.Open;
                         Incident.ReportingTime = DateTime.Now;
                         _Context.Add(Incident);//if this flag is false then add student data

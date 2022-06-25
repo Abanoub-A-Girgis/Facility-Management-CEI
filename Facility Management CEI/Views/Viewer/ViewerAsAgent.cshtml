@@ -187,7 +187,7 @@
                 <script type="text/javascript">
 
                     var timer = 0;
-                
+                    var highlightedId;
                     var option;
                 
                     function HideProduct() {
@@ -223,18 +223,28 @@
                         switch (option) {
                             case 'hideProduct':
                                 viewer.setState(xState.HIDDEN, [args.id]);
+                                if (args.id == highlightedId)
+                                {
+                                    highlightedId = null;
+                                }
                                 break;
                             case 'hideType':
                                 var type = viewer.getProductType(args.id);
                                 viewer.setState(xState.HIDDEN, type);
+                                if (type == viewer.getProductType(highlightedId))
+                                {
+                                    highlightedId = null;
+                                }
                                 break;
                             case 'highlight':
-                                viewer.resetStates();
+                                //viewer.resetStates();
+                                viewer.setState(xState.UNDEFINED, [highlightedId]);
                                 viewer.setState(xState.HIGHLIGHTED, [args.id]);
                                 var div = document.getElementById('productId');
                                 if (div) {
                                     div.innerHTML = "Selected Asset Id = " + id;
                                 }
+                                highlightedId = id;
                                 break;
                             default:
                                 break;

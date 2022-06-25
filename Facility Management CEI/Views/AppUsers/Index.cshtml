@@ -6,11 +6,17 @@
     ViewData["Title"] = "Building Personnel";
 }
 
-<h1>Building Personnel</h1>
+<h1>
+    <english> Building Personnel</english>
+    <arabic class="d-none"> صفحة العاملين بالمنشأة</arabic>
+</h1>
 @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
 {
 <p>
-    <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>Create New</a>
+    <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>
+        <english> Create New</english>
+        <arabic class="d-none">إنشاء مستخدم</arabic>
+    </a>
 </p>
     
 }
@@ -18,35 +24,52 @@
     <thead>
         <tr>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.Id)
+                <english> ID</english>
+                <arabic class="d-none"> الكود</arabic>
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.FirstName)
+                <english> @Html.DisplayNameFor(model => model.FirstName)</english>
+                <arabic class="d-none"> الأسم الأول</arabic>
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.LastName)
+                <english> @Html.DisplayNameFor(model => model.LastName)</english>
+                <arabic class="d-none"> الأسم الأخير</arabic>
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.Type)
+                 <english> @Html.DisplayNameFor(model => model.Type)</english>
+                 <arabic class="d-none"> نوع المستخدم </arabic>
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.Building)
+                <english> @Html.DisplayNameFor(model => model.Building)</english>
+                <arabic class="d-none"> المنشأة</arabic>
             </th>
             <th class="text-center" scope="col">
-                @Html.DisplayNameFor(model => model.SuperId)
+                <english>  @Html.DisplayNameFor(model => model.SuperId)</english>
+                <arabic class="d-none"> كود المشرف</arabic>
+               
             </th>
             <th class="text-center" scope="col">
-                Supervisor Name
+                <english>Supervisor Name</english>
+                <arabic class="d-none"> إسم المشرف</arabic>
             </th >
             @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
             {
                 
-            <th class="text-center" scope="col">Edit</th>
+                <th class="text-center" scope="col">
+                    <english>Edit</english>
+                    <arabic class="d-none"> تعديل </arabic>
+                </th>
             }
-            <th class="text-center" scope="col">Details</th>
+                <th class="text-center" scope="col">
+                       <english>Details</english>
+                       <arabic class="d-none"> التفاصيل </arabic>
+                </th>
             @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
             {
-            <th class="text-center" scope="col">Delete</th>
+                <th class="text-center" scope="col">
+                        <english>Delete</english>
+                        <arabic class="d-none"> مسح </arabic>
+                </th>
                 
             }
         </tr>
@@ -78,21 +101,33 @@
             @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
             {
             <td class="text-center" scope="col">
-            <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">
+                        <english>Edit</english>
+                       <arabic class="d-none"> تعديل </arabic>
+                </a>
             </td>
             }
 
             <td class="text-center" scope="col">
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                   <english>Details</english>
+                   <arabic class="d-none"> التفاصيل </arabic>
+                </a> 
             </td> 
 
             @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
             {
             <td class="text-center" scope="col">
-            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">
+                   <english>Delete</english>
+                   <arabic class="d-none"> مسح </arabic>
+                </a>
             </td>
             }
         </tr>
 }
     </tbody>
 </table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
