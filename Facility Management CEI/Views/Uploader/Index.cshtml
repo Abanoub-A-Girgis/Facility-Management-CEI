@@ -6,6 +6,16 @@
 
 <head>
     <script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+    <style>
+        .dz-upload { 
+            display: block; 
+            background-color: #0275d8; 
+            height: 20px;
+            width: 0%;
+            border-radius: 25px;
+        }
+    </style>
 </head>
 
 <h2>Uploader</h2>
@@ -57,6 +67,7 @@
             paramName: "file",
             //clickable div id
             clickable: '#previews',
+            showTimer: true,
            //preview files container Id
             previewsContainer: "#previewFiles",
             autoProcessQueue: false,
@@ -64,7 +75,7 @@
             timeout: null,
             parallelUploads: 1,
             maxFiles: 1,
-            //url:"Uploader/Index",
+            //url: "#",
             addRemoveLinks: true,
             dictResponseError: 'Server not Configured',
             acceptedFiles: ".ifc",// use this to restrict file type
@@ -85,14 +96,25 @@
                     $('.meter').show();
                 });
 
+                var isUploading = false;
                 // File upload Progress
                 self.on("totaluploadprogress", function (progress) {
                     console.log("progress ", progress);
                     $('.roller').width(progress + '%');
+                    $('.dz-upload')[0].innerText = progress.toPrecision(4) + '%';
+                    if (progress == 100 && isUploading == false) {
+                        isUploading = true;
+                        $('.dz-upload, .dz-remove').fadeOut(500)
+                        var newElement = '<i class="fas fa-check"></i><p id="uploadP">Upload Complete!</p>';
+                        var newMessage = '<p>Extracting Geometry and Populating Database<br>Please Wait</p>'
+                        $(newElement).hide().insertAfter('.dz-upload').fadeIn(700);
+                        $(newMessage).hide().insertAfter('#uploadP').fadeIn(700);
+                    }
                 });
 
                 this.on("maxfilesexceeded", function(file){
                     alert("Only one file is allowed");
+                    this.removeFile(file);
                 });
 
                 $('#submitButton').on("click", function (e) {
