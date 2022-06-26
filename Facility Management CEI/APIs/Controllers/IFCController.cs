@@ -478,8 +478,12 @@ namespace API.Controllers
             SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
             _Context.SensorWarnings.RemoveRange(SenWar);
 
-            AppUser[] Use = _Context.AppUsers.ToArray();
-            _Context.AppUsers.RemoveRange(Use);
+            var appusers = _Context.AppUsers;
+
+            foreach(var user in appusers)
+            {
+                user.BuildingId = null;
+            }
 
             Incident[] Inc = _Context.Incidents.ToArray();
             _Context.Incidents.RemoveRange(Inc);

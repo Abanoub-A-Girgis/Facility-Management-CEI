@@ -19,6 +19,13 @@
 </head>
 
 <h2>Uploader</h2>
+@if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
+{
+    @using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post, new { @class = "text-center mb-5" }))
+    {
+         <input class="btn btn-danger" type="submit" value="Clear Database"/>
+    }
+}
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -52,11 +59,6 @@
         </div>
     </div> <!-- end col -->
 </div>
-@using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post))
-{
-     <input class="btn btn-danger" type="submit" value="Clear Database"/>
-}
-
 
 <script>
     Dropzone.autoDiscover = false;
