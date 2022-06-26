@@ -272,11 +272,22 @@
         }
 
         function hideAll() {
-            for (var assets in floorAssets)
-            {
-                console.log(assets)
-                viewer.setState(xState.HIDDEN, floorAssets[assets])
+            //for (var assets in floorAssets)
+            //{
+            //    console.log(assets)
+            //    viewer.setState(xState.HIDDEN, floorAssets[assets])
+            //}
+            for (var i in xProductType) {
+                var type = xProductType[i];
+                //var colour = [Math.random() * 255, Math.random() * 255, Math.random() * 255, 255];
+                //viewer.defineStyle(index, colour);
+                //viewer.setStyle(index, type);
+                viewer.setState(xState.HIDDEN, type)
             }
+        }
+
+        function showFirst() {
+            viewer.setState(xState.UNDEFINED, floorAssets['THIRD FLOOR (FFL)'])
         }
 
     </script>
