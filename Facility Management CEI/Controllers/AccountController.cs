@@ -59,16 +59,19 @@ namespace Facility_Management_CEI.Controllers
                     if (TestRoleLogUser.Succeeded)
                     {
                         //UserType AppUserType;
+                        var SuperAppUser = await _Context.AppUsers.FirstOrDefaultAsync(i => i.Id == model.SuperId);//to add the same biuldingId of the Super
                         var testParse = Enum.TryParse(model.Role, out UserType AppUserType);
+                        
                         var appuser = new AppUser()
                         {
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             LogUserId = newUser.Id,
                             Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
-                            BuildingId = model.BuildingId,
+                            BuildingId = SuperAppUser?.BuildingId,
                             SuperId = model.SuperId
                         };
+
                         _Context.AppUsers.Add(appuser);
                         _Context.SaveChanges();
 

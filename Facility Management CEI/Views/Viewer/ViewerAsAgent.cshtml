@@ -5,10 +5,16 @@
 @using System.Configuration
 @using API.Models
 @model Facility_Management_CEI.Controllers.ViewerParameter
-<h1 class="text-center text-uppercase font-weight-bold mb-5">Task Viewer Dashboard</h1>
+<h1 class="text-center text-uppercase font-weight-bold mb-5">
+    <english> Task Viewer Dashboard</english>
+    <arabic class="d-none">لوحة متابعة المهام</arabic>
+</h1>
 
 <head>
-    <title>View as Agent</title>
+    <title>
+        <english> View as Agent</english>
+        <arabic class="d-none"> عرض المبنى كعامل </arabic>
+    </title>
     <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
@@ -30,15 +36,30 @@
 <body>
     <div class="row">
         <div class="col-5">
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Tasks</h3>
+            <h3 class="text-center font-weight-bold" id="BottomTableHeading">
+                    <english>All Tasks</english>
+                    <arabic class="d-none">عرض كل المهام</arabic>
+            </h3>
             <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
                 <table id="ItemsTable" class="w-100 table table-striped table-hover">
                     <thead>
                         <tr class="sticky-top">
-                            <th>Task ID</th>
-                            <th>Asset Name</th>
-                            <th>Details</th>
-                            <th>Zoom To</th>
+                            <th>
+                                <english>Task ID</english>
+                                <arabic class="d-none">كود المهمة</arabic>
+                            </th>
+                            <th>
+                                <english>Asset Name</english>
+                                <arabic class="d-none">اسم العنصر </arabic>
+                            </th>
+                            <th>
+                                <english> Details</english>
+                                <arabic class="d-none"> التفاصيل </arabic>
+                            </th>
+                            <th>
+                                <english> Zoom To</english>
+                                <arabic class="d-none"> تكبير/تصغير </arabic>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,8 +69,15 @@
                                 <th>@task.Id</th>
                                 <td>@task.Incident.Asset.Name</td>
                                 @*<td><button class="btn btn-info waves-effect waves-light" onclick="">Details</button></td>*@
-                                <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
+                                <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >
+                                    <english>  Details</english>
+                                    <arabic class="d-none"> التفاصيل </arabic></a>
+                                </td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">
+                                        <english> Zoom To</english>
+                                        <arabic class="d-none"> تكبير/تصغير </arabic> 
+                                    </button>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -187,7 +215,7 @@
                 <script type="text/javascript">
 
                     var timer = 0;
-                
+                    var highlightedId;
                     var option;
                 
                     function HideProduct() {
@@ -223,18 +251,28 @@
                         switch (option) {
                             case 'hideProduct':
                                 viewer.setState(xState.HIDDEN, [args.id]);
+                                if (args.id == highlightedId)
+                                {
+                                    highlightedId = null;
+                                }
                                 break;
                             case 'hideType':
                                 var type = viewer.getProductType(args.id);
                                 viewer.setState(xState.HIDDEN, type);
+                                if (type == viewer.getProductType(highlightedId))
+                                {
+                                    highlightedId = null;
+                                }
                                 break;
                             case 'highlight':
-                                viewer.resetStates();
+                                //viewer.resetStates();
+                                viewer.setState(xState.UNDEFINED, [highlightedId]);
                                 viewer.setState(xState.HIGHLIGHTED, [args.id]);
                                 var div = document.getElementById('productId');
                                 if (div) {
                                     div.innerHTML = "Selected Asset Id = " + id;
                                 }
+                                highlightedId = id;
                                 break;
                             default:
                                 break;

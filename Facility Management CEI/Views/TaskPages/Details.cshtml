@@ -3,11 +3,10 @@
 
 @{
     ViewData["Title"] = "Details";
-    var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
-
+    //var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
 }
 <head>
-    <title>Task Details</title>
+    <title><english>Task Details</english><arabic class="d-none">تفاصيف المهمة</arabic></title>
     <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
     <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
@@ -39,82 +38,94 @@
 
 </head>
 
-<h1>Details</h1>
+<h1><english>Task Details</english><arabic class="d-none">تفاصيف المهمة</arabic></h1>
 
 <div>
-    <h4>Task</h4>
+    
     <hr />
     <div class="row">
       <div class="col-5">
        <dl class="row">
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Id)
+           
+            <english>ID</english><arabic class="d-none">الكود</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Description)
+            
+            <english>Description</english><arabic class="d-none">التوصيف</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Status)
+            
+            <english>Status</english><arabic class="d-none">الحالة</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Type)
+           
+            <english>Type</english><arabic class="d-none">النوع</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Priority)
+            
+            <english>Priority</english><arabic class="d-none">الأهمية</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Priority)
         </dd>
          <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
+            
+            <english>Created By</english><arabic class="d-none">أنشئت من قبل</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.CreatedBy.FirstName) @Html.DisplayFor(model => model.CreatedBy.LastName)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Incident)
+           
+            <english>Incident</english><arabic class="d-none">الحادثة</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.IncidentId)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.AssignedTo)
+           
+            <english>Assigned To</english><arabic class="d-none">عينت إلى</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.AssignedBy)
+            
+            <english>Assigned By</english><arabic class="d-none">عينت من قبل</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.AssignedBy.FirstName) @Html.DisplayFor(model => model.AssignedBy.LastName)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Cost)
+            
+            <english>Cost</english><arabic class="d-none">التكلفة</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Cost)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.FixingTime)
+            
+            <english>Fixing Time</english><arabic class="d-none">تاريخ الإصلاح</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.FixingTime)
         </dd>
         <dt class = "col-sm-2 text-center">
-            @Html.DisplayNameFor(model => model.Comment)
+            
+            <english>Comment</english><arabic class="d-none">الملاحظات</arabic>
         </dt>
         <dd class = "col-sm-10 text-center">
             @Html.DisplayFor(model => model.Comment)
@@ -126,7 +137,7 @@
             <canvas id="viewer" height="650" style="width: 100%;
                                    object-fit: contain;"></canvas>
             <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute; top: 8px;left: 20px;z-index:5"">
-                <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+                <div class="font-weight-bold mb-2 text-center"><english>Toggle Highlights</english><arabic class="d-none">تبديل الإضاءات</arabic></div>
                 @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
                 <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
                 <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
@@ -134,7 +145,7 @@
                 <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()" autocomplete="off">
-                    <label class="custom-control-label" for="Switch1">Items</label>
+                    <label class="custom-control-label" for="Switch1"><english>Items</english><arabic class="d-none">العناصر</arabic></label>
                 </div>
                 @*<div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
@@ -192,14 +203,15 @@
                     <option value="hideType">Hide type</option>
                     <option value="highlight">Highlight</option>
                 </select>*@
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@Model.Incident.AssetId)"><english>Zoom to Item</english><arabic class="d-none">عرض العنصر</arabic></button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()"><english>Hide Product</english><arabic class="d-none">إخفاء العنصر</arabic></button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()"><english>Hide Type</english><arabic class="d-none">إخفاء النوع</arabic></button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()"><english>Select Product</english><arabic class="d-none">إختيار العنصر</arabic></button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()"><english>Reset All</english><arabic class="d-none">إعادة الضبط</arabic></button>
                 <script type="text/javascript">
 
                     var timer = 0;
-                
+                    var highlightedId;
                     var option;
                 
                     function HideProduct() {
@@ -241,12 +253,14 @@
                                 viewer.setState(xState.HIDDEN, type);
                                 break;
                             case 'highlight':
-                                viewer.resetStates();
+                                //viewer.resetStates();
+                                viewer.setState(xState.UNDEFINED, [highlightedId]);
                                 viewer.setState(xState.HIGHLIGHTED, [args.id]);
                                 var div = document.getElementById('productId');
                                 if (div) {
                                     div.innerHTML = "Selected Asset Id = " + id;
                                 }
+                                highlightedId = id;
                                 break;
                             default:
                                 break;
@@ -266,8 +280,8 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
-    <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><english></english>Edit<arabic class="d-none">تعديل</arabic></a> |
+    <a asp-action="TaskList" class="btn btn-danger"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
 </div>
 
 
@@ -329,3 +343,14 @@
     }
         
 </Script>
+                 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@

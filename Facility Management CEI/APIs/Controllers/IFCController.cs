@@ -94,6 +94,27 @@ namespace API.Controllers
                         FloorId = SpacesStorey.EntityLabel,
                     });
                 }
+                /////////////////code for the dummy floor and space 
+                var FloorsIds = new List<int>();
+                var EmptySpacesToBeAdded = new List<Space>();
+                foreach (Floor floor in BuildingFloor)
+                {
+                    FloorsIds.Add(floor.Id);
+
+                }
+                for (int i = 0; i < FloorsIds.Count; i++)
+                {
+
+                    EmptySpacesToBeAdded.Add(
+                    new Space()
+                    {
+                        Id = FloorSpaces.Max(i => i.Id) + (i + 1),
+                        Name = "NaN",
+                        FloorId = FloorsIds[i],
+                    });
+                };
+                FloorSpaces.AddRange(EmptySpacesToBeAdded);
+                /////////////////code for the dummy floor and space
                 _Context.Spaces.AddRange(FloorSpaces);
                 _Context.SaveChanges();
                 #endregion
@@ -129,7 +150,9 @@ namespace API.Controllers
                     {
                         Id = Window.EntityLabel,
                         Name = $"{Window.ObjectType.Value}:{Window.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Window.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = Window.IsContainedIn.EntityLabel
                     });
                 }
@@ -142,7 +165,9 @@ namespace API.Controllers
                     {
                         Id = item.EntityLabel,
                         Name = $"{item.ObjectType.Value}:{item.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == item.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = item.IsContainedIn.EntityLabel
                     });
                 }
@@ -177,7 +202,9 @@ namespace API.Controllers
                     {
                         Id = column.EntityLabel,
                         Name = $"{column.ObjectType.Value}:{column.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == column.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = column.IsContainedIn.EntityLabel
                     });
                 }
@@ -190,7 +217,9 @@ namespace API.Controllers
                     {
                         Id = slab.EntityLabel,
                         Name = $"{slab.ObjectType.Value}:{slab.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == slab.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = slab.IsContainedIn.EntityLabel
                     });
                 }
@@ -203,7 +232,9 @@ namespace API.Controllers
                     {
                         Id = wall.EntityLabel,
                         Name = $"{wall.ObjectType.Value}:{wall.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == wall.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = wall.IsContainedIn.EntityLabel
                     });
                 }
@@ -216,7 +247,9 @@ namespace API.Controllers
                     {
                         Id = beam.EntityLabel,
                         Name = $"{beam.ObjectType.Value}:{beam.Name.Value}",
-                        SpaceId = null,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == beam.IsContainedIn.EntityLabel).Id /*null*/,
+                        /////////////////code for the dummy floor and space
                         FloorId = beam.IsContainedIn.EntityLabel
                     });
                 }
@@ -445,8 +478,12 @@ namespace API.Controllers
             SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
             _Context.SensorWarnings.RemoveRange(SenWar);
 
-            AppUser[] Use = _Context.AppUsers.ToArray();
-            _Context.AppUsers.RemoveRange(Use);
+            var appusers = _Context.AppUsers;
+
+            foreach(var user in appusers)
+            {
+                user.BuildingId = null;
+            }
 
             Incident[] Inc = _Context.Incidents.ToArray();
             _Context.Incidents.RemoveRange(Inc);
