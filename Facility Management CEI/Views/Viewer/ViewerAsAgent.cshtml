@@ -67,15 +67,23 @@
                         {
                             <tr>
                                 <th>@task.Id</th>
-                                <td>@task.Incident.Asset.Name</td>
+                                <td>@if(task.Incident.Asset != null)
+                                    {
+                                        @task.Incident.Asset.Name;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("NO ASSET");
+                                    }
+                                </td>
                                 @*<td><button class="btn btn-info waves-effect waves-light" onclick="">Details</button></td>*@
                                 <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >
-                                    <english>  Details</english>
-                                    <arabic class="d-none"> التفاصيل </arabic></a>
+                                    <english>Details</english>
+                                    <arabic class="d-none">التفاصيل</arabic></a>
                                 </td>
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">
-                                        <english> Zoom To</english>
-                                        <arabic class="d-none"> تكبير/تصغير </arabic> 
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)" @if(task.Incident.Asset == null){@Html.Raw("disabled")}>
+                                        <english>Zoom To</english>
+                                        <arabic class="d-none">تكبير/تصغير</arabic> 
                                     </button>
                                 </td>
                             </tr>

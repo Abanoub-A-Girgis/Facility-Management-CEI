@@ -66,19 +66,23 @@ namespace Facility_Management_CEI.Controllers
             {
                 if (t.Priority == API.Enums.Priority.Severe)
                 {
-                    viewerParam.Severe.Add((int)t.Incident.AssetId);
+                    if(t.Incident.AssetId != null)
+                        viewerParam.Severe.Add((int)t.Incident.AssetId);
                 }
                 else if (t.Priority == API.Enums.Priority.High)
                 {
-                    viewerParam.High.Add((int)t.Incident.AssetId);
+                    if (t.Incident.AssetId != null)
+                        viewerParam.High.Add((int)t.Incident.AssetId);
                 }
                 else if (t.Priority == API.Enums.Priority.Medium)
                 {
-                    viewerParam.Medium.Add((int)t.Incident.AssetId);
+                    if (t.Incident.AssetId != null)
+                        viewerParam.Medium.Add((int)t.Incident.AssetId);
                 }
                 else if (t.Priority == API.Enums.Priority.Low)
                 {
-                    viewerParam.Low.Add((int)t.Incident.AssetId);
+                    if (t.Incident.AssetId != null)
+                        viewerParam.Low.Add((int)t.Incident.AssetId);
                 }
             }
             return viewerParam;

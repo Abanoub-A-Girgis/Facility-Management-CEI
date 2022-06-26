@@ -19,10 +19,19 @@
                     <th>@task.AssignedToId</th>
                     <th>@task.Id</th>
                     <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + "" + a.LastName).FirstOrDefault())</th>
-                    <td>@task.Incident.Asset.Name</td>
+                    <td>
+                        @if(task.Incident.Asset != null)
+                        {
+                            @task.Incident.Asset.Name;
+                        }
+                        else
+                        {
+                            @Html.Raw("NO ASSET");
+                        }
+                    </td>
                     @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                     <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
-                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)">Zoom To</button></td>
+                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)" @if(task.Incident.Asset == null){@Html.Raw("disabled")}>Zoom To</button></td>
                 </tr>
             }
         </tbody>
