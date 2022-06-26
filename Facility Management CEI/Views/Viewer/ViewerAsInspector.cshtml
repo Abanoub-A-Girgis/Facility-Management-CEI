@@ -5,10 +5,17 @@
 @using System.Configuration
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
-<h1 class="text-center text-uppercase font-weight-bold mb-5">Task Viewer Dashboard</h1>
+<h1 class="text-center text-uppercase font-weight-bold mb-5">
+    <english> Task Viewer Dashboard</english>
+    <arabic class="d-none">لوحة متابعة المهام</arabic>
+</h1>
 
 <head>
-    <title>View as Agent</title>
+
+    <title>
+        <english> View as Inspector</english>
+        <arabic class="d-none"> عرض المبنى كمفتش </arabic>
+    </title>
     <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
@@ -31,16 +38,31 @@
 <body>
     <div class="row">
         <div class="col-5">
-            <h3 class="text-center font-weight-bold">Subordinates</h3>
+            <h3 class="text-center font-weight-bold">
+                <english>Subordinates</english>
+                <arabic class="d-none">الموظفون تحت الإشراف </arabic>
+            </h3>
             <div>
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
                     <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
                             <tr class="sticky-top">
-                                <th>User ID</th>
-                                <th>Name</th>
-                                <th>User Details</th>
-                                <th>Load Tasks</th>
+                                <th>
+                                    <english> User ID</english>
+                                    <arabic class="d-none">كود المستخدم  </arabic>
+                                </th>
+                                <th>
+                                    <english> Name</english>
+                                    <arabic class="d-none">الاسم</arabic>
+                                </th>
+                                <th>
+                                    <english>User Details</english>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                </th>
+                                <th>
+                                    <english> Load Tasks</english>
+                                    <arabic class="d-none">تحميل المهام </arabic>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,15 +71,26 @@
                                 <tr>
                                     <th>@Agent.Id</th>
                                     <td>@Agent.FirstName @Agent.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light">User Details</button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">Show Tasks</button></td>
+                                    <td><button class="btn btn-info waves-effect waves-light"> 
+                                            <english>User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </button>
+                                    </td>
+                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
+                                            <english>Show Tasks</english>
+                                            <arabic class="d-none">إظهار المهام </arabic>
+                                        </button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Tasks</h3>
+            <h3 class="text-center font-weight-bold" id="BottomTableHeading">
+                        <english>All Tasks</english>
+                        <arabic class="d-none">إظهار كل المهام </arabic>
+            </h3>
             @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
         </div>
         <div class="col-7">
