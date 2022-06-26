@@ -111,6 +111,13 @@ namespace Facility_Management_CEI.Controllers
                 try
                 {
                     _context.Update(appUser);
+                    var LogUser = await _context.LogUsers.FirstOrDefaultAsync(u => u.Id == appUser.LogUserId);
+                    if (LogUser != null)
+                    {
+                        LogUser.FirstName = appUser.FirstName;
+                        LogUser.LastName = appUser.LastName;
+                        _context.Update(LogUser);
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -154,16 +161,20 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // POST: AppUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Delete")] 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var appUser = await _context.AppUsers.FindAsync(id);
+            var appUser = await _context.AppUsers.Include(i=>i.LogUser).FirstOrDefaultAsync(m => m.Id == id);
+            var LogUser = appUser.LogUser;
             _context.AppUsers.Remove(appUser);
+            if (LogUser != null)
+            {
+                _context.LogUsers.Remove(LogUser);
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool AppUserExists(int id)
         {
             return _context.AppUsers.Any(e => e.Id == id);
