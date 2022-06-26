@@ -5,28 +5,8 @@
     Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
     var UsersList =(List<API.Models.AppUser>) ViewBag.Users;
 }
-<div class="card text-center">
-    <div class="card-header">
-        <h3>Incident</h3>
-    </div>
-    <div class="card-body">
-        <p class="card-text">Showing the Incident Inside our Building.</p>
-    </div>
-</div>
 
 
-@if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
-{
-    <div class="card-header">
-        <!--
-        Button Create new Record which will return a view that will make the user inser new   Incident data
-        asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
-        no need to pass an id as we will create new one 
-        -->
-        <a class="btn btn-outline-primary" asp-action="EditOrAdd">Create New</a>
-    </div>
-
-}
 
                 <div class="card text-center">
                   <div class="card-header">
