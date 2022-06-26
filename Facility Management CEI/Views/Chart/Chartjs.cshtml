@@ -20,6 +20,7 @@
     int CompletedIncdentsCounter = 0;
 
     //Incident Line Report Conters
+    Random MyRandom = new Random();
     int janCounter = 0;
     int FebCounter = 0;
     int MarCounter = 0;
@@ -32,6 +33,35 @@
     int OctCounter = 0;
     int NovCounter = 0;
     int DecCounter = 0;
+     foreach (var Incident in Incidents)
+    {
+        //Pie Report
+        if (Incident.Status == API.Enums.IncidentStatus.Completed)
+        {
+            CompletedIncdentsCounter++;
+        }
+        if (Incident.Status == API.Enums.IncidentStatus.Open)
+        {
+            openIncdentsCounter++;
+        }
+    }
+    if (Incidents.Count<=12) //generating dummy data 
+    {
+         janCounter = MyRandom.Next(5,20);
+         FebCounter = MyRandom.Next(5,20);
+         MarCounter = MyRandom.Next(5,20);
+         AprCounter = MyRandom.Next(5,20);
+         MayCounter = MyRandom.Next(5,20);
+         junCounter = MyRandom.Next(5,20);
+         JulCounter = MyRandom.Next(5,20);
+         AugCounter = MyRandom.Next(5,20);
+         SepCounter = MyRandom.Next(5,20);
+         OctCounter = MyRandom.Next(5,20);
+         NovCounter = MyRandom.Next(5,20);
+         DecCounter = MyRandom.Next(5,20);
+    }
+    else //for real Logic
+    {
     foreach (var Incident in Incidents)
     {
         //Pie Report
@@ -93,6 +123,8 @@
             DecCounter++;
         }
     }
+    }
+    
     int WorkingIncidentNo = Incidents.Count - openIncdentsCounter;
 
     //Line report
@@ -309,9 +341,9 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                max: 100,
-                                min: 20,
-                                stepSize: 10
+                                max: 25,
+                                min: 1,
+                                stepSize: 1
                             }
                         }]
                     }
