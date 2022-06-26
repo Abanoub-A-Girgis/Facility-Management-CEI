@@ -4,10 +4,12 @@
     ViewData["Title"] = "Edit Task";
     var UserId = ViewBag.UserId;
 }
-<h1>Assign Task</h1>
+<h1><english>Assign Task</english><arabic class="d-none">تعين المهمة</arabic></h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <english>
+            
         <form asp-action="Assign">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -17,9 +19,10 @@
                 <span asp-validation-for="IncidentId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="AssignedToId" class="control-label"></label>
+                <label  class="control-label">Assigned To ID</label>
                 <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToId"></select>
                 <span asp-validation-for="AssignedToId" class="text-danger"></span>
+                </div>
             <div class="form-group">
                 <input asp-for="AssignedById" class="form-control-plaintext shadow-none" hidden value="@UserId"/>
                 <span asp-validation-for="AssignedById" class="text-danger"></span>
@@ -34,5 +37,48 @@
             </div>
 
         </form>
+
+        </english>
+        <arabic class="d-none">
+             <form asp-action="Assign">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+@*            <div class="form-group">
+                <label asp-for="IncidentId" class="control-label"></label>
+               <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId" ></select>
+                <span asp-validation-for="IncidentId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label  class="control-label">التعين إلى</label>
+                <select asp-for="AssignedToId" class="form-control" asp-items="ViewBag.AssignedToId"></select>
+                <span asp-validation-for="AssignedToId" class="text-danger"></span>
+                </div>
+            <div class="form-group">
+                <input asp-for="AssignedById" class="form-control-plaintext shadow-none" hidden value="@UserId"/>
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="CreatedById" class="form-control-plaintext shadow-none" hidden />
+                <span asp-validation-for="CreatedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="التأكيد" class="btn btn-primary" />
+                <a asp-action="TaskList" class="btn btn-danger">العودة إلى القائمة</a>
+            </div>
+
+        </form>
+        </arabic>
+       
     </div>
 </div>
+                 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@

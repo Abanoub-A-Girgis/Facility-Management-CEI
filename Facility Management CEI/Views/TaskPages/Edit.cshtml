@@ -4,11 +4,12 @@
     ViewData["Title"] = "Edit Task";
     var UserId = ViewBag.UserId;
 }
-<h1>Edit Task</h1>
+<h1><english>Edit Task</english><arabic class="d-none">تعديل المهمة</arabic></h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <english>
+            <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -37,27 +38,27 @@
                 <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FixingTime" class="control-label"></label>
+                <label  class="control-label">Fixing Time</label>
                 <input asp-for="FixingTime" class="form-control" />
                 <span asp-validation-for="FixingTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedById" class="control-label"></label>
+                <label  class="control-label">Created By ID</label>
                 <input asp-for="CreatedById" class="form-control-plaintext shadow-none" readonly />
                 <span asp-validation-for="CreatedById" class="text-danger"></span>
             </div>            
             <div class="form-group">
-                <label asp-for="AssignedById" class="control-label"></label>
+                <label  class="control-label">Assigned By ID</label>
                 <input asp-for="AssignedById" class="form-control-plaintext shadow-none" readonly />
                 <span asp-validation-for="AssignedById" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AssignedToId" class="control-label"></label>
+                <label  class="control-label">Assigned To ID</label>
                 <input asp-for="AssignedToId" class="form-control-plaintext shadow-none" readonly/>
                 <span asp-validation-for="AssignedToId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IncidentId" class="control-label"></label>
+                <label  class="control-label">Incident ID</label>
                 <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId"></select>
                 <span asp-validation-for="IncidentId" class="text-danger"></span>
             </div>
@@ -71,5 +72,83 @@
                 <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
             </div>
         </form>
+        </english>
+        <arabic class="d-none">
+            <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label  class="control-label">النوع</label>
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<TaskType>()"></select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">التوصيف</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">الحالة</label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<API.Enums.TaskStatus>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">الأهمية</label>
+                <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<Priority>()"></select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">التكلفة</label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">وقت الإصلاح</label>
+                <input asp-for="FixingTime" class="form-control" />
+                <span asp-validation-for="FixingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">أنشئت من قبل</label>
+                <input asp-for="CreatedById" class="form-control-plaintext shadow-none" readonly />
+                <span asp-validation-for="CreatedById" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <label  class="control-label">عينت من قبل</label>
+                <input asp-for="AssignedById" class="form-control-plaintext shadow-none" readonly />
+                <span asp-validation-for="AssignedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">عينت إلى</label>
+                <input asp-for="AssignedToId" class="form-control-plaintext shadow-none" readonly/>
+                <span asp-validation-for="AssignedToId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">كود الحادثة</label>
+                <select asp-for="IncidentId" class="form-control" asp-items="ViewBag.IncidentId"></select>
+                <span asp-validation-for="IncidentId" class="text-danger"></span>
+            </div>
+            <div>
+             <label  class="control-label">الملاحظات</label>
+              <input asp-for="Comment" class="form-control" />
+              <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="التأكيد" class="btn btn-primary" />
+                <a asp-action="TaskList" class="btn btn-danger">العودة إلى القائمة</a>
+            </div>
+        </form>
+        </arabic>
+        
     </div>
 </div>
+                 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@
