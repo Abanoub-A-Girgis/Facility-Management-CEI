@@ -36,19 +36,19 @@
         <div class="col-5">
             <h3 class="text-center font-weight-bold">
                 <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف </arabic>
+                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
             </h3>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#InspectorsDiv" data-toggle="tab">
                          <english>Insptectors</english>
-                        <arabic class="d-none">  المفتشون </arabic>
+                        <arabic class="d-none">المفتشون</arabic>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
                         <english>Agents</english>
-                        <arabic class="d-none"> العمال </arabic>
+                        <arabic class="d-none">العمال</arabic>
                     </a>
                 </li>
             </ul>
@@ -59,19 +59,19 @@
                             <tr class="sticky-top">
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
                                     <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -83,12 +83,12 @@
                                     <td>@Inspector.FirstName @Inspector.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light">
                                             <english> User Details</english>
-                                            <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button>
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">
                                             <english>Show Tasks</english>
-                                            <arabic class="d-none"> إظهار المهام</arabic>
+                                            <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                     </td>
                                 </tr>
@@ -102,19 +102,19 @@
                             <tr class="sticky-top">
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
                                     <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -126,12 +126,12 @@
                                     <td>@Agent.FirstName @Agent.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light"> 
                                             <english> User Details</english>
-                                            <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button>
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
                                             <english>Show Tasks</english>
-                                            <arabic class="d-none"> إظهار المهام</arabic>
+                                            <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                     </td>
                                 </tr>
@@ -142,7 +142,7 @@
             </div>
             <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
                    <english> All Tasks</english>
-                   <arabic class="d-none"> إظهار كل المهام</arabic>
+                   <arabic class="d-none">إظهار كل المهام</arabic>
             </h3>
             @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
         </div>

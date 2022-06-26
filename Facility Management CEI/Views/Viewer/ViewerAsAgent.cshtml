@@ -13,7 +13,7 @@
 <head>
     <title>
         <english> View as Agent</english>
-        <arabic class="d-none"> عرض المبنى كعامل </arabic>
+        <arabic class="d-none">عرض المبنى كعامل</arabic>
     </title>
     <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
@@ -50,15 +50,15 @@
                             </th>
                             <th>
                                 <english>Asset Name</english>
-                                <arabic class="d-none">اسم العنصر </arabic>
+                                <arabic class="d-none">اسم العنصر</arabic>
                             </th>
                             <th>
                                 <english> Details</english>
-                                <arabic class="d-none"> التفاصيل </arabic>
+                                <arabic class="d-none">التفاصيل</arabic>
                             </th>
                             <th>
                                 <english> Zoom To</english>
-                                <arabic class="d-none"> تكبير/تصغير </arabic>
+                                <arabic class="d-none">تكبير/تصغير</arabic>
                             </th>
                         </tr>
                     </thead>
@@ -216,10 +216,26 @@
                     <option value="hideType">Hide type</option>
                     <option value="highlight">Highlight</option>
                 </select>*@
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">
+                    <english>Hide Product</english>
+                    <arabic class="d-none">إخفاء عنصر</arabic>
+                </button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">
+                    <english>Hide Type</english>
+                    <arabic class="d-none">إخفاء الحالة</arabic>
+                </button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">
+                    <english>Select Product</english>
+                    <arabic class="d-none">اختر  عنصر</arabic>
+                </button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo()">
+                    <english>Reset Zoom</english>
+                    <arabic class="d-none">ارجاع التكبير</arabic>
+                </button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">
+                    <english>Reset all</english>
+                    <arabic class="d-none">ارجاع الكل</arabic>
+                </button>
                 <script type="text/javascript">
 
                     var timer = 0;
