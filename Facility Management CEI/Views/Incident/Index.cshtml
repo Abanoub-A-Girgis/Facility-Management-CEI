@@ -146,7 +146,10 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a class="btn btn-outline-info" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">Create Task</a>
+                                            <a class="btn btn-outline-info" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
+                                                <english>Create Task</english>
+                                                <arabic class="d-none">إنشاء مهمة</arabic>
+                                            </a>
                                          </td>
                                     }
                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin"))

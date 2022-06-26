@@ -4,90 +4,131 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1><english>Delete Task</english><arabic class="d-none">حذف المهمة</arabic></h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3><english>Are you sure you want to delete this?</english><arabic class="d-none">هل تريد الإستمرار؟</arabic></h3>
 <div>
-    <h4>Task</h4>
+    
     <hr />
     <dl class="row">
  <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            
+            <english>ID</english><arabic class="d-none">الكود</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            
+            <english>@Html.DisplayNameFor(model => model.Description)</english><arabic class="d-none">التوصيف</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+            
+            <english>@Html.DisplayNameFor(model => model.Status)</english><arabic class="d-none">الحالة</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+            
+            <english>@Html.DisplayNameFor(model => model.Type)</english><arabic class="d-none">النوع</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Priority)
+            
+            <english>@Html.DisplayNameFor(model => model.Priority)</english><arabic class="d-none">الأهمية</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Priority)
         </dd>
          <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
+            
+            <english>Created By</english><arabic class="d-none">أنشئت من قبل</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CreatedBy.FirstName) @Html.DisplayFor(model => model.CreatedBy.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Incident)
+            
+            <english>@Html.DisplayNameFor(model => model.Incident)</english><arabic class="d-none">الحادثة</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IncidentId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedTo)
+            
+            <english>Assigned To</english><arabic class="d-none">عينت إلى</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedBy)
+            
+            <english>Assigned By</english><arabic class="d-none">عينت من قبل</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AssignedBy.FirstName) @Html.DisplayFor(model => model.AssignedBy.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cost)
+            
+            <english>Cost</english><arabic class="d-none">التكلفة</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cost)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FixingTime)
+            
+            <english>Fixing Time</english><arabic class="d-none">تاريخ الإصلاح</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FixingTime)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Comment)
+            
+            <english>@Html.DisplayNameFor(model => model.Comment)</english>
+            <arabic class="d-none">الملاحظات</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Comment)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
+    <english>
+        <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-outline-danger" /> |
         <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
     </form>
+
+    </english>
+    <arabic class="d-none">
+        <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="حذف" class="btn btn-outline-danger" /> |
+        <a asp-action="TaskList" class="btn btn-danger">العودة إلى القائمة</a>
+    </form>
+
+    </arabic>
+    
 </div>
+                
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}    
+@*
+ <form asp-controller="Account" asp-action="Login" method="post">
+ <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ @*we add this line after the form tag*@ 
+
+@* <span asp-validation-for="Comment" class="text-danger"></span>*@ @*we add this line after the input tag*@ 
+@*<english>Welcome Back !</english><arabic class="d-none">مرحبا !</arabic>*@
+@*<english></english><arabic class="d-none"></arabic>*@
+@*<english>
+
+</english>
+<arabic class="d-none">
+
+</arabic>*@

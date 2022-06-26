@@ -46,28 +46,99 @@
    <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
      <thead>
         <tr>  
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Id          )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Description )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Status      )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Type        )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Priority    )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.IncidentId  )</th>
-        <th class="text-center" scope="col">Created By</th>
-        <th class="text-center" scope="col">Assigned By</th>
-        <th class="text-center" scope="col">Assigned To</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.FixingTime  )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Cost        )</th>
-        <th class="text-center" scope="col">@Html.DisplayNameFor(model => model.Comment     )</th>
+        <th class="text-center" scope="col">
+            <english>ID</english>
+            <arabic class="d-none">الكود</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>@Html.DisplayNameFor(model => model.Description )</english>
+            <arabic class="d-none">التوصيف</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>@Html.DisplayNameFor(model => model.Status      )</english>
+            <arabic class="d-none">الحالة</arabic>
+            
+        </th>
+
+        <th class="text-center" scope="col">
+            <english>@Html.DisplayNameFor(model => model.Type        )</english>
+            <arabic class="d-none">النوع</arabic>
+            
+        </th>
+
+        <th class="text-center" scope="col">
+            <english>@Html.DisplayNameFor(model => model.Priority    )</english>
+            <arabic class="d-none">الأهمية</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>Incident ID</english>
+            <arabic class="d-none">كود الحادثة</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            
+            <english>Created By</english>
+            <arabic class="d-none">أنشئت من قبل</arabic>
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>Assigned By</english>
+            <arabic class="d-none">عينت من قبل</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>Assigned To</english>
+            <arabic class="d-none">عينت إلى</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>Fixing Time</english>
+            <arabic class="d-none">تاريخ الإصلاح</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+            <english>@Html.DisplayNameFor(model => model.Cost        )</english>
+            <arabic class="d-none">التكلفة</arabic>
+            
+            </th>
+
+        <th class="text-center" scope="col">
+             <english>Comment</english>
+            <arabic class="d-none">ملاحظات</arabic>
+            
+            </th>
+
         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
         {
-        <th class="text-center" scope="col">Assign</th>
-        <th class="text-center" scope="col">Edit</th>
+        <th class="text-center" scope="col"><english>Assign</english>
+            <arabic class="d-none">التعين</arabic></th>
+
+        <th class="text-center" scope="col"><english>Edit</english>
+            <arabic class="d-none">تعديل</arabic></th>
+
                         
         }
-        <th class="text-center" scope="col">Details</th>
+        <th class="text-center" scope="col">
+            
+            <english>Details</english>
+            <arabic class="d-none">التفاصيل</arabic>
+        </th>
         @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
         {
-        <th class="text-center" scope="col">Delete</th>
+        <th class="text-center" scope="col">
+            <english>Delete</english>
+            <arabic class="d-none">حذف</arabic>
+        </th>
                         
         }
         </tr>  
@@ -106,25 +177,35 @@
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                 {
                     <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >Assign</a>
+                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >
+                            <english>Assign</english>
+                              <arabic class="d-none">التعين</arabic></a>
                     </th> 
 
                     <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >Edit</a>
+                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >
+                                <english>Edit</english>
+                              <arabic class="d-none">تعديل</arabic></a>
                     </th>   
                 }
        
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector","Agent"))
                 {
                     <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >Details</a>            
+                        <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >
+                             <english>Details</english>
+                              <arabic class="d-none">التفاصيل</arabic>
+                        </a>            
                     </th > 
                 }
        
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
                 {
                     <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >Delete</a>
+                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >
+                            <english>Delete</english>
+                              <arabic class="d-none">حذف</arabic>
+                        </a>
                     </th> 
                 }
                 
