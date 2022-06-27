@@ -347,16 +347,13 @@
         //    console.log(assets)
         //    viewer.setState(xState.HIDDEN, floorAssets[assets])
         //}
-        for (var i in xProductType) {
-            var type = xProductType[i];
-            //var colour = [Math.random() * 255, Math.random() * 255, Math.random() * 255, 255];
-            //viewer.defineStyle(index, colour);
-            //viewer.setStyle(index, type);
-            viewer.setState(xState.HIDDEN, type)
-        }
+
     }
 
     function showThird() {
+        for (var i in xProductType) {
+            viewer.setState(xState.HIDDEN, xProductType[i])
+        }
         viewer.setState(xState.UNDEFINED, floorAssets['THIRD FLOOR (FFL)'])
     }
 

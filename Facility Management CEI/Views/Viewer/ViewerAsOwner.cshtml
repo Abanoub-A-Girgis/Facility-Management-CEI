@@ -285,7 +285,7 @@
                                 </td>
                                 @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                                 @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)" @if(task.Incident.Asset == null){@Html.Raw("disabled")}>Zoom To</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">Zoom To</button></td>
                             </tr>
                         }
                     </tbody>

@@ -68,21 +68,29 @@ namespace Facility_Management_CEI.Controllers
                 {
                     if(t.Incident.AssetId != null)
                         viewerParam.Severe.Add((int)t.Incident.AssetId);
+                    else
+                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.High)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.High.Add((int)t.Incident.AssetId);
+                    else
+                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Medium)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Medium.Add((int)t.Incident.AssetId);
+                    else
+                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Low)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Low.Add((int)t.Incident.AssetId);
+                    else
+                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
                 }
             }
             return viewerParam;
@@ -118,6 +126,14 @@ namespace Facility_Management_CEI.Controllers
                 .Include(t => t.Incident.Space)
                 .ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
+            var floors = _context.Floors.ToList();
+            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
+            foreach (var floor in floors)
+            {
+                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
+            }
+
+            ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             //List<testView> test1 = new List<testView>(){ new testView { Id = 1, Name = "Potato" } };
             //List<testView> test2 = new List<testView>() { new testView { Id = 2, Name = "orange"},
@@ -172,6 +188,15 @@ namespace Facility_Management_CEI.Controllers
                 //viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
                 await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
             }
+
+            var floors = _context.Floors.ToList();
+            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
+            foreach (var floor in floors)
+            {
+                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
+            }
+
+            ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
             return View(viewerParamDic);
@@ -222,6 +247,15 @@ namespace Facility_Management_CEI.Controllers
                     await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
                 }
             }
+
+            var floors = _context.Floors.ToList();
+            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
+            foreach (var floor in floors)
+            {
+                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
+            }
+
+            ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.Agents = Agents;
@@ -280,7 +314,6 @@ namespace Facility_Management_CEI.Controllers
                     }
                 }
             }
-
 
             var floors = _context.Floors.ToList();
             Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
@@ -347,6 +380,15 @@ namespace Facility_Management_CEI.Controllers
                     }
                 }
             }
+
+            var floors = _context.Floors.ToList();
+            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
+            foreach (var floor in floors)
+            {
+                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
+            }
+
+            ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.SupervisorInspectorsDic = SupervisorInspectorsDic;

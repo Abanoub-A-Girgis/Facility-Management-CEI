@@ -83,7 +83,7 @@
                                     <arabic class="d-none">التفاصيل</arabic></a>
                                 </td>
                                 <td>
-                                    <button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)"  @if(task.Incident.Asset == null){@Html.Raw("disabled")}>
+                                    <button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">
                                         <english>Zoom To</english>
                                         <arabic class="d-none">تكبير/تصغير</arabic> 
                                     </button>
