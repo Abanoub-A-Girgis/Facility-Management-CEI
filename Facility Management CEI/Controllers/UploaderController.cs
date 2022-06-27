@@ -62,6 +62,26 @@ namespace Facility_Management_CEI.Controllers
                 var LogUserId = (await _userManager.GetUserAsync(User)).Id;
                 var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
                 AppUser.BuildingId = _context.Buildings.Where(b => b.Path == "data/" + fileName).FirstOrDefault().Id;
+                var Managers = _context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
+                foreach (var Manager in Managers)
+                {
+                    Manager.BuildingId = AppUser.BuildingId;
+                    var ManagerSupervisors = _context.AppUsers.Where(u => u.SuperId == Manager.Id).ToList();
+                    foreach (var supervisor in ManagerSupervisors)
+                    {
+                        supervisor.BuildingId = AppUser.BuildingId;
+                        var SupervisorInspectors = _context.AppUsers.Where(u => u.SuperId == supervisor.Id).ToList();
+                        foreach (var inspector in SupervisorInspectors)
+                        {
+                            inspector.BuildingId = AppUser.BuildingId;
+                            var InspectorAgents = _context.AppUsers.Where(u => u.SuperId == inspector.Id).ToList();
+                            foreach (var agent in InspectorAgents)
+                            {
+                                agent.BuildingId = AppUser.BuildingId;
+                            }
+                        }
+                    }
+                }
                 _context.SaveChanges();
             }
             //return RedirectToAction("ViewerAsOwner", "Viewer");
