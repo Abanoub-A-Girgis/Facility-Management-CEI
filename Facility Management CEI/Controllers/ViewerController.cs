@@ -280,6 +280,16 @@ namespace Facility_Management_CEI.Controllers
                     }
                 }
             }
+
+
+            var floors = _context.Floors.ToList();
+            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
+            foreach (var floor in floors)
+            {
+                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
+            }
+
+            ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.SupervisorInspectorsDic = SupervisorInspectorsDic;
