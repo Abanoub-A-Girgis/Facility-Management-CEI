@@ -113,7 +113,10 @@ namespace Facility_Management_CEI.Controllers
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
             }
 
-            var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
+            var Tasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed)
+                .Include(t => t.Incident.Asset)
+                .Include(t => t.Incident.Space)
+                .ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
             ViewBag.Tasks = Tasks;
             //List<testView> test1 = new List<testView>(){ new testView { Id = 1, Name = "Potato" } };
@@ -127,7 +130,10 @@ namespace Facility_Management_CEI.Controllers
 
         public async Task fillViewerParamDic(int EmployeeId, Dictionary<int, ViewerParameter> viewerParamDic, List<API.Models.Task> Tasks)
         {
-            var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed).Include(t => t.Incident).ThenInclude(i => i.Asset).ToListAsync();
+            var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed)
+                .Include(t => t.Incident.Asset)
+                .Include(t => t.Incident.Space)
+                .ToListAsync();
             Tasks.AddRange(AgentTasks);
             //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
             viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
