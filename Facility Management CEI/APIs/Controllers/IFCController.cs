@@ -97,6 +97,12 @@ namespace API.Controllers
                 /////////////////code for the dummy floor and space 
                 var FloorsIds = new List<int>();
                 var EmptySpacesToBeAdded = new List<Space>();
+                //var MaxIdOfTheDataBase = new List<int>();
+                //MaxIdOfTheDataBase.Add(_Context.Buildings.Max(i => i.Id));
+                //MaxIdOfTheDataBase.Add(_Context.Floors.Max(i => i.Id));
+                //MaxIdOfTheDataBase.Add(_Context.Spaces.Max(i => i.Id));
+                //MaxIdOfTheDataBase.Add(_Context.Assets.Max(i => i.Id));
+                //MaxIdOfTheDataBase.Add(_Context.Sensors.Max(i => i.Id));//would make worse result because the database is empty in this line
                 foreach (Floor floor in BuildingFloor)
                 {
                     FloorsIds.Add(floor.Id);
@@ -108,12 +114,14 @@ namespace API.Controllers
                     EmptySpacesToBeAdded.Add(
                     new Space()
                     {
-                        Id = FloorSpaces.Max(i => i.Id) + (i + 1),
+                        Id = /*MaxIdOfTheDataBase.Max()*/ FloorSpaces.Max(i => i.Id) + (i + 1),
                         Name = "NaN",
                         FloorId = FloorsIds[i],
                     });
                 };
                 FloorSpaces.AddRange(EmptySpacesToBeAdded);
+                //_Context.Spaces.AddRange(EmptySpacesToBeAdded);
+                //_Context.SaveChanges();
                 /////////////////code for the dummy floor and space
                 _Context.Spaces.AddRange(FloorSpaces);
                 _Context.SaveChanges();
@@ -139,7 +147,9 @@ namespace API.Controllers
                     {
                         Id = Door.EntityLabel,
                         Name = $"{Door.ObjectType.Value}:{Door.Name.Value}",
-                        SpaceId = Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel,
+                        /////////////////code for the dummy floor and space
+                        SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
+                        /////////////////code for the dummy floor and space
                         FloorId = Door.IsContainedIn.EntityLabel
                     });
                 }
@@ -292,7 +302,11 @@ namespace API.Controllers
                     {
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
-                        SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
+                        /////////////////code for the dummy floor and space
+                        SpaceId = sensor.IsContainedIn.EntityLabel == FloorsIds.FirstOrDefault(i => i == sensor.IsContainedIn.EntityLabel) ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == sensor.IsContainedIn.EntityLabel).Id : sensor.IsContainedIn.EntityLabel,
+                        //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
+                        /////////////////code for the dummy floor and space
+                        //SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
                         SensorType = Enums.SensorType.SpaceSensor,
                         AssetId = null
                     });
@@ -306,11 +320,14 @@ namespace API.Controllers
                     {
                         Id = sensor.EntityLabel,
                         Name = sensor.Name.Value,
-                        SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
+                        /////////////////code for the dummy floor and space
+                        SpaceId = sensor.IsContainedIn.EntityLabel == FloorsIds.FirstOrDefault(i=> i == sensor.IsContainedIn.EntityLabel) ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == sensor.IsContainedIn.EntityLabel).Id : sensor.IsContainedIn.EntityLabel,
+                        //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
+                        /////////////////code for the dummy floor and space
                         SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
                         AssetId = null
 
-                    });
+                    });;
                 }
                 _Context.Sensors.AddRange(sensors);
                 _Context.SaveChanges();
