@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -156,6 +157,11 @@ namespace Facility_Management_CEI.Controllers
                 await _signInManager.SignOutAsync();
                 return RedirectToAction("LogIn");
             }
+
+        public List<AppUser> LoginToMobApp()
+        {
+            return _Context.AppUsers.ToList();
+        }
         
     }
 
