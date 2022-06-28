@@ -3,13 +3,31 @@
 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
     <table id="ItemsTable" class="w-100 table table-striped table-hover">
         <thead>
-            <tr class="sticky-top">
-                <th>Agent ID</th>
-                <th>Task ID</th>
-                <th>Agent Name</th>
-                <th>Asset Name</th>
-                <th>Details</th>
-                <th>Zoom To</th>
+            <tr>
+                <th>
+                    <english>Agent ID</english>
+                    <arabic class="d-none">كود العامل</arabic>
+                </th>
+                <th>
+                    <english>Task ID</english>
+                    <arabic class="d-none">كود المهمة</arabic>
+                </th>
+                <th>
+                    <english>Agent Name</english>
+                    <arabic class="d-none">اسم العامل</arabic>
+                </th>
+                <th>
+                    <english>Asset Name</english>
+                    <arabic class="d-none">اسم العنصر</arabic>
+                </th>
+                <th>
+                    <english> Details</english>
+                    <arabic class="d-none">التفاصيل</arabic>
+                </th>
+                <th>
+                    <english> Zoom To</english>
+                    <arabic class="d-none">تكبير/تصغير</arabic>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -26,12 +44,12 @@
                         }
                         else
                         {
-                            @Html.Raw("NO ASSET");
+                            @task.Incident.Space.Name;
                         }
                     </td>
                     @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                     <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
-                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)" @if(task.Incident.Asset == null){@Html.Raw("disabled")}>Zoom To</button></td>
+                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">Zoom To</button></td>
                 </tr>
             }
         </tbody>
@@ -53,7 +71,10 @@
                     { "width": "45%" },
                     { "width": "20%" },
                     { "width": "20%" },
-                ]
+                ],
+                "oLanguage": {
+                   "sSearch": "<english>Search: </english><arabic class='d-none'>بحث: </arabic>"
+                }
             }
         );
     } );        
@@ -93,6 +114,9 @@
                 { "width": "20%" },
                 { "width": "20%" },
             ],
+            "oLanguage": {
+               "sSearch": "<english>Search: </english><arabic class='d-none'>بحث: </arabic>"
+            },
             stateSave: true
         }    
     );
@@ -106,7 +130,13 @@
         listOfHigh = listOfHigh2;
         listOfMedium = listOfMedium2;
         listOfLow = listOfLow2;
-        ItemsTableHeading.innerText = "All Tasks"
+        var Language = localStorage.getItem('language')
+        if (Language == "english") {
+            ItemsTableHeading.innerHTML = "<english>All Tasks</english><arabic class='d-none'>كل المهام</arabic>"
+        }
+        else {
+            ItemsTableHeading.innerHTML = "<english class='d-none'>All Tasks</english><arabic>كل المهام</arabic>"
+        }
     }
     
     function ChangeData(Id) {
@@ -117,6 +147,13 @@
         listOfMedium = AgentItems[Id][2];
         listOfLow = AgentItems[Id][3];
         ItemsTableHeading.innerText = "Tasks for Agent " + Id
+        var Language = localStorage.getItem('language')
+        if (Language == "english") {
+            ItemsTableHeading.innerHTML = "<english>Tasks for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+        }
+        else {
+            ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+        }
     }
 
 </script>

@@ -14,7 +14,7 @@
 
     <title>
         <english> View as Inspector</english>
-        <arabic class="d-none"> عرض المبنى كمفتش </arabic>
+        <arabic class="d-none">عرض المبنى كمفتش</arabic>
     </title>
     <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
@@ -40,16 +40,16 @@
         <div class="col-5">
             <h3 class="text-center font-weight-bold">
                 <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف </arabic>
+                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
             </h3>
             <div>
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
                     <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
-                            <tr class="sticky-top">
+                            <tr>
                                 <th>
                                     <english> User ID</english>
-                                    <arabic class="d-none">كود المستخدم  </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english> Name</english>
@@ -61,7 +61,7 @@
                                 </th>
                                 <th>
                                     <english> Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام </arabic>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -78,7 +78,7 @@
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
                                             <english>Show Tasks</english>
-                                            <arabic class="d-none">إظهار المهام </arabic>
+                                            <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                     </td>
                                 </tr>
@@ -89,7 +89,7 @@
             </div>
             <h3 class="text-center font-weight-bold" id="BottomTableHeading">
                         <english>All Tasks</english>
-                        <arabic class="d-none">إظهار كل المهام </arabic>
+                        <arabic class="d-none">كل المهام</arabic>
             </h3>
             @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
         </div>

@@ -13,7 +13,7 @@
 <head>
     <title>
             <english>View as Owner</english>
-            <arabic class="d-none">عرض المبنى كمالك  </arabic>
+            <arabic class="d-none">عرض المبنى كمالك</arabic>
     </title>
     <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
@@ -40,31 +40,31 @@
         <div class="col-5">
             <h3 class="text-center font-weight-bold">
                 <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف </arabic>
+                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
             </h3>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#ManagersDiv" data-toggle="tab">
                         <english>Managers</english>
-                        <arabic class="d-none">  المديرين </arabic>
+                        <arabic class="d-none">المديرين</arabic>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#SupervisorsDiv" data-toggle="tab">
+                    <a class="nav-link" href="#SupervisorsDiv" data-toggle="tab">
                         <english>Supervisors</english>
-                        <arabic class="d-none">  المشرفون </arabic>
+                        <arabic class="d-none">المشرفون</arabic>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
                         <english>Insptectors</english>
-                        <arabic class="d-none">  المفتشون </arabic>
+                        <arabic class="d-none">المفتشون</arabic>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
                         <english>Agents</english>
-                        <arabic class="d-none"> العمال </arabic>
+                        <arabic class="d-none">العمال</arabic>
                     </a>
                 </li>
             </ul>
@@ -72,22 +72,22 @@
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="ManagersDiv">
                     <table id="ManagersTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
-                            <tr class="sticky-top">
+                            <tr>
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <english>Name</english>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <english>User Details</english>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <english>Load Tasks</english>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -98,13 +98,13 @@
                                     <th>@Manager.Id</th>
                                     <td>@Manager.FirstName @Manager.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light">               
-                                        <english> User Details</english>
-                                        <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                        <english>User Details</english>
+                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button>
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">          
                                         <english>Show Tasks</english>
-                                        <arabic class="d-none"> إظهار المهام</arabic>
+                                        <arabic class="d-none">إظهار المهام</arabic>
                                     </button>
                                     </td>
                                 </tr>
@@ -115,22 +115,22 @@
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="SupervisorsDiv">
                     <table id="SupervisorsTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
-                            <tr class="sticky-top">
+                            <tr>
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <english>Name</english>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <english>User Details</english>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <english>Load Tasks</english>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -142,11 +142,11 @@
                                     <td>@Supervisor.FirstName @Supervisor.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light"> 
                                         <english> User Details</english>
-                                        <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button></td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)"> 
                                         <english>Show Tasks</english>
-                                        <arabic class="d-none"> إظهار المهام</arabic>
+                                        <arabic class="d-none">إظهار المهام</arabic>
                                     </button></td>
                                 </tr>
                             }
@@ -156,22 +156,22 @@
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="InspectorsDiv">
                     <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
-                            <tr class="sticky-top">
+                            <tr>
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <english>Name</english>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <english>User Details</english>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <english>Load Tasks</english>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -182,12 +182,12 @@
                                     <th>@Inspector.Id</th>
                                     <td>@Inspector.FirstName @Inspector.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light"> 
-                                            <english> User Details</english>
-                                            <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                            <english>User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button></td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
                                         <english>Show Tasks</english>
-                                        <arabic class="d-none"> إظهار المهام</arabic>
+                                        <arabic class="d-none">إظهار المهام</arabic>
                                     </button></td>
                                 </tr>
                             }
@@ -197,22 +197,22 @@
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
                     <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
                         <thead>
-                            <tr class="sticky-top">
+                            <tr>
                                 <th>
                                     <english>User ID</english>
-                                    <arabic class="d-none"> كود المستخدم </arabic>
+                                    <arabic class="d-none">كود المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english> Name</english>
-                                    <arabic class="d-none"> الاسم  </arabic>
+                                    <arabic class="d-none">الاسم</arabic>
                                 </th>
                                 <th>
                                     <english> User Details</english>
-                                    <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
                                     <english>  Load Tasks</english>
-                                    <arabic class="d-none">  تحميل المهام  </arabic>
+                                    <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
                         </thead>
@@ -224,11 +224,11 @@
                                     <td>@Agent.FirstName @Agent.LastName</td>
                                     <td><button class="btn btn-info waves-effect waves-light"> 
                                             <english> User Details</english>
-                                            <arabic class="d-none"> تفاصيل المستخدم  </arabic>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button></td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
                                         <english>Show Tasks</english>
-                                        <arabic class="d-none"> إظهار المهام</arabic>
+                                        <arabic class="d-none">إظهار المهام</arabic>
                                     </button></td>
                                 </tr>
                             }
@@ -237,32 +237,32 @@
                 </div>
             </div>
             <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
-                <english> All Tasks</english>
-                <arabic class="d-none"> إظهار كل المهام</arabic>
+                <english>All Tasks</english>
+                <arabic class="d-none">كل المهام</arabic>
             </h3>
             <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
                 <table id="ItemsTable" class="w-100 table table-striped table-hover">
                     <thead>
-                        <tr class="sticky-top">
+                        <tr>
                             <th>
-                                <english> Agent ID </english>
-                                <arabic class="d-none"> كود العامل</arabic>
+                                <english>Agent ID</english>
+                                <arabic class="d-none">كود العامل</arabic>
                             </th>
                             <th>
-                               <english>  Task ID </english>
-                                <arabic class="d-none"> كود المهمة</arabic>
+                               <english>Task ID</english>
+                                <arabic class="d-none">كود المهمة</arabic>
                             </th>
                             <th>
-                                 <english> Agent Name </english>
-                                <arabic class="d-none"> اسم العامل </arabic>
+                                 <english>Agent Name</english>
+                                <arabic class="d-none">اسم العامل</arabic>
                             </th>
                             <th>
-                                <english>  Asset Name </english>
-                                <arabic class="d-none"> اسم العنصر  </arabic>
+                                <english> Asset Name</english>
+                                <arabic class="d-none">اسم العنصر</arabic>
                             </th>
                             <th>
-                                 <english>   Zoom To </english>
-                                <arabic class="d-none">  تكبير/تصغير  </arabic>
+                                 <english>Zoom To</english>
+                                <arabic class="d-none">تكبير/تصغير</arabic>
                             </th>
                         </tr>
                     </thead>
@@ -280,12 +280,12 @@
                                     }
                                     else
                                     {
-                                        @Html.Raw("NO ASSET");
+                                       @task.Incident.Space.Name;
                                     }
                                 </td>
                                 @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                                 @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@task.Incident.AssetId)" @if(task.Incident.Asset == null){@Html.Raw("disabled")}>Zoom To</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">Zoom To</button></td>
                             </tr>
                         }
                     </tbody>
@@ -300,7 +300,10 @@
                                                                     top: 8px;
                                                                     left: 20px;
                                                                     z-index:5"">
-                <div class="font-weight-bold mb-2 text-center">Toggle Highlights</div>
+                <div class="font-weight-bold mb-2 text-center">
+                    <english>Toggle Highlights</english>
+                    <arabic class="d-none">الإضاءات</arabic>
+                </div>
                 @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
                 <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
                 <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
@@ -308,23 +311,38 @@
                 <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()" autocomplete="off">
-                    <label class="custom-control-label" for="Switch1">Items</label>
+                    <label class="custom-control-label" for="Switch1">
+                        <english>Items</english>
+                        <arabic class="d-none">العناصر</arabic>
+                        </label>
                 </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked autocomplete="off">
-                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+                    <label class="custom-control-label custom-control-label-light" for="Switch2">
+                        <english>Severe</english>
+                        <arabic class="d-none">شديدة</arabic>
+                        </label>
                 </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked autocomplete="off">
-                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+                    <label class="custom-control-label custom-control-label-light" for="Switch3">
+                        <english>High</english>
+                        <arabic class="d-none">عالي</arabic>
+                        </label>
                 </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked autocomplete="off">
-                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+                    <label class="custom-control-label custom-control-label-light" for="Switch4">
+                        <english>Medium</english>
+                        <arabic class="d-none">متوسط</arabic>
+                    </label>
                 </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked autocomplete="off">
-                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+                    <label class="custom-control-label custom-control-label-light" for="Switch5">
+                        <english>Low</english>
+                        <arabic class="d-none">قليل</arabic>
+                    </label>
                 </div>
 
             </div>
@@ -424,16 +442,20 @@
                     <option value="highlight">Highlight</option>
                 </select>*@
                 <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">
-                    <english> Hide Product </english>
-                    <arabic class="d-none"> إخفاء عنصر</arabic>
+                    <english>Hide Product</english>
+                    <arabic class="d-none">إخفاء عنصر</arabic>
                 </button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">
-                    <english> Hide Type</english>
-                    <arabic class="d-none"> إخفاء الحالة</arabic>
+                    <english>Hide Type</english>
+                    <arabic class="d-none">إخفاء الحالة</arabic>
                 </button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">
-                    <english> Select Product</english>
-                    <arabic class="d-none"> اختر  عنصر</arabic>
+                    <english>Select Product</english>
+                    <arabic class="d-none">اختر  عنصر</arabic>
+                </button>
+                <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo()">
+                    <english>Reset Zoom</english>
+                    <arabic class="d-none">ارجاع التكبير</arabic>
                 </button>
                 <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">
                     <english>Reset all</english>
@@ -634,7 +656,10 @@
                         { "width": "45%" },
                         { "width": "20%" },
                         { "width": "20%" },
-                    ]
+                    ],
+                    "oLanguage": {
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>"
+                    },
                 }
             );
         } );
@@ -653,7 +678,10 @@
                         { "width": "45%" },
                         { "width": "20%" },
                         { "width": "20%" },
-                    ]
+                    ],
+                    "oLanguage": {
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>"
+                    },
                 }
             );
         } );
@@ -672,7 +700,10 @@
                         { "width": "45%" },
                         { "width": "20%" },
                         { "width": "20%" },
-                    ]
+                    ],
+                    "oLanguage": {
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>"
+                    },
                 }
             );
         } );
@@ -691,7 +722,10 @@
                         { "width": "45%" },
                         { "width": "20%" },
                         { "width": "20%" },
-                    ]
+                    ],
+                    "oLanguage": {
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>"
+                    },
                 }
             );
         } );        
@@ -730,6 +764,9 @@
                         { "width": "35%" },
                         { "width": "20%" },
                     ],
+                    "oLanguage": {
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>"
+                    },
                     stateSave: true
                 }    
             );
@@ -744,7 +781,13 @@
             listOfHigh = listOfHigh2;
             listOfMedium = listOfMedium2;
             listOfLow = listOfLow2;
-            ItemsTableHeading.innerText = "All Tasks"
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>All Tasks</english><arabic class='d-none'>كل المهام</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>All Tasks</english><arabic>كل المهام</arabic>"
+            }
         }
         function ChangeData(Id) {
             var itemsTable = $("#ItemsTable").DataTable()
@@ -753,7 +796,13 @@
             listOfHigh = AgentItems[Id][1];
             listOfMedium = AgentItems[Id][2];
             listOfLow = AgentItems[Id][3];
-            ItemsTableHeading.innerText = "Tasks for Agent " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Tasks for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+            }
         }
         
         var InspectorAgentsDic = {
@@ -785,7 +834,13 @@
             //itemsTable.column(0).search("24|25", true, false).draw();
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Regex, true, false).draw();
-            ItemsTableHeading.innerText = "Tasks for Inspector " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Tasks for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
+            }
         }
 
         var SupervisorInspectorsDic = {
@@ -821,7 +876,13 @@
             console.log(Regex)
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Regex, true, false).draw();
-            ItemsTableHeading.innerText = "Tasks for Supervisor " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Tasks for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
+            }
         }
         
         var ManagerSupervisorsDic = {
@@ -860,7 +921,13 @@
             console.log(Regex)
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Regex, true, false).draw();
-            ItemsTableHeading.innerText = "Tasks for Manager " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Tasks for Manager " + Id + "</english><arabic class='d-none'>مهام المدير رقم " + Id + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Manager " + Id + "</english><arabic>مهام المدير رقم " + Id + "</arabic>"
+            }
         }
     </script>
 

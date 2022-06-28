@@ -43,9 +43,6 @@
                     <arabic class="d-none">عربي</arabic>
                 </label>
                 <script>
-                    
-                    var english = $('english');
-                    var arabic = $('arabic');
 
                     function ChangeLanguage() {
                         var Language = localStorage.getItem('language');
@@ -62,6 +59,8 @@
                     }
 
                     function switchtoArabic() {
+                        var english = $('english');
+                        var arabic = $('arabic');
                         $(english).each(function () {
                             $(this).addClass("d-none")
                         });
@@ -74,6 +73,8 @@
                     }
 
                     function switchtoEnglish() {
+                        var english = $('english');
+                        var arabic = $('arabic');
                         $(arabic).each(function () {
                             $(this).addClass("d-none")
                         });
