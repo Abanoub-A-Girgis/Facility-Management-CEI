@@ -147,6 +147,8 @@ namespace Facility_Management_CEI.Controllers
                 }
                 else
                 {
+                    ViewBag.English = "The Username or password is incorrect, please try again";
+                    ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                     return View();
                 }
 

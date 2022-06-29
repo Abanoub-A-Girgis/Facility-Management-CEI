@@ -25,7 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\TemplateViews\" />
+    <Content Update="Views\Viewer\ViewerError.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
