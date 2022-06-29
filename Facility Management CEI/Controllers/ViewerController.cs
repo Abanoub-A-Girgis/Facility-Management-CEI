@@ -113,6 +113,17 @@ namespace Facility_Management_CEI.Controllers
             }
             else if(EmployeeId != 0)
             {
+                API.Enums.UserType EmployeeType = new API.Enums.UserType();
+                try
+                {
+                    EmployeeType = _context.AppUsers.Where(u => u.Id == EmployeeId).FirstOrDefault().Type;
+                }
+                catch
+                {
+                    return RedirectToAction("ViewerError");
+                }
+                if (EmployeeType != API.Enums.UserType.Agent)
+                    return RedirectToAction("ViewerError");
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == EmployeeId).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
@@ -167,6 +178,17 @@ namespace Facility_Management_CEI.Controllers
             }
             else if (InspectorId != 0)
             {
+                API.Enums.UserType EmployeeType = new API.Enums.UserType();
+                try
+                {
+                    EmployeeType = _context.AppUsers.Where(u => u.Id == InspectorId).FirstOrDefault().Type;
+                }
+                catch
+                {
+                    return RedirectToAction("ViewerError");
+                }
+                if (EmployeeType != API.Enums.UserType.Inspector)
+                    return RedirectToAction("ViewerError");
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == InspectorId).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
@@ -222,6 +244,17 @@ namespace Facility_Management_CEI.Controllers
             }
             else if (SupervisorId != 0)
             {
+                API.Enums.UserType EmployeeType = new API.Enums.UserType();
+                try
+                {
+                    EmployeeType = _context.AppUsers.Where(u => u.Id == SupervisorId).FirstOrDefault().Type;
+                }
+                catch
+                {
+                    return RedirectToAction("ViewerError");
+                }
+                if (EmployeeType != API.Enums.UserType.Supervisor)
+                    return RedirectToAction("ViewerError");
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == SupervisorId).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
@@ -283,6 +316,17 @@ namespace Facility_Management_CEI.Controllers
             }
             else if (ManagerId != 0)
             {
+                API.Enums.UserType EmployeeType = new API.Enums.UserType();
+                try
+                {
+                    EmployeeType = _context.AppUsers.Where(u => u.Id == ManagerId).FirstOrDefault().Type;
+                }
+                catch
+                {
+                    return RedirectToAction("ViewerError");
+                }
+                if (EmployeeType != API.Enums.UserType.Manager)
+                    return RedirectToAction("ViewerError");
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == ManagerId).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
@@ -344,6 +388,17 @@ namespace Facility_Management_CEI.Controllers
             }
             else if (OwnerId != 0)
             {
+                API.Enums.UserType EmployeeType = new API.Enums.UserType();
+                try
+                {
+                    EmployeeType = _context.AppUsers.Where(u => u.Id == OwnerId).FirstOrDefault().Type;
+                }
+                catch
+                {
+                    return RedirectToAction("ViewerError");
+                }
+                if (EmployeeType != API.Enums.UserType.Owner)
+                    return RedirectToAction("ViewerError");
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == OwnerId).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }

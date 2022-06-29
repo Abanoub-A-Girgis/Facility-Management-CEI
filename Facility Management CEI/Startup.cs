@@ -117,20 +117,33 @@ namespace Facility_Management_CEI
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
+        {
+            CreateAdminLogUserWithRoles(serviceProvider).Wait(); 
+
+            if (env.IsDevelopment())
             {
-                 CreateAdminLogUserWithRoles(serviceProvider).Wait(); 
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
-                else
-                {
-                    app.UseExceptionHandler("/Home/Error");
-                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                    app.UseHsts();
-                }
+            app.Use(async (ctx, next) =>
+            {
+                await next();
 
+                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                {
+                    //Re-execute the request so the user gets the error page
+                    string originalPath = ctx.Request.Path.Value;
+                    ctx.Items["originalPath"] = originalPath;
+                    ctx.Request.Path = "/ErrorPages/Error404";
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -138,6 +151,7 @@ namespace Facility_Management_CEI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -154,10 +168,9 @@ namespace Facility_Management_CEI
             {
                 ContentTypeProvider = provider
             });
+
         }
     }
 }
 
-
 //update-database MyMigration -context Facility_Management_CEI.IdentityDb.ApplicationDBContext
-
