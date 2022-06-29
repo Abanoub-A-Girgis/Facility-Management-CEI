@@ -152,7 +152,6 @@ namespace Facility_Management_CEI.Controllers
 
             }
         }
-<<<<<<< HEAD
          public async Task<IActionResult> LogOut()
          {
              await _signInManager.SignOutAsync();
@@ -165,20 +164,13 @@ namespace Facility_Management_CEI.Controllers
             var UsersList =  _Context.LogUsers.ToList();
             return UsersList;
         }
-=======
 
-            public async Task<IActionResult> LogOut()
-            {
-                await _signInManager.SignOutAsync();
-                return RedirectToAction("LogIn");
-            }
 
         public List<AppUser> LoginToMobApp()
         {
             return _Context.AppUsers.ToList();
         }
         
->>>>>>> b2ace6076795a567323632b6ca21256070960a95
     }
 
 }
