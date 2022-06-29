@@ -6,6 +6,8 @@
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/_Shared/_Layout.cshtml";
+    var SupeIds=ViewBag.SuperId;//our superIds
+    
 }
 
 <!-- owl.carousel css -->
@@ -118,8 +120,11 @@
 
                                         <div class="form-group">
                                             <label for="SuperId">Super Id</label>
-                                            <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
-                                            <span asp-validation-for="SuperId" class="text-danger"></span>
+                                            <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId">
+                                                <option selected="selected" class="form-control" value=""></option>
+                                            </select>
+@*                                            <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
+*@                                            <span asp-validation-for="SuperId" class="text-danger"></span>
                                         </div>
 
                                          @*<div class="form-group">
@@ -199,7 +204,9 @@
 
                                         <div class="form-group">
                                             <label for="SuperId">رقم المشرف</label>
-                                            <input type="text" class="form-control" id="SuperId" placeholder="أدخل رقم المشرف" asp-for="SuperId">
+                                           <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId" >
+                                                 <option selected="selected" class="form-control" value=""></option>
+                                           </select>
                                              <span asp-validation-for="SuperId" class="text-danger"></span>
                                         </div>
 
