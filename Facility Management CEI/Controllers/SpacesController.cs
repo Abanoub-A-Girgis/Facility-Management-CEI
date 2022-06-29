@@ -21,7 +21,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Spaces
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Owner")]
         public async Task<IActionResult> Index()
         {
             var applicationDBContext = _context.Spaces.Include(s => s.Floor);
@@ -29,7 +29,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Spaces/Details/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "SystemAdmin,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
