@@ -18,7 +18,7 @@ namespace Facility_Management_CEI.Controllers
             else
             {
                 string message = "No Error Message";
-                return View(message);
+                return View((object)message);
             }
         }
     }
