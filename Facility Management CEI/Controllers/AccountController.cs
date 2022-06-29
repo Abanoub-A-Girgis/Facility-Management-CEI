@@ -146,12 +146,15 @@ namespace Facility_Management_CEI.Controllers
                 }
                 else
                 {
+                    ViewBag.English = "The Username or password is incorrect, please try again";
+                    ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                     return View();
                 }
 
 
             }
         }
+
          public async Task<IActionResult> LogOut()
          {
              await _signInManager.SignOutAsync();
@@ -163,6 +166,10 @@ namespace Facility_Management_CEI.Controllers
         {
             var UsersList =  _Context.LogUsers.ToList();
             return UsersList;
+        }
+        public List<AppUser> LoginToMobApp()
+        {
+            return _Context.AppUsers.ToList();
         }
     }
 

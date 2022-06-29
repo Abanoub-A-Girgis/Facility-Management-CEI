@@ -26,6 +26,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.SharedBldgServiceElements;
 using System.Net.Http;
 using System.IO;
+using Xbim.Ifc2x3.MaterialResource;
 
 namespace API.Controllers
 {
@@ -150,7 +151,8 @@ namespace API.Controllers
                         /////////////////code for the dummy floor and space
                         SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
                         /////////////////code for the dummy floor and space
-                        FloorId = Door.IsContainedIn.EntityLabel
+                        FloorId = Door.IsContainedIn.EntityLabel,
+                        Materials = (((IfcMaterialList)((IfcDoor)Door).Material).Materials.ToList().ToString())
                     });
                 }
                 //Windows Loop
@@ -199,7 +201,8 @@ namespace API.Controllers
                             Id = Asset.EntityLabel,
                             Name = $"{Asset.ObjectType.Value} : {Asset.Name.Value}",
                             SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
-                            FloorId = Space.FloorId
+                            FloorId = Space.FloorId,
+                            Materials = (Asset.GetType() == typeof(IfcFurnishingElement)) ? string.Join(",", (((IfcMaterialList)Asset.Material).Materials.Select(M => M.Name).ToList())) : null
                         });
                     }
                 }

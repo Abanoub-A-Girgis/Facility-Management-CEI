@@ -344,5 +344,11 @@ namespace Facility_Management_CEI.Controllers
         {
             return _Context.Tasks.Any(e => e.Id == id);
         }
+
+        [HttpGet]
+        public List<Task> SentTasksToMobApp()
+        {
+            return _Context.Tasks.ToList();
+        }
     }
 }
