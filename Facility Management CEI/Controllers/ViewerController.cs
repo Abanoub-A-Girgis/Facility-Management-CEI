@@ -115,11 +115,14 @@ namespace Facility_Management_CEI.Controllers
                 }
                 catch
                 {
-                    TempData["message"] = "Sorry, You have entered the wrong user ID";
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
                 if (EmployeeType != API.Enums.UserType.Agent)
+                { 
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
+                }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
@@ -181,17 +184,19 @@ namespace Facility_Management_CEI.Controllers
                 }
                 catch
                 {
-                    TempData["message"] = "Sorry, You have entered the wrong user ID";
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                if (EmployeeType != API.Enums.UserType.Inspector)
+                {
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
+                }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
             }
             
             var Agents = await _context.AppUsers.Where(u => u.SuperId == Id).ToListAsync();
@@ -248,17 +253,19 @@ namespace Facility_Management_CEI.Controllers
                 }
                 catch
                 {
-                    TempData["message"] = "Sorry, You have entered the wrong user ID";
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                if (EmployeeType != API.Enums.UserType.Supervisor)
+                {
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
+                }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -321,17 +328,19 @@ namespace Facility_Management_CEI.Controllers
                 }
                 catch
                 {
-                    TempData["message"] = "Sorry, You have entered the wrong user ID";
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                if (EmployeeType != API.Enums.UserType.Manager)
+                {
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
+                }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -394,17 +403,19 @@ namespace Facility_Management_CEI.Controllers
                 }
                 catch
                 {
-                    TempData["message"] = "Sorry, You have entered the wrong user ID";
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                if (EmployeeType != API.Enums.UserType.Owner)
+                {
+                    TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
+                }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../data/SampleHouse.wexbim");
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
