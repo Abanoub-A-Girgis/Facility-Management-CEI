@@ -171,6 +171,13 @@ namespace Facility_Management_CEI.Controllers
         {
             return _Context.AppUsers.ToList();
         }
+
+        [HttpGet]
+        public IActionResult LoginTomobApp1()
+        {
+            var appusers = _Context.AppUsers.ToList();
+            return Ok(appusers);
+        }
     }
 
 }

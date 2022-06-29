@@ -1,38 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "Viewer";
+    ViewBag.Title = "Building Viewer";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 @using System.Configuration
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
+
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english> Task Viewer Dashboard</english>
+    <english>Task Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
 <head>
-
     <title>
-        <english> View as Inspector</english>
+        <english>Building Viewer as Inspector</english>
         <arabic class="d-none">عرض المبنى كمفتش</arabic>
     </title>
-    <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
-    
-    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    
-    <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
-@*    <link href="~/assets/libs/datatables.net/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" >*@
+
+@await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 
 </head>
 <body>

@@ -1,36 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "Viewer";
+    ViewBag.Title = "Building Viewer";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 @using System.Configuration
 @using API.Models
 @model Facility_Management_CEI.Controllers.ViewerParameter
+
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english> Task Viewer Dashboard</english>
+    <english>Task Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
 <head>
     <title>
-        <english> View as Agent</english>
+        <english>Building View as Agent</english>
         <arabic class="d-none">عرض المبنى كعامل</arabic>
     </title>
-    <script src="../Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
-    <script src="../Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
-    
-    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    
-    <link href="~/assets/libs/datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+
+@await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
     
 </head>
 <body>
@@ -422,7 +410,7 @@
                     buttons : [
                         {
       	                    extend: 'excelHtml5',
-                            text: 'Save as excel sheet',
+                            text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                             exportOptions: {
                                 columns: [ 0, 1]
                             },
@@ -430,7 +418,29 @@
                         }
                     ],
                     "oLanguage": {
-                       "sSearch": "<english>Search: </english><arabic class='d-none'>بحث: </arabic>"
+                       "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                       "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                       "oPaginate": {
+                            "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                            "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                       },
+                       "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                       "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                       "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                       "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+                    },
+                    "drawCallback": function( settings ) {
+                        if (localStorage.getItem('language') == "arabic")
+                        {
+                            var english = $('english');
+                            var arabic = $('arabic');
+                            $(english).each(function () {
+                                $(this).addClass("d-none")
+                            });
+                            $(arabic).each(function () {
+                                $(this).removeClass("d-none")
+                            });
+                        }
                     },
                 }    
             );

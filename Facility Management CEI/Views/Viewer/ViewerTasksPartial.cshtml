@@ -73,8 +73,30 @@
                     { "width": "20%" },
                 ],
                 "oLanguage": {
-                   "sSearch": "<english>Search: </english><arabic class='d-none'>بحث: </arabic>"
-                }
+                    "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                    "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                    "oPaginate": {
+                        "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                        "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                    },
+                    "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                    "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                    "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                    "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+                },
+                "drawCallback": function( settings ) {
+                    if (localStorage.getItem('language') == "arabic")
+                    {
+                        var english = $('english');
+                        var arabic = $('arabic');
+                        $(english).each(function () {
+                            $(this).addClass("d-none")
+                        });
+                        $(arabic).each(function () {
+                            $(this).removeClass("d-none")
+                        });
+                    }
+                },
             }
         );
     } );        
@@ -89,7 +111,7 @@
             dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
-                    text: "Show All",
+                    text: "<english>Show All</english><arabic class='d-none'>عرض الكل</arabic>",
                     action: function ( e, dt, node, config ) {
                             ShowAllData();
                     },
@@ -97,7 +119,7 @@
                 },
                 {
       	            extend: 'excelHtml5',
-                    text: 'Save as excel sheet',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                     exportOptions: {
                         columns: [ 0, 1, 2 , 3]
                     },
@@ -115,7 +137,29 @@
                 { "width": "20%" },
             ],
             "oLanguage": {
-               "sSearch": "<english>Search: </english><arabic class='d-none'>بحث: </arabic>"
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
             },
             stateSave: true
         }    
