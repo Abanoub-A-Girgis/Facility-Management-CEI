@@ -13,6 +13,7 @@ namespace API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]//to make the Id changeable
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Materials { get; set; }
         #endregion
 
         #region Link with other entities

@@ -146,12 +146,18 @@ namespace Facility_Management_CEI.Controllers
                 }
                 else
                 {
+                    ViewBag.English = "The Username or password is incorrect, please try again";
+                    ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                     return View();
                 }
 
 
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
          public async Task<IActionResult> LogOut()
          {
              await _signInManager.SignOutAsync();
@@ -164,13 +170,19 @@ namespace Facility_Management_CEI.Controllers
             var UsersList =  _Context.LogUsers.ToList();
             return UsersList;
         }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
         public List<AppUser> LoginToMobApp()
         {
             return _Context.AppUsers.ToList();
         }
+<<<<<<< HEAD
         
+=======
+>>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
     }
 
 }
