@@ -479,39 +479,38 @@ namespace API.Controllers
         [HttpDelete]
         public void ClearDatabase()
         {
-
-            Building[] Bui = _Context.Buildings.ToArray();
-            _Context.Buildings.RemoveRange(Bui);
-
-            Floor[] Flo = _Context.Floors.ToArray();
-            _Context.Floors.RemoveRange(Flo);
-
-            Space[] Spa = _Context.Spaces.ToArray();
-            _Context.Spaces.RemoveRange(Spa);
-
-            Asset[] Asse = _Context.Assets.ToArray();
-            _Context.Assets.RemoveRange(Asse);
-
-            Sensor[] Sen = _Context.Sensors.ToArray();
-            _Context.Sensors.RemoveRange(Sen);
-
-            SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
-            _Context.SensorWarnings.RemoveRange(SenWar);
-
             var appusers = _Context.AppUsers;
 
-            foreach(var user in appusers)
+            foreach (var user in appusers)
             {
                 user.BuildingId = null;
             }
+            Models.Task[] Tas = _Context.Tasks.ToArray();
+            _Context.Tasks.RemoveRange(Tas);
 
             Incident[] Inc = _Context.Incidents.ToArray();
             _Context.Incidents.RemoveRange(Inc);
 
-            Models.Task[] Tas = _Context.Tasks.ToArray();
-            _Context.Tasks.RemoveRange(Tas);
+            SensorWarning[] SenWar = _Context.SensorWarnings.ToArray();
+            _Context.SensorWarnings.RemoveRange(SenWar);
+
+            Sensor[] Sen = _Context.Sensors.ToArray();
+            _Context.Sensors.RemoveRange(Sen);
+
+            Asset[] Asse = _Context.Assets.ToArray();
+            _Context.Assets.RemoveRange(Asse);
+
+            Space[] Spa = _Context.Spaces.ToArray();
+            _Context.Spaces.RemoveRange(Spa);
+
+            Floor[] Flo = _Context.Floors.ToArray();
+            _Context.Floors.RemoveRange(Flo);
+
+            Building[] Bui = _Context.Buildings.ToArray();
+            _Context.Buildings.RemoveRange(Bui);
 
             _Context.SaveChanges();
+
         }
 
     }

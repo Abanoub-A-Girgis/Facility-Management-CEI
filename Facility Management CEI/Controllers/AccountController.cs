@@ -6,6 +6,7 @@ using Facility_Management_CEI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace Facility_Management_CEI.Controllers
         public IActionResult Register()
         {
             var user = new RegisterViewModel();//to send a model that has a list of roles
-
+            ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user=>user.Type!= UserType.Agent),"Id","Id");//this is made to lsit down all the ids that can be used as a super id
             return View(user);
         }
 
@@ -120,8 +121,6 @@ namespace Facility_Management_CEI.Controllers
                 _Context.SaveChanges();
 
             }
-            
-
             {
                 var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);//need to be tested with ramy code
                 if (SignedInLogUser != null)
@@ -156,17 +155,22 @@ namespace Facility_Management_CEI.Controllers
             }
         }
 
-            public async Task<IActionResult> LogOut()
-            {
-                await _signInManager.SignOutAsync();
-                return RedirectToAction("LogIn");
-            }
-
+         public async Task<IActionResult> LogOut()
+         {
+             await _signInManager.SignOutAsync();
+             return RedirectToAction("LogIn");
+         }
+        //MobileApp Code
+        [HttpPost]
+        public List<LogUser> MobileUsers() 
+        {
+            var UsersList =  _Context.LogUsers.ToList();
+            return UsersList;
+        }
         public List<AppUser> LoginToMobApp()
         {
             return _Context.AppUsers.ToList();
         }
-        
     }
 
 }
