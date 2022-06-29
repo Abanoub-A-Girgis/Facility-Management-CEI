@@ -8,5 +8,18 @@ namespace Facility_Management_CEI.Controllers
         {
             return View();
         }
+        public IActionResult ErrorGeneric()
+        {
+            if (TempData.ContainsKey("message"))
+            {
+                var message = TempData["message"];
+                return View(message);
+            }
+            else
+            {
+                string message = "No Error Message";
+                return View(message);
+            }
+        }
     }
 }
