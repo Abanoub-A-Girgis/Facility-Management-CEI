@@ -27,7 +27,10 @@
     {
         <label for="UserId"><english>Please Type in a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
-            @*<select class ="form-control" asp-items="ViewBag.OwnerIds"></select>*@
+@*            <select class="form-control"
+                    asp-items="@(new SelectList(ViewBag.OwnerIds,"Id", "Id"))">
+            </select>*@
+            @*<select class="form-control" asp-items="ViewBag.OwnerIds"></select>*@
             <input class="form-control w-50" type="number" id="UserId">
             <div class="input-group-append">
                 <button onclick="location.href='/Viewer/ViewerAsOwner/'+document.getElementById('UserId').value" class="btn btn-success waves-effect waves-light"><english>Go to User View</english><arabic class="d-none">انتقل إلى عرض المستخدم</arabic></button>
