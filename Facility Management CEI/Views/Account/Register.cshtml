@@ -78,7 +78,23 @@
                             <div class="my-auto">
 
                                 <div>
-                                    <h5 class="text-primary"><english>Register account</english><arabic class="d-none">سجل حسابا</arabic></h5>
+                                    @if(ViewBag.English == null)
+                                    {
+                                        <h5 class="text-primary"><english>Register account</english><arabic class="d-none">سجل حسابا</arabic></h5>
+                                        
+                                    }
+                                    else
+                                    {
+                                       if (ViewBag.RegistrationStatus)
+                                        {
+                                            <h5 class="text-success"><english>@ViewBag.English</english><arabic class="d-none">@ViewBag.Arabic</arabic></h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="text-danger"><english>@ViewBag.English</english><arabic class="d-none">@ViewBag.Arabic</arabic></h5>
+                                            
+                                        }
+                                    }
                                     @*<p class="text-muted">Get your free Skote account now.</p>*@
                                 </div>
 

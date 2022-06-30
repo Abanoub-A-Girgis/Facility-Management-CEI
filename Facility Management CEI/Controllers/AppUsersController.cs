@@ -221,8 +221,32 @@ namespace Facility_Management_CEI.Controllers
         {
             try
             {
-                var appUser = await _context.AppUsers.Include(i => i.LogUser).FirstOrDefaultAsync(m => m.Id == id);
+                var appUser = await _context.AppUsers
+                    .Include(i => i.Incidents)
+                    .Include(i => i.SensorWarnings)
+                    .Include(i => i.TasksCreated)
+                    .Include(i => i.TasksAssigned)
+                    .Include(i => i.TasksReceived)
+                    .Include(i => i.SuperUnder).FirstOrDefaultAsync(m => m.Id == id);
                 var LogUser = appUser.LogUser;
+                foreach (var user in appUser.SuperUnder)
+                {
+                    user.SuperId = null;
+                }
+                foreach (var task in appUser.TasksReceived)
+                {
+                    task.AssignedToId = null;
+                }
+                foreach (var task in appUser.TasksAssigned)
+                {
+                    task.AssignedById = null;
+                }
+                foreach (var SensorWarning in appUser.SensorWarnings)
+                {
+                    SensorWarning.AppUserId = null;
+                }
+                _context.Tasks.RemoveRange(appUser.TasksCreated);
+                _context.Incidents.RemoveRange(appUser.Incidents);
                 _context.AppUsers.Remove(appUser);
                 if (LogUser != null)
                 {
