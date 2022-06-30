@@ -27,6 +27,7 @@
     {
         <label for="UserId"><english>Please Type in a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
+            @*<select class ="form-control" asp-items="ViewBag.OwnerIds"></select>*@
             <input class="form-control w-50" type="number" id="UserId">
             <div class="input-group-append">
                 <button onclick="location.href='/Viewer/ViewerAsOwner/'+document.getElementById('UserId').value" class="btn btn-success waves-effect waves-light"><english>Go to User View</english><arabic class="d-none">انتقل إلى عرض المستخدم</arabic></button>
@@ -54,7 +55,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
-                        <english>Insptectors</english>
+                        <english>Inspectors</english>
                         <arabic class="d-none">المفتشون</arabic>
                     </a>
                 </li>
@@ -268,8 +269,8 @@
                         {
                             <tr>
                                 <th>@task.AssignedToId</th>
-                                <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
                                 <th>@task.Id</th>
+                                <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
                                 <td>
                                     @if(task.Incident.Asset != null)
                                     {
@@ -282,7 +283,7 @@
                                 </td>
                                 @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                                 @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">Zoom To</button></td>
+                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.SpaceId} else {@task.Incident.AssetId})">Zoom To</button></td>
                             </tr>
                         }
                     </tbody>
