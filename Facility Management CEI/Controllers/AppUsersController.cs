@@ -22,38 +22,65 @@ namespace Facility_Management_CEI.Controllers
         // GET: AppUsers
         public async Task<IActionResult> Index()
         {
-            var applicationDBContext = _context.AppUsers.Include(a => a.Building).Include(a => a.LogUser).Include(a => a.Super);
-            return View(await applicationDBContext.ToListAsync());
+            try
+            {
+                var applicationDBContext = _context.AppUsers.Include(a => a.Building).Include(a => a.LogUser).Include(a => a.Super);
+                return View(await applicationDBContext.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+           
         }
 
         // GET: AppUsers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var appUser = await _context.AppUsers
+                    .Include(a => a.Building)
+                    .Include(a => a.LogUser)
+                    .Include(a => a.Super)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (appUser == null)
+                {
+                    return NotFound();
+                }
+
+                return View(appUser);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
 
-            var appUser = await _context.AppUsers
-                .Include(a => a.Building)
-                .Include(a => a.LogUser)
-                .Include(a => a.Super)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(appUser);
         }
 
         // GET: AppUsers/Create
         public IActionResult Create()
         {
-            ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id");
-            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id");
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id");
-            return View();
+            try
+            {
+                ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id");
+                ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id");
+                ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+            
         }
 
         // POST: AppUsers/Create
@@ -78,20 +105,29 @@ namespace Facility_Management_CEI.Controllers
         // GET: AppUsers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var appUser = await _context.AppUsers.FindAsync(id);
-            if (appUser == null)
-            {
-                return NotFound();
+                var appUser = await _context.AppUsers.FindAsync(id);
+                if (appUser == null)
+                {
+                    return NotFound();
+                }
+                ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
+                ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
+                ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
+                return View(appUser);
             }
-            ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
-            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
-            return View(appUser);
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+            
         }
 
         // POST: AppUsers/Edit/5
@@ -101,63 +137,81 @@ namespace Facility_Management_CEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Type,BuildingId,SuperId,LogUserId")] AppUser appUser)
         {
-            if (id != appUser.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != appUser.Id)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(appUser);
-                    var LogUser = await _context.LogUsers.FirstOrDefaultAsync(u => u.Id == appUser.LogUserId);
-                    if (LogUser != null)
+                    try
                     {
-                        LogUser.FirstName = appUser.FirstName;
-                        LogUser.LastName = appUser.LastName;
-                        _context.Update(LogUser);
+                        _context.Update(appUser);
+                        var LogUser = await _context.LogUsers.FirstOrDefaultAsync(u => u.Id == appUser.LogUserId);
+                        if (LogUser != null)
+                        {
+                            LogUser.FirstName = appUser.FirstName;
+                            LogUser.LastName = appUser.LastName;
+                            _context.Update(LogUser);
+                        }
+                        await _context.SaveChangesAsync();
                     }
-                    await _context.SaveChangesAsync();
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!AppUserExists(appUser.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppUserExists(appUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
+                ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
+                ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuildingId"] = new SelectList(_context.Buildings, "Id", "Id", appUser.BuildingId);
-            ViewData["Id"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.Id);
-            ViewData["SuperId"] = new SelectList(_context.AppUsers, "Id", "Id", appUser.SuperId);
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+           
         }
 
         // GET: AppUsers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var appUser = await _context.AppUsers
-                .Include(a => a.Building)
-                .Include(a => a.LogUser)
-                .Include(a => a.Super)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appUser == null)
+                var appUser = await _context.AppUsers
+                    .Include(a => a.Building)
+                    .Include(a => a.LogUser)
+                    .Include(a => a.Super)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (appUser == null)
+                {
+                    return NotFound();
+                }
+
+                return View(appUser);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
-
-            return View(appUser);
+           
         }
 
         // POST: AppUsers/Delete/5
@@ -165,15 +219,24 @@ namespace Facility_Management_CEI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var appUser = await _context.AppUsers.Include(i=>i.LogUser).FirstOrDefaultAsync(m => m.Id == id);
-            var LogUser = appUser.LogUser;
-            _context.AppUsers.Remove(appUser);
-            if (LogUser != null)
+            try
             {
-                _context.LogUsers.Remove(LogUser);
+                var appUser = await _context.AppUsers.Include(i => i.LogUser).FirstOrDefaultAsync(m => m.Id == id);
+                var LogUser = appUser.LogUser;
+                _context.AppUsers.Remove(appUser);
+                if (LogUser != null)
+                {
+                    _context.LogUsers.Remove(LogUser);
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
         private bool AppUserExists(int id)
         {

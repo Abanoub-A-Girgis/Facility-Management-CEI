@@ -1,14 +1,15 @@
 ﻿@model API.Models.Incident
 
 @{
-    ViewData["Title"] = "ViewBag.PageName";
+    ViewData["Title"] = ViewBag.PageName;
     Layout = "~/Views/_Shared/_Layout.cshtml";
     var UserId = ViewBag.UserId;
     //var SensorWarningList =(List<API.Models.SensorWarning>) ViewBag.SensorWarning;//an unboxing must be made 
     //var model = Model;
     var MyWarning = ViewBag.SensorWarning;
+    var DummySpace = ViewBag.SpaceDummy;
+    
 }
-
 <head>
     <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
@@ -21,6 +22,7 @@
             opacity: 0.7;
         }
     </style>
+       
 </head>
 
 
@@ -79,18 +81,15 @@
                     }, new { @class = "form-control" })<!--the default value for our drop panel-->
                     <span asp-validation-for="Priority" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
-
                 <div class="form-group">
-
-
                  <input asp-for="SensorWarningId" class="form-control-plaintext shadow-none" value="@MyWarning" hidden />
                  <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
-
-
-                <div class="form-group">
+                <div id="IdSpaceEn" class="form-group">
                     <label class="control-label">Space ID</label>
-                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
+                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId">
+                    <option selected="selected" class="form-control" value="@DummySpace" hidden></option>
+                    </select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -99,21 +98,21 @@
                     <input asp-for="AppUserId" class="form-control-plaintext shadow-none" value="@UserId" hidden />
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div id="AssetId_en" class="form-group">
                     <label  class="control-label">Asset ID</label>
-
-                    <select asp-for="AssetId" id="AssetIdEn" class="form-control" asp-items="ViewBag.AssetId" disabled>
-                    <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
-                    </select>
-
-                    <span asp-validation-for="AssetId" class="text-danger"></span>
+                  <input asp-for="AssetId" id="AssetIdEn" class="form-control-plaintext shadow-none" value="ViewBag.AssetId" readonly/>     
+                  @* <input asp-for="AssetId" id="AssetIdEn"  /> *@
+                   <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
-
-                <div class="form-group">
+                @if (@ViewBag.IsEdit)
+                {
+                 <div class="form-group">
                     <label class="control-label">Comment</label>
                     <input asp-for="Comment" class="form-control"/>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
+                }
+
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="Save" />
                     <a class="btn btn-danger" asp-action="Index">Back</a>
@@ -176,29 +175,32 @@
                      <span asp-validation-for="SensorWarningId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                <div id="IdSpaceAr" class="form-group">
                     <label class="control-label">كود الفراغ</label>
-                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId"></select>
+                    <select asp-for="SpaceId" class ="form-control" asp-items="ViewBag.SpaceId">
+                    <option selected="selected" class="form-control" value="@DummySpace" hidden></option>
+                    </select>
                     <span asp-validation-for="SpaceId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">كود المستخدم</label>
-                    <input asp-for="AppUserId" class="form-control-plaintext shadow-none" value="@UserId" readonly/>
+@*                    <label class="control-label">كود المستخدم</label>
+*@                    <input asp-for="AppUserId" class="form-control-plaintext shadow-none" value="@UserId" hidden/>
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div id="AssetId_ar" class="form-group">
                     <label  class="control-label">كود الأصل</label>
-                    <select id="AssetIdAr" asp-for="AssetId" class ="form-control" asp-items="ViewBag.AssetId" disabled>
-                        <option selected="selected" class="form-control" value=""></option><!-- this is made to insert a null value to the List-->
-                    </select>
+                    <input asp-for="AssetId" id="AssetIdAr" class="form-control-plaintext shadow-none" value="ViewBag.AssetId" readonly/>     
                     <span asp-validation-for="AssetId" class="text-danger"></span>
                 </div>
-
-                <div class="form-group">
+                @if (@ViewBag.IsEdit)
+                {
+                 <div class="form-group">
                     <label class="control-label">ملاحظات</label>
                     <input asp-for="Comment" class="form-control"/>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
+                }
+
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="حفظ"/>
                     <a class="btn btn-danger" asp-action="Index">الرجوع إلى القائمة</a>
@@ -349,7 +351,38 @@
 
         </div>
     </div>
+     <script>
+         document.getElementById('IdSpaceEn').addEventListener('change',
+         function changeStyle()
+        {
+             var AssetIdEn = document.getElementById('AssetId_en');
+             AssetIdEn.style.display = "none";
+        }
+        );
 
+        document.getElementById('IdSpaceAr').addEventListener('change',
+         function changeStyle()
+        {
+             var AssetIdAr = document.getElementById('AssetId_ar');
+             AssetIdAr.style.display = "none";
+        }
+        );
+
+         var x=document.getElementById('AssetIdEn').addEventListener('input',
+        function changeStyle()
+        {
+            var SpaceIdEn = document.getElementById('IdSpaceEn');
+            SpaceIdEn.style.display = "none";
+        }
+        );
+        document.getElementById('AssetIdAr').addEventListener('input',
+        function changeStyle()
+        {
+            var SpaceIdAr = document.getElementById('IdSpaceAr');
+            SpaceIdAr.style.display = "none";
+        }
+        );
+    </script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -33,67 +33,85 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin")]
         public IActionResult Register()
         {
-            var user = new RegisterViewModel();//to send a model that has a list of roles
-            ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user=>user.Type!= UserType.Agent),"Id","Id");//this is made to lsit down all the ids that can be used as a super id
-            return View(user);
+            try
+            {
+                var user = new RegisterViewModel();//to send a model that has a list of roles
+                ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent), "Id", "Id");//this is made to lsit down all the ids that can be used as a super id
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         [HttpPost]
         [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var newuser = await _userManeger.FindByNameAsync(model.UserName); //must be removed will throw exception
-            if (newuser == null)
+            try
             {
-                var newUser = new LogUser()
+                var newuser = await _userManeger.FindByNameAsync(model.UserName); //must be removed will throw exception
+                if (newuser == null)
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    UserName = model.UserName,
-
-                };
-                var result = await _userManeger.CreateAsync(newUser, model.PassWord);
-
-                if (result.Succeeded)
-                {
-                    //here we tie the new user to the role
-                    var TestRoleLogUser = await _userManeger.AddToRoleAsync(newUser, model.Role);
-                    if (TestRoleLogUser.Succeeded)
+                    var newUser = new LogUser()
                     {
-                        //UserType AppUserType;
-                        var SuperAppUser = await _Context.AppUsers.FirstOrDefaultAsync(i => i.Id == model.SuperId);//to add the same biuldingId of the Super
-                        var testParse = Enum.TryParse(model.Role, out UserType AppUserType);
-                        
-                        var appuser = new AppUser()
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.UserName,
+
+                    };
+                    var result = await _userManeger.CreateAsync(newUser, model.PassWord);
+
+                    if (result.Succeeded)
+                    {
+                        //here we tie the new user to the role
+                        var TestRoleLogUser = await _userManeger.AddToRoleAsync(newUser, model.Role);
+                        if (TestRoleLogUser.Succeeded)
                         {
-                            FirstName = model.FirstName,
-                            LastName = model.LastName,
-                            LogUserId = newUser.Id,
-                            Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
-                            BuildingId = SuperAppUser?.BuildingId,
-                            SuperId = model.SuperId
-                        };
+                            //UserType AppUserType;
+                            var SuperAppUser = await _Context.AppUsers.FirstOrDefaultAsync(i => i.Id == model.SuperId);//to add the same biuldingId of the Super
+                            var testParse = Enum.TryParse(model.Role, out UserType AppUserType);
 
-                        _Context.AppUsers.Add(appuser);
-                        _Context.SaveChanges();
+                            var appuser = new AppUser()
+                            {
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                LogUserId = newUser.Id,
+                                Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
+                                BuildingId = SuperAppUser?.BuildingId,
+                                SuperId = model.SuperId
+                            };
 
+                            _Context.AppUsers.Add(appuser);
+                            _Context.SaveChanges();
+
+                        }
+                        var user = new RegisterViewModel();//to send a model that has a list of roles
+                        return View(user);
                     }
-                    var user = new RegisterViewModel();//to send a model that has a list of roles
-                    return View(user);
+                    else
+                    {
+                        var user = new RegisterViewModel();//to send a model that has a list of roles
+                                                           //need to be handeled 
+                        return View(user);
+                    }
                 }
                 else
                 {
-                    var user = new RegisterViewModel();//to send a model that has a list of roles
-                    //need to be handeled 
+                    var user = new RegisterViewModel();
+                    ViewData.Add("UserNameIsExist", "Username is already exist");
                     return View(user);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var user = new RegisterViewModel();
-                ViewData.Add("UserNameIsExist", "Username is already exist");
-                return View(user);
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
+            
         }
         [HttpGet]
         public /*async Task<*/IActionResult LogIn()
@@ -104,64 +122,79 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model)
         {
-           
-            var UsersList = await _Context.AppUsers.ToListAsync();
-            if (UsersList.Count == 0) 
+            try
             {
-                var Admin = await _userManeger.FindByNameAsync("admin@email");
-                var appuser = new AppUser()
-
+                var UsersList = await _Context.AppUsers.ToListAsync();
+                if (UsersList.Count == 0)
                 {
-                    FirstName = Admin.FirstName,
-                    LastName = Admin.LastName,
-                    LogUserId = Admin.Id,
-                    Type = API.Enums.UserType.SystemAdmin
-                };
-                _Context.AppUsers.Add(appuser);
-                _Context.SaveChanges();
+                    var Admin = await _userManeger.FindByNameAsync("admin@email");
+                    var appuser = new AppUser()
 
-            }
-            {
-                var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);//need to be tested with ramy code
-                if (SignedInLogUser != null)
-                {
-                    var SignedInAppUser = SignedInLogUser.AppUser;
-                    if (SignedInAppUser != null)
                     {
-                        var RoleOfAppUser = SignedInAppUser.Type.ToString();
-                        var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
-                        if (!Flag)
-                        {
-                            var ttt = await _userManeger.RemoveFromRolesAsync(SignedInLogUser, Enum.GetNames(typeof(UserType)));
-                            await _userManeger.AddToRoleAsync(SignedInLogUser, RoleOfAppUser);
+                        FirstName = Admin.FirstName,
+                        LastName = Admin.LastName,
+                        LogUserId = Admin.Id,
+                        Type = API.Enums.UserType.SystemAdmin
+                    };
+                    _Context.AppUsers.Add(appuser);
+                    _Context.SaveChanges();
 
+                }
+                {
+                    var SignedInLogUser = await _Context.LogUsers.FirstOrDefaultAsync(i => i.UserName == model.UserName);//need to be tested with ramy code
+                    if (SignedInLogUser != null)
+                    {
+                        var SignedInAppUser = SignedInLogUser.AppUser;
+                        if (SignedInAppUser != null)
+                        {
+                            var RoleOfAppUser = SignedInAppUser.Type.ToString();
+                            var Flag = await _userManeger.IsInRoleAsync(SignedInLogUser, RoleOfAppUser);
+                            if (!Flag)
+                            {
+                                var ttt = await _userManeger.RemoveFromRolesAsync(SignedInLogUser, Enum.GetNames(typeof(UserType)));
+                                await _userManeger.AddToRoleAsync(SignedInLogUser, RoleOfAppUser);
+
+                            }
                         }
                     }
-                }
 
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("HomePage", "HomePage");
-                }
-                else
-                {
-                    ViewBag.English = "The Username or password is incorrect, please try again";
-                    ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
-                    return View();
-                }
+                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.PassWord, false, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("HomePage", "HomePage");
+                    }
+                    else
+                    {
+                        ViewBag.English = "The Username or password is incorrect, please try again";
+                        ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
+                        return View();
+                    }
 
 
+                }
             }
-        }
-<<<<<<< HEAD
-=======
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
 
->>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
+           
+        }
+
          public async Task<IActionResult> LogOut()
          {
-             await _signInManager.SignOutAsync();
-             return RedirectToAction("LogIn");
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("LogIn");
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
          }
         //MobileApp Code
         [HttpPost]
@@ -170,19 +203,13 @@ namespace Facility_Management_CEI.Controllers
             var UsersList =  _Context.LogUsers.ToList();
             return UsersList;
         }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
         public List<AppUser> LoginToMobApp()
         {
             return _Context.AppUsers.ToList();
         }
-<<<<<<< HEAD
-        
-=======
->>>>>>> 58394386dde2ac0f99b44a78f0d5339f917b0c71
+
+       
     }
 
 }

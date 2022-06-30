@@ -14,18 +14,34 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+              <english> @Html.DisplayNameFor(model => model.Id)</english>
+              <arabic class="d-none"> كود الغرفه  </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
               <english> @Html.DisplayNameFor(model => model.Name)</english>
-              <arabic class="d-none"> اسم الطابق  </arabic>
+              <arabic class="d-none"> اسم الغرفه  </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
+
         <dt class = "col-sm-2">
-               <english> @Html.DisplayNameFor(model => model.Floor)</english>
+               <english> Floor @Html.DisplayNameFor(model => model.Floor.Id)</english>
               <arabic class="d-none">كود الطابق</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Floor.Id)
+        </dd>
+
+        <dt class = "col-sm-2">
+               <english> @Html.DisplayNameFor(model => model.Floor.FloorName)</english>
+              <arabic class="d-none">اسم الطابق</arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Floor.FloorName)
         </dd>
     </dl>
 </div>

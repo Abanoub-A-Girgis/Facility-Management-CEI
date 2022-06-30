@@ -30,26 +30,44 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin,Owner")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Buildings.ToListAsync());
+            try
+            {
+                return View(await _context.Buildings.ToListAsync());
+
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
         }
 
         // GET: Buildings/Details/5
         [Authorize(Roles = "SystemAdmin,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var building = await _context.Buildings
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (building == null)
+                {
+                    return NotFound();
+                }
+
+                return View(building);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
 
-            var building = await _context.Buildings
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (building == null)
-            {
-                return NotFound();
-            }
-
-            return View(building);
         }
 
     }

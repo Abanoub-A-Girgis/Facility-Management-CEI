@@ -24,28 +24,46 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Index()
         {
-            var applicationDBContext = _context.Floors.Include(f => f.Building);
-            return View(await applicationDBContext.ToListAsync());
+            try
+            {
+                var applicationDBContext = _context.Floors.Include(f => f.Building);
+                return View(await applicationDBContext.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         // GET: Floors/Details/5
         [Authorize(Roles = "SystemAdmin,Manager,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var floor = await _context.Floors
-                .Include(f => f.Building)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (floor == null)
+                var floor = await _context.Floors
+                    .Include(f => f.Building)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (floor == null)
+                {
+                    return NotFound();
+                }
+
+                return View(floor);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
-
-            return View(floor);
+           
         }
 
     }
