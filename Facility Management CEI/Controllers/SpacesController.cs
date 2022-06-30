@@ -21,31 +21,53 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Spaces
-        [Authorize(Roles = "SystemAdmin,Owner")]
+
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+
         public async Task<IActionResult> Index()
         {
-            var applicationDBContext = _context.Spaces.Include(s => s.Floor);
-            return View(await applicationDBContext.ToListAsync());
+            try
+            {
+                var applicationDBContext = _context.Spaces.Include(s => s.Floor);
+                return View(await applicationDBContext.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         // GET: Spaces/Details/5
-        [Authorize(Roles = "SystemAdmin,Owner")]
+
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var space = await _context.Spaces
+                    .Include(s => s.Floor)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (space == null)
+                {
+                    return NotFound();
+                }
+
+                return View(space);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
             }
 
-            var space = await _context.Spaces
-                .Include(s => s.Floor)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (space == null)
-            {
-                return NotFound();
-            }
-
-            return View(space);
         }
 
     }

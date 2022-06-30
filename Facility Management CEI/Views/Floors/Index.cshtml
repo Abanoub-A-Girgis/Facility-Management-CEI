@@ -13,13 +13,12 @@
     <thead>
         <tr>
             <th>
-                <english>  @Html.DisplayNameFor(model => model.FloorName)</english>
-                <arabic class="d-none">اسم الطابق  </arabic>
+                <english>  @Html.DisplayNameFor(model => model.Id)</english>
+                <arabic class="d-none">كود الطابق  </arabic>
             </th>
             <th>
-                <english>@Html.DisplayNameFor(model => model.Building)</english>
-                <arabic class="d-none">كود المنشأة  </arabic>
-                
+                <english>  @Html.DisplayNameFor(model => model.FloorName)</english>
+                <arabic class="d-none">اسم الطابق  </arabic>
             </th>
             <th></th>
         </tr>
@@ -28,10 +27,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FloorName)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Building.Id)
+                @Html.DisplayFor(modelItem => item.FloorName)
             </td>
             <td>
                 <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">

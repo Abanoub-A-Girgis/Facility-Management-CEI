@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Facility_Management_CEI;
 using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,17 +28,26 @@ namespace Skote.Controllers
         [Authorize(Roles = "SystemAdmin,Owner,Manager")]
         public async Task<IActionResult> Chartjs()
         {
-            //passing the data from the view to the model 
-            ViewBag.Buildings = await _context.Buildings.ToListAsync();
-            ViewBag.Floors = await _context.Floors.ToListAsync();
-            ViewBag.Spaces = await _context.Spaces.ToListAsync();
-            ViewBag.Assets = await _context.Assets.ToListAsync();
-            ViewBag.SensorWarnings = await _context.SensorWarnings.ToListAsync();
-            ViewBag.Tasks = await _context.Tasks.ToListAsync();
-            ViewBag.Users = await _context.AppUsers.ToListAsync();
-            ViewBag.Incidents = await _context.Incidents.ToListAsync();
-            ViewBag.Sensors = await _context.Sensors.ToListAsync();// error occurs that unable to cast from string to int32
-            return View();
+            try
+            {
+                //passing the data from the view to the model 
+                ViewBag.Buildings = await _context.Buildings.ToListAsync();
+                ViewBag.Floors = await _context.Floors.ToListAsync();
+                ViewBag.Spaces = await _context.Spaces.ToListAsync();
+                ViewBag.Assets = await _context.Assets.ToListAsync();
+                ViewBag.SensorWarnings = await _context.SensorWarnings.ToListAsync();
+                ViewBag.Tasks = await _context.Tasks.ToListAsync();
+                ViewBag.Users = await _context.AppUsers.ToListAsync();
+                ViewBag.Incidents = await _context.Incidents.ToListAsync();
+                ViewBag.Sensors = await _context.Sensors.ToListAsync();// error occurs that unable to cast from string to int32
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         #region other view methods 

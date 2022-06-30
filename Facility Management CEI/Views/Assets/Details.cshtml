@@ -13,26 +13,59 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+         <english>   @Html.DisplayNameFor(model => model.Id)</english>
+         <arabic class="d-none"> الكود </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
 
-              <english>   @Html.DisplayNameFor(model => model.Name)</english>
-                <arabic class="d-none"> الاسم </arabic>
+        <dt class = "col-sm-2">
+         <english>   @Html.DisplayNameFor(model => model.Name)</english>
+         <arabic class="d-none"> الاسم </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
+
+         <dt class = "col-sm-2">
+         <english>   @Html.DisplayNameFor(model => model.Materials)</english>
+         <arabic class="d-none"> المواد المكونه للعنصر </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Materials)
+        </dd>
+
         <dt class = "col-sm-2">
-                     <english>@Html.DisplayNameFor(model => model.Space)</english>
-                <arabic class="d-none"> كود الفراغ </arabic>
+                     <english> Space @Html.DisplayNameFor(model => model.Space.Id)</english>
+                <arabic class="d-none"> كود الغرفه </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Space.Id)
         </dd>
+
+         <dt class = "col-sm-2">
+                <english> Space @Html.DisplayNameFor(model => model.Space.Name)</english>
+                <arabic class="d-none"> اسم الغرفه </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Space.Name)
+        </dd>
+
         <dt class = "col-sm-2">
-                  <english>@Html.DisplayNameFor(model => model.Floor)</english>
+                  <english> Floor @Html.DisplayNameFor(model => model.Floor.Id)</english>
                 <arabic class="d-none"> كود الطابق </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Floor.Id)
+        </dd>
+
+        <dt class = "col-sm-2">
+                  <english>@Html.DisplayNameFor(model => model.Floor.FloorName)</english>
+                <arabic class="d-none"> اسم الطابق </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Floor.FloorName)
         </dd>
     </dl>
 </div>

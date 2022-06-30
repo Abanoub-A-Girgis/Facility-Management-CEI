@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -35,38 +36,74 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> RoleManager(string name)
         {
-            await _roleManger.CreateAsync(new IdentityRole{ Name= name });
-            return View();
+            try
+            {
+                await _roleManger.CreateAsync(new IdentityRole { Name = name });
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         public async Task<IActionResult> Rmove(string roleName)
         {
-            var role= await _roleManger.FindByIdAsync(roleName);
-            await _roleManger.DeleteAsync(role);
-            return View();
+            try
+            {
+                var role = await _roleManger.FindByIdAsync(roleName);
+                await _roleManger.DeleteAsync(role);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         [HttpGet]
         [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Assign()
         {
-            var roles=await _context.Roles.AsNoTracking().ToListAsync();
-            var userRoles = new UserRoles(roles);
-            return View(userRoles);
+            try
+            {
+                var roles = await _context.Roles.AsNoTracking().ToListAsync();
+                var userRoles = new UserRoles(roles);
+                return View(userRoles);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
         [HttpPost]
         [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
-            var user = await _userManeger.FindByNameAsync(ur.UserName);
-            if (user != null)
+            try
             {
-                var role = await _roleManger.FindByNameAsync(ur.Role);
-                await _userManeger.AddToRoleAsync(user, ur.Role);
-                return RedirectToAction("Assign");
+                var user = await _userManeger.FindByNameAsync(ur.UserName);
+                if (user != null)
+                {
+                    var role = await _roleManger.FindByNameAsync(ur.Role);
+                    await _userManeger.AddToRoleAsync(user, ur.Role);
+                    return RedirectToAction("Assign");
+                }
+                return RedirectToAction("Register");
             }
-            return RedirectToAction("Register");
+            catch (Exception ex)
+            {
+                ErrorMessage.Message = ex.Message.ToString();
+                return RedirectToAction("Error404", "ErrorPages");
+            }
+
         }
 
     }

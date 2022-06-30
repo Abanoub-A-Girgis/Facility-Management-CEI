@@ -18,11 +18,9 @@ namespace API.Models
         public double? Cost { get; set; }
         public DateTime? FixingTime { get; set; }
         public string Comment { get; set; }
-
         #endregion
 
         #region Link with other
-
         [Required]
         public int CreatedById { get; set; }//we made this for the modelbuilder to select it 
         public AppUser CreatedBy { get; set; }//onDelete: ReferentialAction.SetDefault);//we made this (space must migration)//try modelBuilder in AplicationDBContext ClientCascade

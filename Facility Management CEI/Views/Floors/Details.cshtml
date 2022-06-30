@@ -16,19 +16,19 @@
     </h4>*@
     <hr />
     <dl class="row">
+         <dt class = "col-sm-2">
+            <english> @Html.DisplayNameFor(model => model.Id) </english>
+            <arabic class="d-none">كود الطابق </arabic>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
         <dt class = "col-sm-2">
             <english> @Html.DisplayNameFor(model => model.FloorName) </english>
             <arabic class="d-none">اسم الطابق </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FloorName)
-        </dd>
-        <dt class = "col-sm-2">
-            <english>@Html.DisplayNameFor(model => model.Building)</english>
-            <arabic class="d-none">كود المنشأة </arabic>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Building.Id)
         </dd>
     </dl>
 </div>
