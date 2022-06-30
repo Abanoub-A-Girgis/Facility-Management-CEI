@@ -36,13 +36,15 @@ namespace Facility_Management_CEI.Controllers
             try
             {
                 var user = new RegisterViewModel();//to send a model that has a list of roles
-                ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent), "Id", "Id");//this is made to lsit down all the ids that can be used as a super id
+                ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName + s.LastName, Id = s.Id }), "Id", "FullText");
+
+                //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent), "Id", "Id");//this is made to lsit down all the ids that can be used as a super id
                 return View(user);
             }
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
@@ -109,7 +111,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -176,7 +178,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
            
@@ -192,7 +194,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
          }

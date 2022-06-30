@@ -41,7 +41,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -70,7 +70,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
@@ -130,7 +130,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -219,7 +219,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
@@ -235,7 +235,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
 
@@ -273,7 +273,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -294,7 +294,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
     }

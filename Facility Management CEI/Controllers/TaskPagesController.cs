@@ -50,7 +50,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -74,7 +74,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
    
@@ -165,7 +165,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
@@ -217,7 +217,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -247,7 +247,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
@@ -292,7 +292,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
         public async Task<IActionResult> Assign(int? id)
@@ -312,14 +312,15 @@ namespace Facility_Management_CEI.Controllers
                 var user = await _userManeger.GetUserAsync(User);
                 var userId = user.Id;
                 ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
-                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
+                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers.Select(s => new { FullText = s.Id + ": " + s.FirstName + s.LastName, Id = s.Id }), "Id", "FullText");
+                //ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
                 ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id", task.IncidentId);
                 return View(task);
             }
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
@@ -370,7 +371,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -401,7 +402,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
@@ -421,7 +422,7 @@ namespace Facility_Management_CEI.Controllers
             catch (Exception ex)
             {
                 ErrorMessage.Message = ex.Message.ToString();
-                return RedirectToAction("Error404", "ErrorPages");
+                return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
