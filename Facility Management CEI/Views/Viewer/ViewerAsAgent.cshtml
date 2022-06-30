@@ -24,9 +24,9 @@
 <body>
     @if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
     {
-        <label for="UserId"><english>Please Type in a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
+        <label for="UserId"><english>Please Select a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
-            <input class="form-control w-50" type="number" id="UserId">
+            @Html.DropDownList("Id", new SelectList(ViewBag.Ids, "Id", "FullText"), new {@id="UserId", @class="form-control"})
             <div class="input-group-append">
                 <button onclick="location.href='/Viewer/ViewerAsAgent/'+document.getElementById('UserId').value" class="btn btn-success waves-effect waves-light"><english>Go to User View</english><arabic class="d-none">انتقل إلى عرض المستخدم</arabic></button>
             </div>
