@@ -88,7 +88,7 @@
                                 <tr>
                                     <th>@Supervisor.Id</th>
                                     <td>@Supervisor.FirstName @Supervisor.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light"> 
+                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Supervisor.Id"> 
                                         <english> User Details</english>
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button></td>
@@ -130,8 +130,8 @@
                                 <tr>
                                     <th>@Inspector.Id</th>
                                     <td>@Inspector.FirstName @Inspector.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light">
-                                        <english> User Details</english>
+                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id">
+                                        <english>User Details</english>
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </button></td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
@@ -171,8 +171,8 @@
                                 <tr>
                                     <th>@Agent.Id</th>
                                     <td>@Agent.FirstName @Agent.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light">
-                                            <english> User Details</english>
+                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id">
+                                            <english>User Details</english>
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button>
                                     </td>

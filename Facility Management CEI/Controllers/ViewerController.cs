@@ -187,6 +187,7 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Inspector)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
@@ -256,6 +257,7 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Supervisor)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
@@ -331,6 +333,7 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Manager)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
@@ -406,6 +409,7 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Owner)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
