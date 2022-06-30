@@ -144,6 +144,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Agent).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             //List<testView> test1 = new List<testView>(){ new testView { Id = 1, Name = "Potato" } };
@@ -222,6 +223,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Inspector).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
@@ -296,6 +298,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Supervisor).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
@@ -378,6 +381,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Manager).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
@@ -459,7 +463,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
-            ViewBag.OwnerIds = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).ToList();
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
