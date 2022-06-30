@@ -36,7 +36,7 @@
                 <tr>
                     <th>@task.AssignedToId</th>
                     <th>@task.Id</th>
-                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + "" + a.LastName).FirstOrDefault())</th>
+                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
                     <td>
                         @if(task.Incident.Asset != null)
                         {

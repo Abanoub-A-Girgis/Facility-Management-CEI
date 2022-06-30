@@ -96,7 +96,7 @@ namespace Facility_Management_CEI.Controllers
                 ViewBag.SensorWarning = SensorWarningId;
                 //these are the values from the DB to be loaded at the page openeing 
                 //ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                //ViewData["SpaceId"] = new SelectList(_Context.Spaces.Select(s => new { FullText = s.Id + ": " + s.Name, Id = s.Id }), "Id", "FullText");
+                ViewData["SpaceId"] = new SelectList(_Context.Spaces.Select(s => new { FullText = s.Id + ": " + s.Name, Id = s.Id }), "Id", "FullText");
                 // this code is used to get the id of the current logged in user 
                 var user = await _userManeger.GetUserAsync(User);
                 var userId = user.Id;

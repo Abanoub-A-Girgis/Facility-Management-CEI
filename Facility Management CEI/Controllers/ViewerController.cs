@@ -459,8 +459,7 @@ namespace Facility_Management_CEI.Controllers
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
 
-            ViewData["OwnerIds"] = new SelectList(_context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).Select(u => u.Id), "Id", "Id");
-
+            ViewBag.OwnerIds = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).ToList();
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
