@@ -212,13 +212,13 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">
-                             <english>Building Personnel</english>
-                        <arabic class="d-none"> الموظفون بالمنشأة </arabic>
+                        <english>Building Personnel</english>
+                        <arabic class="d-none">الموظفون بالمنشأة</arabic>
                     </h4>
                 <canvas id="bar" height="300" ></canvas>
                 <button class="btn btn-outline-primary" onclick="printPdf($('#bar'))">
                             <english>Print PDF</english>
-                            <arabic class="d-none">  اطبع كملف PDF  </arabic>
+                            <arabic class="d-none">اطبع كملف PDF</arabic>
                 </button>
 
             </div>
@@ -454,7 +454,17 @@
                         }
                     ]
                 };
-                this.respChart($("#bar"), 'Bar', barChart);
+                var barOpts = {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                stepSize: 1
+                            }
+                        }]
+                    }
+                };
+                this.respChart($("#bar"), 'Bar', barChart,barOpts);
 
 
                 //radar chart
