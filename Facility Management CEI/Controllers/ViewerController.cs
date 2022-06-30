@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Facility_Management_CEI.APIs.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -457,6 +458,8 @@ namespace Facility_Management_CEI.Controllers
             {
                 floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
             }
+
+            ViewData["OwnerIds"] = new SelectList(_context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).Select(u => u.Id), "Id", "Id");
 
             ViewBag.FloorAssets = floorAssets;
             ViewBag.Tasks = Tasks;
