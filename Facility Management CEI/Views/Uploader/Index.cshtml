@@ -18,7 +18,10 @@
     </style>
 </head>
 
-<h2>Uploader</h2>
+<h2>
+    <english> Uploader</english>
+    <arabic class="d-none">رفع ملف</arabic>
+</h2>
 @if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
 {
     @using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post, new { @class = "text-center mb-5" }))
@@ -30,7 +33,10 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">  
-                <h4 class="card-title">IFC File Upload Form</h4>
+                <h4 class="card-title">
+                        <english>IFC File Upload Form</english>
+                        <arabic class="d-none">رفع ملف IFC</arabic>
+                </h4>
                 <div>
                     @using (Html.BeginForm("Index", "Uploader", FormMethod.Post, new { @name = "myDropzone",  id = "myDropzone", @enctype = "multipart/form-data" }))
                     {
@@ -40,16 +46,22 @@
                                     <div class="mb-3">
                                         <i class="display-4 text-muted bx bxs-cloud-upload"></i>
                                     </div>
-                                    <h4>Drop IFC file here or click to upload.</h4>
+                                    <h4> <english>Drop IFC file here or click to upload.</english>
+                                         <arabic class="d-none">اضغط لرفع ملفIFC</arabic>
+                                    </h4>
                                 </div>
                             </div>
                             <div class="text-center" id="previewFiles"></div>
                         </div>
                             <div class="text-center mt-4">
-                            <input id="submitButton" class="btn btn-primary waves-effect waves-light" type="submit" name="Submit"/>
+                            <button id="submitButton" class="btn btn-primary waves-effect waves-light" type="submit">
+                                <english>Submit</english>
+                                <arabic class="d-none">إرسال</arabic>
+                            </button>
                             <button id="loadingButton" class="d-none btn btn-primary" type="button" disabled>
+                                <arabic class="d-none">جار التحميل...</arabic>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
+                                <english>Loading...</english>
                             </button>
                             <span>@ViewBag.Message</span>
                         </div>
@@ -107,11 +119,12 @@
                     if (progress == 100 && isUploading == false) {
                         isUploading = true;
                         $('.dz-upload, .dz-remove').fadeOut(500)
-                        var newElement = '<i class="fas fa-check"></i><p id="uploadP">Upload Complete!</p>';
-                        var newMessage = '<p>Extracting Geometry and Populating Database<br>Please Wait</p>'
+                        var newElement = '<i class="fas fa-check"></i><p id="uploadP"><english>Upload Complete!</english><arabic class="d-none">التحميل اكتمل!</arabic></p>';
+                        var newMessage = '<p><english>Extracting Geometry and Populating Database<br>Please Wait</p></english><arabic class="d-none">استخراج البيانات الهندسية وتعبئة قاعدة البيانات <br> برجاء الانتظار</arabic>'
                         $(newElement).hide().insertAfter('.dz-upload').fadeIn(700);
                         $(newMessage).hide().insertAfter('#uploadP').fadeIn(700);
                     }
+                    checkLanguage();
                 });
 
                 this.on("maxfilesexceeded", function(file){
@@ -123,14 +136,14 @@
                     e.preventDefault();
                     e.stopPropagation();
                       // Validate form here if needed
-                        if (self.getQueuedFiles().length > 0) {
-                            $('#submitButton')[0].classList.add("d-none")
-                            $('#loadingButton')[0].classList.remove("d-none")
-                            self.processQueue();
-                        } else {
-                            self.uploadFiles([]);
-                            $('#myDropzone').submit();
-                        }
+                    if (self.getQueuedFiles().length > 0) {
+                        $('#submitButton')[0].classList.add("d-none")
+                        $('#loadingButton')[0].classList.remove("d-none")
+                        self.processQueue();
+                    } else {
+                        self.uploadFiles([]);
+                        $('#myDropzone').submit();
+                    }
                 });
 
                 this.on("success", function() {
@@ -139,4 +152,18 @@
             }
         });
     })
+
+    function checkLanguage() {
+        if (localStorage.getItem('language') == "arabic")
+        {
+            var english = $('english');
+            var arabic = $('arabic');
+            $(english).each(function () {
+                $(this).addClass("d-none")
+            });
+            $(arabic).each(function () {
+                $(this).removeClass("d-none")
+            });
+        }
+    }
 </script>

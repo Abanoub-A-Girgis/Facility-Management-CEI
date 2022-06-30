@@ -438,5 +438,12 @@ namespace Facility_Management_CEI.Controllers
             
             return _Context.Tasks.ToList();
         }
+
+        [HttpGet]
+        public IActionResult SentTasksToMobApp1()
+        {
+            var tasks = _Context.Tasks.ToList();
+            return Ok(tasks);
+        }
     }
 }

@@ -86,24 +86,35 @@ namespace Facility_Management_CEI.Controllers
         [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> EditOrAdd(int? IncidentId,int? SensorWarningId)//SensorWarningId waht is comming from the sesnor warning View
         {
+
             try
             {
-                ViewBag.SpaceDummy = _Context.Spaces.ToList().FirstOrDefault(spa=>spa.Name=="NaN").Id;
-                //if the id is null then the user wants to create a new record and the page name will beCreate student
-                //on the other hand if the id has a value then the user wants to update a current record 
-                ViewBag.PageName = IncidentId == null ? "Create Incident" : "Edit Incident";
-                ViewBag.IsEdit = IncidentId == null ? false : true;
-                ViewBag.SensorWarning = SensorWarningId;
-                //these are the values from the DB to be loaded at the page openeing 
-                //ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
-                ViewData["SpaceName"] = new SelectList(_Context.Spaces, "Id", "Id");
-                ViewData["SpaceId"] = new SelectList(_Context.Spaces, "Id", "Id");
-                // this code is used to get the id of the current logged in user 
-                var user = await _userManeger.GetUserAsync(User);
-                var userId = user.Id;
-                var appuser = _Context.AppUsers.Where(u => u.LogUserId == userId).Include(u => u.Building).FirstOrDefault();
-                ViewBag.UserId = appuser.Id;
-                if (IncidentId == null)
+            ViewBag.SpaceDummy = _Context.Spaces.ToList().FirstOrDefault(spa=>spa.Name=="NaN").Id;
+            //if the id is null then the user wants to create a new record and the page name will beCreate student
+            //on the other hand if the id has a value then the user wants to update a current record 
+            ViewBag.PageName = IncidentId == null ? "Create Incident" : "Edit Incident";
+            ViewBag.IsEdit = IncidentId == null ? false : true;
+            ViewBag.SensorWarning = SensorWarningId;
+            //these are the values from the DB to be loaded at the page openeing 
+            //ViewData["AssetId"] = new SelectList(_Context.Assets, "Id", "Id");
+            ViewData["SpaceId"] = new SelectList(_Context.Spaces.Select(s => new { FullText = s.Id + ": " + s.Name , Id = s.Id}), "Id", "FullText");
+            // this code is used to get the id of the current logged in user 
+            var user = await _userManeger.GetUserAsync(User);
+            var userId = user.Id;
+            var appuser = _Context.AppUsers.Where(u => u.LogUserId == userId).Include(u => u.Building).FirstOrDefault();
+            ViewBag.UserId = appuser.Id;
+            if (IncidentId == null)
+            {
+                string FilePath = appuser.Building.Path;
+                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
+            }
+            else
+            {
+                var Incident = await _Context.Incidents.FindAsync(IncidentId);//search for the student by the given id 
+
+                if (Incident == null)
+
                 {
                     string FilePath = appuser.Building.Path;
                     ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");

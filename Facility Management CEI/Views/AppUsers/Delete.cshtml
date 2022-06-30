@@ -4,51 +4,72 @@
     ViewData["Title"] = "Delete Employee";
 }
 
-<h1>Delete Employee</h1>
+<h1>
+        <english>Delete Employee</english>
+    <arabic class="d-none"> حذف بيانات موظف </arabic>
+</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+
+<h3>
+    
+        <english>Are you sure you want to delete this?</english>
+        <arabic class="d-none"> هل انت متأكد من حذف البيانات؟</arabic>
+</h3>
 <div>
-    <h4>AppUser</h4>
+@*    <h4>
+      <english>AppUser</english>
+    </h4>
+  *@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            <english> @*@Html.DisplayNameFor(model => model.Id)*@ ID</english>
+            <arabic class="d-none">الكود </arabic>
+           
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+            <english>@Html.DisplayNameFor(model => model.FirstName)</english>
+            <arabic class="d-none"> الاسم الأول</arabic>
+            
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+            <english>  @Html.DisplayNameFor(model => model.LastName)</english>
+            <arabic class="d-none"> الاسم الاخير</arabic>
+          
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+            <english> @Html.DisplayNameFor(model => model.Type)</english>
+            <arabic class="d-none"> نوع المستخدم </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BuildingId)
+            <english> @Html.DisplayNameFor(model => model.BuildingId)</english>
+            <arabic class="d-none"> كود المبنى </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BuildingId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SuperId)
+            <english>@Html.DisplayNameFor(model => model.SuperId)</english>
+            <arabic class="d-none"> كود المشرف </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SuperId)
         </dd>
         <dt class = "col-sm-2">
-           Supervisor Name
+            <english>Supervisor Name</english>
+            <arabic class="d-none"> اسم المشرف </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Super.FirstName)
@@ -56,11 +77,21 @@
 
     </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-danger">Back to List</a>
-    </form>
+     <english>    
+         <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index" class="btn btn-danger">Back to List</a>
+        </form>
+    </english>
+        <arabic class="d-none">      
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="مسح" class="btn btn-danger" /> |
+            <a asp-action="Index" class="btn btn-danger">العودة الى القائمة</a>
+        </form> 
+    </arabic>
+
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

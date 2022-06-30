@@ -21,7 +21,9 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Spaces
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Owner")]
+
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+
         public async Task<IActionResult> Index()
         {
             try
@@ -38,7 +40,9 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Spaces/Details/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Owner")]
+
+        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+
         public async Task<IActionResult> Details(int? id)
         {
             try
