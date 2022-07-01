@@ -436,6 +436,7 @@
                             hoverBorderColor: "#fff"
                         }]
                 };
+
                 this.respChart($("#pie"), 'Pie', pieChart);
 
 
@@ -454,7 +455,18 @@
                         }
                     ]
                 };
-                this.respChart($("#bar"), 'Bar', barChart);
+                var barOpts = {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                max: 25,
+                                min: 0,
+                                stepSize: 1
+                            }
+                        }]
+                    }
+                };
+                this.respChart($("#bar"), 'Bar', barChart,barOpts);
 
 
                 //radar chart
