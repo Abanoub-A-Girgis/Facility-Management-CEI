@@ -97,12 +97,12 @@ namespace Facility_Management_CEI.Controllers
             return viewerParam;
         }
         
-        [Authorize(Roles = "SystemAdmin, Agent")]
+        [Authorize(Roles = "AccountManager, Agent")]
         public async Task<IActionResult> ViewerAsAgent(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if(AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if(AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
@@ -167,12 +167,12 @@ namespace Facility_Management_CEI.Controllers
             viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
         }
 
-        [Authorize(Roles = "SystemAdmin, Inspector")]
+        [Authorize(Roles = "AccountManager, Inspector")]
         public async Task<IActionResult> ViewerAsInspector(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
@@ -238,12 +238,12 @@ namespace Facility_Management_CEI.Controllers
             return InspectorAgents;
         }
 
-        [Authorize(Roles = "SystemAdmin, Supervisor")]
+        [Authorize(Roles = "AccountManager, Supervisor")]
         public async Task<IActionResult> ViewerAsSupervisor(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
@@ -315,12 +315,12 @@ namespace Facility_Management_CEI.Controllers
             return SupervisorInspectors;
         }
 
-        [Authorize(Roles = "SystemAdmin, Manager")]
+        [Authorize(Roles = "AccountManager, Manager")]
         public async Task<IActionResult> ViewerAsManager(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
@@ -392,12 +392,12 @@ namespace Facility_Management_CEI.Controllers
             return View(viewerParamDic);
         }
 
-        [Authorize(Roles = "SystemAdmin, Owner")]
+        [Authorize(Roles = "AccountManager, Owner")]
         public async Task<IActionResult> ViewerAsOwner(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
                 ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");

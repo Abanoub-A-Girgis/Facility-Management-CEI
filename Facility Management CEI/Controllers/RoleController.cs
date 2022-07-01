@@ -26,14 +26,14 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public IActionResult RoleManager()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> RoleManager(string name)
         {
             try
@@ -66,7 +66,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Assign()
         {
             try
@@ -84,7 +84,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
             try

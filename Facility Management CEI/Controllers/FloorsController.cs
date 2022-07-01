@@ -21,7 +21,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Floors
-        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
+        [Authorize(Roles = "AccountManager,Manager,Owner")]
         public async Task<IActionResult> Index()
         {
             try
@@ -38,7 +38,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Floors/Details/5
-        [Authorize(Roles = "SystemAdmin,Manager,Owner")]
+        [Authorize(Roles = "AccountManager,Manager,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             try

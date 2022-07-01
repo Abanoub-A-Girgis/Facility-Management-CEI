@@ -89,7 +89,7 @@
     <br>
 
     <div>
-        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager"))
         {
             
         <a class="btn btn-primary" asp-action="EditOrAdd" asp-route-IncidentId="@Model.Id">

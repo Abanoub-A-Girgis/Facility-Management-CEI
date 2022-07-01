@@ -25,7 +25,7 @@ namespace Skote.Controllers
         }
 
         // GET: Chart
-        [Authorize(Roles = "SystemAdmin,Owner,Manager")]
+        [Authorize(Roles = "AccountManager,Owner,Manager")]
         public async Task<IActionResult> Chartjs()
         {
             try
