@@ -1,4 +1,5 @@
-﻿@using API.Enums
+﻿@using Facility_Management_CEI.Controllers
+@using API.Enums
 @model API.Models.Task
 
 @{
@@ -6,7 +7,7 @@
     //var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
 }
 <head>
-    <title><english>Task Details</english><arabic class="d-none">تفاصيف المهمة</arabic></title>
+    <title><english>Work Order Details</english><arabic class="d-none">تفاصيف المهمة</arabic></title>
     <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
     <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
     <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
@@ -38,7 +39,7 @@
 
 </head>
 
-<h1><english>Task Details</english><arabic class="d-none">تفاصيف المهمة</arabic></h1>
+<h1><english>Work Order Details</english><arabic class="d-none">تفاصيف المهمة</arabic></h1>
 
 <div>
     
@@ -280,8 +281,12 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> |
-    <a asp-action="TaskList" class="btn btn-danger"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+        {
+            
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> 
+        }
+        <a asp-action="TaskList" class="btn btn-danger"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
 </div>
 
 

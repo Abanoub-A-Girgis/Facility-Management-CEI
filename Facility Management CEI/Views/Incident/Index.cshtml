@@ -93,7 +93,7 @@
                                      @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
                                     {
                                     <th class="text-center" scope="col">
-                                        <english>Creat Task</english>
+                                        <english>Creat Work Order</english>
                                         <arabic class="d-none">إنشاء مهمة</arabic>
                                     </th>
                         
@@ -149,7 +149,7 @@
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
                                             <a class="btn btn-outline-info" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
-                                                <english>Create Task</english>
+                                                <english>Create Work Order</english>
                                                 <arabic class="d-none">إنشاء مهمة</arabic>
                                             </a>
                                          </td>

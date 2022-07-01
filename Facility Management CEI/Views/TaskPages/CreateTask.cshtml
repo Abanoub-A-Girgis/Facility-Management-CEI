@@ -7,7 +7,7 @@
     var IncidentId = ViewBag.IncidentId;
 }
 
-<h1><english>Create Task</english><arabic class="d-none">إنشاء مهمة</arabic></h1>
+<h1><english>Create Work Order</english><arabic class="d-none">إنشاء مهمة</arabic></h1>
 
 
 <hr />
@@ -57,7 +57,7 @@
 @*                <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
 *@            </div>
             <div class="form-group">
-                <input asp-action="CreateTask" type="submit" value="Create Task" class="btn btn-primary" />
+                <input asp-action="CreateTask" type="submit" value="Create Work Order" class="btn btn-primary" />
                 <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-danger" >Back</a>
             </div>
         </form>
