@@ -20,7 +20,7 @@
                 </div>
 
  
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin","Inspector"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","AccountManager","Inspector"))
                 {
                      <div class="card-header">
                           <!--
@@ -90,7 +90,7 @@
                                          
 
                                     </th>
-                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                                     <th class="text-center" scope="col">
                                         <english>Creat Task</english>
@@ -99,21 +99,21 @@
                         
                                     }
 
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager"))
                                     {
                         
                                     <th class="text-center" scope="col">
                                         <english>Edit</english>
                                         <arabic class="d-none">تعديل</arabic></th>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                                     <th class="text-center" scope="col">
                                         <english>Details</english>
                                         <arabic class="d-none">التفاصيل</arabic></th>
                         
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                                     {
                                     <th class="text-center" scope="col">
                                         <english>Delete</english>
@@ -138,7 +138,7 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AssetId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SpaceId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment        )</td>
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -154,7 +154,7 @@
                                             </a>
                                          </td>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","AccountManager"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -170,7 +170,7 @@
                                             </a>
                                          </td>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -188,7 +188,7 @@
                                          </td>
                                     }
 
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                                     {
                             
                                         <td class="text-center" scope="col">

@@ -22,7 +22,7 @@
     <english> Uploader</english>
     <arabic class="d-none">رفع ملف</arabic>
 </h2>
-@if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
+@if(ViewContext.HttpContext.User.IsInRole("AccountManager"))
 {
     @using (Html.BeginForm("ClearDatabase", "Uploader", FormMethod.Post, new { @class = "text-center mb-5" }))
     {

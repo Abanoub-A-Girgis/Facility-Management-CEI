@@ -32,7 +32,7 @@
                 <label asp-for="Type" class="control-label"></label><!-- creating our drop down list for statuts enum-->
                 <select @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
-                    new SelectListItem { Text="SystemAdmin",Value="0"},
+                    new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
                     new SelectListItem { Text="Manager",Value="2"} ,
                     new SelectListItem { Text="Supervisor",Value="3"} ,
@@ -79,7 +79,7 @@
                 <label @*asp-for="Type"*@ class="control-label">نوع المستخدم</label><!-- creating our drop down list for statuts enum-->
                 <select @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
-                    new SelectListItem { Text="SystemAdmin",Value="0"},
+                    new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
                     new SelectListItem { Text="Manager",Value="2"} ,
                     new SelectListItem { Text="Supervisor",Value="3"} ,

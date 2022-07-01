@@ -86,7 +86,7 @@
                         <span asp-validation-for="Comment" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                         {
                             <input class="btn btn-primary" type="submit" value="احفظ" />
                             <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" >حرر حادثة</a>
@@ -165,7 +165,7 @@
                         <span asp-validation-for="Comment" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                         {
                             <input class="btn btn-primary" type="submit" value="save" />
                             <a class="btn btn-primary" asp-controller="Incident" asp-action="EditOrAdd" asp-route-SensorWarningId="@Model.Id"  >Assign To Incident</a>

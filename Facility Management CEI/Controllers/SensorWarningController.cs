@@ -26,7 +26,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index(int? warningId)
         {
             try
@@ -155,7 +155,7 @@ namespace Facility_Management_CEI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate,Comment")] SensorWarning WarningData) 
         {
             try
@@ -192,7 +192,7 @@ namespace Facility_Management_CEI.Controllers
             }
             
         }
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<ActionResult> Investigate(int? WarningId)
         {
             try

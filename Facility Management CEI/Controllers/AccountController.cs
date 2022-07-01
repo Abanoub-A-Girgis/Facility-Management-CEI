@@ -30,7 +30,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public IActionResult Register()
         {
             try
@@ -50,7 +50,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             try
@@ -93,7 +93,7 @@ namespace Facility_Management_CEI.Controllers
                         }
                         var user = new RegisterViewModel();//to send a model that has a list of roles
                         ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
-                        ViewBag.English = "the registration has been successfully completed";
+                        ViewBag.English = "registration has been successfully completed";
                         ViewBag.Arabic = "تم التسجيل بنجاح";
                         ViewBag.RegistrationStatus = true;
                         return View(user);
@@ -104,7 +104,7 @@ namespace Facility_Management_CEI.Controllers
                     {
                         var user = new RegisterViewModel();//to send a model that has a list of roles
                         ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");                                   //need to be handeled 
-                        ViewBag.English = "The Username or password is incorrect, please try again";
+                        ViewBag.English = "Username or password is incorrect, please try again";
                         ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                         ViewBag.RegistrationStatus = false;
                         return View(user);
@@ -115,7 +115,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     var user = new RegisterViewModel();
                     ViewData.Add("UserNameIsExist", "Username is already exist");
-                    ViewBag.English = "the specified username already exists";
+                    ViewBag.English = "specified username already exists";
                     ViewBag.Arabic = "اسم المستخدم موجود مسبقا";
                     ViewBag.RegistrationStatus = false;
                     ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
@@ -151,7 +151,7 @@ namespace Facility_Management_CEI.Controllers
                         FirstName = Admin.FirstName,
                         LastName = Admin.LastName,
                         LogUserId = Admin.Id,
-                        Type = API.Enums.UserType.SystemAdmin
+                        Type = API.Enums.UserType.AccountManager
                     };
                     _Context.AppUsers.Add(appuser);
                     _Context.SaveChanges();
@@ -182,7 +182,7 @@ namespace Facility_Management_CEI.Controllers
                     }
                     else
                     {
-                        ViewBag.English = "The Username or password is incorrect, please try again";
+                        ViewBag.English = "Username or password is incorrect, please try again";
                         ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                         return View();
                     }

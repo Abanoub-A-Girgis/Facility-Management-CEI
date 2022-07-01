@@ -10,7 +10,7 @@
     <english> Building Personnel</english>
     <arabic class="d-none">صفحة العاملين بالمنشأة</arabic>
 </h1>
-@if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+@if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
 {
 <p>
     <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>
@@ -52,7 +52,7 @@
                 <english>Supervisor Name</english>
                 <arabic class="d-none"> إسم المشرف</arabic>
             </th >
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
                 
                 <th class="text-center" scope="col">
@@ -64,7 +64,7 @@
                        <english>Details</english>
                        <arabic class="d-none">التفاصيل</arabic>
                 </th>
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
                 <th class="text-center" scope="col">
                         <english>Delete</english>
@@ -98,7 +98,7 @@
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.Super.FirstName) @Html.DisplayFor(modelItem => item.Super.LastName)
             </td>
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
                 <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">
@@ -115,7 +115,7 @@
                 </a> 
             </td> 
 
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
                 <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">
