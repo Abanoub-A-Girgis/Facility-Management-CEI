@@ -16,6 +16,7 @@ namespace API.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public UserType Type { get; set; }
+        public string ProfilePicturePath { get; set; }
         #endregion
 
         #region Link with other
