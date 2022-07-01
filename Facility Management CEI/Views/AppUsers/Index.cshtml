@@ -6,6 +6,10 @@
     ViewData["Title"] = "Building Personnel";
 }
 
+<head>
+    @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
+</head>
+
 <h1>
     <english> Building Personnel</english>
     <arabic class="d-none">صفحة العاملين بالمنشأة</arabic>
@@ -20,7 +24,7 @@
 </p>
     
 }
-<table class="table">
+<table class="table" id="datatable" >
     <thead>
         <tr>
             <th class="text-center" scope="col">
@@ -128,6 +132,54 @@
 }
     </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable(
+        {
+        "columnDefs": [
+                { "searchable": false, "targets": [7,8,9] }
+            ],
+            dom: 'Blfrtip',
+            buttons : [
+                {
+      	            extend: 'excelHtml5',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                }
+            ],
+            "oLanguage": {
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
+            },
+        });
+    } );
+
+ </script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
