@@ -1,6 +1,6 @@
 ﻿@using Facility_Management_CEI.Controllers
 @using System.Collections.Generic;
-
+@using API.Enums
 @{
     ViewBag.Title = "Task List";
     ViewBag.pageTitle = "Tasks";
@@ -141,14 +141,67 @@
                         <td class="text-center" scope="col">@task.Type</td>
                         <td class="text-center" scope="col">@task.Priority</td>
                         <td class="text-center" scope="col">@task.IncidentId</td>
-                        <td class="text-center" scope="col">@task.CreatedBy.FirstName @task.CreatedBy.LastName</td>
+                        <td class="text-center" scope="col">@task.CreatedBy.FirstName @task.CreatedBy.LastName
+                             @if(task.CreatedBy.Type==UserType.AccountManager)
+                            {
+                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                            }
+                            @if(task.CreatedBy.Type==UserType.Owner)
+                            {
+                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.CreatedBy.Type== UserType.Manager)
+                            {
+                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.CreatedBy.Type== UserType.Supervisor)
+                            {
+                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.CreatedBy.Type== UserType.Inspector)
+                            {
+                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.CreatedBy.Type== UserType.Agent)
+                            {
+                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                            }
+
+                        </td>
                         @if (task.AssignedBy == null) //in case of creation there is no Assign to or by so we need to solve this to not give an exception
                         {
                             <td class="text-center" scope="col"></td>
                         }
                         else
                         {
-                            <td class="text-center" scope="col">@task.AssignedBy.FirstName @task.AssignedBy.LastName</td>
+                            <td class="text-center" scope="col">@task.AssignedBy.FirstName @task.AssignedBy.LastName
+                            @if(task.AssignedBy.Type==UserType.AccountManager)
+                            {
+                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                            }
+                            @if(task.AssignedBy.Type==UserType.Owner)
+                            {
+                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedBy.Type== UserType.Manager)
+                            {
+                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedBy.Type== UserType.Supervisor)
+                            {
+                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedBy.Type== UserType.Inspector)
+                            {
+                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedBy.Type== UserType.Agent)
+                            {
+                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                            }
+                            </td>
+                            
+
                         }
                         @if (task.AssignedTo == null)
                         {
@@ -156,7 +209,33 @@
                         }
                         else
                         {
-                            <td class="text-center" scope="col">@task.AssignedTo.FirstName @task.AssignedTo.LastName</td>
+                            <td class="text-center" scope="col">@task.AssignedTo.FirstName @task.AssignedTo.LastName
+                            @if(task.AssignedTo.Type==UserType.AccountManager)
+                            {
+                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                            }
+                            @if(task.AssignedTo.Type==UserType.Owner)
+                            {
+                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedTo.Type== UserType.Manager)
+                            {
+                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedTo.Type== UserType.Supervisor)
+                            {
+                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedTo.Type== UserType.Inspector)
+                            {
+                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                            }
+                            @if(task.AssignedTo.Type== UserType.Agent)
+                            {
+                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                            }
+                            </td>
+            
                         }
                         <td class="text-center" scope="col">@task.FixingTime  </td>
                         <td class="text-center" scope="col">@task.Cost        </td>
@@ -204,7 +283,7 @@
    </div>
 </div>
 
-@if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "Account Manager"))
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
 {
     <script>
      $(document).ready(function () {
