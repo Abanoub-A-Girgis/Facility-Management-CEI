@@ -392,7 +392,7 @@ namespace Facility_Management_CEI.Controllers
                     //.Include(t => t.AssignedBy)
                     //.Include(t => t.AssignedTo)
                     //.Include(t => t.CreatedBy)
-                    .Include(t => t.Incident)
+                    .Include(t => t.Incident).Include(u=>u.CreatedBy).Include(u=>u.AssignedBy).Include(r=>r.AssignedBy).Include(u=>u.AssignedTo)
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (task == null)
                 {

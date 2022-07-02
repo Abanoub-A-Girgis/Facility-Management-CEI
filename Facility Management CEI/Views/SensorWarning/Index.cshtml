@@ -93,6 +93,7 @@
                                     @if (item.AppUserId!=null)
                                     {
                                         <td class="text-center" scope="col">@*@UserName*@@My_user.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @My_user.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName
+                                            
                                             @if(item.AppUser.Type==UserType.AccountManager)
                                             {
                                                 <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">

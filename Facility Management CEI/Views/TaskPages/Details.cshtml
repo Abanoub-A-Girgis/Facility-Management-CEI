@@ -45,7 +45,32 @@
                 </tr>
                 <tr>
                     <th><english>Created By</english><arabic class="d-none">أنشئت من قبل</arabic></th>
-                    <td>@Html.DisplayFor(model => model.CreatedBy.FirstName) @Html.DisplayFor(model => model.CreatedBy.LastName)</td>
+                    <td>@Html.DisplayFor(model => model.CreatedBy.FirstName) @Html.DisplayFor(model => model.CreatedBy.LastName)
+                    @if(Model.CreatedBy.Type==UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(Model.CreatedBy.Type==UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.CreatedBy.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.CreatedBy.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.CreatedBy.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.CreatedBy.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
+                    </td>
                 </tr>
                 <tr>
                     <th><english>Incident</english><arabic class="d-none">الحادثة</arabic></th>
@@ -53,11 +78,63 @@
                 </tr>
                 <tr>
                     <th><english>Assigned To</english><arabic class="d-none">عينت إلى</arabic></th>
-                    <td>@Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)</td>
+                    <td>@Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)
+                    @if(Model.AssignedTo.Type==UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type==UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
+
+                    </td>
                 </tr>
                 <tr>
                     <th><english>Assigned By</english><arabic class="d-none">عينت من قبل</arabic></th>
-                    <td>@Html.DisplayFor(model => model.AssignedBy.FirstName) @Html.DisplayFor(model => model.AssignedBy.LastName)</td>
+                    <td>@Html.DisplayFor(model => model.AssignedBy.FirstName) @Html.DisplayFor(model => model.AssignedBy.LastName)
+                    @if(Model.AssignedBy.Type==UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type==UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
+
+                    </td>
                 </tr>
                 <tr>
                     <th><english>Cost</english><arabic class="d-none">التكلفة</arabic></th>
