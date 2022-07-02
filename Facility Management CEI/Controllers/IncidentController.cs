@@ -57,7 +57,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//return not found page if the id is null
                 }
-                var Incident = await _Context.Incidents.FirstOrDefaultAsync(m => m.Id == IncidentId); //searching for the incident that has the same id within our data base
+                var Incident = await _Context.Incidents.Include(u=>u.AppUser).FirstOrDefaultAsync(m => m.Id == IncidentId); //searching for the incident that has the same id within our data base
                 if (Incident == null) //if there is no incident with the following id 
                 {
                     return NotFound();//return not found page 
@@ -268,7 +268,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();
                 }
-                var Incident = await _Context.Incidents.FirstOrDefaultAsync(m => m.Id == Incidentid);
+                var Incident = await _Context.Incidents.Include(u=>u.AppUser).FirstOrDefaultAsync(m => m.Id == Incidentid);
 
                 return View(Incident);
             }

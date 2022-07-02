@@ -1,5 +1,5 @@
 ﻿@model API.Models.Incident
-
+@using API.Enums
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/_Shared/_Layout.cshtml";
@@ -70,6 +70,32 @@
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AppUserId)
+
+            @if(Model.AppUser.Type==UserType.AccountManager)
+            {
+                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+            }
+            @if(Model.AppUser.Type==UserType.Owner)
+            {
+                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Manager)
+            {
+                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Supervisor)
+            {
+                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Inspector)
+            {
+                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Agent)
+            {
+                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+            }
+
         </dd>
         <dt class="col-sm-3">
             <english>Asset ID</english>
