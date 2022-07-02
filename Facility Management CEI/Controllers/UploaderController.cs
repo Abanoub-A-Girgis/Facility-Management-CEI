@@ -21,6 +21,9 @@ using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Identity;
 using Facility_Management_CEI.APIs.Models;
 using Microsoft.EntityFrameworkCore;
+using IfcToolbox.Core.Utilities;
+using IfcToolbox.Core.Analyse;
+using IfcToolbox.Core.Editors;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -54,10 +57,16 @@ namespace Facility_Management_CEI.Controllers
                 {
                     await file.CopyToAsync(fileStream);
                 }
-                ConvertToWexBIM(path);
-                ViewBag.Message = "File Uploaded Successfully";
+                //ConvertToWexBIM(path);
+                //ViewBag.Message = "File Uploaded Successfully";
+                var SplitTubles = SplitByBuildingStorey(path, true);
+                Parallel.ForEach(SplitTubles.Item1, ifcfile =>
+                {
+                    ConvertToWexBIM(ifcfile);
+
+                });
                 //Populate Database with ifcdata
-                new API.Controllers.IFCController(_context).AddBuildingDataFromIFC(fileName);
+                new API.Controllers.IFCController(_context).AddBuildingDataFromIFC(fileName, SplitTubles.Item2);
                 // Adding Building to owner
                 var LogUserId = (await _userManager.GetUserAsync(User)).Id;
                 var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
@@ -92,6 +101,31 @@ namespace Facility_Management_CEI.Controllers
         {
             new API.Controllers.IFCController(_context).ClearDatabase();
             return RedirectToAction("Login", "Account");
+        }
+        public static (List<string>, List<string>) SplitByBuildingStorey(string filePath, bool keepLabel, string placeholder = "Level", string parentPlaceholder = "Building")
+        {
+            var newPaths = new List<string>();
+            var wexBimPaths = new List<string>();
+            using (var model = IfcStore.Open(filePath))
+            {
+                var buildings = model.Instances.OfType<IIfcBuilding>().ToList();
+                for (int j = 0; j < buildings.Count(); j++)
+                {
+                    var buildingStoreys = buildings[j].BuildingStoreys.ToList();
+                    for (int i = 0; i < buildingStoreys.Count(); i++)
+                    {
+                        string suffix = ConsoleFile.CreateIndexedSuffix(buildingStoreys[i].Name, buildingStoreys.Count() > 1, i, placeholder,
+                            true, buildings[j].Name, buildings.Count() > 1, j, parentPlaceholder);
+                        var generatedFilePath = ConsoleFile.AddSuffixToName(filePath, suffix);
+                        var requiredProducts = ProductAnalyse.PrepareRequiredProducts(model, buildingStoreys[i]);
+                        InsertCopy.CopyProducts(model, generatedFilePath, requiredProducts, keepLabel);
+                        var wexBimPath = "/" + generatedFilePath.Remove(0, 8).Substring(0, generatedFilePath.Length - 11).Replace("\\", "/") + "wexBIM";
+                        newPaths.Add(generatedFilePath);
+                        wexBimPaths.Add(wexBimPath);
+                    }
+                }
+            }
+            return (newPaths, wexBimPaths);
         }
 
         void ConvertToWexBIM(string filePath)

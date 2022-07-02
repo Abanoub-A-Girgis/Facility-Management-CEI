@@ -67,7 +67,7 @@
                             </a></li>
                         }
 
-                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Owner"))
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin", "Owner"))
                         {
                             //<li><a class="nav-link text-secondary " asp-controller="Account" asp-action="LogOut">LogOut</a></li>
                             <li><a asp-controller="Uploader" asp-action="Index">

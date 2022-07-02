@@ -59,7 +59,7 @@ namespace Facility_Management_CEI
             services.AddControllersWithViews()  // to solve error Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
-            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
             //services.AddDbContext<Facility_Management_CEI.IdentityDb.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FMTest")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

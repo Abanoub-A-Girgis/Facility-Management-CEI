@@ -42,7 +42,7 @@ namespace API.Controllers
 
         [Route("AddBuildingDataFromIFC")]
         [HttpPost]
-        public void AddBuildingDataFromIFC(string fileName)
+        public void AddBuildingDataFromIFC(string fileName, List<string> WexBIMPaths)
         {
             string FilePath = Path.Combine("wwwroot\\data", fileName);
             using (IfcStore Model = IfcStore.Open($"{FilePath}"))
@@ -71,6 +71,7 @@ namespace API.Controllers
                         Id = Floor.EntityLabel,
                         FloorName = Floor.Name.Value,
                         BuildingId = Mybuilding.Id,
+                        Path = WexBIMPaths.Where(p => p.Contains(Floor.Name.Value)).FirstOrDefault()
                     });
                 }
                 _Context.Floors.AddRange(BuildingFloor);

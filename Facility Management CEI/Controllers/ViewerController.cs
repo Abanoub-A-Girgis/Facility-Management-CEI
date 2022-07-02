@@ -400,7 +400,8 @@ namespace Facility_Management_CEI.Controllers
             if (AppUser.Type != API.Enums.UserType.SystemAdmin)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id != 0)
             {
@@ -419,12 +420,16 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() { 
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" } 
+                };
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();

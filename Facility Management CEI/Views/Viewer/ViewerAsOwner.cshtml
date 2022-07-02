@@ -18,6 +18,18 @@
         <english>Building Viewer as Owner</english>
         <arabic class="d-none">عرض المبنى كمالك</arabic>
     </title>
+    <style>
+        .vertical-text {
+	        -webkit-transform: rotate(90deg); 
+            -moz-transform: rotate(90deg); 
+            -ms-transform: rotate(90deg); 
+            -o-transform: rotate(90deg); 
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
+            transform: rotate(90deg);
+            display:block; 
+            transform-origin: 0% 50%;
+        }
+    </style>
 
 @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 
@@ -35,279 +47,289 @@
             </div>
         </div>
     }
-    <div class="row">
-        <div class="col-5">
-            <h3 class="text-center font-weight-bold">
-                <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
-            </h3>
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#ManagersDiv" data-toggle="tab">
-                        <english>Managers</english>
-                        <arabic class="d-none">المديرين</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#SupervisorsDiv" data-toggle="tab">
-                        <english>Supervisors</english>
-                        <arabic class="d-none">المشرفون</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
-                        <english>Inspectors</english>
-                        <arabic class="d-none">المفتشون</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
-                        <english>Agents</english>
-                        <arabic class="d-none">العمال</arabic>
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="ManagersDiv">
-                    <table id="ManagersTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english>User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Manager in ViewBag.Managers)
-                            {
+    <div class="position-relative">
+        <canvas id="viewer" height="650" style="width: 100%;
+                                    object-fit: contain;"></canvas>
+        
+        <div class="shadow-lg py-3 mb-5 bg-light h-100 rounded row" style="position: absolute;
+                                            top: 0px;
+                                            left: 8px;
+                                            z-index:6;" id="ToggleLeftSliderContainer">
+            <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text">Tables</div></div>
+            <div id="ToggleLeftSlider" class="col-auto">
+                <h3 class="text-center font-weight-bold">
+                    <english>Subordinates</english>
+                    <arabic class="d-none">الموظفون تحت الإشراف</arabic>
+                </h3>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#ManagersDiv" data-toggle="tab">
+                            <english>Managers</english>
+                            <arabic class="d-none">المديرين</arabic>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#SupervisorsDiv" data-toggle="tab">
+                            <english>Supervisors</english>
+                            <arabic class="d-none">المشرفون</arabic>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
+                            <english>Inspectors</english>
+                            <arabic class="d-none">المفتشون</arabic>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
+                            <english>Agents</english>
+                            <arabic class="d-none">العمال</arabic>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="ManagersDiv">
+                        <table id="ManagersTable" class="w-100 table table-striped table-hover mb-3">
+                            <thead>
                                 <tr>
-                                    <th>@Manager.Id</th>
-                                    <td>@Manager.FirstName @Manager.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Manager.Id">               
+                                    <th>
+                                        <english>User ID</english>
+                                        <arabic class="d-none">كود المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>Name</english>
+                                        <arabic class="d-none">الاسم</arabic>
+                                    </th>
+                                    <th>
                                         <english>User Details</english>
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button>
-                                    </td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">          
-                                        <english>Show Tasks</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button>
-                                    </td>
+                                    </th>
+                                    <th>
+                                        <english>Load Tasks</english>
+                                        <arabic class="d-none">تحميل المهام</arabic>
+                                    </th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="SupervisorsDiv">
-                    <table id="SupervisorsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english>User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Supervisor in ViewBag.Supervisors)
-                            {
-                                <tr>
-                                    <th>@Supervisor.Id</th>
-                                    <td>@Supervisor.FirstName @Supervisor.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Supervisor.Id"> 
-                                        <english> User Details</english>
-                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)"> 
-                                        <english>Show Tasks</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="InspectorsDiv">
-                    <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english>User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Inspector in ViewBag.Inspectors)
-                            {
-                                <tr>
-                                    <th>@Inspector.Id</th>
-                                    <td>@Inspector.FirstName @Inspector.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id"> 
+                            </thead>
+                            <tbody>
+                                @foreach (var Manager in ViewBag.Managers)
+                                {
+                                    <tr>
+                                        <th>@Manager.Id</th>
+                                        <td>@Manager.FirstName @Manager.LastName</td>
+                                        <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Manager.Id">               
                                             <english>User Details</english>
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
-                                        <english>Show Tasks</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button></td>
+                                        </button>
+                                        </td>
+                                        <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">          
+                                            <english>Show Tasks</english>
+                                            <arabic class="d-none">إظهار المهام</arabic>
+                                        </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="SupervisorsDiv">
+                        <table id="SupervisorsTable" class="w-100 table table-striped table-hover mb-3">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <english>User ID</english>
+                                        <arabic class="d-none">كود المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>Name</english>
+                                        <arabic class="d-none">الاسم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>User Details</english>
+                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>Load Tasks</english>
+                                        <arabic class="d-none">تحميل المهام</arabic>
+                                    </th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var Supervisor in ViewBag.Supervisors)
+                                {
+                                    <tr>
+                                        <th>@Supervisor.Id</th>
+                                        <td>@Supervisor.FirstName @Supervisor.LastName</td>
+                                        <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Supervisor.Id"> 
+                                            <english> User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </button></td>
+                                        <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)"> 
+                                            <english>Show Tasks</english>
+                                            <arabic class="d-none">إظهار المهام</arabic>
+                                        </button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="InspectorsDiv">
+                        <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <english>User ID</english>
+                                        <arabic class="d-none">كود المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>Name</english>
+                                        <arabic class="d-none">الاسم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>User Details</english>
+                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>Load Tasks</english>
+                                        <arabic class="d-none">تحميل المهام</arabic>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Inspector in ViewBag.Inspectors)
+                                {
+                                    <tr>
+                                        <th>@Inspector.Id</th>
+                                        <td>@Inspector.FirstName @Inspector.LastName</td>
+                                        <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id"> 
+                                                <english>User Details</english>
+                                                <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </button></td>
+                                        <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
+                                            <english>Show Tasks</english>
+                                            <arabic class="d-none">إظهار المهام</arabic>
+                                        </button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
+                        <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <english>User ID</english>
+                                        <arabic class="d-none">كود المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english> Name</english>
+                                        <arabic class="d-none">الاسم</arabic>
+                                    </th>
+                                    <th>
+                                        <english> User Details</english>
+                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                    </th>
+                                    <th>
+                                        <english>  Load Tasks</english>
+                                        <arabic class="d-none">تحميل المهام</arabic>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Agent in ViewBag.Agents)
+                                {
+                                    <tr>
+                                        <th>@Agent.Id</th>
+                                        <td>@Agent.FirstName @Agent.LastName</td>
+                                        <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id"> 
+                                                <english> User Details</english>
+                                                <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </button></td>
+                                        <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
+                                            <english>Show Tasks</english>
+                                            <arabic class="d-none">إظهار المهام</arabic>
+                                        </button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
-                    <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
+                <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
+                    <english>All Tasks</english>
+                    <arabic class="d-none">كل المهام</arabic>
+                </h3>
+                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
+                    <table id="ItemsTable" class="w-100 table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
+                                    <english>Agent ID</english>
+                                    <arabic class="d-none">كود العامل</arabic>
                                 </th>
                                 <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
+                                    <english>Task ID</english>
+                                    <arabic class="d-none">كود المهمة</arabic>
                                 </th>
                                 <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        <english>Agent Name</english>
+                                    <arabic class="d-none">اسم العامل</arabic>
                                 </th>
                                 <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
+                                    <english> Asset Name</english>
+                                    <arabic class="d-none">اسم العنصر</arabic>
+                                </th>
+                                <th>
+                                        <english>Zoom To</english>
+                                    <arabic class="d-none">تكبير/تصغير</arabic>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var Agent in ViewBag.Agents)
+                            @foreach (var task in ViewBag.Tasks)
                             {
                                 <tr>
-                                    <th>@Agent.Id</th>
-                                    <td>@Agent.FirstName @Agent.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id"> 
-                                            <english> User Details</english>
-                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
-                                        <english>Show Tasks</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button></td>
+                                    <th>@task.AssignedToId</th>
+                                    <th>@task.Id</th>
+                                    <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
+                                    <td>
+                                        @if(task.Incident.Asset != null)
+                                        {
+                                            @task.Incident.Asset.Name;
+                                        }
+                                        else
+                                        {
+                                            @task.Incident.Space.Name;
+                                        }
+                                    </td>
+                                    @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
+                                    @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
+                                    <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.SpaceId} else {@task.Incident.AssetId})">Zoom To</button></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
-                <english>All Tasks</english>
-                <arabic class="d-none">كل المهام</arabic>
-            </h3>
-            <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
-                <table id="ItemsTable" class="w-100 table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <english>Agent ID</english>
-                                <arabic class="d-none">كود العامل</arabic>
-                            </th>
-                            <th>
-                               <english>Task ID</english>
-                                <arabic class="d-none">كود المهمة</arabic>
-                            </th>
-                            <th>
-                                 <english>Agent Name</english>
-                                <arabic class="d-none">اسم العامل</arabic>
-                            </th>
-                            <th>
-                                <english> Asset Name</english>
-                                <arabic class="d-none">اسم العنصر</arabic>
-                            </th>
-                            <th>
-                                 <english>Zoom To</english>
-                                <arabic class="d-none">تكبير/تصغير</arabic>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var task in ViewBag.Tasks)
-                        {
-                            <tr>
-                                <th>@task.AssignedToId</th>
-                                <th>@task.Id</th>
-                                <th>@(((List<AppUser>)ViewBag.Agents).Where(x => x.Id == task.AssignedToId).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault())</th>
-                                <td>
-                                    @if(task.Incident.Asset != null)
-                                    {
-                                        @task.Incident.Asset.Name;
-                                    }
-                                    else
-                                    {
-                                       @task.Incident.Space.Name;
-                                    }
-                                </td>
-                                @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
-                                @*<td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>*@
-                                <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.SpaceId} else {@task.Incident.AssetId})">Zoom To</button></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="vertical-text text-center col-sm-1 my-auto" style="max-width: 1px">
+                <i class="fas fa-angle-double-down" id="ToggleLeftSliderArrow"></i>
             </div>
         </div>
-        <div class="col-7">
-            <canvas id="viewer" height="650" style="width: 100%;
-                                       object-fit: contain;"></canvas>
-        
-            <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
-                                                                    top: 8px;
-                                                                    left: 20px;
-                                                                    z-index:5"">
-                <div class="font-weight-bold mb-2 text-center">
-                    <english>Toggle Highlights</english>
-                    <arabic class="d-none">الإضاءات</arabic>
-                </div>
-                @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
-                <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
-                <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
-                <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
-                <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+
+        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+                                                                top: 8px;
+                                                                left: 4%;
+                                                                z-index:5">
+            <div class="font-weight-bold mb-2 text-center">
+                <english>Toggle Highlights</english>
+                <arabic class="d-none">الإضاءات</arabic>
+            </div>
+            @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightHigh()">Toggle Highlight High</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightMedium()">Toggle Highlight Medium</button>
+            <button class="btn btn-primary" onclick="ToggleHighLightLow()">Toggle Highlight Low</button>*@
+            <div id="ToggleHighlightDiv">
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input" id="Switch1" onchange="ToggleHighLightItems()" autocomplete="off">
                     <label class="custom-control-label" for="Switch1">
@@ -343,198 +365,204 @@
                         <arabic class="d-none">قليل</arabic>
                     </label>
                 </div>
-
             </div>
-            <div style="position: absolute;
-                        top: 8px;
-                        right: 16px;
-                        z-index:5" id="fpsDiv"></div>
-            <script type="text/javascript">
-                var viewer = new xViewer('viewer');
-                //viewer.load('../data/SampleHouse.wexbim');
-                viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
-                var navCube = new xNavigationCube();
-                navCube.ratio = .1;
-                viewer.addPlugin(navCube);
-                viewer.start();
-                viewer.defineStyle(0, [255,0,0,255])
-                viewer.defineStyle(1, [255,160,16,255])
-                viewer.defineStyle(2, [255,224,32,255])
-                viewer.defineStyle(3, [0,255,0,255])
-            </script>
+            <div class="col-1 my-auto">
+                <i class="fas fa-angle-double-up vertical-text-left" id="ToggleHighlightDivArrow"></i>
+            </div>
 
-            @*<script> 
-                    viewer.on('pick', function (args) {
-                        var id = args.id;
-                        viewer.setCameraTarget(id);
-                        pickedId = id;
-                    });
-            </script>*@
+        </div>
+
+        @await Html.PartialAsync("~/Views/Viewer/ViewerToggleFloorsPartial.cshtml")
+
+        <div style="position: absolute;
+                    top: 8px;
+                    right: 16px;
+                    z-index:5" id="fpsDiv"></div>
+        <script type="text/javascript">
+            var viewer = new xViewer('viewer');
+            //viewer.load('../data/SampleHouse.wexbim');
+            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+            var navCube = new xNavigationCube();
+            navCube.ratio = .1;
+            viewer.addPlugin(navCube);
+            viewer.start();
+            viewer.defineStyle(0, [255,0,0,255])
+            viewer.defineStyle(1, [255,160,16,255])
+            viewer.defineStyle(2, [255,224,32,255])
+            viewer.defineStyle(3, [0,255,0,255])
+        </script>
+                
+        @*<script> 
+                viewer.on('pick', function (args) {
+                    var id = args.id;
+                    viewer.setCameraTarget(id);
+                    pickedId = id;
+                });
+        </script>*@
         
-            <script>
-                    viewer.on('fps', function (fps) {
-                        var fpsDiv = document.getElementById('fpsDiv');
-                        if (fpsDiv) {
-                            fpsDiv.innerHTML = "FPS: " + fps;
-                        }
-                    });
-            </script>
+        <script>
+                viewer.on('fps', function (fps) {
+                    var fpsDiv = document.getElementById('fpsDiv');
+                    if (fpsDiv) {
+                        fpsDiv.innerHTML = "FPS: " + fps;
+                    }
+                });
+        </script>
 
-            <div>
-                <div class="text-center font-weight-bold m-2" id="productId"></div>
-            </div>
+        <div>
+            <div class="text-center font-weight-bold m-2" id="productId"></div>
+        </div>
 
-    @*        <script>
-                // Arrays to hold the item id's depending on their priority
-                var listOfSevere = [];
-                var listOfHigh = [];
-                var listOfMedium = [];
-                var listOfLow = [];
-                @foreach (var i in Model.Severe)
-                {
-                    @:listOfSevere.push(@i);
-                }
-                @foreach (var i in Model.High)
-                {
-                    @:listOfHigh.push(@i);
-                }
-                @foreach (var i in Model.Medium)
-                {
-                    @:listOfMedium.push(@i);
-                }
-                @foreach (var i in Model.Low)
-                {
-                    @:listOfLow.push(@i);
-                }
+@*        <script>
+            // Arrays to hold the item id's depending on their priority
+            var listOfSevere = [];
+            var listOfHigh = [];
+            var listOfMedium = [];
+            var listOfLow = [];
+            @foreach (var i in Model.Severe)
+            {
+                @:listOfSevere.push(@i);
+            }
+            @foreach (var i in Model.High)
+            {
+                @:listOfHigh.push(@i);
+            }
+            @foreach (var i in Model.Medium)
+            {
+                @:listOfMedium.push(@i);
+            }
+            @foreach (var i in Model.Low)
+            {
+                @:listOfLow.push(@i);
+            }
 
             
-                var animateBool = true;
-                setInterval(animateObjects, 1000);
-                function animateObjects() {
-                    if (animateBool) {
-                        viewer.setStyle(0, listOfSevere);
-                        viewer.setStyle(1, listOfHigh);
-                        viewer.setStyle(2, listOfMedium);
-                        viewer.setStyle(3, listOfLow);
-                        animateBool = false;
+            var animateBool = true;
+            setInterval(animateObjects, 1000);
+            function animateObjects() {
+                if (animateBool) {
+                    viewer.setStyle(0, listOfSevere);
+                    viewer.setStyle(1, listOfHigh);
+                    viewer.setStyle(2, listOfMedium);
+                    viewer.setStyle(3, listOfLow);
+                    animateBool = false;
+                }
+                else {
+                    viewer.resetStyles()
+                    animateBool = true;
+                }
+            }
+        </script>*@
+
+@*        <div>
+            <button onclick="CreateCanvas()">Clear</button>
+            <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
+            <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
+            <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
+            <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
+        </div>*@
+
+        <div class="text-center">
+@*            <select id="cmbHide">
+                <option value="noAction">No action</option>
+                <option value="hideProduct">Hide product</option>
+                <option value="hideType">Hide type</option>
+                <option value="highlight">Highlight</option>
+            </select>*@
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">
+                <english>Hide Product</english>
+                <arabic class="d-none">إخفاء عنصر</arabic>
+            </button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">
+                <english>Hide Type</english>
+                <arabic class="d-none">إخفاء الحالة</arabic>
+            </button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">
+                <english>Select Product</english>
+                <arabic class="d-none">اختر  عنصر</arabic>
+            </button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo()">
+                <english>Reset Zoom</english>
+                <arabic class="d-none">ارجاع التكبير</arabic>
+            </button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">
+                <english>Reset all</english>
+                <arabic class="d-none">ارجاع الكل</arabic>
+            </button>
+            <script type="text/javascript">
+
+                var timer = 0;
+                var highlightedId;
+                var option;
+                
+                function HideProduct() {
+                    option = "hideProduct";
+                }
+                
+                function HideType() {
+                    option = "hideType";
+                }
+
+                function Highlight() {
+                    option = "highlight";
+                }
+
+                function ResetAll() {
+                    if (viewer) {
+                        viewer.resetStates();
                     }
-                    else {
-                        viewer.resetStyles()
-                        animateBool = true;
+                    var div = document.getElementById('productId');
+                    if (div) {
+                        div.innerHTML = "";
                     }
                 }
-            </script>*@
-
-    @*        <div>
-                <button onclick="CreateCanvas()">Clear</button>
-                <button onclick="if (viewer) viewer.load('../data/SampleHouse.wexbim');">File 1</button>
-                <button onclick="if (viewer) viewer.load('../data/Ahmed Fikry Arch.wexBIM');">File 2</button>
-                <button onclick="if (viewer) viewer.load('../data/Mohammed Jamal Mahmoud Project arc 1.wexBIM');">File 3</button>
-                <button onclick="if (viewer) viewer.load('../data/ITI-ITISV-B01-A.wexBIM');">File 4</button>
-            </div>*@
-
-            <div class="text-center">
-    @*            <select id="cmbHide">
-                    <option value="noAction">No action</option>
-                    <option value="hideProduct">Hide product</option>
-                    <option value="hideType">Hide type</option>
-                    <option value="highlight">Highlight</option>
-                </select>*@
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">
-                    <english>Hide Product</english>
-                    <arabic class="d-none">إخفاء عنصر</arabic>
-                </button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">
-                    <english>Hide Type</english>
-                    <arabic class="d-none">إخفاء الحالة</arabic>
-                </button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">
-                    <english>Select Product</english>
-                    <arabic class="d-none">اختر  عنصر</arabic>
-                </button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo()">
-                    <english>Reset Zoom</english>
-                    <arabic class="d-none">ارجاع التكبير</arabic>
-                </button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">
-                    <english>Reset all</english>
-                    <arabic class="d-none">ارجاع الكل</arabic>
-                </button>
-                <script type="text/javascript">
-
-                    var timer = 0;
-                    var highlightedId;
-                    var option;
                 
-                    function HideProduct() {
-                        option = "hideProduct";
+                viewer.on('pick', function (args) {
+                    var id = args.id;
+                    viewer.setCameraTarget(id);
+                    pickedId = id;
+                    document.getElementById('hiddenId').value = id;
+
+                    //var cmb = document.getElementById('cmbHide');
+                    //var option = cmb.value;
+                    switch (option) {
+                        case 'hideProduct':
+                            viewer.setState(xState.HIDDEN, [args.id]);
+                            if (args.id == highlightedId)
+                            {
+                                highlightedId = null;
+                            }
+                            break;
+                        case 'hideType':
+                            var type = viewer.getProductType(args.id);
+                            viewer.setState(xState.HIDDEN, type);
+                            if (type == viewer.getProductType(highlightedId))
+                            {
+                                highlightedId = null;
+                            }
+                            break;
+                        case 'highlight':
+                            //viewer.resetStates();
+                            viewer.setState(xState.UNDEFINED, [highlightedId]);
+                            viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                            var div = document.getElementById('productId');
+                            if (div) {
+                                div.innerHTML = "Selected Asset Id = " + id;
+                            }
+                            highlightedId = id;
+                            break;
+                        default:
+                            break;
                     }
-                
-                    function HideType() {
-                        option = "hideType";
-                    }
 
-                    function Highlight() {
-                        option = "highlight";
-                    }
+                    var time = (new Date()).getTime();
+                    if (time - timer < 200)
+                        viewer.zoomTo(id);
+                    timer = time;
 
-                    function ResetAll() {
-                        if (viewer) {
-                            viewer.resetStates();
-                        }
-                        var div = document.getElementById('productId');
-                        if (div) {
-                            div.innerHTML = "";
-                        }
-                    }
-                
-                    viewer.on('pick', function (args) {
-                        var id = args.id;
-                        viewer.setCameraTarget(id);
-                        pickedId = id;
-                        document.getElementById('hiddenId').value = id;
-
-                        //var cmb = document.getElementById('cmbHide');
-                        //var option = cmb.value;
-                        switch (option) {
-                            case 'hideProduct':
-                                viewer.setState(xState.HIDDEN, [args.id]);
-                                if (args.id == highlightedId)
-                                {
-                                    highlightedId = null;
-                                }
-                                break;
-                            case 'hideType':
-                                var type = viewer.getProductType(args.id);
-                                viewer.setState(xState.HIDDEN, type);
-                                if (type == viewer.getProductType(highlightedId))
-                                {
-                                    highlightedId = null;
-                                }
-                                break;
-                            case 'highlight':
-                                //viewer.resetStates();
-                                viewer.setState(xState.UNDEFINED, [highlightedId]);
-                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
-                                var div = document.getElementById('productId');
-                                if (div) {
-                                    div.innerHTML = "Selected Asset Id = " + id;
-                                }
-                                highlightedId = id;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        var time = (new Date()).getTime();
-                        if (time - timer < 200)
-                            viewer.zoomTo(id);
-                        timer = time;
-
-                    });
-                </script>
-                <input name="hiddenId" type="hidden" id="hiddenId" />
-            </div>
+                });
+            </script>
+            <input name="hiddenId" type="hidden" id="hiddenId" />
         </div>
     </div>
 
