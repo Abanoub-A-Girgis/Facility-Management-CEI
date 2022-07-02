@@ -121,7 +121,12 @@
       	            extend: 'excelHtml5',
                     text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                     exportOptions: {
-                        columns: [ 0, 1, 2 , 3]
+                        columns: [ 0, 1, 2 , 3],
+                        format: {
+                            header: function(text, index, node) {
+                                return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
+                            }
+                        }
                     },
                     className: 'btn btn-primary waves-effect waves-light mr-1'
                 }

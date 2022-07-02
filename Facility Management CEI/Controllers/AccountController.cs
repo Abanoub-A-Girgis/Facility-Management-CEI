@@ -93,7 +93,7 @@ namespace Facility_Management_CEI.Controllers
                         }
                         var user = new RegisterViewModel();//to send a model that has a list of roles
                         ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
-                        ViewBag.English = "registration has been successfully completed";
+                        ViewBag.English = "Registration has been successfully completed";
                         ViewBag.Arabic = "تم التسجيل بنجاح";
                         ViewBag.RegistrationStatus = true;
                         return View(user);
@@ -115,7 +115,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     var user = new RegisterViewModel();
                     ViewData.Add("UserNameIsExist", "Username is already exist");
-                    ViewBag.English = "specified username already exists";
+                    ViewBag.English = "Specified username already exists";
                     ViewBag.Arabic = "اسم المستخدم موجود مسبقا";
                     ViewBag.RegistrationStatus = false;
                     ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");

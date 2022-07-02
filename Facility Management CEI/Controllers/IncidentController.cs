@@ -125,6 +125,7 @@ namespace Facility_Management_CEI.Controllers
                         {
                             return NotFound();//throgh an exception if not found 
                         }
+                        ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                         return View(Incident);//pass this Incident data to the view 
                     }//the returned view contains the UI cells that will allow you to insert or edit records  
                 }
@@ -195,7 +196,6 @@ namespace Facility_Management_CEI.Controllers
                             {
                                 int? spaceid = _Context.Assets.ToList().FirstOrDefault(ass => ass.Id == incidentData.AssetId).SpaceId;
                                 Incident.SpaceId = (int)spaceid;
-                                var x = 1;
                             }
                             //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
                             Incident.Description = incidentData.Description;
