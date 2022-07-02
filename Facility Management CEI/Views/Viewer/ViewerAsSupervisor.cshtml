@@ -212,6 +212,13 @@
                 @inspector.Key@::@Html.Raw(Json.Serialize(inspector.Value)),
             }
         }
+
+        var InspectorsDic = {
+            @foreach(var Inspector in ViewBag.Inspectors)
+            {
+                @Inspector.Id@::@Html.Raw(Json.Serialize(Inspector.FirstName + " " + Inspector.LastName)),
+            }
+        }
         
         function ChangeDataInspector(Id) {
             var agents = InspectorAgentsDic[Id]
@@ -235,7 +242,13 @@
             //itemsTable.column(0).search("24|25", true, false).draw();
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Regex, true, false).draw();
-            ItemsTableHeading.innerText = "Work Orders for Inspector " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic class='d-none'>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
+            }
         }
     </script>
 
