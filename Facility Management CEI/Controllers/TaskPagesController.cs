@@ -195,8 +195,10 @@ namespace Facility_Management_CEI.Controllers
                     return NotFound();
                 }
 
-                string FilePath = task.Incident.Space.Floor.Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
+
+                //string FilePath = task.Incident.Space.Floor.Building.Path;
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
 
                 //List<IfcMaterial> Materials = new List<IfcMaterial>();
 

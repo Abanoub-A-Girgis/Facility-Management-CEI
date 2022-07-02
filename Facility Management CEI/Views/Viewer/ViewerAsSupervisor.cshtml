@@ -34,11 +34,12 @@
     }
     <div class="position-relative">
         @await Html.PartialAsync("~/Views/Viewer/ViewerCanvasPartial.cshtml", Model)
-        <div class="shadow-lg py-3 mb-5 bg-light h-100 rounded row" style="position: absolute;
+        <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
+                                                height: 650px;
                                                 top: 0px;
                                                 left: 8px;
                                                 z-index:6;" id="ToggleLeftSliderContainer">
-                <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text">Tables</div></div>
+                <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
                 <div id="ToggleLeftSlider" class="col-auto">
                     <h3 class="text-center font-weight-bold">
                         <english>Subordinates</english>
