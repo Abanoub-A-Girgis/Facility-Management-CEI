@@ -167,13 +167,13 @@
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                 {
                     <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >
+                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-primary" >
                             <english>Assign</english>
                               <arabic class="d-none">التعين</arabic></a>
                     </th> 
 
                     <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-outline-primary" >
+                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary" >
                                 <english>Edit</english>
                               <arabic class="d-none">تعديل</arabic></a>
                     </th>   
@@ -182,7 +182,7 @@
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector","Agent"))
                 {
                     <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >
+                        <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info" >
                              <english>Details</english>
                               <arabic class="d-none">التفاصيل</arabic>
                         </a>            
@@ -192,7 +192,7 @@
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                 {
                     <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >
+                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger" >
                             <english>Delete</english>
                               <arabic class="d-none">حذف</arabic>
                         </a>
