@@ -314,7 +314,7 @@ namespace Facility_Management_CEI.Controllers
                 var user = await _userManeger.GetUserAsync(User);
                 var userId = user.Id;
                 ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
-                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers.Where(i=> i.Type==UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName  +" "+ s.LastName, Id = s.Id }), "Id", "FullText");
+                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers.Where(i=> i.Type == UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName  +" "+ s.LastName, Id = s.Id }), "Id", "FullText");
                 //ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
                 ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id", task.IncidentId);
                 return View(task);
