@@ -1,4 +1,5 @@
 ﻿@using Facility_Management_CEI.Controllers
+@using API.Enums
 
 @model IEnumerable<API.Models.AppUser>
 
@@ -90,10 +91,37 @@
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
+
             <td class="text-center" scope="col">
+
                 @Html.DisplayFor(modelItem => item.Type)
+                    @if(item.Type== UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(item.Type== UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
             </td>
             <td class="text-center" scope="col">
+
                 @Html.DisplayFor(modelItem => item.Building.Id)
             </td>
             <td class="text-center" scope="col">
