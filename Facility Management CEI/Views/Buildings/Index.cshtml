@@ -18,19 +18,19 @@
         <tr>
             <th>
                 <english> ID</english>
-                <arabic class="d-none"> الكود</arabic>
+                <arabic class="d-none">الكود</arabic>
             </th>
             <th>
                 <english> @Html.DisplayNameFor(model => model.Name)</english>
-                <arabic class="d-none"> الإسم</arabic>
+                <arabic class="d-none">الإسم</arabic>
             </th>
             <th>
                 <english>@Html.DisplayNameFor(model => model.Path)</english>
-                <arabic class="d-none"> مسار الملف</arabic>
+                <arabic class="d-none">مسار الملف</arabic>
             </th>
             <th>
                 <english>Details</english>
-                <arabic class="d-none"> التفاصيل</arabic>
+                <arabic class="d-none">التفاصيل</arabic>
             </th>
             
         </tr>
@@ -48,7 +48,7 @@
                 @Html.DisplayFor(modelItem => item.Path)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id"> 
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"> 
                 <english>Details</english>
                 <arabic class="d-none"> التفاصيل</arabic></a>
             </td>
@@ -63,7 +63,7 @@
         "columnDefs": [
                 { "searchable": false, "targets": [3] }
             ],
-            dom: 'Blfrtip',
+            dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
       	            extend: 'excelHtml5',

@@ -17,7 +17,7 @@
 @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
 {
 <p>
-    <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>
+    <a  href=@Url.Action("Register", "Account") class="btn btn-primary" @*asp-action="Create"*@>
         <english> Create New</english>
         <arabic class="d-none">إنشاء مستخدم</arabic>
     </a>
@@ -105,7 +105,7 @@
             @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">
                         <english>Edit</english>
                        <arabic class="d-none">تعديل</arabic>
                 </a>
@@ -113,7 +113,7 @@
             }
 
             <td class="text-center" scope="col">
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
                    <english>Details</english>
                    <arabic class="d-none">التفاصيل</arabic>
                 </a> 
@@ -122,7 +122,7 @@
             @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">
                    <english>Delete</english>
                    <arabic class="d-none"> مسح </arabic>
                 </a>
@@ -139,7 +139,7 @@
         "columnDefs": [
                 { "searchable": false, "targets": [7,8,9] }
             ],
-            dom: 'Blfrtip',
+            dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
       	            extend: 'excelHtml5',

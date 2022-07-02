@@ -10,189 +10,187 @@
 
 @{
     var tasks = (List<API.Models.Task>)ViewBag.ListOfTasks;
-    var users =ViewBag.Users;
-    
+    var users = ViewBag.Users;
+
 }
 <head>
     @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
-  
-        <div class="card text-center">
-            <div class="card-header">
-            <h3><english>List Of Work Orders</english><arabic class="d-none">قائمة المهام</arabic></h3>
-            </div>
-        </div>
-       
+
+<div class="card text-center">
+    <div class="card-header">
+        <h3><english>List Of Work Orders</english><arabic class="d-none">قائمة المهام</arabic></h3>
+    </div>
+</div>
+
 <div class="mt-4">
-@*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
+    @*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
   {
 
       <div class="form-group"> 
         <a asp-action="CreateTask" asp-route-id="" class="btn btn-outline-primary" >Create New Task </a>
       </div>
   }*@
-  
-   <div class="table-responsive">
-   <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-     <thead>
-        <tr>  
-        <th class="text-center" scope="col">
-            <english>ID</english>
-            <arabic class="d-none">الكود</arabic>
-            
-            </th>
 
-        <th class="text-center" scope="col">
-            <english>@Html.DisplayNameFor(model => model.Description )</english>
-            <arabic class="d-none">التوصيف</arabic>
-            
-            </th>
+    <div class="table-responsive">
+        <table id="datatable" class="table table-hover table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>  
+                    <th class="text-center" scope="col">
+                        <english>ID</english>
+                        <arabic class="d-none">الكود</arabic>
 
-        <th class="text-center" scope="col">
-            <english>@Html.DisplayNameFor(model => model.Status      )</english>
-            <arabic class="d-none">الحالة</arabic>
-            
-        </th>
+                    </th>
 
-        <th class="text-center" scope="col">
-            <english>@Html.DisplayNameFor(model => model.Type        )</english>
-            <arabic class="d-none">النوع</arabic>
-            
-        </th>
+                    <th class="text-center" scope="col">
+                        <english>@Html.DisplayNameFor(model => model.Description )</english>
+                        <arabic class="d-none">التوصيف</arabic>
 
-        <th class="text-center" scope="col">
-            <english>@Html.DisplayNameFor(model => model.Priority    )</english>
-            <arabic class="d-none">الأهمية</arabic>
-            
-            </th>
+                    </th>
 
-        <th class="text-center" scope="col">
-            <english>Incident ID</english>
-            <arabic class="d-none">كود الحادثة</arabic>
-            
-            </th>
+                    <th class="text-center" scope="col">
+                        <english>@Html.DisplayNameFor(model => model.Status      )</english>
+                        <arabic class="d-none">الحالة</arabic>
 
-        <th class="text-center" scope="col">
-            
-            <english>Created By</english>
-            <arabic class="d-none">أنشئت من قبل</arabic>
-            </th>
+                    </th>
 
-        <th class="text-center" scope="col">
-            <english>Assigned By</english>
-            <arabic class="d-none">عينت من قبل</arabic>
-            
-            </th>
+                    <th class="text-center" scope="col">
+                        <english>@Html.DisplayNameFor(model => model.Type        )</english>
+                        <arabic class="d-none">النوع</arabic>
 
-        <th class="text-center" scope="col">
-            <english>Assigned To</english>
-            <arabic class="d-none">عينت إلى</arabic>
-            
-            </th>
+                    </th>
 
-        <th class="text-center" scope="col">
-            <english>Fixing Time</english>
-            <arabic class="d-none">تاريخ الإصلاح</arabic>
-            
-            </th>
+                    <th class="text-center" scope="col">
+                        <english>@Html.DisplayNameFor(model => model.Priority    )</english>
+                        <arabic class="d-none">الأهمية</arabic>
 
-        <th class="text-center" scope="col">
-            <english>@Html.DisplayNameFor(model => model.Cost        )</english>
-            <arabic class="d-none">التكلفة</arabic>
-            
-            </th>
+                    </th>
 
-        <th class="text-center" scope="col">
-             <english>Comment</english>
-            <arabic class="d-none">ملاحظات</arabic>
-            
-            </th>
+                    <th class="text-center" scope="col">
+                        <english>Incident ID</english>
+                        <arabic class="d-none">كود الحادثة</arabic>
 
-        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
-        {
-        <th class="text-center" scope="col"><english>Assign</english>
-            <arabic class="d-none">التعين</arabic></th>
+                    </th>
 
-        <th class="text-center" scope="col"><english>Edit</english>
-            <arabic class="d-none">تعديل</arabic></th>
+                    <th class="text-center" scope="col">
 
-                        
-        }
-        <th class="text-center" scope="col">
-            
-            <english>Details</english>
-            <arabic class="d-none">التفاصيل</arabic>
-        </th>
-        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
-        {
-        <th class="text-center" scope="col">
-            <english>Delete</english>
-            <arabic class="d-none">حذف</arabic>
-        </th>
-                        
-        }
-        </tr>  
-     </thead>
-        <tbody>
-            @foreach (var task in tasks)
-            {  
-                <tr>
-                    <th class="text-center" scope="col">@task.Id          </th>
-                    <td class="text-center" scope="col">@task.Description </td>
-                    <td class="text-center" scope="col">@task.Status      </td>
-                    <td class="text-center" scope="col">@task.Type        </td>
-                    <td class="text-center" scope="col">@task.Priority    </td>
-                    <td class="text-center" scope="col">@task.IncidentId  </td>
-                    <td class="text-center" scope="col">@task.CreatedBy.FirstName @task.CreatedBy.LastName </td>
-                    @if (task.AssignedBy==null) //in case of creation there is no Assign to or by so we need to solve this to not give an exception
-                        {
-                         <td class="text-center" scope="col"></td>
-                        }
-                    else
-                        {
-                         <td class="text-center" scope="col">@task.AssignedBy.FirstName @task.AssignedBy.LastName</td>
-                        }
-                    @if (task.AssignedTo==null)
-                        {
-                         <td class="text-center" scope="col"></td>
-                        }
-                    else
-                        {
-                         <td class="text-center" scope="col">@task.AssignedTo.FirstName @task.AssignedTo.LastName</td>
-                        }
-                    <td class="text-center" scope="col">@task.FixingTime  </td>
-                    <td class="text-center" scope="col">@task.Cost        </td>
-                    <td class="text-center" scope="col">@task.Comment     </td>
+                        <english>Created By</english>
+                        <arabic class="d-none">أنشئت من قبل</arabic>
+                    </th>
 
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
+                    <th class="text-center" scope="col">
+                        <english>Assigned By</english>
+                        <arabic class="d-none">عينت من قبل</arabic>
+
+                    </th>
+
+                    <th class="text-center" scope="col">
+                        <english>Assigned To</english>
+                        <arabic class="d-none">عينت إلى</arabic>
+
+                    </th>
+
+                    <th class="text-center" scope="col">
+                        <english>Fixing Time</english>
+                        <arabic class="d-none">تاريخ الإصلاح</arabic>
+
+                    </th>
+
+                    <th class="text-center" scope="col">
+                        <english>@Html.DisplayNameFor(model => model.Cost        )</english>
+                        <arabic class="d-none">التكلفة</arabic>
+
+                    </th>
+
+                    <th class="text-center" scope="col">
+                        <english>Comment</english>
+                        <arabic class="d-none">ملاحظات</arabic>
+
+                    </th>
+
+                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
+                    {
+                        <th class="text-center" scope="col"><english>Assign</english>
+                            <arabic class="d-none">التعين</arabic></th>
+
+                        <th class="text-center" scope="col"><english>Edit</english>
+                            <arabic class="d-none">تعديل</arabic></th>
+
+                    }
+                    <th class="text-center" scope="col">
+
+                        <english>Details</english>
+                        <arabic class="d-none">التفاصيل</arabic>
+                    </th>
+                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
+                    {
+                        <th class="text-center" scope="col">
+                            <english>Delete</english>
+                            <arabic class="d-none">حذف</arabic>
+                        </th>
+                    }
+                </tr>  
+            </thead>
+            <tbody>
+                @foreach (var task in tasks)
                 {
-                    <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-primary" >
-                            <english>Assign</english>
-                              <arabic class="d-none">التعين</arabic></a>
-                    </th> 
+                    <tr>
+                        <th class="text-center" scope="col">@task.Id</th>
+                        <td class="text-center" scope="col">@task.Description</td>
+                        <td class="text-center" scope="col">@task.Status</td>
+                        <td class="text-center" scope="col">@task.Type</td>
+                        <td class="text-center" scope="col">@task.Priority</td>
+                        <td class="text-center" scope="col">@task.IncidentId</td>
+                        <td class="text-center" scope="col">@task.CreatedBy.FirstName @task.CreatedBy.LastName</td>
+                        @if (task.AssignedBy == null) //in case of creation there is no Assign to or by so we need to solve this to not give an exception
+                        {
+                            <td class="text-center" scope="col"></td>
+                        }
+                        else
+                        {
+                            <td class="text-center" scope="col">@task.AssignedBy.FirstName @task.AssignedBy.LastName</td>
+                        }
+                        @if (task.AssignedTo == null)
+                        {
+                            <td class="text-center" scope="col"></td>
+                        }
+                        else
+                        {
+                            <td class="text-center" scope="col">@task.AssignedTo.FirstName @task.AssignedTo.LastName</td>
+                        }
+                        <td class="text-center" scope="col">@task.FixingTime  </td>
+                        <td class="text-center" scope="col">@task.Cost        </td>
+                        <td class="text-center" scope="col">@task.Comment     </td>
 
-                    <th class="text-center" scope="col">
-                        <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary" >
-                                <english>Edit</english>
-                              <arabic class="d-none">تعديل</arabic></a>
-                    </th>   
-                }
-       
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector","Agent"))
-                {
-                    <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info" >
-                             <english>Details</english>
-                              <arabic class="d-none">التفاصيل</arabic>
-                        </a>            
-                    </th > 
-                }
-       
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
-                {
-                    <th class="text-center" scope="col">
-                        <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger" >
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
+                        {
+                            <th class="text-center" scope="col">
+                                <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-primary" >
+                                    <english>Assign</english>
+                                    <arabic class="d-none">التعين</arabic></a>
+                            </th> 
+
+                            <th class="text-center" scope="col">
+                                <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary" >
+                                    <english>Edit</english>
+                                    <arabic class="d-none">تعديل</arabic></a>
+                            </th>
+                        }
+
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector", "Agent"))
+                        {
+                            <th class="text-center" scope="col">
+                                <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info" >
+                                    <english>Details</english>
+                                    <arabic class="d-none">التفاصيل</arabic>
+                                </a>            
+                            </th >
+                        }
+
+                        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
+                        {
+                            <th class="text-center" scope="col">
+                                <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger" >
                             <english>Delete</english>
                               <arabic class="d-none">حذف</arabic>
                         </a>
@@ -206,14 +204,16 @@
    </div>
 </div>
 
- <script>
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "Account Manager"))
+{
+    <script>
      $(document).ready(function () {
             $('#datatable').DataTable(
             {
             "columnDefs": [
                     { "searchable": false, "targets": [12, 13, 14, 15] }
                 ],
-                dom: 'Blfrtip',
+                dom: '<"mb-2"B>lfrtip',
                 buttons : [
                     {
       	                extend: 'excelHtml5',
@@ -253,6 +253,108 @@
         } );
 
  </script>
+}
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Inspector"))
+{
+    <script>
+     $(document).ready(function () {
+            $('#datatable').DataTable(
+            {
+            "columnDefs": [
+                    { "searchable": false, "targets": [12, 13, 14] }
+                ],
+                dom: '<"mb-2"B>lfrtip',
+                buttons : [
+                    {
+      	                extend: 'excelHtml5',
+                        text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        },
+                        className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                    }
+                ],
+                "oLanguage": {
+                    "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                    "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                    "oPaginate": {
+                        "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                        "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                    },
+                    "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                    "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                    "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                    "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+                },
+                "drawCallback": function( settings ) {
+                    if (localStorage.getItem('language') == "arabic")
+                    {
+                        var english = $('english');
+                        var arabic = $('arabic');
+                        $(english).each(function () {
+                            $(this).addClass("d-none")
+                        });
+                        $(arabic).each(function () {
+                            $(this).removeClass("d-none")
+                        });
+                    }
+                },
+            });
+        } );
+
+ </script>
+}
+
+ @if (ViewContext.HttpContext.User.IsInRole("Agent"))
+{
+    <script>
+     $(document).ready(function () {
+            $('#datatable').DataTable(
+            {
+            "columnDefs": [
+                    { "searchable": false, "targets": [12] }
+                ],
+                dom: '<"mb-2"B>lfrtip',
+                buttons : [
+                    {
+      	                extend: 'excelHtml5',
+                        text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        },
+                        className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                    }
+                ],
+                "oLanguage": {
+                    "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                    "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                    "oPaginate": {
+                        "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                        "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                    },
+                    "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                    "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                    "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                    "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+                },
+                "drawCallback": function( settings ) {
+                    if (localStorage.getItem('language') == "arabic")
+                    {
+                        var english = $('english');
+                        var arabic = $('arabic');
+                        $(english).each(function () {
+                            $(this).addClass("d-none")
+                        });
+                        $(arabic).each(function () {
+                            $(this).removeClass("d-none")
+                        });
+                    }
+                },
+            });
+        } );
+
+ </script>
+}
 
                  
 @section Scripts {

@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
                     <english> Details</english>
                     <arabic class="d-none">  التفاصيل  </arabic>
                 </a>
@@ -54,7 +54,7 @@
         "columnDefs": [
                 { "searchable": false, "targets": [2] }
             ],
-            dom: 'Blfrtip',
+            dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
       	            extend: 'excelHtml5',

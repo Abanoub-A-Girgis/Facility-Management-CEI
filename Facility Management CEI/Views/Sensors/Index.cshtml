@@ -51,7 +51,7 @@
             <td class="text-center">@Html.DisplayFor(modelItem => item.Name)</td>
             <td class="text-center">@Html.DisplayFor(modelItem => item.SensorType) </td>
             <td class="text-center">
-                <a asp-action="Details" class="btn btn-outline-primary"  asp-route-id="@item.Id"> 
+                <a asp-action="Details" class="btn btn-primary"  asp-route-id="@item.Id"> 
                     <english>Details</english>
                     <arabic class="d-none">   التفاصيل  </arabic>
                 </a> 
@@ -70,7 +70,7 @@
         "columnDefs": [
                 { "searchable": false, "targets": [3] }
             ],
-            dom: 'Blfrtip',
+            dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
       	            extend: 'excelHtml5',

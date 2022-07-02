@@ -18,11 +18,11 @@
         <tr>
             <th>
                 <english>  @Html.DisplayNameFor(model => model.Id)</english>
-                <arabic class="d-none">كود الطابق  </arabic>
+                <arabic class="d-none">كود الطابق</arabic>
             </th>
             <th>
                 <english>  @Html.DisplayNameFor(model => model.FloorName)</english>
-                <arabic class="d-none">اسم الطابق  </arabic>
+                <arabic class="d-none">اسم الطابق</arabic>
             </th>
             <th></th>
         </tr>
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.FloorName)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
                     <english>Details</english>
                     <arabic class="d-none">التفاصيل </arabic> 
                 </a>
@@ -54,7 +54,7 @@
         "columnDefs": [
                 { "searchable": false, "targets": [2]}
             ],
-            dom: 'Blfrtip',
+            dom: '<"mb-2"B>lfrtip',
             buttons : [
                 {
       	            extend: 'excelHtml5',
