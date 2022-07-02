@@ -28,7 +28,7 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
         // GET: IncidentController
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         public async Task<ActionResult> Index()//index is considered to be the home page of our controller
         {
@@ -47,7 +47,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Details/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Agent,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Agent,Inspector")]
 
         public async Task<ActionResult> Details(int? IncidentId)
         {
@@ -76,14 +76,14 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Create
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         public ActionResult Create()
         {
             return View();
         }
    
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> EditOrAdd(int? IncidentId,int? SensorWarningId)//SensorWarningId waht is comming from the sesnor warning View
         {
             try
@@ -137,7 +137,7 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
@@ -225,7 +225,7 @@ namespace Facility_Management_CEI.Controllers
         }
         // GET: IncidentController/Edit/5
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public ActionResult Edit(int id)
         {
             try
@@ -243,7 +243,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         //ValidateAntiForgeryToken attribute: is to prevent cross-site request forgery attacks. A cross-site request forgery is an attack in which a harmful script element, malicious command, or code is sent from the browser of a trusted user.
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -257,7 +257,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Delete/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int? Incidentid)
         {
             try
@@ -281,7 +281,7 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int Incidentid)
         {
             try

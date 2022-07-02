@@ -5,7 +5,7 @@
 @using System.Configuration
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
-<h1 class="text-center text-uppercase font-weight-bold mb-5" style="font-size: 2.8rem;">Task Viewer Dashboard</h1>
+<h1 class="text-center text-uppercase font-weight-bold mb-5" style="font-size: 2.8rem;">Work Order Viewer Dashboard</h1>
 
 <head>
     <title>View as Agent</title>
@@ -71,7 +71,7 @@
                                 <th>User ID</th>
                                 <th>Name</th>
                                 <th>User Details</th>
-                                <th>Load Tasks</th>
+                                <th>Load Work Orders</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +88,7 @@
                     </table>
                 </div>
             </div>
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Tasks</h3>
+            <h3 class="text-center font-weight-bold" id="BottomTableHeading">All Work Orders</h3>
             @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml", Model)
         </div>
     <div class="col-7">

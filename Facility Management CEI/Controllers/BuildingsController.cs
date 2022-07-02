@@ -21,13 +21,13 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Buildings
-        [Authorize(Roles = "SystemAdmin,Owner")]
+        [Authorize(Roles = "AccountManager,Owner")]
         public IActionResult BuildingComponents()
         {
             return View();
         }
         // GET: Buildings
-        [Authorize(Roles = "SystemAdmin,Owner")]
+        [Authorize(Roles = "AccountManager,Owner")]
         public async Task<IActionResult> Index()
         {
             try
@@ -43,7 +43,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: Buildings/Details/5
-        [Authorize(Roles = "SystemAdmin,Owner")]
+        [Authorize(Roles = "AccountManager,Owner")]
         public async Task<IActionResult> Details(int? id)
         {
             try

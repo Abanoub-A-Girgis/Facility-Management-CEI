@@ -19,12 +19,12 @@
   
         <div class="card text-center">
             <div class="card-header">
-            <h3><english>List Of Tasks</english><arabic class="d-none">قائمة المهام</arabic></h3>
+            <h3><english>List Of Work Orders</english><arabic class="d-none">قائمة المهام</arabic></h3>
             </div>
         </div>
        
 <div class="mt-4">
-@*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+@*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
   {
 
       <div class="form-group"> 
@@ -108,7 +108,7 @@
             
             </th>
 
-        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
         {
         <th class="text-center" scope="col"><english>Assign</english>
             <arabic class="d-none">التعين</arabic></th>
@@ -123,7 +123,7 @@
             <english>Details</english>
             <arabic class="d-none">التفاصيل</arabic>
         </th>
-        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+        @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
         {
         <th class="text-center" scope="col">
             <english>Delete</english>
@@ -164,7 +164,7 @@
                     <td class="text-center" scope="col">@task.Cost        </td>
                     <td class="text-center" scope="col">@task.Comment     </td>
 
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                 {
                     <th class="text-center" scope="col">
                         <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-outline-primary" >
@@ -179,7 +179,7 @@
                     </th>   
                 }
        
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector","Agent"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector","Agent"))
                 {
                     <th class="text-center" scope="col">
                         <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-outline-info" >
@@ -189,7 +189,7 @@
                     </th > 
                 }
        
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                 {
                     <th class="text-center" scope="col">
                         <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-outline-danger" >

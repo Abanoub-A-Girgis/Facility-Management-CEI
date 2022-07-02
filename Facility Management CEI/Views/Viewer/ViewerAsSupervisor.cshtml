@@ -8,7 +8,7 @@
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english>Task Viewer Dashboard</english>
+    <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
@@ -22,7 +22,7 @@
 
 </head>
 <body>
-    @if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
+    @if(ViewContext.HttpContext.User.IsInRole("AccountManager"))
     {
         <label for="UserId"><english>Please Select a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
@@ -87,7 +87,7 @@
                                         </button>
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                     </td>
@@ -113,7 +113,7 @@
                                     <arabic class="d-none">تفاصيل المستخدم</arabic>
                                 </th>
                                 <th>
-                                    <english>  Load Tasks</english>
+                                    <english>  Load  Work Orders</english>
                                     <arabic class="d-none">تحميل المهام</arabic>
                                 </th>
                             </tr>
@@ -130,7 +130,7 @@
                                         </button>
                                     </td>
                                     <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show  Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                     </td>
@@ -141,7 +141,7 @@
                 </div>
             </div>
             <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
-                   <english> All Tasks</english>
+                   <english> All Work Orders</english>
                    <arabic class="d-none">إظهار كل المهام</arabic>
             </h3>
             @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")

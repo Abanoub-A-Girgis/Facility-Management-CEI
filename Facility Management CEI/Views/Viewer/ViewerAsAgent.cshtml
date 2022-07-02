@@ -8,7 +8,7 @@
 @model Facility_Management_CEI.Controllers.ViewerParameter
 
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english>Task Viewer Dashboard</english>
+    <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
@@ -22,7 +22,7 @@
     
 </head>
 <body>
-    @if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
+    @if(ViewContext.HttpContext.User.IsInRole("AccountManager"))
     {
         <label for="UserId"><english>Please Select a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-5">
             <h3 class="text-center font-weight-bold" id="BottomTableHeading">
-                    <english>All Tasks</english>
+                    <english>All Work Orders</english>
                     <arabic class="d-none">كل المهام</arabic>
             </h3>
             <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
@@ -43,7 +43,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <english>Task ID</english>
+                                <english>Work Order ID</english>
                                 <arabic class="d-none">كود المهمة</arabic>
                             </th>
                             <th>

@@ -75,7 +75,7 @@ namespace Facility_Management_CEI
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
 
-            string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "SystemAdmin", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
+            string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "AccountManager", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
 
             IdentityResult roleResult;
 
@@ -110,7 +110,7 @@ namespace Facility_Management_CEI
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
+                    var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "AccountManager");
 
                 }
             }

@@ -13,6 +13,9 @@
 <div>
    @* <h4>AppUser</h4>*@
     <hr />
+    <div class="float-right">
+        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
     <dl class="row">
         <dt class = "col-sm-2">
             <english>ID</english>
@@ -69,7 +72,7 @@
 </div>
 
 <div>
-    @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+    @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
     {
         
         <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">

@@ -38,7 +38,7 @@ namespace Facility_Management_CEI.Controllers
             _context = context;
         }
         
-        [Authorize(Roles = "SystemAdmin, Owner")]
+        [Authorize(Roles = "AccountManager, Owner")]
         public ActionResult Index()
         {
             return View();

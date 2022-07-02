@@ -11,9 +11,9 @@
 
 @*<h4>AppUser</h4>*@
 <hr />
-<div class="container p-3 my-3 border">
+@*<div class="container p-3 my-3 border">*@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <english>
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -32,7 +32,7 @@
                 <label asp-for="Type" class="control-label"></label><!-- creating our drop down list for statuts enum-->
                 <select @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
-                    new SelectListItem { Text="SystemAdmin",Value="0"},
+                    new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
                     new SelectListItem { Text="Manager",Value="2"} ,
                     new SelectListItem { Text="Supervisor",Value="3"} ,
@@ -79,7 +79,7 @@
                 <label @*asp-for="Type"*@ class="control-label">نوع المستخدم</label><!-- creating our drop down list for statuts enum-->
                 <select @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
-                    new SelectListItem { Text="SystemAdmin",Value="0"},
+                    new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
                     new SelectListItem { Text="Manager",Value="2"} ,
                     new SelectListItem { Text="Supervisor",Value="3"} ,
@@ -110,8 +110,11 @@
         </arabic>
         
     </div>
+    <div class="float-right">
+        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
-</div>
+@*</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
