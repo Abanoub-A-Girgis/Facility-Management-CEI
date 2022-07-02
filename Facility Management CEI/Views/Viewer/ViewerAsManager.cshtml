@@ -33,171 +33,179 @@
             </div>
         </div>
     }
-    <div class="row">
-        <div class="col-5">
-            <h3 class="text-center font-weight-bold">                
-                <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
-            </h3>
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#SupervisorsDiv" data-toggle="tab">
-                        <english>Supervisors</english>
-                        <arabic class="d-none">المشرفون</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
-                        <english>Inspectors</english>
-                        <arabic class="d-none">المفتشون</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
-                        <english>Agents</english>
-                        <arabic class="d-none">العمال</arabic>
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="SupervisorsDiv">
-                    <table id="SupervisorsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>  Load Work Orders</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Supervisor in ViewBag.Supervisors)
-                            {
-                                <tr>
-                                    <th>@Supervisor.Id</th>
-                                    <td>@Supervisor.FirstName @Supervisor.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Supervisor.Id"> 
-                                        <english> User Details</english>
-                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)">
-                                        <english>Show Work Orders</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="InspectorsDiv">
-                    <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>  Load Work Orders</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Inspector in ViewBag.Inspectors)
-                            {
-                                <tr>
-                                    <th>@Inspector.Id</th>
-                                    <td>@Inspector.FirstName @Inspector.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id">
-                                        <english>User Details</english>
-                                        <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                    </button></td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
-                                        <english>Show Work Orders</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
-                    <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                               <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>  Load Work Orders</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Agent in ViewBag.Agents)
-                            {
-                                <tr>
-                                    <th>@Agent.Id</th>
-                                    <td>@Agent.FirstName @Agent.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id">
-                                            <english>User Details</english>
+    <div class="position-relative">
+        @await Html.PartialAsync("~/Views/Viewer/ViewerCanvasPartial.cshtml", Model)
+        <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
+                                                height: 650px;
+                                                top: 0px;
+                                                left: 8px;
+                                                z-index:6;" id="ToggleLeftSliderContainer">
+                <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
+                <div id="ToggleLeftSlider" class="col-auto">
+                    <h3 class="text-center font-weight-bold">                
+                        <english>Subordinates</english>
+                        <arabic class="d-none">الموظفون تحت الإشراف</arabic>
+                    </h3>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#SupervisorsDiv" data-toggle="tab">
+                                <english>Supervisors</english>
+                                <arabic class="d-none">المشرفون</arabic>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#InspectorsDiv" data-toggle="tab">
+                                <english>Inspectors</english>
+                                <arabic class="d-none">المفتشون</arabic>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
+                                <english>Agents</english>
+                                <arabic class="d-none">العمال</arabic>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="SupervisorsDiv">
+                            <table id="SupervisorsTable" class="w-100 table table-striped table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <english>User ID</english>
+                                            <arabic class="d-none">كود المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> Name</english>
+                                            <arabic class="d-none">الاسم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> User Details</english>
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                        </button>
-                                    </td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">
-                                        <english>Show Work Orders</english>
-                                        <arabic class="d-none">إظهار المهام</arabic>
-                                    </button></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                        </th>
+                                        <th>
+                                            <english>  Load Work Orders</english>
+                                            <arabic class="d-none">تحميل المهام</arabic>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Supervisor in ViewBag.Supervisors)
+                                    {
+                                        <tr>
+                                            <th>@Supervisor.Id</th>
+                                            <td>@Supervisor.FirstName @Supervisor.LastName</td>
+                                            <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Supervisor.Id"> 
+                                                <english> User Details</english>
+                                                <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                            </button></td>
+                                            <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)">
+                                                <english>Show Work Orders</english>
+                                                <arabic class="d-none">إظهار المهام</arabic>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="InspectorsDiv">
+                            <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <english>User ID</english>
+                                            <arabic class="d-none">كود المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> Name</english>
+                                            <arabic class="d-none">الاسم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english>  Load Work Orders</english>
+                                            <arabic class="d-none">تحميل المهام</arabic>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Inspector in ViewBag.Inspectors)
+                                    {
+                                        <tr>
+                                            <th>@Inspector.Id</th>
+                                            <td>@Inspector.FirstName @Inspector.LastName</td>
+                                            <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id">
+                                                <english>User Details</english>
+                                                <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                            </button></td>
+                                            <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
+                                                <english>Show Work Orders</english>
+                                                <arabic class="d-none">إظهار المهام</arabic>
+                                            </button></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
+                            <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                       <th>
+                                            <english>User ID</english>
+                                            <arabic class="d-none">كود المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> Name</english>
+                                            <arabic class="d-none">الاسم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english>  Load Work Orders</english>
+                                            <arabic class="d-none">تحميل المهام</arabic>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Agent in ViewBag.Agents)
+                                    {
+                                        <tr>
+                                            <th>@Agent.Id</th>
+                                            <td>@Agent.FirstName @Agent.LastName</td>
+                                            <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id">
+                                                    <english>User Details</english>
+                                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                                </button>
+                                            </td>
+                                            <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)">
+                                                <english>Show Work Orders</english>
+                                                <arabic class="d-none">إظهار المهام</arabic>
+                                            </button></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h3 class="text-center font-weight-bold" id="BottomTableHeading">
+                                  <english>All Work Orders</english>
+                                  <arabic class="d-none">كل المهام</arabic>
+                    </h3>
+                    @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
                 </div>
-            </div>
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading">
-                          <english>All Work Orders</english>
-                          <arabic class="d-none">كل المهام</arabic>
-            </h3>
-            @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
-        </div>
-        <div class="col-7">
-        
-            @await Html.PartialAsync("~/Views/Viewer/ViewerCanvasPartial.cshtml", Model)
-
+                <div class="col-sm-1 SliderDiv" id="ToggleLeftSliderDivArrow" style="max-width: 1px">
+                    <i class="fas fa-angle-double-down vertical-text h-100 d-flex justify-content-center align-items-center" id="ToggleLeftSliderArrow"></i>
+                </div>
         </div>
     </div>
+    
+    
 
 
     <script>
@@ -321,10 +329,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
             }
         }
 
@@ -362,10 +370,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
             }
         }
 

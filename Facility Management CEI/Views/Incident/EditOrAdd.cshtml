@@ -11,12 +11,7 @@
     
 }
 <head>
-    <script src="/Scripts/XBIM/xbim-viewer.debug.bundle.js"></script>
-    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-shaders.debug.js"></script>
-    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube.debug.js"></script>
-    <script src="/Scripts/XBIM/NavigationCube/xbim-navigation-cube-textures.debug.js"></script>
-    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home-textures.debug.js"></script>
-    <script src="/Scripts/XBIM/NavigationHome/xbim-navigation-home.debug.js"></script>
+    @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
     <style>
         .form-control:disabled {
             opacity: 0.7;
@@ -28,8 +23,13 @@
 
     <h1> <english>@ViewBag.PageName</english><arabic class="d-none">الحادثة</arabic></h1> @*need to be translated*@ 
 
-    <div class="row">
-        <div class="col-5">
+<div class="position-relative">
+    <div class="shadow-lg py-3 mb-5 bg-white rounded row my-auto" style="position: absolute;
+                                            height: 650px;
+                                            left: 8px;
+                                            z-index:6;" id="ToggleLeftSliderContainer">
+        <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Details</english><arabic class="d-none">المعلومات</arabic></div></div>
+        <div id="ToggleLeftSlider" class="col-auto my-auto">
             <hr/>
             <english>
                 <form asp-action="EditOrAdd">
@@ -209,146 +209,150 @@
             </arabic>
             
         </div>
-        <div class="col-7">
+        <div class="col-sm-1 SliderDiv" id="ToggleLeftSliderDivArrow" style="max-width: 1px">
+            <i class="fas fa-angle-double-down vertical-text h-100 d-flex justify-content-center align-items-center" id="ToggleLeftSliderArrow"></i>
+        </div>
+    </div>
 
-            <canvas id="viewer" height="650" style="width: 100%;
-                                   object-fit: contain;"></canvas>
-                @*<div class="custom-control custom-switch mb-1">
-                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
-                    <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
-                </div>
-                <div class="custom-control custom-switch mb-1">
-                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
-                    <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
-                </div>
-                <div class="custom-control custom-switch mb-1">
-                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
-                    <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
-                </div>
-                <div class="custom-control custom-switch mb-1">
-                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
-                    <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
-                </div>*@
-            <div style="position: absolute;
-                        top: 8px;
-                        right: 16px;
-                        z-index:5" id="overlayDiv"></div>
+        <canvas id="viewer" height="650" style="width: 100%;
+                                object-fit: contain;"></canvas>
+            @*<div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch2" onchange="ToggleHighLightSevere()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch2">Severe</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch3" onchange="ToggleHighLightHigh()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch3">High</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch4" onchange="ToggleHighLightMedium()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch4">Medium</label>
+            </div>
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch5" onchange="ToggleHighLightLow()" checked>
+                <label class="custom-control-label custom-control-label-light" for="Switch5">Low</label>
+            </div>*@
+
+        @await Html.PartialAsync("~/Views/Viewer/ViewerToggleFloorsPartial.cshtml")
+
+        <div style="position: absolute;
+                    top: 8px;
+                    right: 16px;
+                    z-index:5" id="overlayDiv"></div>
+        <script type="text/javascript">
+            var viewer = new xViewer('viewer');
+            //viewer.load('/data/SampleHouse.wexbim');
+            //viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
+            var navCube = new xNavigationCube();
+            navCube.ratio = .1;
+            viewer.addPlugin(navCube);
+            viewer.start();
+            viewer.defineStyle(0, [255,0,0,255])
+            viewer.defineStyle(1, [255,160,16,255])
+            viewer.defineStyle(2, [255,224,32,255])
+            viewer.defineStyle(3, [0,255,0,255])
+        </script>
+
+        <script>
+                viewer.on('fps', function (fps) {
+                    var overlayDiv = document.getElementById('overlayDiv');
+                    if (overlayDiv) {
+                        overlayDiv.innerHTML = "FPS: " + fps;
+                    }
+                });
+        </script>
+
+        <div>
+            <div class="text-center font-weight-bold m-2" id="productId"></div>
+        </div>
+
+        <div class="text-center">
+@*            <select id="cmbHide">
+                <option value="noAction">No action</option>
+                <option value="hideProduct">Hide product</option>
+                <option value="hideType">Hide type</option>
+                <option value="highlight">Highlight</option>
+            </select>*@
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
+            <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
             <script type="text/javascript">
-                var viewer = new xViewer('viewer');
-                //viewer.load('/data/SampleHouse.wexbim');
-                viewer.load('@System.Configuration.ConfigurationManager.AppSettings["wexBIMFullPath"]');
-                var navCube = new xNavigationCube();
-                navCube.ratio = .1;
-                viewer.addPlugin(navCube);
-                viewer.start();
-                viewer.defineStyle(0, [255,0,0,255])
-                viewer.defineStyle(1, [255,160,16,255])
-                viewer.defineStyle(2, [255,224,32,255])
-                viewer.defineStyle(3, [0,255,0,255])
+
+                var timer = 0;
+                var highlightedId;
+                var option;
+                
+                function HideProduct() {
+                    option = "hideProduct";
+                }
+                
+                function HideType() {
+                    option = "hideType";
+                }
+
+                function Highlight() {
+                    option = "highlight";
+                }
+
+                function ResetAll() {
+                    if (viewer) {
+                        viewer.resetStates();
+                    }
+                    var div = document.getElementById('productId');
+                    if (div) {
+                        div.innerHTML = "";
+                    }
+                }
+                
+                viewer.on('pick', function (args) {
+                    var id = args.id;
+                    viewer.setCameraTarget(id);
+                    pickedId = id;
+                    document.getElementById('hiddenId').value = id;
+
+                    //var cmb = document.getElementById('cmbHide');
+                    //var option = cmb.value;
+                    switch (option) {
+                        case 'hideProduct':
+                            viewer.setState(xState.HIDDEN, [args.id]);
+                            if (args.id == highlightedId)
+                            {
+                                highlightedId = null;
+                            }
+                            break;
+                        case 'hideType':
+                            var type = viewer.getProductType(args.id);
+                            viewer.setState(xState.HIDDEN, type);
+                            if (type == viewer.getProductType(highlightedId))
+                            {
+                                highlightedId = null;
+                            }
+                            break;
+                        case 'highlight':
+                            //viewer.ResetAll();
+                            viewer.setState(xState.UNDEFINED, [highlightedId]);
+                            viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                            var div = document.getElementById('productId');
+                            if (div) {
+                                div.innerHTML = "Selected Asset Id = " + id;
+                            }
+                            $('#AssetIdEn').val(id);
+                            $('#AssetIdAr').val(id);
+                            highlightedId = id;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    var time = (new Date()).getTime();
+                    if (time - timer < 200)
+                        viewer.zoomTo(id);
+                    timer = time;
+
+                });
             </script>
-
-            <script>
-                    viewer.on('fps', function (fps) {
-                        var overlayDiv = document.getElementById('overlayDiv');
-                        if (overlayDiv) {
-                            overlayDiv.innerHTML = "FPS: " + fps;
-                        }
-                    });
-            </script>
-
-            <div>
-                <div class="text-center font-weight-bold m-2" id="productId"></div>
-            </div>
-
-            <div class="text-center">
-    @*            <select id="cmbHide">
-                    <option value="noAction">No action</option>
-                    <option value="hideProduct">Hide product</option>
-                    <option value="hideType">Hide type</option>
-                    <option value="highlight">Highlight</option>
-                </select>*@
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()">Hide Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="HideType()">Hide Type</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()">Select Product</button>
-                <button class="btn btn-primary waves-effect waves-light" onclick="ResetAll()">Reset all</button>
-                <script type="text/javascript">
-
-                    var timer = 0;
-                    var highlightedId;
-                    var option;
-                
-                    function HideProduct() {
-                        option = "hideProduct";
-                    }
-                
-                    function HideType() {
-                        option = "hideType";
-                    }
-
-                    function Highlight() {
-                        option = "highlight";
-                    }
-
-                    function ResetAll() {
-                        if (viewer) {
-                            viewer.resetStates();
-                        }
-                        var div = document.getElementById('productId');
-                        if (div) {
-                            div.innerHTML = "";
-                        }
-                    }
-                
-                    viewer.on('pick', function (args) {
-                        var id = args.id;
-                        viewer.setCameraTarget(id);
-                        pickedId = id;
-                        document.getElementById('hiddenId').value = id;
-
-                        //var cmb = document.getElementById('cmbHide');
-                        //var option = cmb.value;
-                        switch (option) {
-                            case 'hideProduct':
-                                viewer.setState(xState.HIDDEN, [args.id]);
-                                if (args.id == highlightedId)
-                                {
-                                    highlightedId = null;
-                                }
-                                break;
-                            case 'hideType':
-                                var type = viewer.getProductType(args.id);
-                                viewer.setState(xState.HIDDEN, type);
-                                if (type == viewer.getProductType(highlightedId))
-                                {
-                                    highlightedId = null;
-                                }
-                                break;
-                            case 'highlight':
-                                //viewer.ResetAll();
-                                viewer.setState(xState.UNDEFINED, [highlightedId]);
-                                viewer.setState(xState.HIGHLIGHTED, [args.id]);
-                                var div = document.getElementById('productId');
-                                if (div) {
-                                    div.innerHTML = "Selected Asset Id = " + id;
-                                }
-                                $('#AssetIdEn').val(id);
-                                $('#AssetIdAr').val(id);
-                                highlightedId = id;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        var time = (new Date()).getTime();
-                        if (time - timer < 200)
-                            viewer.zoomTo(id);
-                        timer = time;
-
-                    });
-                </script>
-                <input name="hiddenId" type="hidden" id="hiddenId" />
-            </div>
-
+            <input name="hiddenId" type="hidden" id="hiddenId" />
         </div>
     </div>
      <script>

@@ -104,8 +104,9 @@ namespace Facility_Management_CEI.Controllers
                 ViewBag.UserId = appuser.Id;
                 if (IncidentId == null)
                 {
-                    string FilePath = appuser.Building.Path;
-                    ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                    //string FilePath = appuser.Building.Path;
+                    //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                    ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                     return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
                 }
                 else
@@ -113,8 +114,9 @@ namespace Facility_Management_CEI.Controllers
                     var Incident = await _Context.Incidents.FindAsync(IncidentId);//search for the student by the given id 
                     if (Incident == null)
                     {
-                        string FilePath = appuser.Building.Path;
-                        ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                        //string FilePath = appuser.Building.Path;
+                        //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                        ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                         return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
                     }
                     else

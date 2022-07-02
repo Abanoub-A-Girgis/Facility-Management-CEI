@@ -9,7 +9,7 @@
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english>Task Viewer Dashboard</english>
+    <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
@@ -18,18 +18,6 @@
         <english>Building Viewer as Owner</english>
         <arabic class="d-none">عرض المبنى كمالك</arabic>
     </title>
-    <style>
-        .vertical-text {
-	        -webkit-transform: rotate(90deg); 
-            -moz-transform: rotate(90deg); 
-            -ms-transform: rotate(90deg); 
-            -o-transform: rotate(90deg); 
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
-            transform: rotate(90deg);
-            display:block; 
-            transform-origin: 0% 50%;
-        }
-    </style>
 
 @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 
@@ -51,11 +39,12 @@
         <canvas id="viewer" height="650" style="width: 100%;
                                     object-fit: contain;"></canvas>
         
-        <div class="shadow-lg py-3 mb-5 bg-light h-100 rounded row" style="position: absolute;
+        <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
+                                            height: 650px;
                                             top: 0px;
                                             left: 8px;
                                             z-index:6;" id="ToggleLeftSliderContainer">
-            <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text">Tables</div></div>
+            <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
             <div id="ToggleLeftSlider" class="col-auto">
                 <h3 class="text-center font-weight-bold">
                     <english>Subordinates</english>
@@ -105,7 +94,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -122,7 +111,7 @@
                                         </button>
                                         </td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">          
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                         </td>
@@ -148,7 +137,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -164,7 +153,7 @@
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -189,7 +178,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -205,7 +194,7 @@
                                                 <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -222,15 +211,15 @@
                                         <arabic class="d-none">كود المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english> Name</english>
+                                        <english>Name</english>
                                         <arabic class="d-none">الاسم</arabic>
                                     </th>
                                     <th>
-                                        <english> User Details</english>
+                                        <english>User Details</english>
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>  Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -246,7 +235,7 @@
                                                 <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -256,7 +245,7 @@
                     </div>
                 </div>
                 <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
-                    <english>All Tasks</english>
+                    <english>All Work Orders</english>
                     <arabic class="d-none">كل المهام</arabic>
                 </h3>
                 <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="tab-table2">
@@ -268,7 +257,7 @@
                                     <arabic class="d-none">كود العامل</arabic>
                                 </th>
                                 <th>
-                                    <english>Task ID</english>
+                                    <english>Work Order ID</english>
                                     <arabic class="d-none">كود المهمة</arabic>
                                 </th>
                                 <th>
@@ -280,7 +269,7 @@
                                     <arabic class="d-none">اسم العنصر</arabic>
                                 </th>
                                 <th>
-                                        <english>Zoom To</english>
+                                    <english>Zoom To</english>
                                     <arabic class="d-none">تكبير/تصغير</arabic>
                                 </th>
                             </tr>
@@ -311,8 +300,8 @@
                     </table>
                 </div>
             </div>
-            <div class="vertical-text text-center col-sm-1 my-auto" style="max-width: 1px">
-                <i class="fas fa-angle-double-down" id="ToggleLeftSliderArrow"></i>
+            <div class="col-sm-1 SliderDiv" id="ToggleLeftSliderDivArrow" style="max-width: 1px">
+                <i class="fas fa-angle-double-down vertical-text h-100 d-flex justify-content-center align-items-center" id="ToggleLeftSliderArrow"></i>
             </div>
         </div>
 
@@ -366,8 +355,8 @@
                     </label>
                 </div>
             </div>
-            <div class="col-1 my-auto">
-                <i class="fas fa-angle-double-up vertical-text-left" id="ToggleHighlightDivArrow"></i>
+            <div class="text-center SliderDiv" id="ToggleHighlightArrowDiv">
+                <i class="fas fa-angle-double-up" id="ToggleHighlightDivArrow"></i>
             </div>
 
         </div>
@@ -510,6 +499,14 @@
                 function ResetAll() {
                     if (viewer) {
                         viewer.resetStates();
+                        document.getElementById('Switch6').checked = true;
+                        document.getElementById('Switch7').checked = true;
+                        document.getElementById('Switch8').checked = true;
+                        document.getElementById('Switch9').checked = true;
+                        document.getElementById('Switch10').checked = true;
+                        document.getElementById('Switch11').checked = true;
+                        document.getElementById('Switch12').checked = true;
+                        ShowingFloors = new Array(FloorNames.length).fill(true);
                     }
                     var div = document.getElementById('productId');
                     if (div) {
@@ -920,10 +917,10 @@
             listOfLow = listOfLow2;
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>All Tasks</english><arabic class='d-none'>كل المهام</arabic>"
+                ItemsTableHeading.innerHTML = "<english>All Work Orders</english><arabic class='d-none'>كل المهام</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>All Tasks</english><arabic>كل المهام</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>All Work Orders</english><arabic>كل المهام</arabic>"
             }
         }
         function ChangeData(Id) {
@@ -935,10 +932,10 @@
             listOfLow = AgentItems[Id][3];
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
             }
         }
         
@@ -973,10 +970,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
             }
         }
 
@@ -1015,10 +1012,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
             }
         }
         
@@ -1060,10 +1057,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Manager " + Id + "</english><arabic class='d-none'>مهام المدير رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Manager " + Id + "</english><arabic class='d-none'>مهام المدير رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Manager " + Id + "</english><arabic>مهام المدير رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Manager " + Id + "</english><arabic>مهام المدير رقم " + Id + "</arabic>"
             }
         }
     </script>

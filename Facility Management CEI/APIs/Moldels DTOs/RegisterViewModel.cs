@@ -14,7 +14,10 @@ namespace Facility_Management_CEI.Models
             Roles = new List<SelectListItem>();
             foreach (var Role in EnumMember)
             {
-                Roles.Add(new SelectListItem(Role, Role));
+                if (Role != "AccountManager")
+                {
+                    Roles.Add(new SelectListItem(Role, Role));
+                }
             }
         }
         //public int Id { get; set; } //the id is auto generated
