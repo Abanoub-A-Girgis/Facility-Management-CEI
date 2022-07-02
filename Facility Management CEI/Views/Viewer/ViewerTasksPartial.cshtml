@@ -176,10 +176,10 @@
         listOfLow = listOfLow2;
         var Language = localStorage.getItem('language')
         if (Language == "english") {
-            ItemsTableHeading.innerHTML = "<english>All Tasks</english><arabic class='d-none'>كل المهام</arabic>"
+            ItemsTableHeading.innerHTML = "<english>All Work Orders</english><arabic class='d-none'>كل المهام</arabic>"
         }
         else {
-            ItemsTableHeading.innerHTML = "<english class='d-none'>All Tasks</english><arabic>كل المهام</arabic>"
+            ItemsTableHeading.innerHTML = "<english class='d-none'>All Work Orders</english><arabic>كل المهام</arabic>"
         }
     }
     
@@ -190,13 +190,13 @@
         listOfHigh = AgentItems[Id][1];
         listOfMedium = AgentItems[Id][2];
         listOfLow = AgentItems[Id][3];
-        ItemsTableHeading.innerText = "Tasks for Agent " + Id
+        ItemsTableHeading.innerText = "Work Orders for Agent " + Id
         var Language = localStorage.getItem('language')
         if (Language == "english") {
-            ItemsTableHeading.innerHTML = "<english>Tasks for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+            ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
         }
         else {
-            ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+            ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
         }
     }
 

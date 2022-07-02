@@ -94,7 +94,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -111,7 +111,7 @@
                                         </button>
                                         </td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataManager(@Manager.Id)">          
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button>
                                         </td>
@@ -137,7 +137,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -153,7 +153,7 @@
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataSupervisor(@Supervisor.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -178,7 +178,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -194,7 +194,7 @@
                                                 <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -219,7 +219,7 @@
                                         <arabic class="d-none">تفاصيل المستخدم</arabic>
                                     </th>
                                     <th>
-                                        <english>Load Tasks</english>
+                                        <english>Load Work Orders</english>
                                         <arabic class="d-none">تحميل المهام</arabic>
                                     </th>
                                 </tr>
@@ -235,7 +235,7 @@
                                                 <arabic class="d-none">تفاصيل المستخدم</arabic>
                                         </button></td>
                                         <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
-                                            <english>Show Tasks</english>
+                                            <english>Show Work Orders</english>
                                             <arabic class="d-none">إظهار المهام</arabic>
                                         </button></td>
                                     </tr>
@@ -917,10 +917,10 @@
             listOfLow = listOfLow2;
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>All Tasks</english><arabic class='d-none'>كل المهام</arabic>"
+                ItemsTableHeading.innerHTML = "<english>All Work Orders</english><arabic class='d-none'>كل المهام</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>All Tasks</english><arabic>كل المهام</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>All Work Orders</english><arabic>كل المهام</arabic>"
             }
         }
         function ChangeData(Id) {
@@ -932,10 +932,10 @@
             listOfLow = AgentItems[Id][3];
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
             }
         }
         
@@ -970,10 +970,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
             }
         }
 
@@ -1012,10 +1012,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
             }
         }
         
@@ -1057,10 +1057,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Tasks for Manager " + Id + "</english><arabic class='d-none'>مهام المدير رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Manager " + Id + "</english><arabic class='d-none'>مهام المدير رقم " + Id + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Tasks for Manager " + Id + "</english><arabic>مهام المدير رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Manager " + Id + "</english><arabic>مهام المدير رقم " + Id + "</arabic>"
             }
         }
     </script>
