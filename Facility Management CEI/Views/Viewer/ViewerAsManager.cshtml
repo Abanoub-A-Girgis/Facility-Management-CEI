@@ -204,9 +204,6 @@
                 </div>
         </div>
     </div>
-    
-    
-
 
     <script>
         
@@ -304,6 +301,13 @@
                 @inspector.Key@::@Html.Raw(Json.Serialize(inspector.Value)),
             }
         }
+
+        var InspectorsDic = {
+            @foreach(var Inspector in ViewBag.Inspectors)
+            {
+                @Inspector.Id@::@Html.Raw(Json.Serialize(Inspector.FirstName + " " + Inspector.LastName)),
+            }
+        }
         
         function ChangeDataInspector(Id) {
             var agents = InspectorAgentsDic[Id]
@@ -329,10 +333,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + Id + "</english><arabic class='d-none'>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic class='d-none'>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + Id + "</english><arabic>مهام المفتش رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
             }
         }
 
@@ -340,6 +344,13 @@
             @foreach(var supervisor in ViewBag.SupervisorInspectorsDic)
             {
                 @supervisor.Key@::@Html.Raw(Json.Serialize(supervisor.Value)),
+            }
+        }
+
+        var SupervisorsDic = {
+            @foreach(var Supervisor in ViewBag.Inspectors)
+            {
+                @Supervisor.Id@::@Html.Raw(Json.Serialize(Supervisor.FirstName + " " + Supervisor.LastName)),
             }
         }
 
@@ -370,10 +381,10 @@
             itemsTable.column(0).search(Regex, true, false).draw();
             var Language = localStorage.getItem('language')
             if (Language == "english") {
-                ItemsTableHeading.innerHTML = "<english>Work Orders for Supervisor " + Id + "</english><arabic class='d-none'>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Supervisor " + SupervisorsDic[Id] + "</english><arabic class='d-none'>مهام المشرف " + SupervisorsDic[Id] + "</arabic>"
             }
             else {
-                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Supervisor " + Id + "</english><arabic>مهام المشرف رقم " + Id + "</arabic>"
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Supervisor " + SupervisorsDic[Id] + "</english><arabic>مهام المشرف " + SupervisorsDic[Id] + "</arabic>"
             }
         }
 

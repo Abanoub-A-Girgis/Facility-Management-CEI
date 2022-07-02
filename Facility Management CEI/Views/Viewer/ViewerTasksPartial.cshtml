@@ -183,6 +183,13 @@
         }
     }
     
+    var AgentsDic = {
+        @foreach(var Agent in ViewBag.Agents)
+        {
+            @Agent.Id@::@Html.Raw(Json.Serialize(Agent.FirstName + " " + Agent.LastName)),
+        }
+    }
+
     function ChangeData(Id) {
         var itemsTable = $("#ItemsTable").DataTable()
         itemsTable.column(0).search(Id).draw();
@@ -190,13 +197,12 @@
         listOfHigh = AgentItems[Id][1];
         listOfMedium = AgentItems[Id][2];
         listOfLow = AgentItems[Id][3];
-        ItemsTableHeading.innerText = "Work Orders for Agent " + Id
         var Language = localStorage.getItem('language')
         if (Language == "english") {
-            ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + Id + "</english><arabic class='d-none'>مهام العامل رقم " + Id + "</arabic>"
+            ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + AgentsDic[Id] + "</english><arabic class='d-none'>مهام العامل " + AgentsDic[Id] + "</arabic>"
         }
         else {
-            ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Agent " + Id + "</english><arabic>مهام العامل رقم " + Id + "</arabic>"
+            ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Agent " + AgentsDic[Id] + "</english><arabic>مهام العامل " + AgentsDic[Id] + "</arabic>"
         }
     }
 
