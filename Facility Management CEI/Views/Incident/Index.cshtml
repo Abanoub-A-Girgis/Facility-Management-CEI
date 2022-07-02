@@ -7,6 +7,7 @@
     ViewData["Title"] = "Incident";
     Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
     var UsersList =(List<API.Models.AppUser>) ViewBag.Users;
+   
 }
 <head>
     @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
@@ -137,7 +138,33 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Priority       )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.ReportingTime  )</td>
                                     <td class="text-center" scope="col">@UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName
-
+                 
+                                            @if(item.AppUser.Type==UserType.AccountManager)
+                                            {
+                                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type==UserType.Owner)
+                                            {
+                                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Manager)
+                                            {
+                                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Supervisor)
+                                            {
+                                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Inspector)
+                                            {
+                                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Agent)
+                                            {
+                                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                                            }
+                            
+  
                                     </td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AssetId        )</td>
