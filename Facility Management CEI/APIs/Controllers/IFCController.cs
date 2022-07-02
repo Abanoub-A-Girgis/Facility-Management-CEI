@@ -153,7 +153,7 @@ namespace API.Controllers
                         SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
                         /////////////////code for the dummy floor and space
                         FloorId = Door.IsContainedIn.EntityLabel,
-                        Materials = string.Join(",", (((IfcMaterialList)((IfcDoor)Door).Material).Materials.ToList().ToString()))
+                        Materials = string.Join(",", (((IfcMaterialList)((IfcDoor)Door).Material).Materials.Select(M => M.Name).ToList()))
                     });
                 }
                 //Windows Loop

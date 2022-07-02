@@ -34,12 +34,12 @@
     }
     <div class="position-relative">
         <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
-                                                height: 650px;
+                                                height: 700px;
                                                 top: 0px;
                                                 left: 8px;
                                                 z-index:6;" id="ToggleLeftSliderContainer">
                 <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
-                <div id="ToggleLeftSlider" class="col-auto">
+                <div id="ToggleLeftSlider" class="col-auto overflow-auto" style="height: 650px">
                     <h3 class="text-center font-weight-bold" id="BottomTableHeading">
                             <english>All Work Orders</english>
                             <arabic class="d-none">كل المهام</arabic>
@@ -57,11 +57,11 @@
                                         <arabic class="d-none">اسم العنصر</arabic>
                                     </th>
                                     <th>
-                                        <english> Details</english>
+                                        <english>Details</english>
                                         <arabic class="d-none">التفاصيل</arabic>
                                     </th>
                                     <th>
-                                        <english> Zoom To</english>
+                                        <english>Zoom To</english>
                                         <arabic class="d-none">تكبير/تصغير</arabic>
                                     </th>
                                 </tr>
@@ -87,7 +87,7 @@
                                             <arabic class="d-none">التفاصيل</arabic></a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.AssetId} else {@task.Incident.SpaceId})">
+                                            <button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.SpaceId} else {@task.Incident.AssetId})">
                                                 <english>Zoom To</english>
                                                 <arabic class="d-none">تكبير/تصغير</arabic> 
                                             </button>
@@ -105,7 +105,7 @@
             <button onclick="ChangeData2()">Change Data 2</button>*@
         </div>
 
-        <canvas id="viewer" height="650" style="width: 100%;
+        <canvas id="viewer" height="700" style="width: 100%;
                                     object-fit: contain;"></canvas>
         <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
                                                                 top: 8px;

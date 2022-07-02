@@ -18,7 +18,7 @@
 @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
 {
 <p>
-    <a  href=@Url.Action("Register", "Account") class="btn btn-primary" @*asp-action="Create"*@>
+    <a href=@Url.Action("Register", "Account") class="btn btn-primary" @*asp-action="Create"*@>
         <english> Create New</english>
         <arabic class="d-none">إنشاء مستخدم</arabic>
     </a>
@@ -34,28 +34,28 @@
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.FirstName)</english>
-                <arabic class="d-none"> الأسم الأول</arabic>
+                <arabic class="d-none">الأسم الأول</arabic>
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.LastName)</english>
-                <arabic class="d-none"> الأسم الأخير</arabic>
+                <arabic class="d-none">الأسم الأخير</arabic>
             </th>
             <th class="text-center" scope="col">
                  <english> @Html.DisplayNameFor(model => model.Type)</english>
-                 <arabic class="d-none"> نوع المستخدم </arabic>
+                 <arabic class="d-none">نوع المستخدم </arabic>
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.Building)</english>
-                <arabic class="d-none"> المنشأة</arabic>
+                <arabic class="d-none">المنشأة</arabic>
             </th>
             <th class="text-center" scope="col">
                 <english>  @Html.DisplayNameFor(model => model.SuperId)</english>
-                <arabic class="d-none"> كود المشرف</arabic>
+                <arabic class="d-none">كود المشرف</arabic>
                
             </th>
             <th class="text-center" scope="col">
                 <english>Supervisor Name</english>
-                <arabic class="d-none"> إسم المشرف</arabic>
+                <arabic class="d-none">إسم المشرف</arabic>
             </th >
             @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
@@ -152,7 +152,7 @@
             <td class="text-center" scope="col">
                 <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">
                    <english>Delete</english>
-                   <arabic class="d-none"> مسح </arabic>
+                   <arabic class="d-none">مسح</arabic>
                 </a>
             </td>
             }
@@ -165,7 +165,7 @@
         $('#datatable').DataTable(
         {
         "columnDefs": [
-                { "searchable": false, "targets": [7,8,9] }
+                { "searchable": false, "targets": [7] }
             ],
             dom: '<"mb-2"B>lfrtip',
             buttons : [
@@ -173,7 +173,7 @@
       	            extend: 'excelHtml5',
                     text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        columns: [0, 1, 2, 3, 4, 5, 6],
                         format: {
                             header: function(text, index, node) {
                                 return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');

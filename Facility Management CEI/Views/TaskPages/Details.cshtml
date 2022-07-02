@@ -150,7 +150,7 @@
             <option value="hideType">Hide type</option>
             <option value="highlight">Highlight</option>
         </select>*@
-        <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@Model.Incident.AssetId)"><english>Zoom to Item</english><arabic class="d-none">عرض العنصر</arabic></button>
+        <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@if(Model.Incident.Asset == null){@Model.Incident.SpaceId} else {@Model.Incident.AssetId})"><english>Zoom to Item</english><arabic class="d-none">عرض العنصر</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()"><english>Hide Product</english><arabic class="d-none">إخفاء العنصر</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="HideType()"><english>Hide Type</english><arabic class="d-none">إخفاء النوع</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()"><english>Select Product</english><arabic class="d-none">إختيار العنصر</arabic></button>
