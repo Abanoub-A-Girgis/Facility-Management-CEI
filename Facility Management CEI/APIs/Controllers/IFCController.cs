@@ -153,7 +153,7 @@ namespace API.Controllers
                         SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
                         /////////////////code for the dummy floor and space
                         FloorId = Door.IsContainedIn.EntityLabel,
-                        Materials = (((IfcMaterialList)((IfcDoor)Door).Material).Materials.ToList().ToString())
+                        Materials = string.Join(",", (((IfcMaterialList)((IfcDoor)Door).Material).Materials.ToList().ToString()))
                     });
                 }
                 //Windows Loop
@@ -219,7 +219,8 @@ namespace API.Controllers
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == column.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = column.IsContainedIn.EntityLabel
+                        FloorId = column.IsContainedIn.EntityLabel,
+                        Materials = "Reinforeced Concrete"
                     });
                 }
                 //getting the Slabs 
@@ -234,7 +235,8 @@ namespace API.Controllers
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == slab.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = slab.IsContainedIn.EntityLabel
+                        FloorId = slab.IsContainedIn.EntityLabel,
+                        Materials = "Reinforeced Concrete"
                     });
                 }
                 //getting the Walls 
@@ -249,7 +251,7 @@ namespace API.Controllers
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == wall.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = wall.IsContainedIn.EntityLabel
+                        FloorId = wall.IsContainedIn.EntityLabel,
                     });
                 }
                 //getting the Beams
@@ -264,7 +266,8 @@ namespace API.Controllers
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == beam.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = beam.IsContainedIn.EntityLabel
+                        FloorId = beam.IsContainedIn.EntityLabel,
+                        Materials = "Reinforeced Concrete"
                     });
                 }
 
