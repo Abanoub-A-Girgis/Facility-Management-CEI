@@ -1,6 +1,12 @@
 ﻿@using API.Models
 <head>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .SliderDiv:hover {
+            background-color: #D2D2D2;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 300px; position: absolute;
@@ -12,21 +18,23 @@
         <english>Toggle Floors</english>
         <arabic class="d-none">الطوابق</arabic>
     </div>
+    @if (ViewBag.WexBIMPaths.Count > 1)
+    {
     <div id="ToggleFloorDiv">
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch6" onchange="ToggleFloor(0)" checked autocomplete="off">
-            <label class="custom-control-label custom-control-label-light" for="Switch6">
-                @ViewBag.WexBIMPaths[0].FloorName
-            </label>
+        <input type="checkbox" class="custom-control-input" id="Switch6" onchange="ToggleFloor(0)" checked autocomplete="off">
+        <label class="custom-control-label custom-control-label-light" for="Switch6">
+            @ViewBag.WexBIMPaths[0].FloorName
+        </label>
         </div>
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch7" onchange="ToggleFloor(1)" checked autocomplete="off">
+            <input type="checkbox" class="custom-control-input" id="Switch7" onchange="ToggleFloor(1)" checked autocomplete="off">
             <label class="custom-control-label custom-control-label-light" for="Switch7">
                 @ViewBag.WexBIMPaths[1].FloorName
             </label>
         </div>
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch8" onchange="ToggleFloor(2)" checked autocomplete="off">
+            <input type="checkbox" class="custom-control-input" id="Switch8" onchange="ToggleFloor(2)" checked autocomplete="off">
             <label class="custom-control-label custom-control-label-light" for="Switch8">
                 @ViewBag.WexBIMPaths[2].FloorName
             </label>
@@ -38,25 +46,26 @@
             </label>
         </div>
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch10" onchange="ToggleFloor(4)" checked autocomplete="off">
+            <input type="checkbox" class="custom-control-input" id="Switch10" onchange="ToggleFloor(4)" checked autocomplete="off">
             <label class="custom-control-label custom-control-label-light" for="Switch10">
                 @ViewBag.WexBIMPaths[4].FloorName
             </label>
         </div>
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch11" onchange="ToggleFloor(5)" checked autocomplete="off">
+            <input type="checkbox" class="custom-control-input" id="Switch11" onchange="ToggleFloor(5)" checked autocomplete="off">
             <label class="custom-control-label custom-control-label-light" for="Switch11">
                 @ViewBag.WexBIMPaths[5].FloorName
             </label>
         </div>
         <div class="custom-control custom-switch mb-1">
-            <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch12" onchange="ToggleFloor(6)" checked autocomplete="off">
+            <input type="checkbox" class="custom-control-input" id="Switch12" onchange="ToggleFloor(6)" checked autocomplete="off">
             <label class="custom-control-label custom-control-label-light" for="Switch12">
                 @ViewBag.WexBIMPaths[6].FloorName
             </label>
         </div>
     </div>
-    <div class="text-center">
+    }
+    <div class="text-center SliderDiv" id="ToggleFloorArrowDiv">
         <i class="fas fa-angle-double-up" id="ToggleFloorDivArrow"></i>
     </div>
 </div>
@@ -68,11 +77,11 @@ var floorNo = 0;
 var ShowingFloors = [];
 $(document).ready(function() {
     @foreach(Floor floor in ViewBag.WexBIMPaths)
-        {
+    {
         @:FloorPaths.push("@floor.Path");
-    @:FloorNames.push("@floor.FloorName");
+        @:FloorNames.push("@floor.FloorName");
     }
-        viewer.load(FloorPaths[floorNo]);
+    viewer.load(FloorPaths[floorNo]);
     floorNo++;
     viewer.on('loaded', function() {
         viewer.off('loaded');
@@ -100,24 +109,29 @@ $(document).ready(function() {
     $("#leftSlider").animate({width:'toggle'},350);
   });
 });
-
-$( "#ToggleFloorDivArrow" ).click(function() {
-  $( "#ToggleFloorDiv" ).slideToggle( "slow", function() {
-    $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-up")
-    $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-down")
-  });
+$(document).ready(function() {
+    $("#ToggleFloorArrowDiv").click(function() {
+        $("#ToggleFloorDiv").slideToggle("slow", function() {
+            $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-up")
+            $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-down")
+        });
+    });
 });
 
-$( "#ToggleHighlightDivArrow" ).click(function() {
-  $( "#ToggleHighlightDiv" ).slideToggle( "slow", function() {
-    $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-up")
-    $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-down")
-  });
+$(document).ready(function() {
+    $( "#ToggleHighlightArrowDiv" ).click(function() {
+        $( "#ToggleHighlightDiv" ).slideToggle( "slow", function() {
+            $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-up")
+            $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-down")
+      });
+    });
 });
 
-$("#ToggleLeftSliderArrow" ).click(function() {
-    $("#ToggleLeftSlider").toggle("slide");
-    $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-down");
-    $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-up");
-  });
+$(document).ready(function() {
+    $("#ToggleLeftSliderDivArrow" ).click(function() {
+        $("#ToggleLeftSlider").toggle("slide");
+        $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-down");
+        $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-up");
+    });
+});
 </script>

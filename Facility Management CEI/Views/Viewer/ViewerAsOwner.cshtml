@@ -9,7 +9,7 @@
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 
 <h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english>Task Viewer Dashboard</english>
+    <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
 </h1>
 
@@ -18,18 +18,6 @@
         <english>Building Viewer as Owner</english>
         <arabic class="d-none">عرض المبنى كمالك</arabic>
     </title>
-    <style>
-        .vertical-text {
-	        -webkit-transform: rotate(90deg); 
-            -moz-transform: rotate(90deg); 
-            -ms-transform: rotate(90deg); 
-            -o-transform: rotate(90deg); 
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
-            transform: rotate(90deg);
-            display:block; 
-            transform-origin: 0% 50%;
-        }
-    </style>
 
 @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 
@@ -268,7 +256,7 @@
                                     <arabic class="d-none">كود العامل</arabic>
                                 </th>
                                 <th>
-                                    <english>Task ID</english>
+                                    <english>Work Order ID</english>
                                     <arabic class="d-none">كود المهمة</arabic>
                                 </th>
                                 <th>
@@ -280,7 +268,7 @@
                                     <arabic class="d-none">اسم العنصر</arabic>
                                 </th>
                                 <th>
-                                        <english>Zoom To</english>
+                                    <english>Zoom To</english>
                                     <arabic class="d-none">تكبير/تصغير</arabic>
                                 </th>
                             </tr>
@@ -311,8 +299,8 @@
                     </table>
                 </div>
             </div>
-            <div class="vertical-text text-center col-sm-1 my-auto" style="max-width: 1px">
-                <i class="fas fa-angle-double-down" id="ToggleLeftSliderArrow"></i>
+            <div class="col-sm-1 SliderDiv" id="ToggleLeftSliderDivArrow" style="max-width: 1px">
+                <i class="fas fa-angle-double-down vertical-text h-100 d-flex justify-content-center align-items-center" id="ToggleLeftSliderArrow"></i>
             </div>
         </div>
 
@@ -366,8 +354,8 @@
                     </label>
                 </div>
             </div>
-            <div class="col-1 my-auto">
-                <i class="fas fa-angle-double-up vertical-text-left" id="ToggleHighlightDivArrow"></i>
+            <div class="text-center SliderDiv" id="ToggleHighlightArrowDiv">
+                <i class="fas fa-angle-double-up" id="ToggleHighlightDivArrow"></i>
             </div>
 
         </div>
@@ -510,6 +498,14 @@
                 function ResetAll() {
                     if (viewer) {
                         viewer.resetStates();
+                        document.getElementById('Switch6').checked = true;
+                        document.getElementById('Switch7').checked = true;
+                        document.getElementById('Switch8').checked = true;
+                        document.getElementById('Switch9').checked = true;
+                        document.getElementById('Switch10').checked = true;
+                        document.getElementById('Switch11').checked = true;
+                        document.getElementById('Switch12').checked = true;
+                        ShowingFloors = new Array(FloorNames.length).fill(true);
                     }
                     var div = document.getElementById('productId');
                     if (div) {
