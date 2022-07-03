@@ -140,6 +140,7 @@ namespace Facility_Management_CEI.Controllers
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == Id && t.Status != API.Enums.TaskStatus.Completed)
                 .Include(t => t.Incident.Asset)
                 .Include(t => t.Incident.Space)
+                .ThenInclude(s => s.Floor)
                 .ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
 
@@ -159,6 +160,7 @@ namespace Facility_Management_CEI.Controllers
             var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed)
                 .Include(t => t.Incident.Asset)
                 .Include(t => t.Incident.Space)
+                .ThenInclude(s => s.Floor)
                 .ToListAsync();
             Tasks.AddRange(AgentTasks);
             //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
