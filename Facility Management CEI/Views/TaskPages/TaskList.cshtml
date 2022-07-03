@@ -17,11 +17,8 @@
     @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
 
-<div class="card text-center">
-    <div class="card-header">
-        <h3><english>List Of Work Orders</english><arabic class="d-none">قائمة المهام</arabic></h3>
-    </div>
-</div>
+<h3 class="text-center"><english>List Of Work Orders</english><arabic class="d-none">قائمة المهام</arabic></h3>
+
 
 <div class="mt-4">
     @*    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
@@ -244,13 +241,13 @@
                         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                         {
                             <th class="text-center" scope="col">
-                                <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-primary" >
+                                <a asp-controller="TaskPages" asp-action="Assign" asp-route-id="@task.Id" class="btn btn-info waves-effect" >
                                     <english>Assign</english>
                                     <arabic class="d-none">التعين</arabic></a>
                             </th> 
 
                             <th class="text-center" scope="col">
-                                <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary" >
+                                <a asp-controller="TaskPages" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-info waves-effect" >
                                     <english>Edit</english>
                                     <arabic class="d-none">تعديل</arabic></a>
                             </th>
@@ -259,7 +256,7 @@
                         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector", "Agent"))
                         {
                             <th class="text-center" scope="col">
-                                <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info" >
+                                <a  asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect" >
                                     <english>Details</english>
                                     <arabic class="d-none">التفاصيل</arabic>
                                 </a>            
@@ -269,7 +266,7 @@
                         @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                         {
                             <th class="text-center" scope="col">
-                                <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger" >
+                                <a  asp-controller="TaskPages" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger waves-effect" >
                             <english>Delete</english>
                               <arabic class="d-none">حذف</arabic>
                         </a>

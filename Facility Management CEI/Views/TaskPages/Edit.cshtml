@@ -68,9 +68,9 @@
               <input asp-for="Comment" class="form-control" />
               <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="TaskList" class="btn btn-danger">Back to List</a>
+            <div class="form-group mt-3">
+                <input type="submit" value="Save" class="btn btn-primary waves-effect" />
+                <a asp-action="TaskList" class="btn btn-success waves-effect">Back to List</a>
             </div>
         </form>
         </english>
@@ -133,19 +133,17 @@
               <input asp-for="Comment" class="form-control" />
               <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="التأكيد" class="btn btn-primary" />
-                <a asp-action="TaskList" class="btn btn-danger">العودة إلى القائمة</a>
+            <div class="form-group mt-3">
+                <input type="submit" value="التأكيد" class="btn btn-primary waves-effect" />
+                <a asp-action="TaskList" class="btn btn-success waves-effect">العودة إلى القائمة</a>
             </div>
         </form>
         </arabic>
         
     </div>
-
-    <div class="float-md-right">
-        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
-    </div>
-
+             <div class="m-auto col-sm-4 mw-100">
+                    <img src="~/assets/images/Edit-Work-Order.jpg" class="rounded mx-auto d-block" alt="Details">
+             </div>
 </div>
                  
 @section Scripts {

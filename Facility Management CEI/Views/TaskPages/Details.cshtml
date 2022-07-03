@@ -14,6 +14,7 @@
 </head>
 
 <h1><english>Work Order Details</english><arabic class="d-none">تفاصيف المهمة</arabic></h1>
+<hr />
 
 <div class="position-relative">
     <div class="shadow-lg py-3 mb-5 bg-white rounded row my-auto" style="position: absolute;
@@ -227,7 +228,7 @@
             <option value="hideType">Hide type</option>
             <option value="highlight">Highlight</option>
         </select>*@
-        <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@Model.Incident.AssetId)"><english>Zoom to Item</english><arabic class="d-none">عرض العنصر</arabic></button>
+        <button class="btn btn-primary waves-effect waves-light" onclick="viewer.zoomTo(@if(Model.Incident.Asset == null){@Model.Incident.SpaceId} else {@Model.Incident.AssetId})"><english>Zoom to Item</english><arabic class="d-none">عرض العنصر</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="HideProduct()"><english>Hide Product</english><arabic class="d-none">إخفاء العنصر</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="HideType()"><english>Hide Type</english><arabic class="d-none">إخفاء النوع</arabic></button>
         <button class="btn btn-primary waves-effect waves-light" onclick="Highlight()"><english>Select Product</english><arabic class="d-none">إختيار العنصر</arabic></button>
@@ -306,9 +307,9 @@
 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
 {
             
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> 
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary waves-effect"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> 
 }
-<a asp-action="TaskList" class="btn btn-danger"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
+<a asp-action="TaskList" class="btn btn-success waves-effect"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
 
 
 <script>

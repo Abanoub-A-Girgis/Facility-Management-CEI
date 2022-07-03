@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group">
                 <label asp-for="Type" class="control-label"></label><!-- creating our drop down list for statuts enum-->
-                <select @Html.DropDownList("Type", new List<SelectListItem> {
+                @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
                     new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
@@ -38,7 +38,7 @@
                     new SelectListItem { Text="Supervisor",Value="3"} ,
                     new SelectListItem { Text="Inspector",Value="4"} ,
                     new SelectListItem { Text="Agent",Value="5"} ,
-                    }, new { @class = "form-control" })  ></select><!--the default value for our drop panel-->
+                    }, new { @class = "form-control" })<!--the default value for our drop panel-->
                     <span asp-validation-for="Type" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 <div class="form-group">
@@ -56,8 +56,8 @@
                     <span asp-validation-for="LogUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                     <a asp-action="Index" class="btn btn-danger">Back to List</a>
+                    <input type="submit" value="Save" class="btn btn-primary waves-effect" />
+                     <a asp-action="Index" class="btn btn-success waves-effect">Back to List</a>
                 </div>
             </form>
         </english>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-group">
                 <label @*asp-for="Type"*@ class="control-label">نوع المستخدم</label><!-- creating our drop down list for statuts enum-->
-                <select @Html.DropDownList("Type", new List<SelectListItem> {
+                @Html.DropDownList("Type", new List<SelectListItem> {
                     new SelectListItem { Text="Choose Type", Disabled = true },
                     new SelectListItem { Text="AccountManager",Value="0"},
                     new SelectListItem { Text="Owner",Value="1"} ,
@@ -85,7 +85,7 @@
                     new SelectListItem { Text="Supervisor",Value="3"} ,
                     new SelectListItem { Text="Inspector",Value="4"} ,
                     new SelectListItem { Text="Agent",Value="5"} ,
-                    }, new { @class = "form-control" })  ></select><!--the default value for our drop panel-->
+                    }, new { @class = "form-control" })<!--the default value for our drop panel-->
                     <span asp-validation-for="Type" class="text-danger"></span> <!-- data vaidation for the inserted value-->
                 </div>
                 <div class="form-group">
@@ -103,15 +103,15 @@
                     <span asp-validation-for="LogUserId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="حفظ" class="btn btn-primary" />
-                     <a asp-action="Index" class="btn btn-danger">العودة إلى القائمة</a>
+                    <input type="submit" value="حفظ" class="btn btn-primary waves-effect" />
+                     <a asp-action="Index" class="btn btn-success waves-effect">العودة إلى القائمة</a>
                 </div>
             </form>
         </arabic>
         
     </div>
-    <div class="float-right">
-        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/Edit-Employee-data.png" class="rounded mx-auto d-block" alt="Details">
     </div>
 </div>
 @*</div>*@

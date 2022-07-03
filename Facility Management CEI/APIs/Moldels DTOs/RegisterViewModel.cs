@@ -1,4 +1,5 @@
 ﻿using API.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -30,6 +31,7 @@ namespace Facility_Management_CEI.Models
         public string Role { get; set; }
         public int? BuildingId { get; set; }//test the null
         public int? SuperId { get; set; }//test the null
+        public IFormFile ProfilePicture { get; set; }
     }
     
 }

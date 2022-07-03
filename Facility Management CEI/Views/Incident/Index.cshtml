@@ -14,27 +14,19 @@
 </head>
 
 
-                <div class="card text-center">
-                  <div class="card-header">
-                    <h3><english>Incidents</english><arabic class="d-none">الحوادث</arabic></h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text"><english>Showing the Incident Inside our Building.</english><arabic class="d-none">إظهار الحوادث داخل المبنى</arabic></p>
-                  </div>
-                </div>
 
- 
+                <h3 class="text-center"><english>Incidents</english><arabic class="d-none">الحوادث</arabic></h3>
+
+
+                <p class="text-center"><english>Showing the Incident Inside our Building.</english><arabic class="d-none">إظهار الحوادث داخل المبنى</arabic></p>
+                <hr />
                 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","AccountManager","Inspector"))
                 {
-                     <div class="card-header">
                           <!--
                              Button Create new Record which will return a view that will make the user inser new   Incident data
                              asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
                              no need to pass an id as we will create new one 
                           -->
-                          <a class="btn btn-outline-primary" asp-action="EditOrAdd"><english>Create New</english><arabic class="d-none">إنشاء حادثه جديدة</arabic></a>
-                     </div>
-    
                 }
                 
 
@@ -45,16 +37,16 @@
                             <thead>
                                 <tr>
 
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id             )*@
+                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id)*@
                                         <english>ID</english>
                                         <arabic class="d-none">الكود</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>@Html.DisplayNameFor(model => model.Description    )</english>
+                                        <english>@Html.DisplayNameFor(model => model.Description)</english>
                                         <arabic class="d-none">التوصيف</arabic>                                        
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>@Html.DisplayNameFor(model => model.Status         )</english>
+                                        <english>@Html.DisplayNameFor(model => model.Status)</english>
                                         <arabic class="d-none">الحالة</arabic> 
                                         
                                     </th>
@@ -180,7 +172,7 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a class="btn btn-info" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
+                                            <a class="btn btn-info waves-effect" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
                                                 <english>Create Work Order</english>
                                                 <arabic class="d-none">إنشاء مهمة</arabic>
                                             </a>
@@ -195,7 +187,7 @@
                                             asp-action="AddOrEdit": the name of the action method that holds the Logic Code
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
-                                            <a asp-action="EditOrAdd" class="btn btn-primary" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="EditOrAdd" class="btn btn-info waves-effect" asp-route-IncidentId="@item.Id">
                                                 <english>Edit</english>
                                                 <arabic class="d-none">تعديل</arabic>
 
@@ -212,7 +204,7 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a asp-action="Details" class="btn btn-info" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="Details" class="btn btn-info waves-effect" asp-route-IncidentId="@item.Id">
                                                 
                                                 <english>Details</english>
                                                 <arabic class="d-none">التفاصيل</arabic>
@@ -230,7 +222,7 @@
                                                asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                                "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident
                                             -->
-                                            <a asp-action="Delete" class="btn btn-danger" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="Delete" class="btn btn-danger waves-effect" asp-route-IncidentId="@item.Id">
                                                 
                                                 <english>Delete</english>
                                                 <arabic class="d-none">حذف</arabic>

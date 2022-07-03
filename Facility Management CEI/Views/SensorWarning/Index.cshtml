@@ -17,20 +17,16 @@
       @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
 
-                <div class="card text-center">
-                  <div class="card-header">
-                    <h3>
+                    <h3 class="text-center">
                         <english>Sensors Warnings</english>
                         <arabic class="d-none">تنبيهات من المستشعرات</arabic>
                     </h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text">
+
+                    <p class="text-center">
                         <english>Invistegate Sensors Warnings and Assing It to Incident.</english>
                         <arabic class="d-none">أفحص تنبيه المستشعر وحرره الى حادثة</arabic>
                     </p>
-                  </div>
-                </div>
+
                 <div class="mt-4">
                     <div class="table-responsive">
                         <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -127,7 +123,7 @@
                                     }
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment)</td>
                                     <td class="text-center" scope="col">
-                                    <a  asp-action="Investigate" class="btn btn-info"  asp-route-WarningId="@item.Id">
+                                    <a  asp-action="Investigate" class="btn btn-info waves-effect"  asp-route-WarningId="@item.Id">
                                         <english>Investigate</english>
                                         <arabic class="d-none">فحص</arabic>
                                     </a> 

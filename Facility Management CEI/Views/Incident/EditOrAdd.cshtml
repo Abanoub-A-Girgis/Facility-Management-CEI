@@ -22,7 +22,7 @@
 
 
 <h1> <english>@ViewBag.PageName</english><arabic class="d-none">الحادثة</arabic></h1> @*need to be translated*@ 
-
+<hr/>
 <div class="position-relative">
     <div class="shadow-lg py-3 mb-5 bg-white rounded row my-auto" style="position: absolute;
                                             height: 650px;
@@ -30,7 +30,7 @@
                                             z-index:6;" id="ToggleLeftSliderContainer">
         <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Details</english><arabic class="d-none">المعلومات</arabic></div></div>
         <div id="ToggleLeftSlider" class="col-auto my-auto">
-            <hr/>
+            
             <english>
                 <form asp-action="EditOrAdd">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -114,8 +114,8 @@
                 }
 
                 <div class="form-group">
-                    <input class="btn btn-primary" type="submit" value="Save" />
-                    <a class="btn btn-danger" asp-action="Index">Back</a>
+                    <input class="btn btn-primary waves-effect" type="submit" value="Save" />
+                    <a class="btn btn-success waves-effect" asp-action="Index">Back</a>
                 </div>
             </form>
             </english>
@@ -202,8 +202,8 @@
                 }
 
                 <div class="form-group">
-                    <input class="btn btn-primary" type="submit" value="حفظ"/>
-                    <a class="btn btn-danger" asp-action="Index">الرجوع إلى القائمة</a>
+                    <input class="btn btn-primary waves-effect" type="submit" value="حفظ"/>
+                    <a class="btn btn-success waves-effect" asp-action="Index">الرجوع إلى القائمة</a>
                 </div>
             </form>
             </arabic>

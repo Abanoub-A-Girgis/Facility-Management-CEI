@@ -131,7 +131,7 @@ namespace Facility_Management_CEI.Controllers
                           new SensorWarning()
                           {
                               IssueDate = DateTime.Now,
-                              Description = $"there is a problem  at Storey: {MyFloor.FloorName} Witnin Space: {MySensor.Space.Name} -Id ({MySensor.Space.Id})",
+                              Description = $"There is a problem  at Storey: {MyFloor.FloorName} Witnin Space: {MySensor.Space.Name} -Id ({MySensor.Space.Id})",
                               Investigated = false,
                               Priority = priority,
                               InvestigatDate = null,
