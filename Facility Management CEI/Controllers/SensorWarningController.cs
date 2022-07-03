@@ -58,6 +58,7 @@ namespace Facility_Management_CEI.Controllers
                         var Smoke = random.Next(0, 100);
                         var people = random.Next(0, 100);
                         //this switch statment Priority Value
+                        //this is for abanob
                         switch (MySensor.SensorType)
                         {
                             case SensorType.SpaceSensor:
