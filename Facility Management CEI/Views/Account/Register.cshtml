@@ -1,7 +1,7 @@
 ﻿@using API.Models
 @using API.Moldels_DTOs
+@using Facility_Management_CEI.APIs.Models
 @model RegisterViewModel
-
 
 @{
     ViewData["Title"] = "Register";
@@ -93,7 +93,7 @@
                             @*<p class="text-muted">Get your free Skote account now.</p>*@
                         </div>
 
-                        <div class="mt-4">
+                        <div class="mt-4 mx-auto" style="width: 255px">
                             <english>
                                 <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -131,17 +131,17 @@
                                         <span asp-validation-for="PassWord" class="text-danger"></span>
                                 </div>
 
-
                                 <div class="form-group">
                                     <label for="Role">User Type</label>
-                                    <select asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleEN"></select>
+                                    <select asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleEN">
+                                        <option selected="selected" disabled class="form-control" value="none">Please Select a Role</option>
+                                    </select>
                                         <span asp-validation-for="Role" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="SuperId">Super Id</label>
-                                    <select asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdEN">
-                                        <option selected="selected" class="form-control" value=""></option>
+                                    <select asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdEN">
                                     </select>
 @*                                  <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
 *@                                  <span asp-validation-for="SuperId" class="text-danger"></span>
@@ -200,7 +200,6 @@
                                     <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                                 </div>
 
-
                                 <div class="form-group">
                                     <label for="firstName">الإسم الأول</label>
                                     <input type="text" class="form-control" id="firstNameAR" placeholder="أدخل الإسم الأول" asp-for="FirstName">
@@ -228,13 +227,15 @@
 
                                 <div class="form-group">
                                     <label for="Role">نوع المستخدم</label>
-                                    <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleAR"></select>
+                                    <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleAR">
+                                        <option selected="selected" disabled class="form-control" value="none">الرجاء تحديد نوع المستخدم</option>
+                                    </select>
                                         <span asp-validation-for="Role" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="SuperId">رقم المشرف</label>
-                                    <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdAR" >
+                                    <select asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdAR" >
                                             <option selected="selected" class="form-control" value=""></option>
                                     </select>
                                         <span asp-validation-for="SuperId" class="text-danger"></span>
@@ -325,4 +326,101 @@ $('#ProfilePicAR').on('change', function(e) {
     //replace the "Choose a file" label
     $(this).next('.custom-file-label').html(fileName);
 });
+
+var Owners = `@foreach(UserSelection user in ViewBag.OwnerId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Managers = `@foreach(UserSelection user in ViewBag.ManagerId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Supervisors = `@foreach(UserSelection user in ViewBag.SupervisorId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Inspectors = `@foreach(UserSelection user in ViewBag.InspectorId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+
+$(document).ready(function() {
+    $('#RoleEN').change(function() {
+        var val = $(this).val();
+        if (val == "Owner") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">N/A</option>');
+        }
+        else if (val == "Manager") {
+            $('#SuperIdEN').html(Owners);
+        }
+        else if (val == "Supervisor") {
+            $('#SuperIdEN').html(Managers);
+        }
+        else if (val == "Inspector") {
+            $('#SuperIdEN').html(Supervisors);
+        }
+        else if (val == "Agent") {
+            $('#SuperIdEN').html(Inspectors);
+        }
+    });
+    $('#RoleAR').change(function() {
+        var val = $(this).val();
+        if (val == "Owner") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">غير متاح</option>');
+        }
+        else if (val == "Manager") {
+            $('#SuperIdAR').html(Owners);
+        }
+        else if (val == "Supervisor") {
+            $('#SuperIdAR').html(Managers);
+        }
+        else if (val == "Inspector") {
+            $('#SuperIdAR').html(Supervisors);
+        }
+        else if (val == "Agent") {
+            $('#SuperIdAR').html(Inspectors);
+        }
+    });
+});
+
+$(document).ready(function() {
+    var val = $('#RoleEN').val();
+    if (val == "Owner") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">N/A</option>');
+    }
+    else if (val == "Manager") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Owners);
+    }
+    else if (val == "Supervisor") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Managers);
+    }
+    else if (val == "Inspector") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Supervisors);
+    }
+    else if (val == "Agent") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Inspectors);
+    }
+    val = $('#RoleAR').val();
+    if (val == "Owner") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">غير متاح</option>');
+    }
+    else if (val == "Manager") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Owners);
+    }
+    else if (val == "Supervisor") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Managers);
+    }
+    else if (val == "Inspector") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Supervisors);
+    }
+    else if (val == "Agent") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Inspectors);
+    }
+});
+
+
 </script>

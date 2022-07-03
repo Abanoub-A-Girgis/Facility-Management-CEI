@@ -38,8 +38,11 @@ namespace Facility_Management_CEI.Controllers
             try
             {
                 var user = new RegisterViewModel();//to send a model that has a list of roles
-                ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
-
+                //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                 //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent), "Id", "Id");//this is made to lsit down all the ids that can be used as a super id
                 return View(user);
             }
@@ -107,7 +110,11 @@ namespace Facility_Management_CEI.Controllers
 
                         }
                         var user = new RegisterViewModel();//to send a model that has a list of roles
-                        ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                        //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                        ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                         ViewBag.English = "Registration has been successfully completed";
                         ViewBag.Arabic = "تم التسجيل بنجاح";
                         ViewBag.RegistrationStatus = true;
@@ -118,7 +125,11 @@ namespace Facility_Management_CEI.Controllers
                     else
                     {
                         var user = new RegisterViewModel();//to send a model that has a list of roles
-                        ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");                                   //need to be handeled 
+                        //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");                                   //need to be handeled 
+                        ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                         ViewBag.English = "Username or password is incorrect, please try again";
                         ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                         ViewBag.RegistrationStatus = false;
@@ -133,7 +144,11 @@ namespace Facility_Management_CEI.Controllers
                     ViewBag.English = "Specified username already exists";
                     ViewBag.Arabic = "اسم المستخدم موجود مسبقا";
                     ViewBag.RegistrationStatus = false;
-                    ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                    //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                    ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                     return View(user);
                     //return NoContent();
                 }
