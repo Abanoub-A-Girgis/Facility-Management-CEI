@@ -386,8 +386,8 @@
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    @*                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/Rania.jpg" asp-append-version="true"
-                                alt="Header Avatar">*@                        
+                        <img class="rounded-circle header-profile-user" src="~@context.AppUsers.Where(u => u.LogUserId == usermanager.GetUserId(User)).FirstOrDefault()?.ProfilePicturePath" asp-append-version="true"
+                                alt="Header Avatar">                       
                         <span class="d-none d-xl-inline-block ml-1">@usermanager.Users.Where(x => x.Id == usermanager.GetUserId(User)).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>

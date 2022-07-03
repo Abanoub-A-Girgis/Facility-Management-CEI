@@ -95,16 +95,16 @@
 
                         <div class="mt-4">
                             <english>
-                                <form asp-controller="Account" asp-action="Register" method="post">
+                                <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                 <div class="form-group">
                                     <label for="firstName">Profile Picture</label>
                                     <div class="custom-file">
-                                      <input type="file" class="custom-file-label" id="ProfilePicEN" asp-for="ProfilePicturePath">
+                                      <input type="file" class="custom-file-label" id="ProfilePicEN" asp-for="ProfilePicture">
                                       <label class="custom-file-label" for="ProfilePicEN">Choose file</label>
                                     </div>
-                                    <span asp-validation-for="ProfilePicturePath" class="text-danger"></span>
+                                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
@@ -188,16 +188,16 @@
 
                             </form></english>
                             <arabic class="d-none">
-                                <form asp-controller="Account" asp-action="Register" method="post">
+                                <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                 <div class="form-group">
                                     <label for="firstName">الصوره الشخصيه</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-label" id="ProfilePicAR" asp-for="ProfilePicturePath">
+                                        <input type="file" class="custom-file-label" id="ProfilePicAR" asp-for="ProfilePicture">
                                         <label class="custom-file-label ARbrowse" for="ProfilePicAR">اختر ملف</label>
                                     </div>
-                                    <span asp-validation-for="ProfilePicturePath" class="text-danger"></span>
+                                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                                 </div>
 
 

@@ -51,6 +51,17 @@ namespace Facility_Management_CEI.Controllers
 
         }
 
+        public string ImageToData(IFormFile picture)
+        {
+            var fileName = Path.GetFileName(picture.FileName);
+            var path = Path.Combine("wwwroot\\ProfilePictures", fileName);
+            using (Stream fileStream = System.IO.File.Create(path))
+            {
+                picture.CopyToAsync(fileStream);
+            }
+            return "/ProfilePictures/" + fileName;
+        }
+
         [HttpPost]
         [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -87,7 +98,7 @@ namespace Facility_Management_CEI.Controllers
                                 Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
                                 BuildingId = SuperAppUser?.BuildingId,
                                 SuperId = model.SuperId,
-                                ProfilePicturePath = model.ProfilePicturePath
+                                ProfilePicturePath = model.ProfilePicture == null ? "/ProfilePictures/Default.png" : ImageToData(model.ProfilePicture)
                             };
 
 
@@ -156,7 +167,8 @@ namespace Facility_Management_CEI.Controllers
                         FirstName = Admin.FirstName,
                         LastName = Admin.LastName,
                         LogUserId = Admin.Id,
-                        Type = UserType.AccountManager
+                        Type = UserType.AccountManager,
+                        ProfilePicturePath = "/Photos/AccountManager.png"
                     };
                     _Context.AppUsers.Add(appuser);
                     _Context.SaveChanges();
