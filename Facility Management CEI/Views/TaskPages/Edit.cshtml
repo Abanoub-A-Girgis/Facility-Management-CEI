@@ -45,16 +45,88 @@
             <div class="form-group">
                 <label  class="control-label">Created By ID</label>
                 <input asp-for="CreatedById" class="form-control-plaintext shadow-none" readonly />
+                @if(Model.CreatedBy.Type==UserType.AccountManager)
+                {
+                    <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                }
+                @if(Model.CreatedBy.Type==UserType.Owner)
+                {
+                    <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                }
+                @if(Model.CreatedBy.Type== UserType.Manager)
+                {
+                    <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                }
+                @if(Model.CreatedBy.Type== UserType.Supervisor)
+                {
+                    <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                }
+                @if(Model.CreatedBy.Type== UserType.Inspector)
+                {
+                    <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                }
+                @if(Model.CreatedBy.Type== UserType.Agent)
+                {
+                    <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                }
                 <span asp-validation-for="CreatedById" class="text-danger"></span>
             </div>            
             <div class="form-group">
                 <label  class="control-label">Assigned By ID</label>
                 <input asp-for="AssignedById" class="form-control-plaintext shadow-none" readonly />
+                    @if(Model.AssignedBy.Type==UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type==UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedBy.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
                 <span asp-validation-for="AssignedById" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label  class="control-label">Assigned To ID</label>
                 <input asp-for="AssignedToId" class="form-control-plaintext shadow-none" readonly/>
+                    @if(Model.AssignedTo.Type==UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type==UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(Model.AssignedTo.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
                 <span asp-validation-for="AssignedToId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -140,9 +212,9 @@
         </arabic>
         
     </div>
-             <div class="m-auto col-sm-4 mw-100">
-                    <img src="~/assets/images/Edit-Work-Order.jpg" class="rounded mx-auto d-block" alt="Details">
-             </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/Edit-Work-Order.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
                  
 @section Scripts {
