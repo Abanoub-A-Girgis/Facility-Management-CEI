@@ -57,6 +57,10 @@
                                         <arabic class="d-none">اسم العنصر</arabic>
                                     </th>
                                     <th>
+                                        <english>Floor</english>
+                                        <arabic class="d-none">الطوابق</arabic>
+                                    </th>
+                                    <th>
                                         <english>Details</english>
                                         <arabic class="d-none">التفاصيل</arabic>
                                     </th>
@@ -81,6 +85,7 @@
                                                @task.Incident.Space.Name;
                                             }
                                         </td>
+                                        <td>@task.Incident.Space.Floor.FloorName</td>
                                         @*<td><button class="btn btn-info waves-effect waves-light" onclick="">Details</button></td>*@
                                         <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >
                                             <english>Details</english>
@@ -439,7 +444,7 @@
             $('#ItemsTable').DataTable(
                 {
                     "columnDefs": [
-                        { "searchable": false, "targets": [2,3] }
+                        { "searchable": false, "targets": [3,4] }
                     ],
                     dom: '<"mb-2"B>lfrtip',
                     buttons : [
@@ -447,7 +452,7 @@
       	                    extend: 'excelHtml5',
                             text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                             exportOptions: {
-                                columns: [0, 1],
+                                columns: [0, 1, 2],
                                 format: {
                                     header: function(text, index, node) {
                                         return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');

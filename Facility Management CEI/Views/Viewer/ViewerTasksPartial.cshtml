@@ -21,6 +21,10 @@
                     <arabic class="d-none">اسم العنصر</arabic>
                 </th>
                 <th>
+                    <english>Floor</english>
+                    <arabic class="d-none">الطوابق</arabic>
+                </th>
+                <th>
                     <english>Details</english>
                     <arabic class="d-none">التفاصيل</arabic>
                 </th>
@@ -47,6 +51,7 @@
                             @task.Incident.Space.Name;
                         }
                     </td>
+                    <td>@task.Incident.Space.Floor.FloorName</td>
                     @*<td><button class="btn btn-info waves-effect waves-light">Details</button></td>*@
                     <td><a scope="col" asp-controller="TaskPages" asp-action="Details" asp-route-id="@task.Id" class="btn btn-info waves-effect waves-light" >Details</a></td>
                     <td><button class="btn btn-success waves-effect waves-light" onclick="viewer.zoomTo(@if(task.Incident.Asset == null){@task.Incident.SpaceId} else {@task.Incident.AssetId})">Zoom To</button></td>
@@ -105,7 +110,7 @@
     $('#ItemsTable').DataTable(
         {
             "columnDefs": [
-                    { "searchable": false, "targets": [4, 5], },
+                    { "searchable": false, "targets": [5, 6], },
                     { "targets": [0], "visible": false, }
             ],
             dom: '<"mb-2"B>lfrtip',
@@ -121,7 +126,7 @@
       	            extend: 'excelHtml5',
                     text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
                     exportOptions: {
-                        columns: [ 0, 1, 2 , 3],
+                        columns: [ 0, 1, 2 , 3, 4],
                         format: {
                             header: function(text, index, node) {
                                 return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
