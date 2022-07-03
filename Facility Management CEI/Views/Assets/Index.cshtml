@@ -12,7 +12,7 @@
 
 <h1>
     <english> Assets List</english>
-    <arabic class="d-none">  قائمة الأصول والموجودات بالمنشأة   </arabic>
+    <arabic class="d-none">قائمة الأصول والموجودات بالمنشأة</arabic>
 </h1>
 
 
@@ -20,16 +20,16 @@
     <thead>
         <tr>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Id)</english>
-                <arabic class="d-none"> الكود </arabic>
+                <english>@Html.DisplayNameFor(model => model.Id)</english>
+                <arabic class="d-none">الكود</arabic>
             </th>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Name)</english>
-                <arabic class="d-none"> الاسم </arabic>
+                <english>@Html.DisplayNameFor(model => model.Name)</english>
+                <arabic class="d-none">الاسم</arabic>
             </th>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Materials)</english>
-                <arabic class="d-none"> المواد المكونه للعنصر </arabic>
+                <english>@Html.DisplayNameFor(model => model.Materials)</english>
+                <arabic class="d-none">المواد المكونه للعنصر</arabic>
             </th>
             <th></th>
         </tr>
@@ -47,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.Materials)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info waves-effect" asp-route-id="@item.Id">
                     <english>Details</english>
-                    <arabic class="d-none">  التفاصيل </arabic></a>
+                    <arabic class="d-none">التفاصيل</arabic></a>
             </td>
         </tr>
 }

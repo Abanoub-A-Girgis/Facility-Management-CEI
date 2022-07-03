@@ -10,29 +10,26 @@
     <english>Employee Details</english>
     <arabic class="d-none">تفاصيل بيانات العاملين</arabic>
 </h1>
-
-<div>
+<hr />
+<div class="row">
    @* <h4>AppUser</h4>*@
-    <hr />
-    <div class="float-right">
-        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
-    </div>
+    <div class="col-md-4">
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english>ID</english>
             <arabic class="d-none">الكود</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english>@Html.DisplayNameFor(model => model.FirstName)</english>
             <arabic class="d-none">الأسم الأول</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english> @Html.DisplayNameFor(model => model.LastName)</english>
             <arabic class="d-none">الأسم الأخير</arabic>
            
@@ -40,7 +37,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english> @Html.DisplayNameFor(model => model.Type)</english>
             <arabic class="d-none">نوع المستخدم </arabic>
         </dt>
@@ -72,14 +69,14 @@
             }
 
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english>  @Html.DisplayNameFor(model => model.BuildingId)</english>
             <arabic class="d-none">كود المبنى</arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BuildingId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
             <english> @*@Html.DisplayNameFor(model => model.SuperId)*@Supervisor ID</english>
             <arabic class="d-none">كود المشرف</arabic>
         </dt>
@@ -87,7 +84,7 @@
             @Html.DisplayFor(model => model.SuperId)
 
         </dd>
-         <dt class = "col-sm-2">
+         <dt class = "col-sm-3">
             <english>Supervisor Name</english>
             <arabic class="d-none">اسم المشرف</arabic>
         </dt>
@@ -97,21 +94,26 @@
         </dd>
 
     </dl>
+    </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/Edit-Employee-data.png" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
+
 
 <div>
     @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
     {
         
-        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Id">
+        <a asp-action="Edit" class="btn btn-primary waves-effect" asp-route-id="@Model.Id">
             <english>Edit</english>
-            <arabic class="d-none"> تعديل</arabic>
+            <arabic class="d-none">تعديل</arabic>
         </a> 
     }
         
-    <a asp-action="Index"  class="btn btn-danger">
+    <a asp-action="Index" class="btn btn-success waves-effect">
               <english>Back to List</english>
-            <arabic class="d-none"> العودة الى القائمة</arabic>
+            <arabic class="d-none">العودة الى القائمة</arabic>
     </a>
 </div>
 @section Scripts {

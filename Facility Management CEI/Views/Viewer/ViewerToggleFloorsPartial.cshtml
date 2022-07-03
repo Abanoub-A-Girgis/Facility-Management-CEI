@@ -9,9 +9,9 @@
     </style>
 </head>
 
-<div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 300px; position: absolute;
+<div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 270px; position: absolute;
                                                                     top: 8px;
-                                                                    left: 60%;
+                                                                    right: 8px;
                                                                     z-index:5;">
     
     <div class="font-weight-bold mb-2 text-center">
@@ -22,10 +22,10 @@
     {
     <div id="ToggleFloorDiv">
         <div class="custom-control custom-switch mb-1">
-        <input type="checkbox" class="custom-control-input" id="Switch6" onchange="ToggleFloor(0)" checked autocomplete="off">
-        <label class="custom-control-label custom-control-label-light" for="Switch6">
-            @ViewBag.WexBIMPaths[0].FloorName
-        </label>
+            <input type="checkbox" class="custom-control-input" id="Switch6" onchange="ToggleFloor(0)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch6">
+                @ViewBag.WexBIMPaths[0].FloorName
+            </label>
         </div>
         <div class="custom-control custom-switch mb-1">
             <input type="checkbox" class="custom-control-input" id="Switch7" onchange="ToggleFloor(1)" checked autocomplete="off">

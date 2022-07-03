@@ -240,7 +240,6 @@ body[data-topbar="dark"] {
 body[data-sidebar="dark"] {
     .navbar-brand-box {
         background: $sidebar-dark-bg;
-        border-bottom: 1px solid lighten($sidebar-dark-bg, 5%);
     }
 
     .logo-dark {

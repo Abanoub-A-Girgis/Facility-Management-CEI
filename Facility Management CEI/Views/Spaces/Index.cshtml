@@ -5,10 +5,10 @@
 }
 
 <h1>
-    <english> Spaces List</english>
-     <arabic class="d-none">قائمة الفراغات  </arabic>
+    <english>Spaces List</english>
+     <arabic class="d-none">قائمة الفراغات</arabic>
 </h1>
-
+<hr />
 <head>
     @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
@@ -17,12 +17,12 @@
     <thead>
         <tr>
             <th>
-                <english>  @Html.DisplayNameFor(model => model.Id)</english>
-                <arabic class="d-none"> كود الغرفه  </arabic>
+                <english>@Html.DisplayNameFor(model => model.Id)</english>
+                <arabic class="d-none">كود الغرفه</arabic>
             </th>
             <th>
-                <english>  @Html.DisplayNameFor(model => model.Name)</english>
-                <arabic class="d-none"> اسم الغرفه  </arabic>
+                <english>@Html.DisplayNameFor(model => model.Name)</english>
+                <arabic class="d-none">اسم الغرفه</arabic>
             </th>
 
             <th></th><!--this is for the deatails button-->
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
-                    <english> Details</english>
-                    <arabic class="d-none">  التفاصيل  </arabic>
+                <a asp-action="Details" class="btn btn-info waves-effect" asp-route-id="@item.Id">
+                    <english>Details</english>
+                    <arabic class="d-none">التفاصيل</arabic>
                 </a>
             </td>
         </tr>

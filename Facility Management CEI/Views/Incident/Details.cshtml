@@ -7,22 +7,20 @@
     //var UsersList =(List<API.Models.AppUser>) ViewBag.Users;
 }
 
-<div class="container p-3 my-3 border">
+
     <h1><english>Incident Details</english><arabic class="d-none">تفاصيل الحادثة</arabic></h1>
     <hr />
-    <div class="float-right">
-        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
-    </div>
+    <div class="row">
+        <div class="col-sm-4">
     <dl class="row">
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>ID</english>
             <arabic class="d-none">الكود</arabic>
-            
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             @*@Html.DisplayNameFor(model => model.Description)*@
             <english>@Html.DisplayNameFor(model => model.Description)</english>
             <arabic class="d-none">الوصف</arabic>
@@ -30,7 +28,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>@Html.DisplayNameFor(model => model.Status)</english>
             <arabic class="d-none">الحالة</arabic>
             
@@ -38,7 +36,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Status)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>@Html.DisplayNameFor(model => model.Priority)</english>
             <arabic class="d-none">الأهمية</arabic>
             
@@ -46,7 +44,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Priority)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>Sensor Warning ID</english>
             <arabic class="d-none">كود تنبيه المستشعر</arabic>
             
@@ -54,7 +52,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SensorWarningId)
         </dd> 
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>Asset ID</english>
             <arabic class="d-none">كود الأصل</arabic>
             
@@ -62,7 +60,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AssetId)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>Space ID</english>
             <arabic class="d-none">كود الفراغ</arabic>
             
@@ -70,7 +68,7 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SpaceId)
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>User ID</english>
             <arabic class="d-none">كود المستخدم</arabic>
             
@@ -103,7 +101,7 @@
                 <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
             }
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-4">
             <english>@Html.DisplayNameFor(model => model.Comment)</english>
             <arabic class="d-none">ملاحظات</arabic>
             
@@ -113,23 +111,32 @@
         </dd>
     </dl>
 
+    </div>
+
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/Incident-Details.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
+
+    </div>
+
     <br>
 
     <div>
         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager"))
         {
             
-        <a class="btn btn-primary" asp-action="EditOrAdd" asp-route-IncidentId="@Model.Id">
+        <a class="btn btn-primary waves-effect" asp-action="EditOrAdd" asp-route-IncidentId="@Model.Id">
             <english>Edit</english>
             <arabic class="d-none">تعديل</arabic></a>
         }
-        <a class="btn btn-danger" asp-action="Index">
+        <a class="btn btn-success waves-effect" asp-action="Index">
             <english>Back</english>
             <arabic class="d-none">العودة إلى القائمة</arabic>
 
         </a>
     </div>
-</div>
+
+    
 
 
 
