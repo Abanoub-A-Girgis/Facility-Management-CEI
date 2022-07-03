@@ -13,10 +13,10 @@
         <english>Warning Investigation</english>
         <arabic class="d-none">فحص تنبيه المستشعر</arabic>
     </h1>
+    <hr />
 
     <div class="row">
         <div class="col-sm-4">
-            <hr />
                       
             <english>
                 <form asp-action="Index">
@@ -88,9 +88,9 @@
                     <div class="form-group">
                         @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                         {
-                            <input class="btn btn-primary" type="submit" value="save" />
-                            <a class="btn btn-info" asp-controller="Incident" asp-action="EditOrAdd" asp-route-SensorWarningId="@Model.Id" >Assign To Incident</a>
-                            <a class="btn btn-danger" asp-action="Index">Back</a>
+                            <input class="btn btn-primary waves-effect" type="submit" value="save" />
+                            <a class="btn btn-info waves-effect" asp-controller="Incident" asp-action="EditOrAdd" asp-route-SensorWarningId="@Model.Id" >Assign To Incident</a>
+                            <a class="btn btn-success waves-effect" asp-action="Index">Back</a>
                         }
 
                     </div>
@@ -178,8 +178,8 @@
             </arabic>
  
         </div>
-             <div class="float-md-right">
-                    <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
+             <div class="m-auto col-sm-4 mw-100">
+                    <img src="~/assets/images/incident-management.png" class="rounded mx-auto d-block" alt="Details">
              </div>
     
     </div>

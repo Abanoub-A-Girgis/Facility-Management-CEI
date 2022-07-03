@@ -1,9 +1,9 @@
 ﻿<canvas id="viewer" height="700" style="width: 100%;
                                    object-fit: contain;"></canvas>
 
-        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
-                                                                top: 8px;
-                                                                left: 4%;
+        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 270px; position: absolute;
+                                                                top: 300px;
+                                                                right: 8px;
                                                                 z-index:5"">
             <div class="font-weight-bold mb-2 text-center">
                 <english>Toggle Highlights</english>
@@ -57,8 +57,8 @@
 
         <div style="position: absolute;
                     top: 8px;
-                    right: 16px;
-                    z-index:5" id="overlayDiv"></div>
+                    right: 50%;
+                    z-index:5" id="fpsDiv"></div>
         <script type="text/javascript">
             var viewer = new xViewer('viewer');
             //viewer.load('../data/SampleHouse.wexbim');
@@ -83,9 +83,9 @@
 
         <script>
                 viewer.on('fps', function (fps) {
-                    var overlayDiv = document.getElementById('overlayDiv');
-                    if (overlayDiv) {
-                        overlayDiv.innerHTML = "FPS: " + fps;
+                    var fpsDiv = document.getElementById('fpsDiv');
+                    if (fpsDiv) {
+                        fpsDiv.innerHTML = "FPS: " + fps;
                     }
                 });
         </script>

@@ -8,16 +8,15 @@
     <english> Floor Details</english>
     <arabic class="d-none">تفاصيل الطابق </arabic>
 </h1>
+<hr />
 
-<div>
+<div class="row">
 @*    <h4>
          <english> Floor </english>
          <arabic class="d-none">الطوابق</arabic>
     </h4>*@
-    <hr />
-    <div class="float-right">
-        <img src="~/assets/images/carousel/image1.jpg" class="rounded mx-auto d-block" alt="Details">
-    </div>
+
+    <div class="col-md-4">
     <dl class="row">
          <dt class = "col-sm-2">
             <english> @Html.DisplayNameFor(model => model.Id) </english>
@@ -34,11 +33,16 @@
             @Html.DisplayFor(model => model.FloorName)
         </dd>
     </dl>
+
+    </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/floor.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
 <div>
-    <a class="btn btn-danger" asp-action="Index">
+    <a class="btn btn-success waves-effect" asp-action="Index">
         <english>Back to List</english>
-        <arabic class="d-none">العودة إلى القائمة </arabic>
+        <arabic class="d-none">العودة إلى القائمة</arabic>
     </a>
 </div>
 

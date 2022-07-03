@@ -13,6 +13,11 @@
 <!-- owl.carousel css -->
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.theme.default.min.css">
+<style>
+    .ARbrowse:after {
+        content: "تصفح"
+    }
+</style>
 
 <div class="row">
     <div class="col-xl-9">
@@ -70,7 +75,7 @@
                         <div>
                             @if(ViewBag.English == null)
                             {
-                                <h5 class="text-primary"><english>Register account</english><arabic class="d-none">سجل حسابا</arabic></h5>
+                                <h5 class="text-primary"><english>Register Account</english><arabic class="d-none">سجل حسابا</arabic></h5>
                                         
                             }
                             else
@@ -94,43 +99,52 @@
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                 <div class="form-group">
+                                    <label for="firstName">Profile Picture</label>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-label" id="ProfilePicEN" asp-for="ProfilePicturePath">
+                                      <label class="custom-file-label" for="ProfilePicEN">Choose file</label>
+                                    </div>
+                                    <span asp-validation-for="ProfilePicturePath" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" asp-for="FirstName">
+                                    <input type="text" class="form-control" id="firstNameEN" placeholder="Enter First Name" asp-for="FirstName">
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" asp-for="LastName">
+                                    <input type="text" class="form-control" id="lastNameEN" placeholder="Enter Last Name" asp-for="LastName">
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="userName">User Name</label>
-                                    <input type="text" class="form-control" id="userName" placeholder="Enter User Name" asp-for="UserName">
+                                    <input type="text" class="form-control" id="userNameEN" placeholder="Enter User Name" asp-for="UserName">
                                     <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
 
                                     <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password" asp-for="PassWord">
+                                    <input type="password" class="form-control" id="userpasswordEN" placeholder="Enter password" asp-for="PassWord">
                                         <span asp-validation-for="PassWord" class="text-danger"></span>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="Role">User Type</label>
-                                    <select asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="Role"></select>
+                                    <select asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleEN"></select>
                                         <span asp-validation-for="Role" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="SuperId">Super Id</label>
-                                    <select asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId">
+                                    <select asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdEN">
                                         <option selected="selected" class="form-control" value=""></option>
                                     </select>
-@*                                            <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
-*@                                            <span asp-validation-for="SuperId" class="text-danger"></span>
+@*                                  <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
+*@                                  <span asp-validation-for="SuperId" class="text-danger"></span>
                                 </div>
 
                                     @*<div class="form-group">
@@ -178,39 +192,49 @@
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                 <div class="form-group">
+                                    <label for="firstName">الصوره الشخصيه</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-label" id="ProfilePicAR" asp-for="ProfilePicturePath">
+                                        <label class="custom-file-label ARbrowse" for="ProfilePicAR">اختر ملف</label>
+                                    </div>
+                                    <span asp-validation-for="ProfilePicturePath" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
                                     <label for="firstName">الإسم الأول</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="أدخل الإسم الأول" asp-for="FirstName">
+                                    <input type="text" class="form-control" id="firstNameAR" placeholder="أدخل الإسم الأول" asp-for="FirstName">
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="lastName">الإسم الأخير</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="أدخل الإسم الأخير" asp-for="LastName">
+                                    <input type="text" class="form-control" id="lastNameAR" placeholder="أدخل الإسم الأخير" asp-for="LastName">
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="userName">إسم المستخدم</label>
-                                    <input type="text" class="form-control" id="userName" placeholder="أدخل إسم المستخدم" asp-for="UserName">
+                                    <input type="text" class="form-control" id="userNameAR" placeholder="أدخل إسم المستخدم" asp-for="UserName">
                                     <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
 
                                     <div class="form-group">
                                     <label for="password">كلمة السر</label>
-                                    <input type="password" class="form-control" id="userpassword" placeholder="أدخل كلمة السر" asp-for="PassWord">
+                                    <input type="password" class="form-control" id="userpasswordAR" placeholder="أدخل كلمة السر" asp-for="PassWord">
                                         <span asp-validation-for="PassWord" class="text-danger"></span>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="Role">نوع المستخدم</label>
-                                    <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="Role"></select>
+                                    <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleAR"></select>
                                         <span asp-validation-for="Role" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="SuperId">رقم المشرف</label>
-                                    <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId" >
+                                    <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdAR" >
                                             <option selected="selected" class="form-control" value=""></option>
                                     </select>
                                         <span asp-validation-for="SuperId" class="text-danger"></span>
@@ -287,3 +311,18 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 @* <span asp-validation-for="Comment" class="text-danger"></span>*@
+
+<script>
+$('#ProfilePicEN').on('change', function(e) {
+    //get the file name
+    var fileName = e.target.files[0].name;
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+});
+$('#ProfilePicAR').on('change', function(e) {
+    //get the file name
+    var fileName = e.target.files[0].name;
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+});
+</script>

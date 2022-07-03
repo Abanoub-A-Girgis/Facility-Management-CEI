@@ -7,10 +7,10 @@
 @using API.Models
 @model Facility_Management_CEI.Controllers.ViewerParameter
 
-<h1 class="text-center text-uppercase font-weight-bold mb-5">
+<h2 class="text-center text-uppercase font-weight-bold mb-5">
     <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
-</h1>
+</h2>
 
 <head>
     <title>
@@ -35,8 +35,8 @@
     <div class="position-relative">
         <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
                                                 height: 700px;
-                                                top: 0px;
-                                                left: 8px;
+                                                top: 300px;
+                                                right: 8px;
                                                 z-index:6;" id="ToggleLeftSliderContainer">
                 <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
                 <div id="ToggleLeftSlider" class="col-auto overflow-auto" style="height: 650px">
@@ -107,7 +107,7 @@
 
         <canvas id="viewer" height="700" style="width: 100%;
                                     object-fit: contain;"></canvas>
-        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute;
+        <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 270px; position: absolute;
                                                                 top: 8px;
                                                                 left: 4%;
                                                                 z-index:5"">
@@ -167,7 +167,7 @@
 
         <div style="position: absolute;
                     top: 8px;
-                    right: 16px;
+                    right: 50%;
                     z-index:5" id="fpsDiv"></div>
         <script type="text/javascript">
             var viewer = new xViewer('viewer');

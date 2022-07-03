@@ -14,6 +14,7 @@
 </head>
 
 <h1><english>Work Order Details</english><arabic class="d-none">تفاصيف المهمة</arabic></h1>
+<hr />
 
 <div class="position-relative">
     <div class="shadow-lg py-3 mb-5 bg-white rounded row my-auto" style="position: absolute;
@@ -229,9 +230,9 @@
 @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
 {
             
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> 
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary waves-effect"><english>Edit</english><arabic class="d-none">تعديل</arabic></a> 
 }
-<a asp-action="TaskList" class="btn btn-danger"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
+<a asp-action="TaskList" class="btn btn-success waves-effect"><english>Back to List</english><arabic class="d-none">العودة إلى القائمة</arabic></a>
 
 
 <script>

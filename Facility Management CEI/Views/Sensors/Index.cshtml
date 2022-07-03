@@ -8,19 +8,15 @@
     @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
 
- <div class="card text-center">
-   <div class="card-header">
-     <h3>
+    <h3>
         <english> Sensors List </english>
-        <arabic class="d-none"> قائمة المستشعرات </arabic>
-     </h3>
-   </div>
-   <div class="card-body">
-     <p class="card-text">
-         <english>  Our Building Sensors </english>
-        <arabic class="d-none">  قائمة المستشعرات الخاصة بالمنشأة  </arabic> </p>
-   </div>
- </div>
+        <arabic class="d-none">قائمة المستشعرات</arabic>
+    </h3>
+    <p class="card-text">
+        <english>  Our Building Sensors </english>
+        <arabic class="d-none">قائمة المستشعرات الخاصة بالمنشأة</arabic>
+    </p>
+
  <div class="mt-4">
      <div class="table-responsive">
          <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -28,19 +24,19 @@
         <tr>
             <th class="text-center" scope="col">
                     <english>@Html.DisplayNameFor(model => model.Id)</english>
-                    <arabic class="d-none">  كود المستشعر </arabic>
+                    <arabic class="d-none">كود المستشعر</arabic>
             </th>
             <th class="text-center" scope="col">
                     <english>@Html.DisplayNameFor(model => model.Name)</english>
-                    <arabic class="d-none">  اسم المستشعر </arabic>
+                    <arabic class="d-none">اسم المستشعر</arabic>
             </th>
             <th class="text-center" scope="col">
                     <english>@Html.DisplayNameFor(model => model.SensorType)</english>
-                    <arabic class="d-none">  نوع المستشعر </arabic>
+                    <arabic class="d-none">نوع المستشعر</arabic>
             </th>
             <th class="text-center" scope="col"> 
                 <english>Details</english>
-                <arabic class="d-none">   التفاصيل  </arabic>
+                <arabic class="d-none">التفاصيل</arabic>
             </th>
         </tr>
     </thead>
@@ -51,9 +47,9 @@
             <td class="text-center">@Html.DisplayFor(modelItem => item.Name)</td>
             <td class="text-center">@Html.DisplayFor(modelItem => item.SensorType) </td>
             <td class="text-center">
-                <a asp-action="Details" class="btn btn-primary"  asp-route-id="@item.Id"> 
+                <a asp-action="Details" class="btn btn-primary waves-effect"  asp-route-id="@item.Id"> 
                     <english>Details</english>
-                    <arabic class="d-none">   التفاصيل  </arabic>
+                    <arabic class="d-none">التفاصيل</arabic>
                 </a> 
             </td>
         </tr>

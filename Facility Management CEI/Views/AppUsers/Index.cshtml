@@ -15,16 +15,7 @@
     <english> Building Personnel</english>
     <arabic class="d-none">صفحة العاملين بالمنشأة</arabic>
 </h1>
-@if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
-{
-<p>
-    <a href=@Url.Action("Register", "Account") class="btn btn-primary" @*asp-action="Create"*@>
-        <english> Create New</english>
-        <arabic class="d-none">إنشاء مستخدم</arabic>
-    </a>
-</p>
-    
-}
+
 <table class="table" id="datatable" >
     <thead>
         <tr>
@@ -133,7 +124,7 @@
             @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">
+                <a asp-action="Edit" class="btn btn-primary waves-effect" asp-route-id="@item.Id">
                         <english>Edit</english>
                        <arabic class="d-none">تعديل</arabic>
                 </a>
@@ -141,7 +132,7 @@
             }
 
             <td class="text-center" scope="col">
-                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info waves-effect" asp-route-id="@item.Id">
                    <english>Details</english>
                    <arabic class="d-none">التفاصيل</arabic>
                 </a> 
@@ -150,7 +141,7 @@
             @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">
+                <a asp-action="Delete" class="btn btn-danger waves-effect" asp-route-id="@item.Id">
                    <english>Delete</english>
                    <arabic class="d-none">مسح</arabic>
                 </a>

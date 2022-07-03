@@ -4,12 +4,14 @@ using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -84,8 +86,10 @@ namespace Facility_Management_CEI.Controllers
                                 LogUserId = newUser.Id,
                                 Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
                                 BuildingId = SuperAppUser?.BuildingId,
-                                SuperId = model.SuperId
+                                SuperId = model.SuperId,
+                                ProfilePicturePath = model.ProfilePicturePath
                             };
+
 
                             _Context.AppUsers.Add(appuser);
                             _Context.SaveChanges();
@@ -130,6 +134,7 @@ namespace Facility_Management_CEI.Controllers
             }
             
         }
+
         [HttpGet]
         public /*async Task<*/IActionResult LogIn()
         {
@@ -151,7 +156,7 @@ namespace Facility_Management_CEI.Controllers
                         FirstName = Admin.FirstName,
                         LastName = Admin.LastName,
                         LogUserId = Admin.Id,
-                        Type = API.Enums.UserType.AccountManager
+                        Type = UserType.AccountManager
                     };
                     _Context.AppUsers.Add(appuser);
                     _Context.SaveChanges();
@@ -221,10 +226,6 @@ namespace Facility_Management_CEI.Controllers
             return UsersList;
         }
 
-        public List<AppUser> LoginToMobApp()
-        {
-            return _Context.AppUsers.ToList();
-        }
         [HttpGet]
         public IActionResult LoginTomobApp1()
         {

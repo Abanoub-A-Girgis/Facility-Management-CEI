@@ -8,10 +8,10 @@
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 
-<h1 class="text-center text-uppercase font-weight-bold mb-5">
+<h2 class="text-center text-uppercase font-weight-bold mb-5">
     <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
-</h1>
+</h2>
 
 <head>
     <title>
@@ -348,7 +348,7 @@
         }
 
         var SupervisorsDic = {
-            @foreach(var Supervisor in ViewBag.Inspectors)
+            @foreach(var Supervisor in ViewBag.Supervisors)
             {
                 @Supervisor.Id@::@Html.Raw(Json.Serialize(Supervisor.FirstName + " " + Supervisor.LastName)),
             }
