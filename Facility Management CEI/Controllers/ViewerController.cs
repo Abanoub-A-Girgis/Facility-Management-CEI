@@ -35,6 +35,7 @@ namespace Facility_Management_CEI.Controllers
         public List<int> High = new List<int>();
         public List<int> Medium = new List<int>();
         public List<int> Low = new List<int>();
+        public List<int> Rooms = new List<int>();
     }
 
     //public class testView
@@ -70,28 +71,28 @@ namespace Facility_Management_CEI.Controllers
                     if(t.Incident.AssetId != null)
                         viewerParam.Severe.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.High)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.High.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Medium)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Medium.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Low)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Low.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
             }
             return viewerParam;

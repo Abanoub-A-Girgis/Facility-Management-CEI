@@ -161,6 +161,13 @@
                         <arabic class="d-none">قليل</arabic>
                     </label>
                 </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch13" onchange="ToggleHighLightRooms()" autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch13">
+                        <english>Spaces</english>
+                        <arabic class="d-none">فراغات</arabic>
+                    </label>
+                </div>
             </div>
             <div class="text-center SliderDiv" id="ToggleHighlightArrowDiv">
                 <i class="fas fa-angle-double-up" id="ToggleHighlightDivArrow"></i>
@@ -400,8 +407,13 @@
         }
 
         var animateLowBool = true;
-        function ToggleHighLightLow() {
+        function ToggleHighLightLow() {W
             animateLowBool ? animateLowBool = false : animateLowBool = true;
+        }
+
+        var animateRoomsBool = false;
+        function ToggleHighLightRooms() {
+            animateRoomsBool ? animateRoomsBool = false : animateRoomsBool = true;
         }
         
         var HighLightItemsBool = false;
@@ -409,6 +421,7 @@
         function ToggleHighLightItems() {
             if (HighLightItemsBool) {
                 clearInterval(animation);
+                viewer.setState(xState.HIDDEN, listOfRooms)
                 viewer.resetStyles();
                 HighLightItemsBool = false;
             }
@@ -429,10 +442,14 @@
                         if (animateLowBool) {
                             viewer.setStyle(3, listOfLow);
                         }
+                        if(animateRoomsBool) {
+                            viewer.setState(xState.HIGHLIGHTED, listOfRooms)
+                        }
                         animateBool = false;
                     }
                     else {
                         viewer.resetStyles()
+                        viewer.setState(xState.HIDDEN, listOfRooms)
                         animateBool = true;
                     }
                     HighLightItemsBool = true;

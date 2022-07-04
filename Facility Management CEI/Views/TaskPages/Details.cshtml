@@ -159,7 +159,7 @@
 
     <canvas id="viewer" height="650" style="width: 100%;
                             object-fit: contain;"></canvas>
-    <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute; top: 8px;left: 4%;z-index:5"">
+    <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 150px; position: absolute; top: 300px;right: 8px;z-index:5"">
         <div class="font-weight-bold mb-2 text-center"><english>Toggle Highlights</english><arabic class="d-none">تبديل الإضاءات</arabic></div>
         @*<button class="btn btn-primary" onclick="ToggleHighLightItems()">Toggle Highlight Items</button>
         <button class="btn btn-primary" onclick="ToggleHighLightSevere()">Toggle Highlight Severe</button>
@@ -358,10 +358,14 @@
                     if ("@Model.Priority" == "@Priority.Low") {
                         viewer.setStyle(3, [@Model.Incident.AssetId]);
                     }
+                    if (@(Model.Incident.AssetId == null ? 1 : 0)) {
+                        viewer.setState(xState.HIGHLIGHTED, [@Model.Incident.SpaceId])
+                    }
                     animateBool = false;
                 }
                 else {
                     viewer.resetStyles()
+                    viewer.setState(xState.HIDDEN, [@Model.Incident.SpaceId])
                     animateBool = true;
                 }
                 HighLightItemsBool = true;

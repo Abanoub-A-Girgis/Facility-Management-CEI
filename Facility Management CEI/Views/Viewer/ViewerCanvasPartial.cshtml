@@ -46,6 +46,13 @@
                         <arabic class="d-none">قليل</arabic>
                     </label>
                 </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch13" onchange="ToggleHighLightRooms()" autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch13">
+                        <english>Spaces</english>
+                        <arabic class="d-none">فراغات</arabic>
+                    </label>
+                </div>
             </div>
             <div class="text-center SliderDiv" id="ToggleHighlightArrowDiv">
                 <i class="fas fa-angle-double-up" id="ToggleHighlightDivArrow"></i>
@@ -269,7 +276,7 @@
     var AgentItems = {
         @foreach(var Items in Model)
         {
-            @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low))],
+            @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Rooms))],
         }
     }
 
@@ -277,18 +284,21 @@
     var listOfHigh = [];
     var listOfMedium = [];
     var listOfLow = [];
+    var listOfRooms = [];
 
     $.each(AgentItems, function(key, value) {
         listOfSevere = listOfSevere.concat(value[0]);
         listOfHigh = listOfHigh.concat(value[1]);
         listOfMedium = listOfMedium.concat(value[2]);
         listOfLow = listOfLow.concat(value[3]);
+        listOfRooms = listOfRooms.concat(value[4]);
     })
         
     var listOfSevere2 = listOfSevere;
     var listOfHigh2 = listOfHigh;
     var listOfMedium2 = listOfMedium;
     var listOfLow2 = listOfLow;
+    var listOfRooms2 = listOfRooms;
 
         
     var animateSevereBool = true;
@@ -310,12 +320,18 @@
     function ToggleHighLightLow() {
         animateLowBool ? animateLowBool = false : animateLowBool = true;
     }
+
+    var animateRoomsBool = false;
+    function ToggleHighLightRooms() {
+        animateRoomsBool ? animateRoomsBool = false : animateRoomsBool = true;
+    }
         
     var HighLightItemsBool = false;
     var animation;
     function ToggleHighLightItems() {
         if (HighLightItemsBool) {
             clearInterval(animation);
+            viewer.setState(xState.HIDDEN, listOfRooms)
             viewer.resetStyles();
             HighLightItemsBool = false;
         }
@@ -336,10 +352,14 @@
                     if (animateLowBool) {
                         viewer.setStyle(3, listOfLow);
                     }
+                    if(animateRoomsBool) {
+                        viewer.setState(xState.HIGHLIGHTED, listOfRooms)
+                    }
                     animateBool = false;
                 }
                 else {
                     viewer.resetStyles()
+                    viewer.setState(xState.HIDDEN, listOfRooms)
                     animateBool = true;
                 }
                 HighLightItemsBool = true;

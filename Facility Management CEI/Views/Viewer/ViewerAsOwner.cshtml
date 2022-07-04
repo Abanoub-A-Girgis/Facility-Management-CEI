@@ -359,6 +359,13 @@
                         <arabic class="d-none">قليل</arabic>
                     </label>
                 </div>
+                <div class="custom-control custom-switch mb-1">
+                    <input type="checkbox" class="custom-control-input custom-control-input-light" id="Switch13" onchange="ToggleHighLightRooms()" autocomplete="off">
+                    <label class="custom-control-label custom-control-label-light" for="Switch13">
+                        <english>Spaces</english>
+                        <arabic class="d-none">فراغات</arabic>
+                    </label>
+                </div>
             </div>
             <div class="text-center SliderDiv" id="ToggleHighlightArrowDiv">
                 <i class="fas fa-angle-double-up" id="ToggleHighlightDivArrow"></i>
@@ -593,7 +600,7 @@
         var AgentItems = {
             @foreach(var Items in Model)
             {
-                @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low))],
+                @Items.Key@:: [@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Severe)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.High)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Medium)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Low)), @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Items.Value.Rooms))],
             }
         }
 
@@ -601,18 +608,21 @@
         var listOfHigh = [];
         var listOfMedium = [];
         var listOfLow = [];
+        var listOfRooms = [];
 
         $.each(AgentItems, function(key, value) {
             listOfSevere = listOfSevere.concat(value[0]);
             listOfHigh = listOfHigh.concat(value[1]);
             listOfMedium = listOfMedium.concat(value[2]);
             listOfLow = listOfLow.concat(value[3]);
+            listOfRooms = listOfRooms.concat(value[4]);
         })
         
         var listOfSevere2 = listOfSevere;
         var listOfHigh2 = listOfHigh;
         var listOfMedium2 = listOfMedium;
         var listOfLow2 = listOfLow;
+        var listOfRooms2 = listOfRooms;
 
         
         var animateSevereBool = true;
@@ -634,12 +644,18 @@
         function ToggleHighLightLow() {
             animateLowBool ? animateLowBool = false : animateLowBool = true;
         }
+
+        var animateRoomsBool = false;
+        function ToggleHighLightRooms() {
+            animateRoomsBool ? animateRoomsBool = false : animateRoomsBool = true;
+        }
         
         var HighLightItemsBool = false;
         var animation;
         function ToggleHighLightItems() {
             if (HighLightItemsBool) {
                 clearInterval(animation);
+                viewer.setState(xState.HIDDEN, listOfRooms)
                 viewer.resetStyles();
                 HighLightItemsBool = false;
             }
@@ -660,10 +676,14 @@
                         if (animateLowBool) {
                             viewer.setStyle(3, listOfLow);
                         }
+                        if(animateRoomsBool) {
+                            viewer.setState(xState.HIGHLIGHTED, listOfRooms)
+                        }
                         animateBool = false;
                     }
                     else {
                         viewer.resetStyles()
+                        viewer.setState(xState.HIDDEN, listOfRooms)
                         animateBool = true;
                     }
                     HighLightItemsBool = true;
@@ -926,6 +946,7 @@
             listOfHigh = listOfHigh2;
             listOfMedium = listOfMedium2;
             listOfLow = listOfLow2;
+            listOfRooms = listOfRooms2;
             var Language = localStorage.getItem('language')
             if (Language == "english") {
                 ItemsTableHeading.innerHTML = "<english>All Work Orders</english><arabic class='d-none'>كل المهام</arabic>"
@@ -949,6 +970,8 @@
             listOfHigh = AgentItems[Id][1];
             listOfMedium = AgentItems[Id][2];
             listOfLow = AgentItems[Id][3];
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = AgentItems[Id][4];
             var Language = localStorage.getItem('language')
             if (Language == "english") {
                 ItemsTableHeading.innerHTML = "<english>Work Orders for Agent " + AgentsDic[Id] + "</english><arabic class='d-none'>مهام العامل " + AgentsDic[Id] + "</arabic>"
@@ -979,12 +1002,15 @@
             listOfHigh = [];
             listOfMedium = [];
             listOfLow = [];
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = [];
             $(agents).each(function(index, value) {
                   Regex += value;
                   listOfSevere = listOfSevere.concat(AgentItems[value][0]);
                   listOfHigh = listOfHigh.concat(AgentItems[value][1]);
                   listOfMedium = listOfMedium.concat(AgentItems[value][2]);
                   listOfLow = listOfLow.concat(AgentItems[value][3]);
+                  listOfRooms = listOfRooms.concat(AgentItems[value][4]);
                   var isLastElement = index == agents.length -1;
                   if (isLastElement) {
                       return false;
@@ -1025,6 +1051,8 @@
             listOfHigh = [];
             listOfMedium = [];
             listOfLow = [];
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = [];
             $(inspectors).each(function(index, value) {
                 agents = agents.concat(InspectorAgentsDic[value]);
             });
@@ -1034,6 +1062,7 @@
                 listOfHigh = listOfHigh.concat(AgentItems[value][1]);
                 listOfMedium = listOfMedium.concat(AgentItems[value][2]);
                 listOfLow = listOfLow.concat(AgentItems[value][3]);
+                listOfRooms = listOfRooms.concat(AgentItems[value][4]);
                 var isLastElement = index == agents.length -1;
                 if (isLastElement) {
                     return false;
@@ -1072,7 +1101,9 @@
             listOfSevere = [];
             listOfHigh = [];
             listOfMedium = [];
-            listOfLow = [];            
+            listOfLow = []; 
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = [];
             $(supervisors).each(function(index, value) {
                 var inspectors = SupervisorInspectorsDic[value]
                 $(inspectors).each(function(index, value) {
@@ -1085,6 +1116,7 @@
                 listOfHigh = listOfHigh.concat(AgentItems[value][1]);
                 listOfMedium = listOfMedium.concat(AgentItems[value][2]);
                 listOfLow = listOfLow.concat(AgentItems[value][3]);
+                listOfRooms = listOfRooms.concat(AgentItems[value][4]);
                 var isLastElement = index == agents.length -1;
                 if (isLastElement) {
                     return false;

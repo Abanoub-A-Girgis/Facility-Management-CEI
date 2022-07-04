@@ -227,12 +227,15 @@
             listOfHigh = [];
             listOfMedium = [];
             listOfLow = [];
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = [];
             $(agents).each(function(index, value) {
                   Regex += value;
                   listOfSevere = listOfSevere.concat(AgentItems[value][0]);
                   listOfHigh = listOfHigh.concat(AgentItems[value][1]);
                   listOfMedium = listOfMedium.concat(AgentItems[value][2]);
                   listOfLow = listOfLow.concat(AgentItems[value][3]);
+                  listOfRooms = listOfRooms.concat(AgentItems[value][4]);
                   var isLastElement = index == agents.length -1;
                   if (isLastElement) {
                       return false;
