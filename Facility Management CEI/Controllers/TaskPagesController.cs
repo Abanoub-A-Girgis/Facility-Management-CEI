@@ -445,7 +445,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpGet]
         public IActionResult SentTasksToMobApp1()
         {
-            var tasks = _Context.Tasks.ToList();
+            var tasks = _Context.Tasks.Where(t => t.Status == API.Enums.TaskStatus.WorkInProgress).ToList();
             return Ok(tasks);
         }
 
