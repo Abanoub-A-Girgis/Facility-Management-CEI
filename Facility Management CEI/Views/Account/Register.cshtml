@@ -355,16 +355,16 @@ $(document).ready(function() {
             $('#SuperIdEN').html('<option selected="selected" class="form-control">N/A</option>');
         }
         else if (val == "Manager") {
-            $('#SuperIdEN').html(Owners);
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Owners);
         }
         else if (val == "Supervisor") {
-            $('#SuperIdEN').html(Managers);
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Managers);
         }
         else if (val == "Inspector") {
-            $('#SuperIdEN').html(Supervisors);
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Supervisors);
         }
         else if (val == "Agent") {
-            $('#SuperIdEN').html(Inspectors);
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Inspectors);
         }
     });
     $('#RoleAR').change(function() {
@@ -373,16 +373,16 @@ $(document).ready(function() {
             $('#SuperIdAR').html('<option selected="selected" class="form-control">غير متاح</option>');
         }
         else if (val == "Manager") {
-            $('#SuperIdAR').html(Owners);
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Owners);
         }
         else if (val == "Supervisor") {
-            $('#SuperIdAR').html(Managers);
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Managers);
         }
         else if (val == "Inspector") {
-            $('#SuperIdAR').html(Supervisors);
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Supervisors);
         }
         else if (val == "Agent") {
-            $('#SuperIdAR').html(Inspectors);
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Inspectors);
         }
     });
 });
