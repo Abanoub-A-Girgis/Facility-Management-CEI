@@ -222,23 +222,28 @@
             var listOfHigh = [];
             var listOfMedium = [];
             var listOfLow = [];
+            var listOfRooms = [];
         
             @foreach (var i in Model.Severe)
-                {
-                    @:listOfSevere.push(@i);
-                }
+            {
+                @:listOfSevere.push(@i);
+            }
             @foreach (var i in Model.High)
-                {
-                    @:listOfHigh.push(@i);
-                }
+            {
+                @:listOfHigh.push(@i);
+            }
                 @foreach (var i in Model.Medium)
-                {
-                    @:listOfMedium.push(@i);
-                }
+            {
+                @:listOfMedium.push(@i);
+            }
             @foreach (var i in Model.Low)
-                {
-                    @:listOfLow.push(@i);
-                }
+            {
+                @:listOfLow.push(@i);
+            }
+            @foreach (var i in Model.Rooms)
+            {
+                @:listOfRooms.push(@i);
+            }
             
             //var animateBool = true;
             //setInterval(animateObjects, 1000);
@@ -442,7 +447,7 @@
                         if (animateLowBool) {
                             viewer.setStyle(3, listOfLow);
                         }
-                        if(animateRoomsBool) {
+                        if (animateRoomsBool) {
                             viewer.setState(xState.HIGHLIGHTED, listOfRooms)
                         }
                         animateBool = false;
