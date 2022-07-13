@@ -28,7 +28,7 @@ namespace Facility_Management_CEI.Controllers
             this._signInManager = singInManager;
         }
         // GET: IncidentController
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         public async Task<ActionResult> Index()//index is considered to be the home page of our controller
         {
@@ -40,14 +40,14 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
 
         // GET: IncidentController/Details/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Agent,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Agent,Inspector")]
 
         public async Task<ActionResult> Details(int? IncidentId)
         {
@@ -57,7 +57,7 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();//return not found page if the id is null
                 }
-                var Incident = await _Context.Incidents.FirstOrDefaultAsync(m => m.Id == IncidentId); //searching for the incident that has the same id within our data base
+                var Incident = await _Context.Incidents.Include(u=>u.AppUser).FirstOrDefaultAsync(m => m.Id == IncidentId); //searching for the incident that has the same id within our data base
                 if (Incident == null) //if there is no incident with the following id 
                 {
                     return NotFound();//return not found page 
@@ -69,21 +69,21 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
 
         // GET: IncidentController/Create
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         public ActionResult Create()
         {
             return View();
         }
    
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> EditOrAdd(int? IncidentId,int? SensorWarningId)//SensorWarningId waht is comming from the sesnor warning View
         {
             try
@@ -104,8 +104,9 @@ namespace Facility_Management_CEI.Controllers
                 ViewBag.UserId = appuser.Id;
                 if (IncidentId == null)
                 {
-                    string FilePath = appuser.Building.Path;
-                    ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                    //string FilePath = appuser.Building.Path;
+                    //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                    ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                     return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
                 }
                 else
@@ -113,8 +114,9 @@ namespace Facility_Management_CEI.Controllers
                     var Incident = await _Context.Incidents.FindAsync(IncidentId);//search for the student by the given id 
                     if (Incident == null)
                     {
-                        string FilePath = appuser.Building.Path;
-                        ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                        //string FilePath = appuser.Building.Path;
+                        //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                        ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                         return View();//where is the syntax of this View In cae that i want to mofdify any thing (which view will be returned)
                     }
                     else
@@ -123,13 +125,14 @@ namespace Facility_Management_CEI.Controllers
                         {
                             return NotFound();//throgh an exception if not found 
                         }
+                        ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
                         return View(Incident);//pass this Incident data to the view 
                     }//the returned view contains the UI cells that will allow you to insert or edit records  
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
@@ -137,7 +140,7 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
 
         //Bind will pass the data from the View of these parameters to this method in the Incident data parameters during run time, in this case we can take the run time values and place it in our database
         //for example the View will send the box that holds the value of AssetId to this method by using the binding attribute, make sure that every attribute within the biding is writtin correctly as the mapping between the run time values and back end values will differ 
@@ -193,7 +196,6 @@ namespace Facility_Management_CEI.Controllers
                             {
                                 int? spaceid = _Context.Assets.ToList().FirstOrDefault(ass => ass.Id == incidentData.AssetId).SpaceId;
                                 Incident.SpaceId = (int)spaceid;
-                                var x = 1;
                             }
                             //read the input data(this step is done in both cases bot the action of adding or creating is determined later )
                             Incident.Description = incidentData.Description;
@@ -218,14 +220,14 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
         // GET: IncidentController/Edit/5
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public ActionResult Edit(int id)
         {
             try
@@ -234,7 +236,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
@@ -243,7 +245,7 @@ namespace Facility_Management_CEI.Controllers
         [HttpPost]
         //ValidateAntiForgeryToken attribute: is to prevent cross-site request forgery attacks. A cross-site request forgery is an attack in which a harmful script element, malicious command, or code is sent from the browser of a trusted user.
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -257,7 +259,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         // GET: IncidentController/Delete/5
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int? Incidentid)
         {
             try
@@ -266,13 +268,13 @@ namespace Facility_Management_CEI.Controllers
                 {
                     return NotFound();
                 }
-                var Incident = await _Context.Incidents.FirstOrDefaultAsync(m => m.Id == Incidentid);
+                var Incident = await _Context.Incidents.Include(u=>u.AppUser).FirstOrDefaultAsync(m => m.Id == Incidentid);
 
                 return View(Incident);
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
@@ -281,7 +283,7 @@ namespace Facility_Management_CEI.Controllers
         // POST: IncidentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int Incidentid)
         {
             try
@@ -293,7 +295,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }

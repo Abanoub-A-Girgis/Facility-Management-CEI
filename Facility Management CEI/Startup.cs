@@ -59,7 +59,7 @@ namespace Facility_Management_CEI
             services.AddControllersWithViews()  // to solve error Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
-            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);//to stop the looping in data loading
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
             //services.AddDbContext<Facility_Management_CEI.IdentityDb.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FMTest")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +75,7 @@ namespace Facility_Management_CEI
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
 
-            string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "SystemAdmin", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
+            string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "AccountManager", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
 
             IdentityResult roleResult;
 
@@ -110,7 +110,7 @@ namespace Facility_Management_CEI
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "SystemAdmin");
+                    var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "AccountManager");
 
                 }
             }

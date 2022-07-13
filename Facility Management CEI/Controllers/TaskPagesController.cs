@@ -32,7 +32,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
         //Create ur task
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task <IActionResult> CreateTask(int? IncidentId)
         {
             try
@@ -49,14 +49,14 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> CreateTask([Bind(" Id,AssignedById,AssignedToId,Cost,CreatedById,Description,IncidentId,FixingTime,Type,Status,Priority")] Task task)
         {
             try
@@ -73,13 +73,13 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
    
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Agent")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector,Agent")]
         public async Task<IActionResult> TaskList()
         {
             try
@@ -87,7 +87,7 @@ namespace Facility_Management_CEI.Controllers
                 var LogUserId = (await _userManeger.GetUserAsync(User)).Id;
                 var AppUser = _Context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
                 List<Task> tasks = new List<Task>();
-                //if(AppUser.Type == UserType.SystemAdmin)
+                //if(AppUser.Type == UserType.AccountManager)
                 //{ 
                 //    tasks = _Context.Tasks.ToList(); 
                 //}
@@ -164,13 +164,13 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
         }
         //show details by id we may call is search
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector,Agent")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector,Agent")]
         public async Task<IActionResult> Details(int? id)
         {
             try
@@ -195,8 +195,10 @@ namespace Facility_Management_CEI.Controllers
                     return NotFound();
                 }
 
-                string FilePath = task.Incident.Space.Floor.Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _Context.Floors.OrderBy(f => f.Path).ToList();
+
+                //string FilePath = task.Incident.Space.Floor.Building.Path;
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "../../" + FilePath.Substring(0, FilePath.Length - 3) + "wexBIM");
 
                 //List<IfcMaterial> Materials = new List<IfcMaterial>();
 
@@ -216,12 +218,12 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
@@ -246,7 +248,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
@@ -254,7 +256,7 @@ namespace Facility_Management_CEI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Description,Status,Priority,Cost,FixingTime,IncidentId,CreatedById,AssignedToId,AssignedById,Comment")] Task task)
         {
             try
@@ -291,7 +293,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
@@ -312,14 +314,14 @@ namespace Facility_Management_CEI.Controllers
                 var user = await _userManeger.GetUserAsync(User);
                 var userId = user.Id;
                 ViewBag.UserId = _Context.AppUsers.ToList().Where(u => u.LogUserId == userId).FirstOrDefault().Id;
-                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers.Select(s => new { FullText = s.Id + ": " + s.FirstName + s.LastName, Id = s.Id }), "Id", "FullText");
+                ViewData["AssignedToId"] = new SelectList(_Context.AppUsers.Where(i=> i.Type == UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName  +" "+ s.LastName, Id = s.Id }), "Id", "FullText");
                 //ViewData["AssignedToId"] = new SelectList(_Context.AppUsers, "Id", "Id", task.AssignedToId);
                 ViewData["IncidentId"] = new SelectList(_Context.Incidents, "Id", "Id", task.IncidentId);
                 return View(task);
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
            
@@ -370,13 +372,13 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
         //delete func..it's important to create this before using any http verb as it works like get and then we use post verb in the next function 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -390,7 +392,7 @@ namespace Facility_Management_CEI.Controllers
                     //.Include(t => t.AssignedBy)
                     //.Include(t => t.AssignedTo)
                     //.Include(t => t.CreatedBy)
-                    .Include(t => t.Incident)
+                    .Include(t => t.Incident).Include(u=>u.CreatedBy).Include(u=>u.AssignedBy).Include(r=>r.AssignedBy).Include(u=>u.AssignedTo)
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (task == null)
                 {
@@ -401,7 +403,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
@@ -409,7 +411,7 @@ namespace Facility_Management_CEI.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
@@ -421,7 +423,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
@@ -443,8 +445,9 @@ namespace Facility_Management_CEI.Controllers
         [HttpGet]
         public IActionResult SentTasksToMobApp1()
         {
-            var tasks = _Context.Tasks.ToList();
+            var tasks = _Context.Tasks.Where(t => t.Status == API.Enums.TaskStatus.WorkInProgress).ToList();
             return Ok(tasks);
         }
+
     }
 }

@@ -18,13 +18,16 @@
                     </span>
                 </a>*@
 
-                <a href=@Url.Action("Index", "index") class="logo logo-light">
+                <a href=@Url.Action("HomePage", "HomePage") class="logo logo-light">
 @*                    <span class="logo-sm">
                         <img src="~/assets/images/logo-light.svg" alt="" height="22">
                     </span>
                     <span class="logo-lg">
                         <img src="~/assets/images/logo-light.png" alt="" height="19">
                     </span>*@
+                    <span class="logo-sm">
+                        <img src="~/assets/images/logo.png" alt="logo" height="50" style="position:relative;left: 5px">
+                    </span>
                     <span class="logo-lg">
                         <img src="~/assets/images/logo innove.png" alt="logo" height="50">
                     </span>
@@ -383,8 +386,8 @@
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    @*                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/Rania.jpg" asp-append-version="true"
-                                alt="Header Avatar">*@                        
+                        <img class="rounded-circle header-profile-user" src="~@context.AppUsers.Where(u => u.LogUserId == usermanager.GetUserId(User)).FirstOrDefault()?.ProfilePicturePath" asp-append-version="true"
+                                alt="Header Avatar">                       
                         <span class="d-none d-xl-inline-block ml-1">@usermanager.Users.Where(x => x.Id == usermanager.GetUserId(User)).Select(x => x.FirstName + " " + x.LastName).FirstOrDefault()</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>

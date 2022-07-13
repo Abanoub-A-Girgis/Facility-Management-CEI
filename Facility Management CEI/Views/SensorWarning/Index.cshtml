@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<API.Models.SensorWarning>
+@using API.Enums
     @{
     ViewData["Title"]="SensorWarning";
     Layout = "~/Views/_Shared/_Layout.cshtml";
@@ -13,22 +14,19 @@
 <head>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+      @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
 </head>
 
-                <div class="card text-center">
-                  <div class="card-header">
-                    <h3>
+                    <h3 class="text-center">
                         <english>Sensors Warnings</english>
                         <arabic class="d-none">تنبيهات من المستشعرات</arabic>
                     </h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text">
-                        <english>Invistegate Sensors Warnings and Assing It to Incident.</english>
+
+                    <p class="text-center">
+                        <english>Investegate Sensors Warnings and Assing It to Incident.</english>
                         <arabic class="d-none">أفحص تنبيه المستشعر وحرره الى حادثة</arabic>
                     </p>
-                  </div>
-                </div>
+
                 <div class="mt-4">
                     <div class="table-responsive">
                         <table id="datatable" class="table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -63,7 +61,7 @@
                                         <arabic class="d-none">تاريخ الفحص</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>Invsetigated By</english>
+                                        <english>Investigated By</english>
                                         <arabic class="d-none">تم الفحص من قبل</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
@@ -90,7 +88,34 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.InvestigatDate)</td>
                                     @if (item.AppUserId!=null)
                                     {
-                                        <td class="text-center" scope="col">@UserName</td>
+                                        <td class="text-center" scope="col">@*@UserName*@@My_user.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @My_user.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName
+                                            
+                                            @if(item.AppUser.Type==UserType.AccountManager)
+                                            {
+                                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type==UserType.Owner)
+                                            {
+                                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Manager)
+                                            {
+                                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Supervisor)
+                                            {
+                                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Inspector)
+                                            {
+                                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Agent)
+                                            {
+                                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                                            }
+                                         
+                                        </td>
                                     }
                                     else
                                     {
@@ -98,7 +123,7 @@
                                     }
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment)</td>
                                     <td class="text-center" scope="col">
-                                    <a  asp-action="Investigate" class="btn btn-outline-primary"  asp-route-WarningId="@item.Id">
+                                    <a asp-action="Investigate" class="btn btn-info waves-effect"  asp-route-WarningId="@item.Id">
                                         <english>Investigate</english>
                                         <arabic class="d-none">فحص</arabic>
                                     </a> 
@@ -110,10 +135,56 @@
                     </div>
                 </div>
 <script>
-$(document).ready(function(){
-    $('#datatable').DataTable();
-}
-);
+ $(document).ready(function () {
+        $('#datatable').DataTable(
+        {
+        "columnDefs": [
+                { "searchable": false, "targets": [9] }
+            ],
+            dom: '<"mb-2"B>lfrtip',
+            buttons : [
+                {
+      	            extend: 'excelHtml5',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        format: {
+                            header: function(text, index, node) {
+                                return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
+                            }
+                        }
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                }
+            ],
+            "oLanguage": {
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
+            },
+        });
+    } );
+
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

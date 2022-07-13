@@ -8,19 +8,20 @@
     <english> Space Details</english>
     <arabic class="d-none">  تفاصيل الفراغ  </arabic>
 </h1>
-
-<div>
+<hr />
+@*comment*@
+<div class="row">
 @*    <h4>Space</h4>*@
-    <hr />
+    <div class="col-md-4">
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
               <english> @Html.DisplayNameFor(model => model.Id)</english>
               <arabic class="d-none"> كود الغرفه  </arabic>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
               <english> @Html.DisplayNameFor(model => model.Name)</english>
               <arabic class="d-none"> اسم الغرفه  </arabic>
         </dt>
@@ -28,7 +29,7 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
                <english> Floor @Html.DisplayNameFor(model => model.Floor.Id)</english>
               <arabic class="d-none">كود الطابق</arabic>
         </dt>
@@ -36,7 +37,7 @@
             @Html.DisplayFor(model => model.Floor.Id)
         </dd>
 
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-3">
                <english> @Html.DisplayNameFor(model => model.Floor.FloorName)</english>
               <arabic class="d-none">اسم الطابق</arabic>
         </dt>
@@ -44,11 +45,15 @@
             @Html.DisplayFor(model => model.Floor.FloorName)
         </dd>
     </dl>
+    </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/room.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-danger" >
+    <a asp-action="Index" class="btn btn-success waves-effect" >
         <english>Back to List</english>
-        <arabic class="d-none"> العودة الى القائمة</arabic>
+        <arabic class="d-none">العودة الى القائمة</arabic>
     </a>
 </div>
 @section Scripts {

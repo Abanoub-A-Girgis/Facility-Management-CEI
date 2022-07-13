@@ -26,7 +26,7 @@ namespace Facility_Management_CEI.Controllers
         }
 
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index(int? warningId)
         {
             try
@@ -131,7 +131,7 @@ namespace Facility_Management_CEI.Controllers
                           new SensorWarning()
                           {
                               IssueDate = DateTime.Now,
-                              Description = $"there is a problem  at Storey: {MyFloor.FloorName} Witnin Space: {MySensor.Space.Name} -Id ({MySensor.Space.Id})",
+                              Description = $"There is a problem  at Storey: {MyFloor.FloorName} Witnin Space: {MySensor.Space.Name} -Id ({MySensor.Space.Id})",
                               Investigated = false,
                               Priority = priority,
                               InvestigatDate = null,
@@ -149,13 +149,13 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message=ex.Message.ToString();
+                TempData["message"]=ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<IActionResult> Index([Bind("Id,IssueDate,Description,Priority,Investigated,Status,AppUserId,SensorId,InvestigatDate,Comment")] SensorWarning WarningData) 
         {
             try
@@ -187,12 +187,12 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Inspector")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Inspector")]
         public async Task<ActionResult> Investigate(int? WarningId)
         {
             try
@@ -217,7 +217,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 

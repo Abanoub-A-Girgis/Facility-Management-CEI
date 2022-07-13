@@ -25,7 +25,7 @@ namespace Skote.Controllers
         }
 
         // GET: Chart
-        [Authorize(Roles = "SystemAdmin,Owner,Manager")]
+        [Authorize(Roles = "AccountManager,Owner,Manager")]
         public async Task<IActionResult> Chartjs()
         {
             try
@@ -44,7 +44,7 @@ namespace Skote.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 

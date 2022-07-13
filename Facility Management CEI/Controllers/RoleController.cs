@@ -26,14 +26,14 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public IActionResult RoleManager()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> RoleManager(string name)
         {
             try
@@ -43,7 +43,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
@@ -59,14 +59,14 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Assign()
         {
             try
@@ -77,14 +77,14 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
 
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Assign(UserRoles ur)
         {
             try
@@ -100,7 +100,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 

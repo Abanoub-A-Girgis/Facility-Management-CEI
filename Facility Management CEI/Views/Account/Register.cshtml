@@ -1,7 +1,7 @@
 ﻿@using API.Models
 @using API.Moldels_DTOs
+@using Facility_Management_CEI.APIs.Models
 @model RegisterViewModel
-
 
 @{
     ViewData["Title"] = "Register";
@@ -13,273 +13,414 @@
 <!-- owl.carousel css -->
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="~/assets/libs/owl.carousel/assets/owl.theme.default.min.css">
+<style>
+    .ARbrowse:after {
+        content: "تصفح"
+    }
+</style>
 
-
-<div>
-
-    <div class="container-fluid p-0">
-        <div class="row no-gutters">
-
-            <div class="col-xl-9">
-                <div class="auth-full-bg pt-lg-5 p-4">
-                    <div class="w-100">
-                        <div class="bg-overlay"></div>
-                        <div class="d-flex h-100 flex-column">
-
-                            <div class="p-4 mt-auto">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-7">
-                                        <div class="text-center">
-
-                                            <h4 class="mb-3"><i class="bx bxs-quote-alt-left text-primary h1 align-middle mr-3"></i><span class="text-primary">5k</span>+ Satisfied clients</h4>
-
-                                            <div dir="ltr">
-                                                <div class="owl-carousel owl-theme auth-review-carousel" id="auth-review-carousel">
-                                                    <div class="item">
-                                                        <div class="py-3">
-                                                            <p class="font-size-16 mb-4">" Fantastic theme with a ton of options. If you just want the HTML to integrate with your project, then this is the package. You can find the files in the 'dist' folder...no need to install git and all the other stuff the documentation talks about. "</p>
-
-                                                            <div>
-                                                                <h4 class="font-size-16 text-primary">Abs1981</h4>
-                                                                <p class="font-size-14 mb-0">- Skote User</p>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="item">
-                                                        <div class="py-3">
-                                                            <p class="font-size-16 mb-4">" If Every Vendor on Envato are as supportive as Themesbrand, Development with be a nice experience. You guys are Wonderful. Keep us the good work. "</p>
-
-                                                            <div>
-                                                                <h4 class="font-size-16 text-primary">nezerious</h4>
-                                                                <p class="font-size-14 mb-0">- Skote User</p>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-xl-9">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item carouselimgs active">
+                <img class="d-block w-100 " src="~/assets/images/carousel/image1.jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h6 class="text-white">INNOVE</h6>
+                    <h3 class="text-white">MAINTAING THE FUTURE</h3>
+                  </div>
             </div>
+      
+              <div class="carousel-item carouselimgs">
+                <img class="d-block w-100 " src="~/assets/images/carousel/image2.jpg" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h6 class="text-white">INNOVE</h6>
+                    <h3 class="text-white">MAINTAING THE FUTURE</h3>
+                  </div>
+            </div>
+
+              <div class="carousel-item carouselimgs">
+                <img class="d-block w-100" src="~/assets/images/carousel/image3.jpg" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h6 class="text-white">INNOVE</h6>
+                    <h3 class="text-white">MAINTAING THE FUTURE</h3>
+                  </div>
+            </div>
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
             <!-- end col -->
 
-            <div class="col-xl-3">
-                <div class="auth-full-page-content p-md-5 p-4">
-                    <div class="w-100">
+    <div class="col-xl-3">
+        <div class="h-100 d-flex">
+            <div class="m-auto">
 
-                        <div class="d-flex flex-column h-100">
-                            <div class="my-auto">
+                <div class="d-flex flex-column h-100">
+                    <div class="my-auto">
 
-                                <div>
-                                    <h5 class="text-primary"><english>Register account</english><arabic class="d-none">سجل حسابا</arabic></h5>
-                                    @*<p class="text-muted">Get your free Skote account now.</p>*@
+                        <div>
+                            @if(ViewBag.English == null)
+                            {
+                                <h5 class="text-primary"><english>Register Account</english><arabic class="d-none">سجل حسابا</arabic></h5>
+                                        
+                            }
+                            else
+                            {
+                                if (ViewBag.RegistrationStatus)
+                                {
+                                    <h5 class="text-success"><english>@ViewBag.English</english><arabic class="d-none">@ViewBag.Arabic</arabic></h5>
+                                }
+                                else
+                                {
+                                    <h5 class="text-danger"><english>@ViewBag.English</english><arabic class="d-none">@ViewBag.Arabic</arabic></h5>
+                                            
+                                }
+                            }
+                            @*<p class="text-muted">Get your free Skote account now.</p>*@
+                        </div>
+
+                        <div class="mt-4 mx-auto" style="width: 255px">
+                            <english>
+                                <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-group">
+                                    <label for="firstName">Profile Picture</label>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-label" id="ProfilePicEN" asp-for="ProfilePicture">
+                                      <label class="custom-file-label" for="ProfilePicEN">Choose file</label>
+                                    </div>
+                                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstNameEN" placeholder="Enter First Name" asp-for="FirstName">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastNameEN" placeholder="Enter Last Name" asp-for="LastName">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userName">User Name</label>
+                                    <input type="text" class="form-control" id="userNameEN" placeholder="Enter User Name" asp-for="UserName">
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+
+                                    <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="userpasswordEN" placeholder="Enter password" asp-for="PassWord">
+                                        <span asp-validation-for="PassWord" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Role">User Type</label>
+                                    <select asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleEN">
+                                        <option selected="selected" disabled class="form-control" value="none">Please Select a Role</option>
+                                    </select>
+                                        <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="SuperId">Super Id</label>
+                                    <select asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdEN">
+                                    </select>
+@*                                  <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
+*@                                  <span asp-validation-for="SuperId" class="text-danger"></span>
+                                </div>
+
+                                    @*<div class="form-group">
+                                    <label for="BuildingId">Building Id</label>
+                                    <input type="text" class="form-control" id="BuildingId" placeholder="Enter Building Id" asp-for="BuildingId" [disabled]="!formName.controls['Role'].value">
+                                    <span asp-validation-for="BuildingId" class="text-danger"></span>
+                                </div>*@
+
+
+                                @* <div>
+                                    <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
+                                </div>*@
 
                                 <div class="mt-4">
-                                    <english>
-                                        <form asp-controller="Account" asp-action="Register" method="post">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                                        <div class="form-group">
-                                            <label for="firstName">First Name</label>
-                                            <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" asp-for="FirstName">
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="lastName">Last Name</label>
-                                            <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" asp-for="LastName">
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="userName">User Name</label>
-                                            <input type="text" class="form-control" id="userName" placeholder="Enter User Name" asp-for="UserName">
-                                            <span asp-validation-for="UserName" class="text-danger"></span>
-                                        </div>
-
-                                         <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="Enter password" asp-for="PassWord">
-                                             <span asp-validation-for="PassWord" class="text-danger"></span>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="Role">User Type</label>
-                                            <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="Role"></select>
-                                             <span asp-validation-for="Role" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="SuperId">Super Id</label>
-                                            <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId">
-                                                <option selected="selected" class="form-control" value=""></option>
-                                            </select>
-@*                                            <input type="text" class="form-control" id="SuperId" placeholder="Enter Super Id" asp-for="SuperId">
-*@                                            <span asp-validation-for="SuperId" class="text-danger"></span>
-                                        </div>
-
-                                         @*<div class="form-group">
-                                            <label for="BuildingId">Building Id</label>
-                                            <input type="text" class="form-control" id="BuildingId" placeholder="Enter Building Id" asp-for="BuildingId" [disabled]="!formName.controls['Role'].value">
-                                            <span asp-validation-for="BuildingId" class="text-danger"></span>
-                                        </div>*@
-
-
-                                       @* <div>
-                                            <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
-                                        </div>*@
-
-                                        <div class="mt-4">
-                                            <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Create</button>
-                                        </div>
-
-
-                                       @* <div class="mt-4 text-center">
-                                            <h5 class="font-size-14 mb-3">Sign up using</h5>
-
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-primary text-white border-primary">
-                                                        <i class="mdi mdi-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-info text-white border-info">
-                                                        <i class="mdi mdi-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-danger text-white border-danger">
-                                                        <i class="mdi mdi-google"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-
-                                        </div>*@
-
-                                    </form></english>
-                                    <arabic class="d-none">
-                                        <form asp-controller="Account" asp-action="Register" method="post">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                                        <div class="form-group">
-                                            <label for="firstName">الإسم الأول</label>
-                                            <input type="text" class="form-control" id="firstName" placeholder="أدخل الإسم الأول" asp-for="FirstName">
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="lastName">الإسم الأخير</label>
-                                            <input type="text" class="form-control" id="lastName" placeholder="أدخل الإسم الأخير" asp-for="LastName">
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="userName">إسم المستخدم</label>
-                                            <input type="text" class="form-control" id="userName" placeholder="أدخل إسم المستخدم" asp-for="UserName">
-                                            <span asp-validation-for="UserName" class="text-danger"></span>
-                                        </div>
-
-                                         <div class="form-group">
-                                            <label for="password">كلمة السر</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="أدخل كلمة السر" asp-for="PassWord">
-                                             <span asp-validation-for="PassWord" class="text-danger"></span>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="Role">نوع المستخدم</label>
-                                            <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="Role"></select>
-                                             <span asp-validation-for="Role" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="SuperId">رقم المشرف</label>
-                                           <select  asp-items="@SupeIds" asp-for="SuperId" class="custom-select mr-sm-2" id="SuperId" >
-                                                 <option selected="selected" class="form-control" value=""></option>
-                                           </select>
-                                             <span asp-validation-for="SuperId" class="text-danger"></span>
-                                        </div>
-
-                                         @*<div class="form-group">
-                                            <label for="BuildingId">رقم المبنى</label>
-                                            <input type="text" class="form-control" id="BuildingId" placeholder="أدخل رقم المبنى" asp-for="BuildingId">
-                                             <span asp-validation-for="BuildingId" class="text-danger"></span>
-                                        </div>*@
-
-
-                                       @* <div>
-                                            <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
-                                        </div>*@
-
-                                        <div class="mt-4">
-                                            <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">إرسال</button>
-                                        </div>
-
-
-                                       @* <div class="mt-4 text-center">
-                                            <h5 class="font-size-14 mb-3">Sign up using</h5>
-
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-primary text-white border-primary">
-                                                        <i class="mdi mdi-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-info text-white border-info">
-                                                        <i class="mdi mdi-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="javascript::void()" class="social-list-item bg-danger text-white border-danger">
-                                                        <i class="mdi mdi-google"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-
-                                        </div>*@
-
-                                    </form></arabic>
-
-
-                                    @*<div class="mt-5 text-center">
-                                        <p>Already have an account ? <a href=@Url.Action("Index", "AuthLogin2") class="font-weight-medium text-primary"> Login</a> </p>
-                                    </div>*@
-
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Create</button>
                                 </div>
-                            </div>
 
-                            @*<div class="mt-4 mt-md-5 text-center">
-                                <p class="mb-0">
-                                    ©
-                                    <script>document.write(new Date().getFullYear())</script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
-                                </p>
+
+                                @* <div class="mt-4 text-center">
+                                    <h5 class="font-size-14 mb-3">Sign up using</h5>
+
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-primary text-white border-primary">
+                                                <i class="mdi mdi-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-info text-white border-info">
+                                                <i class="mdi mdi-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-danger text-white border-danger">
+                                                <i class="mdi mdi-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>*@
+
+                            </form></english>
+                            <arabic class="d-none">
+                                <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-group">
+                                    <label for="firstName">الصوره الشخصيه</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-label" id="ProfilePicAR" asp-for="ProfilePicture">
+                                        <label class="custom-file-label ARbrowse" for="ProfilePicAR">اختر ملف</label>
+                                    </div>
+                                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstName">الإسم الأول</label>
+                                    <input type="text" class="form-control" id="firstNameAR" placeholder="أدخل الإسم الأول" asp-for="FirstName">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName">الإسم الأخير</label>
+                                    <input type="text" class="form-control" id="lastNameAR" placeholder="أدخل الإسم الأخير" asp-for="LastName">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userName">إسم المستخدم</label>
+                                    <input type="text" class="form-control" id="userNameAR" placeholder="أدخل إسم المستخدم" asp-for="UserName">
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+
+                                    <div class="form-group">
+                                    <label for="password">كلمة السر</label>
+                                    <input type="password" class="form-control" id="userpasswordAR" placeholder="أدخل كلمة السر" asp-for="PassWord">
+                                        <span asp-validation-for="PassWord" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Role">نوع المستخدم</label>
+                                    <select  asp-items="@Model.Roles" asp-for="Role" class="custom-select mr-sm-2" id="RoleAR">
+                                        <option selected="selected" disabled class="form-control" value="none">الرجاء تحديد نوع المستخدم</option>
+                                    </select>
+                                        <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="SuperId">رقم المشرف</label>
+                                    <select asp-for="SuperId" class="custom-select mr-sm-2" id="SuperIdAR" >
+                                            <option selected="selected" class="form-control" value=""></option>
+                                    </select>
+                                        <span asp-validation-for="SuperId" class="text-danger"></span>
+                                </div>
+
+                                    @*<div class="form-group">
+                                    <label for="BuildingId">رقم المبنى</label>
+                                    <input type="text" class="form-control" id="BuildingId" placeholder="أدخل رقم المبنى" asp-for="BuildingId">
+                                        <span asp-validation-for="BuildingId" class="text-danger"></span>
+                                </div>*@
+
+
+                                @* <div>
+                                    <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
+                                </div>*@
+
+                                <div class="mt-4">
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">إرسال</button>
+                                </div>
+
+
+                                @* <div class="mt-4 text-center">
+                                    <h5 class="font-size-14 mb-3">Sign up using</h5>
+
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-primary text-white border-primary">
+                                                <i class="mdi mdi-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-info text-white border-info">
+                                                <i class="mdi mdi-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript::void()" class="social-list-item bg-danger text-white border-danger">
+                                                <i class="mdi mdi-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>*@
+
+                            </form></arabic>
+
+
+                            @*<div class="mt-5 text-center">
+                                <p>Already have an account ? <a href=@Url.Action("Index", "AuthLogin2") class="font-weight-medium text-primary"> Login</a> </p>
                             </div>*@
+
                         </div>
-
-
                     </div>
+
+                    @*<div class="mt-4 mt-md-5 text-center">
+                        <p class="mb-0">
+                            ©
+                            <script>document.write(new Date().getFullYear())</script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                        </p>
+                    </div>*@
                 </div>
+
+
             </div>
-            <!-- end col -->
         </div>
-        <!-- end row -->
     </div>
-    <!-- end container-fluid -->
+            <!-- end col -->
 </div>
+        <!-- end row -->
+    <!-- end container-fluid -->
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 @* <span asp-validation-for="Comment" class="text-danger"></span>*@
+
+<script>
+$('#ProfilePicEN').on('change', function(e) {
+    //get the file name
+    var fileName = e.target.files[0].name;
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+});
+$('#ProfilePicAR').on('change', function(e) {
+    //get the file name
+    var fileName = e.target.files[0].name;
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+});
+
+var Owners = `@foreach(UserSelection user in ViewBag.OwnerId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Managers = `@foreach(UserSelection user in ViewBag.ManagerId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Supervisors = `@foreach(UserSelection user in ViewBag.SupervisorId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+var Inspectors = `@foreach(UserSelection user in ViewBag.InspectorId)
+{
+<option class="form-control" value="@user.Id">@user.FullText</option>
+
+}`
+
+$(document).ready(function() {
+    $('#RoleEN').change(function() {
+        var val = $(this).val();
+        if (val == "Owner") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">N/A</option>');
+        }
+        else if (val == "Manager") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Owners);
+        }
+        else if (val == "Supervisor") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Managers);
+        }
+        else if (val == "Inspector") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Supervisors);
+        }
+        else if (val == "Agent") {
+            $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Inspectors);
+        }
+    });
+    $('#RoleAR').change(function() {
+        var val = $(this).val();
+        if (val == "Owner") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">غير متاح</option>');
+        }
+        else if (val == "Manager") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Owners);
+        }
+        else if (val == "Supervisor") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Managers);
+        }
+        else if (val == "Inspector") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Supervisors);
+        }
+        else if (val == "Agent") {
+            $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Inspectors);
+        }
+    });
+});
+
+$(document).ready(function() {
+    var val = $('#RoleEN').val();
+    if (val == "Owner") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">N/A</option>');
+    }
+    else if (val == "Manager") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Owners);
+    }
+    else if (val == "Supervisor") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Managers);
+    }
+    else if (val == "Inspector") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Supervisors);
+    }
+    else if (val == "Agent") {
+        $('#SuperIdEN').html('<option selected="selected" class="form-control">Please Select a Superior</option>' + Inspectors);
+    }
+    val = $('#RoleAR').val();
+    if (val == "Owner") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">غير متاح</option>');
+    }
+    else if (val == "Manager") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Owners);
+    }
+    else if (val == "Supervisor") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Managers);
+    }
+    else if (val == "Inspector") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Supervisors);
+    }
+    else if (val == "Agent") {
+        $('#SuperIdAR').html('<option selected="selected" class="form-control">من فضلك اختر المشرف</option>' + Inspectors);
+    }
+});
+
+
+</script>

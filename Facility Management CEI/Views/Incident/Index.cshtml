@@ -1,34 +1,33 @@
 ﻿@using Facility_Management_CEI.Controllers
 @model IEnumerable<API.Models.Incident>//we are reading ftom the DB
+@using API.Enums
+
+
 @{
     ViewData["Title"] = "Incident";
     Layout = "~/Views/_Shared/_Layout.cshtml";//the layout/theme of our web application will be used from the file called _Layout.cshtml
     var UsersList =(List<API.Models.AppUser>) ViewBag.Users;
+   
 }
+<head>
+    @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
+</head>
 
 
 
-                <div class="card text-center">
-                  <div class="card-header">
-                    <h3><english>Incidents</english><arabic class="d-none">الحوادث</arabic></h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text"><english>Showing the Incident Inside our Building.</english><arabic class="d-none">إظهار الحوادث داخل المبنى</arabic></p>
-                  </div>
-                </div>
+                <h3 class="text-center"><english>Incidents</english><arabic class="d-none">الحوادث</arabic></h3>
 
- 
-                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin","Inspector"))
+
+                <p class="text-center"><english>Showing the Incident Inside our Building.</english><arabic class="d-none">إظهار الحوادث داخل المبنى</arabic></p>
+                <hr />
+                @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","AccountManager","Inspector"))
                 {
-                     <div class="card-header">
                           <!--
                              Button Create new Record which will return a view that will make the user inser new   Incident data
                              asp-action="AddOrEdit": the name of the Action Method inside the Incident Controller
                              no need to pass an id as we will create new one 
                           -->
-                          <a class="btn btn-outline-primary" asp-action="EditOrAdd"><english>Create New</english><arabic class="d-none">إنشاء حادثه جديدة</arabic></a>
-                     </div>
-    
+                          <a class="btn btn-primary waves-effect" asp-action="EditOrAdd"><english>Create New</english><arabic class="d-none">إنشاء حادثه جديدة</arabic></a>
                 }
                 
 
@@ -39,16 +38,16 @@
                             <thead>
                                 <tr>
 
-                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id             )*@
+                                    <th class="text-center" scope="col">@*@Html.DisplayNameFor(model => model.Id)*@
                                         <english>ID</english>
                                         <arabic class="d-none">الكود</arabic>
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>@Html.DisplayNameFor(model => model.Description    )</english>
+                                        <english>@Html.DisplayNameFor(model => model.Description)</english>
                                         <arabic class="d-none">التوصيف</arabic>                                        
                                     </th>
                                     <th class="text-center" scope="col">
-                                        <english>@Html.DisplayNameFor(model => model.Status         )</english>
+                                        <english>@Html.DisplayNameFor(model => model.Status)</english>
                                         <arabic class="d-none">الحالة</arabic> 
                                         
                                     </th>
@@ -88,30 +87,30 @@
                                          
 
                                     </th>
-                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                     @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                                     <th class="text-center" scope="col">
-                                        <english>Creat Task</english>
+                                        <english>Creat Work Order</english>
                                         <arabic class="d-none">إنشاء مهمة</arabic>
                                     </th>
                         
                                     }
 
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager"))
                                     {
                         
                                     <th class="text-center" scope="col">
                                         <english>Edit</english>
                                         <arabic class="d-none">تعديل</arabic></th>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                                     <th class="text-center" scope="col">
                                         <english>Details</english>
                                         <arabic class="d-none">التفاصيل</arabic></th>
                         
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                                     {
                                     <th class="text-center" scope="col">
                                         <english>Delete</english>
@@ -131,12 +130,40 @@
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Status         )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Priority       )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.ReportingTime  )</td>
-                                    <td class="text-center" scope="col">@UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName</td>
+                                    <td class="text-center" scope="col">@UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().FirstName @UsersList.Where(ele=>ele.Id==item.AppUserId).FirstOrDefault().LastName
+                 
+                                            @if(item.AppUser.Type==UserType.AccountManager)
+                                            {
+                                                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type==UserType.Owner)
+                                            {
+                                                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Manager)
+                                            {
+                                                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Supervisor)
+                                            {
+                                                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Inspector)
+                                            {
+                                                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                                            }
+                                            @if(item.AppUser.Type== UserType.Agent)
+                                            {
+                                                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                                            }
+                            
+  
+                                    </td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SensorWarningId)</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.AssetId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.SpaceId        )</td>
                                     <td class="text-center" scope="col">@Html.DisplayFor(modelItem => item.Comment        )</td>
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -146,13 +173,13 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a class="btn btn-outline-info" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
-                                                <english>Create Task</english>
+                                            <a class="btn btn-info waves-effect" asp-controller="TaskPages" asp-action="CreateTask" asp-route-IncidentId="@item.Id">
+                                                <english>Create Work Order</english>
                                                 <arabic class="d-none">إنشاء مهمة</arabic>
                                             </a>
                                          </td>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor","Manager","AccountManager"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -161,14 +188,14 @@
                                             asp-action="AddOrEdit": the name of the action method that holds the Logic Code
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident                         -->
-                                            <a asp-action="EditOrAdd" class="btn btn-outline-primary" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="EditOrAdd" class="btn btn-info waves-effect" asp-route-IncidentId="@item.Id">
                                                 <english>Edit</english>
                                                 <arabic class="d-none">تعديل</arabic>
 
                                             </a>
                                          </td>
                                     }
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "SystemAdmin", "Inspector"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor", "Manager", "AccountManager", "Inspector"))
                                     {
                             
                                          <td class="text-center" scope="col">
@@ -178,7 +205,7 @@
                                             asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                             "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident 
                                             -->
-                                            <a asp-action="Details" class="btn btn-outline-info" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="Details" class="btn btn-info waves-effect" asp-route-IncidentId="@item.Id">
                                                 
                                                 <english>Details</english>
                                                 <arabic class="d-none">التفاصيل</arabic>
@@ -186,7 +213,7 @@
                                          </td>
                                     }
 
-                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "SystemAdmin"))
+                                    @if (ViewContext.HttpContext.User.IsInAnyRoles("Manager", "AccountManager"))
                                     {
                             
                                         <td class="text-center" scope="col">
@@ -196,7 +223,7 @@
                                                asp-route-IncidentId: determine the Route you will pass the Id in, in other words you need to give the paramter name of the Details Function that will host the Incident Id (asp-rout-the parameter name for the Details method )
                                                "at item.Id" : passing the Incident Id to Details Action method at the Controller Incident
                                             -->
-                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-IncidentId="@item.Id">
+                                            <a asp-action="Delete" class="btn btn-danger waves-effect" asp-route-IncidentId="@item.Id">
                                                 
                                                 <english>Delete</english>
                                                 <arabic class="d-none">حذف</arabic>
@@ -212,7 +239,164 @@
                     </div>
                 </div>
     
-                
+@if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager", "Manager"))  
+{
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable(
+        {
+        "columnDefs": [
+                { "searchable": false, "targets": [10, 11, 12, 13] }
+            ],
+            dom: '<"mb-2"B>lfrtip',
+            buttons : [
+                {
+      	            extend: 'excelHtml5',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        format: {
+                            header: function(text, index, node) {
+                                return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
+                            }
+                        }
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                }
+            ],
+            "oLanguage": {
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
+            },
+        });
+    } );
+
+ </script>
+ }
+
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Supervisor"))  
+{
+<script>
+$(document).ready(function () {
+    $('#datatable').DataTable(
+    {
+    "columnDefs": [
+            { "searchable": false, "targets": [10, 11, 12] }
+        ],
+        dom: '<"mb-2"B>lfrtip',
+        buttons : [
+            {
+      	        extend: 'excelHtml5',
+                text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+                className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+            }
+        ],
+        "oLanguage": {
+            "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+            "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+            "oPaginate": {
+                "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+            },
+            "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+            "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+            "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+            "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+        },
+        "drawCallback": function( settings ) {
+            if (localStorage.getItem('language') == "arabic")
+            {
+                var english = $('english');
+                var arabic = $('arabic');
+                $(english).each(function () {
+                    $(this).addClass("d-none")
+                });
+                $(arabic).each(function () {
+                    $(this).removeClass("d-none")
+                });
+            }
+        },
+    });
+} );
+
+</script>
+}
+
+@if (ViewContext.HttpContext.User.IsInAnyRoles("Inspector"))  
+{
+<script>
+$(document).ready(function () {
+    $('#datatable').DataTable(
+    {
+    "columnDefs": [
+            { "searchable": false, "targets": [10, 11] }
+        ],
+        dom: '<"mb-2"B>lfrtip',
+        buttons : [
+            {
+      	        extend: 'excelHtml5',
+                text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+                className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+            }
+        ],
+        "oLanguage": {
+            "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+            "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+            "oPaginate": {
+                "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+            },
+            "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+            "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+            "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+            "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+        },
+        "drawCallback": function( settings ) {
+            if (localStorage.getItem('language') == "arabic")
+            {
+                var english = $('english');
+                var arabic = $('arabic');
+                $(english).each(function () {
+                    $(this).addClass("d-none")
+                });
+                $(arabic).each(function () {
+                    $(this).removeClass("d-none")
+                });
+            }
+        },
+    });
+} );
+
+</script>
+}
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }    

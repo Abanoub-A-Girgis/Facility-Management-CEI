@@ -1,4 +1,5 @@
 ﻿@using Facility_Management_CEI.Controllers
+@using API.Enums
 
 @model IEnumerable<API.Models.AppUser>
 
@@ -6,21 +7,16 @@
     ViewData["Title"] = "Building Personnel";
 }
 
+<head>
+    @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
+</head>
+
 <h1>
     <english> Building Personnel</english>
     <arabic class="d-none">صفحة العاملين بالمنشأة</arabic>
 </h1>
-@if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
-{
-<p>
-    <a  href=@Url.Action("Register", "Account") class="btn btn-outline-primary" @*asp-action="Create"*@>
-        <english> Create New</english>
-        <arabic class="d-none">إنشاء مستخدم</arabic>
-    </a>
-</p>
-    
-}
-<table class="table">
+
+<table class="table" id="datatable" >
     <thead>
         <tr>
             <th class="text-center" scope="col">
@@ -29,30 +25,30 @@
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.FirstName)</english>
-                <arabic class="d-none"> الأسم الأول</arabic>
+                <arabic class="d-none">الأسم الأول</arabic>
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.LastName)</english>
-                <arabic class="d-none"> الأسم الأخير</arabic>
+                <arabic class="d-none">الأسم الأخير</arabic>
             </th>
             <th class="text-center" scope="col">
                  <english> @Html.DisplayNameFor(model => model.Type)</english>
-                 <arabic class="d-none"> نوع المستخدم </arabic>
+                 <arabic class="d-none">نوع المستخدم </arabic>
             </th>
             <th class="text-center" scope="col">
                 <english> @Html.DisplayNameFor(model => model.Building)</english>
-                <arabic class="d-none"> المنشأة</arabic>
+                <arabic class="d-none">المنشأة</arabic>
             </th>
             <th class="text-center" scope="col">
                 <english>  @Html.DisplayNameFor(model => model.SuperId)</english>
-                <arabic class="d-none"> كود المشرف</arabic>
+                <arabic class="d-none">كود المشرف</arabic>
                
             </th>
             <th class="text-center" scope="col">
                 <english>Supervisor Name</english>
-                <arabic class="d-none"> إسم المشرف</arabic>
+                <arabic class="d-none">إسم المشرف</arabic>
             </th >
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
                 
                 <th class="text-center" scope="col">
@@ -64,7 +60,7 @@
                        <english>Details</english>
                        <arabic class="d-none">التفاصيل</arabic>
                 </th>
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
                 <th class="text-center" scope="col">
                         <english>Delete</english>
@@ -86,10 +82,37 @@
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
+
             <td class="text-center" scope="col">
+
                 @Html.DisplayFor(modelItem => item.Type)
+                    @if(item.Type== UserType.AccountManager)
+                    {
+                        <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+                    }
+                    @if(item.Type== UserType.Owner)
+                    {
+                        <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Manager)
+                    {
+                        <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Supervisor)
+                    {
+                        <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Inspector)
+                    {
+                        <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+                    }
+                    @if(item.Type== UserType.Agent)
+                    {
+                        <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+                    }
             </td>
             <td class="text-center" scope="col">
+
                 @Html.DisplayFor(modelItem => item.Building.Id)
             </td>
             <td class="text-center" scope="col">
@@ -98,10 +121,10 @@
             <td class="text-center" scope="col">
                 @Html.DisplayFor(modelItem => item.Super.FirstName) @Html.DisplayFor(modelItem => item.Super.LastName)
             </td>
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.Id">
+                <a asp-action="Edit" class="btn btn-primary waves-effect" asp-route-id="@item.Id">
                         <english>Edit</english>
                        <arabic class="d-none">تعديل</arabic>
                 </a>
@@ -109,18 +132,18 @@
             }
 
             <td class="text-center" scope="col">
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info waves-effect" asp-route-id="@item.Id">
                    <english>Details</english>
                    <arabic class="d-none">التفاصيل</arabic>
                 </a> 
             </td> 
 
-            @if (ViewContext.HttpContext.User.IsInAnyRoles("SystemAdmin"))
+            @if (ViewContext.HttpContext.User.IsInAnyRoles("AccountManager"))
             {
             <td class="text-center" scope="col">
-                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">
+                <a asp-action="Delete" class="btn btn-danger waves-effect" asp-route-id="@item.Id">
                    <english>Delete</english>
-                   <arabic class="d-none"> مسح </arabic>
+                   <arabic class="d-none">مسح</arabic>
                 </a>
             </td>
             }
@@ -128,6 +151,59 @@
 }
     </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable(
+        {
+        "columnDefs": [
+                { "searchable": false, "targets": [7] }
+            ],
+            dom: '<"mb-2"B>lfrtip',
+            buttons : [
+                {
+      	            extend: 'excelHtml5',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6],
+                        format: {
+                            header: function(text, index, node) {
+                                return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
+                            }
+                        }
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                }
+            ],
+            "oLanguage": {
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
+            },
+        });
+    } );
+
+ </script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -7,7 +7,7 @@ namespace API.Enums
 {
     public enum UserType
     {
-        SystemAdmin,
+        AccountManager,
         Owner,
         Manager,
         Supervisor,

@@ -1,0 +1,142 @@
+﻿@using API.Models
+<head>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .SliderDiv:hover {
+            background-color: #D2D2D2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 270px; position: absolute;
+                                                                    top: 8px;
+                                                                    right: 8px;
+                                                                    z-index:5;">
+    <div class="font-weight-bold mb-2 text-center">
+        <english>Toggle Floors</english>
+        <arabic class="d-none">الطوابق</arabic>
+    </div>
+    <div id="ToggleFloorDiv">
+        @for(int i = 0; i <ViewBag.WexBIMPaths.Count; i++)
+        {
+            <div class="custom-control custom-switch mb-1">
+                <input type="checkbox" class="custom-control-input" id="Switch@(i+6)" onchange="ToggleFloor(@i)" checked autocomplete="off">
+                <label class="custom-control-label custom-control-label-light" for="Switch@(i+6)">
+                    @ViewBag.WexBIMPaths[i].FloorName
+                </label>
+            </div>      
+        }
+        @*<div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch6" onchange="ToggleFloor(0)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch6">
+                @ViewBag.WexBIMPaths[0].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch7" onchange="ToggleFloor(1)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch7">
+                @ViewBag.WexBIMPaths[1].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch8" onchange="ToggleFloor(2)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch8">
+                @ViewBag.WexBIMPaths[2].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch9" onchange="ToggleFloor(3)" autocomplete="off" checked>
+            <label class="custom-control-label" for="Switch9">
+                @ViewBag.WexBIMPaths[3].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch10" onchange="ToggleFloor(4)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch10">
+                @ViewBag.WexBIMPaths[4].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch11" onchange="ToggleFloor(5)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch11">
+                @ViewBag.WexBIMPaths[5].FloorName
+            </label>
+        </div>
+        <div class="custom-control custom-switch mb-1">
+            <input type="checkbox" class="custom-control-input" id="Switch12" onchange="ToggleFloor(6)" checked autocomplete="off">
+            <label class="custom-control-label custom-control-label-light" for="Switch12">
+                @ViewBag.WexBIMPaths[6].FloorName
+            </label>
+        </div>*@
+    </div>
+    <div class="text-center SliderDiv" id="ToggleFloorArrowDiv">
+        <i class="fas fa-angle-double-up" id="ToggleFloorDivArrow"></i>
+    </div>
+</div>
+
+<script>
+var FloorNames = []
+var FloorPaths = []
+var floorNo = 0;
+var ShowingFloors = [];
+$(document).ready(function() {
+    @foreach(Floor floor in ViewBag.WexBIMPaths)
+    {
+        @:FloorPaths.push("@floor.Path");
+        @:FloorNames.push("@floor.FloorName");
+    }
+    viewer.load(FloorPaths[floorNo]);
+    floorNo++;
+    viewer.on('loaded', function() {
+        viewer.off('loaded');
+        if (floorNo < FloorPaths.length) {
+            viewer.load(FloorPaths[floorNo]);
+            floorNo++;
+        }
+    })
+    ShowingFloors = new Array(FloorNames.length).fill(true);
+});
+function ToggleFloor(number) {
+    if (ShowingFloors[number] == true) {
+        viewer.setState(xState.HIDDEN, viewer.getModelState(number).map(function(x) { return x[0] }))
+        ShowingFloors[number] = false;
+    }
+    else {
+        viewer.setState(xState.UNDEFINED ,viewer.getModelState(number).map(function(x) { return x[0] }))
+        ShowingFloors[number] = true;
+    }
+    viewer.setState(xState.HIDDEN, xProductType.IFCSPACE)
+}
+
+$(document).ready(function() {
+  $("#leftHider").on('click', function() {
+    $("#leftSlider").animate({width:'toggle'},350);
+  });
+});
+$(document).ready(function() {
+    $("#ToggleFloorArrowDiv").click(function() {
+        $("#ToggleFloorDiv").slideToggle("slow", function() {
+            $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-up")
+            $('#ToggleFloorDivArrow').toggleClass("fa-angle-double-down")
+        });
+    });
+});
+
+$(document).ready(function() {
+    $( "#ToggleHighlightArrowDiv" ).click(function() {
+        $( "#ToggleHighlightDiv" ).slideToggle( "slow", function() {
+            $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-up")
+            $('#ToggleHighlightDivArrow').toggleClass("fa-angle-double-down")
+      });
+    });
+});
+
+$(document).ready(function() {
+    $("#ToggleLeftSliderDivArrow" ).click(function() {
+        $("#ToggleLeftSlider").toggle("slide");
+        $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-down");
+        $('#ToggleLeftSliderArrow').toggleClass("fa-angle-double-up");
+    });
+});
+</script>

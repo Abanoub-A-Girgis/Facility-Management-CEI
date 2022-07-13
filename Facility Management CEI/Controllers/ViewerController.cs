@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Facility_Management_CEI.APIs.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Facility_Management_CEI.Controllers
 {
@@ -34,6 +35,7 @@ namespace Facility_Management_CEI.Controllers
         public List<int> High = new List<int>();
         public List<int> Medium = new List<int>();
         public List<int> Low = new List<int>();
+        public List<int> Rooms = new List<int>();
     }
 
     //public class testView
@@ -69,42 +71,43 @@ namespace Facility_Management_CEI.Controllers
                     if(t.Incident.AssetId != null)
                         viewerParam.Severe.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.High)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.High.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Medium)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Medium.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
                 else if (t.Priority == API.Enums.Priority.Low)
                 {
                     if (t.Incident.AssetId != null)
                         viewerParam.Low.Add((int)t.Incident.AssetId);
                     else
-                        viewerParam.Severe.Add((int)t.Incident.SpaceId);
+                        viewerParam.Rooms.Add((int)t.Incident.SpaceId);
                 }
             }
             return viewerParam;
         }
         
-        [Authorize(Roles = "SystemAdmin, Agent")]
+        [Authorize(Roles = "AccountManager, Agent")]
         public async Task<IActionResult> ViewerAsAgent(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if(AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if(AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if(Id != 0)
             {
@@ -124,26 +127,25 @@ namespace Facility_Management_CEI.Controllers
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if(Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() {
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" }
+                };
             }
 
             var Tasks = await _context.Tasks.Where(t => t.AssignedToId == Id && t.Status != API.Enums.TaskStatus.Completed)
                 .Include(t => t.Incident.Asset)
                 .Include(t => t.Incident.Space)
+                .ThenInclude(s => s.Floor)
                 .ToListAsync();
             ViewerParameter viewerParam = fillViewParameterForAgents(Tasks);
-            var floors = _context.Floors.ToList();
-            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
-            foreach (var floor in floors)
-            {
-                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
-            }
 
-            ViewBag.FloorAssets = floorAssets;
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Agent).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.Tasks = Tasks;
             //List<testView> test1 = new List<testView>(){ new testView { Id = 1, Name = "Potato" } };
             //List<testView> test2 = new List<testView>() { new testView { Id = 2, Name = "orange"},
@@ -159,21 +161,23 @@ namespace Facility_Management_CEI.Controllers
             var AgentTasks = await _context.Tasks.Where(t => t.AssignedToId == EmployeeId && t.Status != API.Enums.TaskStatus.Completed)
                 .Include(t => t.Incident.Asset)
                 .Include(t => t.Incident.Space)
+                .ThenInclude(s => s.Floor)
                 .ToListAsync();
             Tasks.AddRange(AgentTasks);
             //viewerParam = fillViewParameterForAgents(AgentTasks, viewerParam);
             viewerParamDic.Add(EmployeeId, fillViewParameterForAgents(AgentTasks));
         }
 
-        [Authorize(Roles = "SystemAdmin, Inspector")]
+        [Authorize(Roles = "AccountManager, Inspector")]
         public async Task<IActionResult> ViewerAsInspector(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id != 0)
             {
@@ -187,16 +191,21 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Inspector)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() {
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" }
+                };
             }
             
             var Agents = await _context.AppUsers.Where(u => u.SuperId == Id).ToListAsync();
@@ -213,14 +222,7 @@ namespace Facility_Management_CEI.Controllers
                 await fillViewerParamDic(a.Id, viewerParamDic, Tasks);
             }
 
-            var floors = _context.Floors.ToList();
-            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
-            foreach (var floor in floors)
-            {
-                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
-            }
-
-            ViewBag.FloorAssets = floorAssets;
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Inspector).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.Tasks = Tasks;
             ViewBag.Agents = Agents; 
             return View(viewerParamDic);
@@ -234,15 +236,16 @@ namespace Facility_Management_CEI.Controllers
             return InspectorAgents;
         }
 
-        [Authorize(Roles = "SystemAdmin, Supervisor")]
+        [Authorize(Roles = "AccountManager, Supervisor")]
         public async Task<IActionResult> ViewerAsSupervisor(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id != 0)
             {
@@ -256,16 +259,21 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Supervisor)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() {
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" }
+                };
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -286,14 +294,7 @@ namespace Facility_Management_CEI.Controllers
                 }
             }
 
-            var floors = _context.Floors.ToList();
-            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
-            foreach (var floor in floors)
-            {
-                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
-            }
-
-            ViewBag.FloorAssets = floorAssets;
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Supervisor).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.Agents = Agents;
@@ -309,15 +310,16 @@ namespace Facility_Management_CEI.Controllers
             return SupervisorInspectors;
         }
 
-        [Authorize(Roles = "SystemAdmin, Manager")]
+        [Authorize(Roles = "AccountManager, Manager")]
         public async Task<IActionResult> ViewerAsManager(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id != 0)
             {
@@ -331,16 +333,21 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Manager)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
                 string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() {
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" }
+                };
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -367,14 +374,7 @@ namespace Facility_Management_CEI.Controllers
                 }
             }
 
-            var floors = _context.Floors.ToList();
-            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
-            foreach (var floor in floors)
-            {
-                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
-            }
-
-            ViewBag.FloorAssets = floorAssets;
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Manager).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.SupervisorInspectorsDic = SupervisorInspectorsDic;
@@ -384,15 +384,16 @@ namespace Facility_Management_CEI.Controllers
             return View(viewerParamDic);
         }
 
-        [Authorize(Roles = "SystemAdmin, Owner")]
+        [Authorize(Roles = "AccountManager, Owner")]
         public async Task<IActionResult> ViewerAsOwner(int Id)
         {
             var LogUserId = (await _userManager.GetUserAsync(User)).Id;
             var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).Include(u => u.Building).FirstOrDefault();
-            if (AppUser.Type != API.Enums.UserType.SystemAdmin)
+            if (AppUser.Type != API.Enums.UserType.AccountManager)
             {
                 Id = AppUser.Id;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + AppUser.Building.Path.Substring(0, AppUser.Building.Path.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id != 0)
             {
@@ -406,16 +407,21 @@ namespace Facility_Management_CEI.Controllers
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
+                if (EmployeeType != API.Enums.UserType.Owner)
                 {
                     TempData["message"] = "Sorry, You have entered an invalid user ID";
                     return RedirectToAction("ErrorGeneric", "ErrorPages");
                 }
-                string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                //string BuildingPath = _context.AppUsers.Where(u => u.Id == Id).Include(u => u.Building).FirstOrDefault().Building.Path;
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/" + BuildingPath.Substring(0, BuildingPath.Length - 3) + "wexBIM");
+                ViewBag.WexBIMPaths = _context.Floors.OrderBy(f => f.Path).ToList();
             }
             else if (Id == 0 || AppUser.BuildingId == null)
             {
-                ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                //ConfigurationManager.AppSettings.Set("wexBIMFullPath", "/data/SampleHouse.wexbim");
+                ViewBag.WexBIMPaths = new List<API.Models.Floor>() { 
+                   new API.Models.Floor() { Id = 0, FloorName = "Samplehouse", Path = "/data/SampleHouse.wexbim" } 
+                };
             }
 
             List<API.Models.AppUser> Agents = new List<API.Models.AppUser>();
@@ -447,14 +453,7 @@ namespace Facility_Management_CEI.Controllers
                 }
             }
 
-            var floors = _context.Floors.ToList();
-            Dictionary<string, int[]> floorAssets = new Dictionary<string, int[]>();
-            foreach (var floor in floors)
-            {
-                floorAssets[floor.FloorName] = _context.Assets.Where(a => a.FloorId == floor.Id).Select(a => a.Id).ToArray();
-            }
-
-            ViewBag.FloorAssets = floorAssets;
+            ViewBag.Ids = _context.AppUsers.Where(u => u.Type == API.Enums.UserType.Owner).Select(u => new { FullText = u.Id + ": " + u.FirstName + " " + u.LastName, Id = u.Id }).ToList();
             ViewBag.Tasks = Tasks;
             ViewBag.InspectorAgentsDic = InspectorAgentsDic;
             ViewBag.SupervisorInspectorsDic = SupervisorInspectorsDic;

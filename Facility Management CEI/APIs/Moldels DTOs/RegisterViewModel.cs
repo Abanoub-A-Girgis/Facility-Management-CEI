@@ -1,4 +1,5 @@
 ﻿using API.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -14,7 +15,10 @@ namespace Facility_Management_CEI.Models
             Roles = new List<SelectListItem>();
             foreach (var Role in EnumMember)
             {
-                Roles.Add(new SelectListItem(Role, Role));
+                if (Role != "AccountManager")
+                {
+                    Roles.Add(new SelectListItem(Role, Role));
+                }
             }
         }
         //public int Id { get; set; } //the id is auto generated
@@ -27,6 +31,7 @@ namespace Facility_Management_CEI.Models
         public string Role { get; set; }
         public int? BuildingId { get; set; }//test the null
         public int? SuperId { get; set; }//test the null
+        public IFormFile ProfilePicture { get; set; }
     }
     
 }

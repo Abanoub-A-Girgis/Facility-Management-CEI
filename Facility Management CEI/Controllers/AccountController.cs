@@ -4,12 +4,14 @@ using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,27 +32,41 @@ namespace Facility_Management_CEI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public IActionResult Register()
         {
             try
             {
                 var user = new RegisterViewModel();//to send a model that has a list of roles
-                ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent).Select(s => new { FullText = s.Id + ": " + s.FirstName + s.LastName, Id = s.Id }), "Id", "FullText");
-
+                //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                 //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent), "Id", "Id");//this is made to lsit down all the ids that can be used as a super id
                 return View(user);
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
         }
 
+        public string ImageToData(IFormFile picture)
+        {
+            var fileName = Path.GetFileName(picture.FileName);
+            var path = Path.Combine("wwwroot\\ProfilePictures", fileName);
+            using (Stream fileStream = System.IO.File.Create(path))
+            {
+                picture.CopyToAsync(fileStream);
+            }
+            return "/ProfilePictures/" + fileName;
+        }
+
         [HttpPost]
-        [Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "AccountManager")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             try
@@ -84,37 +100,67 @@ namespace Facility_Management_CEI.Controllers
                                 LogUserId = newUser.Id,
                                 Type = AppUserType/*Enum.TryParse("Active", out StatusEnum myStatus)*/,//need yo make the role = the tupe in the RegisterViewModel
                                 BuildingId = SuperAppUser?.BuildingId,
-                                SuperId = model.SuperId
+                                SuperId = model.SuperId,
+                                ProfilePicturePath = model.ProfilePicture == null ? "/ProfilePictures/Default.png" : ImageToData(model.ProfilePicture)
                             };
+
 
                             _Context.AppUsers.Add(appuser);
                             _Context.SaveChanges();
 
                         }
                         var user = new RegisterViewModel();//to send a model that has a list of roles
+                        //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                        ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewBag.English = "Registration has been successfully completed";
+                        ViewBag.Arabic = "تم التسجيل بنجاح";
+                        ViewBag.RegistrationStatus = true;
                         return View(user);
+                        //return NoContent();
+                        //return RedirectToAction("Register", "AccountController");
                     }
                     else
                     {
                         var user = new RegisterViewModel();//to send a model that has a list of roles
-                                                           //need to be handeled 
+                        //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");                                   //need to be handeled 
+                        ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                        ViewBag.English = "Username or password is incorrect, please try again";
+                        ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
+                        ViewBag.RegistrationStatus = false;
                         return View(user);
+                        //return NoContent();
                     }
                 }
                 else
                 {
                     var user = new RegisterViewModel();
                     ViewData.Add("UserNameIsExist", "Username is already exist");
+                    ViewBag.English = "Specified username already exists";
+                    ViewBag.Arabic = "اسم المستخدم موجود مسبقا";
+                    ViewBag.RegistrationStatus = false;
+                    //ViewData["SuperId"] = new SelectList(_Context.AppUsers.Where(user => user.Type != UserType.Agent && user.Type != UserType.AccountManager).Select(s => new { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }), "Id", "FullText");
+                    ViewData["OwnerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Owner).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["ManagerId"] = _Context.AppUsers.Where(user => user.Type == UserType.Manager).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["SupervisorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Supervisor).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
+                    ViewData["InspectorId"] = _Context.AppUsers.Where(user => user.Type == UserType.Inspector).Select(s => new UserSelection { FullText = s.Id + ": " + s.FirstName + " " + s.LastName, Id = s.Id }).ToList();
                     return View(user);
+                    //return NoContent();
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
             
         }
+
         [HttpGet]
         public /*async Task<*/IActionResult LogIn()
         {
@@ -136,7 +182,8 @@ namespace Facility_Management_CEI.Controllers
                         FirstName = Admin.FirstName,
                         LastName = Admin.LastName,
                         LogUserId = Admin.Id,
-                        Type = API.Enums.UserType.SystemAdmin
+                        Type = UserType.AccountManager,
+                        ProfilePicturePath = "/Photos/AccountManager.png"
                     };
                     _Context.AppUsers.Add(appuser);
                     _Context.SaveChanges();
@@ -167,7 +214,7 @@ namespace Facility_Management_CEI.Controllers
                     }
                     else
                     {
-                        ViewBag.English = "The Username or password is incorrect, please try again";
+                        ViewBag.English = "Username or password is incorrect, please try again";
                         ViewBag.Arabic = "خطأ في اسم المستخدم أو كلمة السر، حاول مرة اخرى";
                         return View();
                     }
@@ -177,7 +224,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
@@ -193,7 +240,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
@@ -206,14 +253,10 @@ namespace Facility_Management_CEI.Controllers
             return UsersList;
         }
 
-        public List<AppUser> LoginToMobApp()
-        {
-            return _Context.AppUsers.ToList();
-        }
         [HttpGet]
         public IActionResult LoginTomobApp1()
         {
-            var appusers = _Context.AppUsers.ToList();
+            var appusers = _Context.AppUsers.Where(u => u.Type == UserType.Agent).Select(u => new {id = u.Id, u.FirstName, u.LastName, u.SuperId, u.ProfilePicturePath});
             return Ok(appusers);
         }
     }

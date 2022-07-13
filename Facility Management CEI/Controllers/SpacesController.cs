@@ -22,7 +22,7 @@ namespace Facility_Management_CEI.Controllers
 
         // GET: Spaces
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Owner")]
 
         public async Task<IActionResult> Index()
         {
@@ -33,7 +33,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 
@@ -41,7 +41,7 @@ namespace Facility_Management_CEI.Controllers
 
         // GET: Spaces/Details/5
 
-        [Authorize(Roles = "SystemAdmin,Supervisor,Manager,Owner")]
+        [Authorize(Roles = "AccountManager,Supervisor,Manager,Owner")]
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -64,7 +64,7 @@ namespace Facility_Management_CEI.Controllers
             }
             catch (Exception ex)
             {
-                ErrorMessage.Message = ex.Message.ToString();
+                TempData["message"] = ex.Message.ToString();
                 return RedirectToAction("ErrorGeneric", "ErrorPages");
             }
 

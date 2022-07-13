@@ -8,38 +8,43 @@
     <english>Building Details</english>
     <arabic class="d-none"> تفاصيل المنشأ</arabic>
 </h1>
+<hr />
 
-<div>
+<div class="row">
 @*    <h4>Building Details</h4>*@
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            <english> ID</english>
-            <arabic class="d-none"> الكود</arabic>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            <english> @Html.DisplayNameFor(model => model.Name)</english>
-            <arabic class="d-none"> الإسم</arabic>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            <english>@Html.DisplayNameFor(model => model.Path)</english>
-            <arabic class="d-none"> مسار الملف</arabic>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Path)
-        </dd>
-    </dl>
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class = "col-sm-2">
+                <english> ID</english>
+                <arabic class="d-none">الكود</arabic>
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class = "col-sm-2">
+                <english> @Html.DisplayNameFor(model => model.Name)</english>
+                <arabic class="d-none">الإسم</arabic>
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                <english>@Html.DisplayNameFor(model => model.Path)</english>
+                <arabic class="d-none">مسار الملف</arabic>
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Path)
+            </dd>
+        </dl>
+    </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/building-details.jpg" class="rounded mx-auto d-block" alt="Details">
+    </div>
 </div>
 <div>
-       <a asp-action="Index" class="btn btn-danger" >
-            <english> Back to List</english>
-            <arabic class="d-none"> العودة للخلف </arabic>
+       <a asp-action="Index" class="btn btn-success waves-effect" >
+            <english>Back to List</english>
+            <arabic class="d-none">العودة للخلف</arabic>
        </a>
 </div>
 

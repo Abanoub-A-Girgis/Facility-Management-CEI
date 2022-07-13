@@ -7,15 +7,17 @@
     var IncidentId = ViewBag.IncidentId;
 }
 
-<h1><english>Create Task</english><arabic class="d-none">إنشاء مهمة</arabic></h1>
+<h1><english>Create Work Order</english><arabic class="d-none">إنشاء مهمة</arabic></h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
+
         <english>
             <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
                 @Html.DropDownList("Type", new List<SelectListItem> {  
@@ -57,7 +59,7 @@
 @*                <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
 *@            </div>
             <div class="form-group">
-                <input asp-action="CreateTask" type="submit" value="Create Task" class="btn btn-primary" />
+                <input asp-action="CreateTask" type="submit" value="Create Work Order" class="btn btn-primary" />
                 <a asp-controller="TaskPages" asp-action="TaskList" asp-route-id="" class="btn btn-danger" >Back</a>
             </div>
         </form>
@@ -111,8 +113,10 @@
             </div>
         </form>
         </arabic>
-        
     </div>
+             <div class="m-auto">
+                    <img src="~/assets/images/create-task.png" class="rounded mx-auto d-block" alt="Details">
+             </div>
 </div>
 @*
 @{

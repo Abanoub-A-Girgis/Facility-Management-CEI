@@ -4,26 +4,32 @@
     ViewData["Title"] = "Assets List";
 }
 
+
+<head>
+    @await Html.PartialAsync("~/Views/Viewer/ViewerScriptsPartial.cshtml")
+</head>
+
+
 <h1>
     <english> Assets List</english>
-    <arabic class="d-none">  قائمة الأصول والموجودات بالمنشأة   </arabic>
+    <arabic class="d-none">قائمة الأصول والموجودات بالمنشأة</arabic>
 </h1>
 
 
-<table class="table">
+<table class="table" id="datatable">
     <thead>
         <tr>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Id)</english>
-                <arabic class="d-none"> الكود </arabic>
+                <english>@Html.DisplayNameFor(model => model.Id)</english>
+                <arabic class="d-none">الكود</arabic>
             </th>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Name)</english>
-                <arabic class="d-none"> الاسم </arabic>
+                <english>@Html.DisplayNameFor(model => model.Name)</english>
+                <arabic class="d-none">الاسم</arabic>
             </th>
             <th>
-                <english>   @Html.DisplayNameFor(model => model.Materials)</english>
-                <arabic class="d-none"> المواد المكونه للعنصر </arabic>
+                <english>@Html.DisplayNameFor(model => model.Materials)</english>
+                <arabic class="d-none">المواد المكونه للعنصر</arabic>
             </th>
             <th></th>
         </tr>
@@ -41,14 +47,68 @@
                 @Html.DisplayFor(modelItem => item.Materials)
             </td>
             <td>
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">
+                <a asp-action="Details" class="btn btn-info waves-effect" asp-route-id="@item.Id">
                     <english>Details</english>
-                    <arabic class="d-none">  التفاصيل </arabic></a>
+                    <arabic class="d-none">التفاصيل</arabic></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable(
+        {
+        "columnDefs": [
+                { "searchable": false, "targets": [3] }
+            ],
+            dom: '<"mb-2"B>lfrtip',
+            buttons : [
+                {
+      	            extend: 'excelHtml5',
+                    text: '<english>Save as excel sheet</english><arabic class="d-none">حفظ كملف اكسل</arabic>',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3],
+                        format: {
+                            header: function(text, index, node) {
+                                return localStorage.getItem('language') == "english" ? text.replace(/[\u0621-\u064A]/g, '').replace( /<.*?>/g, '') : text.replace(/[A-Za-z]/g, '').replace( /<.*?>/g, '');
+                            }
+                        }
+                    },
+                    className: 'btn btn-primary waves-effect waves-light mr-1 mb-1'
+                }
+            ],
+            "oLanguage": {
+                "sSearch": "<english>Search :</english><arabic class='d-none'>بحث :</arabic>",
+                "sEmptyTable": "<english>No data available in table</english><arabic class='d-none'>لا توجد بيانات متوفرة في الجدول</arabic>",
+                "oPaginate": {
+                    "sNext": "<english>Next</english><arabic class='d-none'>التالي</arabic>",
+                    "sPrevious": "<english>Previous</english><arabic class='d-none'>السابق</arabic>"
+                },
+                "sInfo": "<english>Showing _START_ to _END_ of _TOTAL_ entries</english><arabic class='d-none'>عرض _START_ إلى _END_ من أصل _TOTAL_ بيانات</arabic>",
+                "sInfoEmpty": "<english>No entries to show</english><arabic class='d-none'>لا يوجد بيانات للعرض</arabic>",
+                "sInfoFiltered": "<english>(filtering from _MAX_ entries)</english><arabic class='d-none'>(مصفى من _MAX_ البيانات)</arabic>",
+                "sLengthMenu": "<english>Show</english><arabic class='d-none'>إظهار</arabic> _MENU_ <english>entries</english><arabic class='d-none'>بيانات</arabic>"
+            },
+            "drawCallback": function( settings ) {
+                if (localStorage.getItem('language') == "arabic")
+                {
+                    var english = $('english');
+                    var arabic = $('arabic');
+                    $(english).each(function () {
+                        $(this).addClass("d-none")
+                    });
+                    $(arabic).each(function () {
+                        $(this).removeClass("d-none")
+                    });
+                }
+            },
+        });
+    } );
+
+ </script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -7,10 +7,10 @@
 @using API.Models
 @model Dictionary<int, Facility_Management_CEI.Controllers.ViewerParameter>
 
-<h1 class="text-center text-uppercase font-weight-bold mb-5">
-    <english>Task Viewer Dashboard</english>
+<h2 class="text-center text-uppercase font-weight-bold mb-5">
+    <english>Work Order Viewer Dashboard</english>
     <arabic class="d-none">لوحة متابعة المهام</arabic>
-</h1>
+</h2>
 
 <head>
     <title>
@@ -22,134 +22,140 @@
 
 </head>
 <body>
-    @if(ViewContext.HttpContext.User.IsInRole("SystemAdmin"))
+    @if(ViewContext.HttpContext.User.IsInRole("AccountManager"))
     {
-        <label for="UserId"><english>Please Type in a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
+        <label for="UserId"><english>Please Select a User Id: </english><arabic class="d-none">الرجاء ادخال كود المستخدم: </arabic></label>
         <div class="input-group mb-3">
-            <input class="form-control w-50" type="number" id="UserId">
+            @Html.DropDownList("Id", new SelectList(ViewBag.Ids, "Id", "FullText"), new {@id="UserId", @class="form-control"})
             <div class="input-group-append">
                 <button onclick="location.href='/Viewer/ViewerAsSupervisor/'+document.getElementById('UserId').value" class="btn btn-success waves-effect waves-light"><english>Go to User View</english><arabic class="d-none">انتقل إلى عرض المستخدم</arabic></button>
             </div>
         </div>
     }
-    <div class="row">
-        <div class="col-5">
-            <h3 class="text-center font-weight-bold">
-                <english>Subordinates</english>
-                <arabic class="d-none">الموظفون تحت الإشراف</arabic>
-            </h3>
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#InspectorsDiv" data-toggle="tab">
-                         <english>Insptectors</english>
-                        <arabic class="d-none">المفتشون</arabic>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
-                        <english>Agents</english>
-                        <arabic class="d-none">العمال</arabic>
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="InspectorsDiv">
-                    <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Inspector in ViewBag.Inspectors)
-                            {
-                                <tr>
-                                    <th>@Inspector.Id</th>
-                                    <td>@Inspector.FirstName @Inspector.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light">
+    <div class="position-relative">
+        @await Html.PartialAsync("~/Views/Viewer/ViewerCanvasPartial.cshtml", Model)
+        <div class="shadow-lg py-3 mb-5 bg-light rounded row" style="position: absolute;
+                                                height: 700px;
+                                                top: 0px;
+                                                left: 8px;
+                                                z-index:6;" id="ToggleLeftSliderContainer">
+                <div class="font-weight-bold mb-2 col-sm-1 my-auto" style="max-width: 1px"><div class="vertical-text"><english>Tables</english><arabic class="d-none">الجداول</arabic></div></div>
+                <div id="ToggleLeftSlider" class="col-auto overflow-auto" style="height: 650px">
+                    <h3 class="text-center font-weight-bold">
+                        <english>Subordinates</english>
+                        <arabic class="d-none">الموظفون تحت الإشراف</arabic>
+                    </h3>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#InspectorsDiv" data-toggle="tab">
+                                 <english>Inspectors</english>
+                                <arabic class="d-none">المفتشون</arabic>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#AgentsDiv" data-toggle="tab">
+                                <english>Agents</english>
+                                <arabic class="d-none">العمال</arabic>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane active" id="InspectorsDiv">
+                            <table id="InspectorsTable" class="w-100 table table-striped table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <english>User ID</english>
+                                            <arabic class="d-none">كود المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> Name</english>
+                                            <arabic class="d-none">الاسم</arabic>
+                                        </th>
+                                        <th>
+                                            <english>User Details</english>
+                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english>Load Work Orders</english>
+                                            <arabic class="d-none">تحميل المهام</arabic>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Inspector in ViewBag.Inspectors)
+                                    {
+                                        <tr>
+                                            <th>@Inspector.Id</th>
+                                            <td>@Inspector.FirstName @Inspector.LastName</td>
+                                            <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Inspector.Id">
+                                                    <english> User Details</english>
+                                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                                </button>
+                                            </td>
+                                            <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">
+                                                    <english>Show Work Orders</english>
+                                                    <arabic class="d-none">إظهار المهام</arabic>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
+                            <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <english>User ID</english>
+                                            <arabic class="d-none">كود المستخدم</arabic>
+                                        </th>
+                                        <th>
+                                            <english> Name</english>
+                                            <arabic class="d-none">الاسم</arabic>
+                                        </th>
+                                        <th>
                                             <english> User Details</english>
                                             <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                        </button>
-                                    </td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeDataInspector(@Inspector.Id)">
-                                            <english>Show Tasks</english>
-                                            <arabic class="d-none">إظهار المهام</arabic>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                        </th>
+                                        <th>
+                                            <english>  Load  Work Orders</english>
+                                            <arabic class="d-none">تحميل المهام</arabic>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Agent in ViewBag.Agents)
+                                    {
+                                        <tr>
+                                            <th>@Agent.Id</th>
+                                            <td>@Agent.FirstName @Agent.LastName</td>
+                                            <td><button class="btn btn-info waves-effect waves-light" onclick="location.href='/AppUsers/Details/'+@Agent.Id"> 
+                                                    <english> User Details</english>
+                                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
+                                                </button>
+                                            </td>
+                                            <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
+                                                    <english>Show  Work Orders</english>
+                                                    <arabic class="d-none">إظهار المهام</arabic>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
+                           <english> All Work Orders</english>
+                           <arabic class="d-none">إظهار كل المهام</arabic>
+                    </h3>
+                    @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
                 </div>
-                <div class="shadow-sm p-3 mb-4 bg-white rounded tab-pane" id="AgentsDiv">
-                    <table id="AgentsTable" class="w-100 table table-striped table-hover mb-3">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <english>User ID</english>
-                                    <arabic class="d-none">كود المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english> Name</english>
-                                    <arabic class="d-none">الاسم</arabic>
-                                </th>
-                                <th>
-                                    <english> User Details</english>
-                                    <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                </th>
-                                <th>
-                                    <english>  Load Tasks</english>
-                                    <arabic class="d-none">تحميل المهام</arabic>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var Agent in ViewBag.Agents)
-                            {
-                                <tr>
-                                    <th>@Agent.Id</th>
-                                    <td>@Agent.FirstName @Agent.LastName</td>
-                                    <td><button class="btn btn-info waves-effect waves-light"> 
-                                            <english> User Details</english>
-                                            <arabic class="d-none">تفاصيل المستخدم</arabic>
-                                        </button>
-                                    </td>
-                                    <td><button class="btn btn-success waves-effect waves-light" onclick="ChangeData(@Agent.Id)"> 
-                                            <english>Show Tasks</english>
-                                            <arabic class="d-none">إظهار المهام</arabic>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="col-sm-1 SliderDiv" id="ToggleLeftSliderDivArrow" style="max-width: 1px">
+                    <i class="fas fa-angle-double-down vertical-text h-100 d-flex justify-content-center align-items-center" id="ToggleLeftSliderArrow"></i>
                 </div>
-            </div>
-            <h3 class="text-center font-weight-bold" id="BottomTableHeading"> 
-                   <english> All Tasks</english>
-                   <arabic class="d-none">إظهار كل المهام</arabic>
-            </h3>
-            @await Html.PartialAsync("~/Views/Viewer/ViewerTasksPartial.cshtml")
-        </div>
-        <div class="col-7">
-            
-            @await Html.PartialAsync("~/Views/Viewer/ViewerCanvasPartial.cshtml", Model)
-
         </div>
     </div>
 
@@ -206,6 +212,13 @@
                 @inspector.Key@::@Html.Raw(Json.Serialize(inspector.Value)),
             }
         }
+
+        var InspectorsDic = {
+            @foreach(var Inspector in ViewBag.Inspectors)
+            {
+                @Inspector.Id@::@Html.Raw(Json.Serialize(Inspector.FirstName + " " + Inspector.LastName)),
+            }
+        }
         
         function ChangeDataInspector(Id) {
             var agents = InspectorAgentsDic[Id]
@@ -214,12 +227,15 @@
             listOfHigh = [];
             listOfMedium = [];
             listOfLow = [];
+            viewer.setState(xState.HIDDEN, listOfRooms)
+            listOfRooms = [];
             $(agents).each(function(index, value) {
                   Regex += value;
                   listOfSevere = listOfSevere.concat(AgentItems[value][0]);
                   listOfHigh = listOfHigh.concat(AgentItems[value][1]);
                   listOfMedium = listOfMedium.concat(AgentItems[value][2]);
                   listOfLow = listOfLow.concat(AgentItems[value][3]);
+                  listOfRooms = listOfRooms.concat(AgentItems[value][4]);
                   var isLastElement = index == agents.length -1;
                   if (isLastElement) {
                       return false;
@@ -229,7 +245,13 @@
             //itemsTable.column(0).search("24|25", true, false).draw();
             var itemsTable = $("#ItemsTable").DataTable()
             itemsTable.column(0).search(Regex, true, false).draw();
-            ItemsTableHeading.innerText = "Tasks for Inspector " + Id
+            var Language = localStorage.getItem('language')
+            if (Language == "english") {
+                ItemsTableHeading.innerHTML = "<english>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic class='d-none'>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
+            }
+            else {
+                ItemsTableHeading.innerHTML = "<english class='d-none'>Work Orders for Inspector " + InspectorsDic[Id] + "</english><arabic>مهام المفتش " + InspectorsDic[Id] + "</arabic>"
+            }
         }
     </script>
 

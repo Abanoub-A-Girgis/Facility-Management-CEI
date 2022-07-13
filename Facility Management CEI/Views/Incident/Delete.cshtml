@@ -1,15 +1,15 @@
 ﻿@model API.Models.Incident
-
+@using API.Enums
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/_Shared/_Layout.cshtml";
 }
 
 <h2><english>Deleting Incident</english><arabic class="d-none">حذف الحادثة</arabic></h2>
-
 <h3><english>Would you like to continue?</english><arabic class="d-none">هل تريد الإستمرار؟</arabic></h3>
-<div class="container p-3 my-3 border">
-    <hr />
+<hr />
+<div class="row">
+<div class="col-sm-4">
     <dl class="row">
         <dt class="col-sm-3">
             <english>ID</english>
@@ -67,6 +67,32 @@
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.AppUserId)
+
+            @if(Model.AppUser.Type==UserType.AccountManager)
+            {
+                <img src="~/Photos/AccountManager.png" width ="20" hight="20" alt="Details">
+            }
+            @if(Model.AppUser.Type==UserType.Owner)
+            {
+                <img src="~/Photos/Owner.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Manager)
+            {
+                <img src="~/Photos/Manager.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Supervisor)
+            {
+                <img src="~/Photos/Supervisor.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Inspector)
+            {
+                <img src="~/Photos/Inspector.png" width ="30" hight="30" alt="Details">
+            }
+            @if(Model.AppUser.Type== UserType.Agent)
+            {
+                <img src="~/Photos/Agent.png" width ="25" hight="25" alt="Details">
+            }
+
         </dd>
         <dt class="col-sm-3">
             <english>Asset ID</english>
@@ -85,18 +111,23 @@
 
 
     </dl>
+    </div>
+    <div class="m-auto col-sm-4 mw-100">
+        <img src="~/assets/images/Delete-Work-Order.png" class="rounded mx-auto d-block" alt="Details">
+    </div>
+    </div>
     <english>
         <form asp-action="Delete">
         <input type="hidden" name=IncidentId asp-for=Id />
-        <input class="btn btn-primary" type="submit" value="Yes" />
-        <a class="btn btn-danger" asp-action="Index">No</a>
+        <input class="btn btn-danger waves-effect" type="submit" value="Delete" /> |
+        <a class="btn btn-success waves-effect" asp-action="Index">Back to List</a>
     </form>
     </english>
     <arabic class="d-none">
         <form asp-action="Delete">
         <input type="hidden" name=IncidentId asp-for=Id />
-        <input class="btn btn-primary" type="submit" value="نعم" />
-        <a class="btn btn-danger" asp-action="Index">لا</a>
+        <input class="btn btn-danger waves-effect" type="submit" value="حذف" /> |
+        <a class="btn btn-success waves-effect" asp-action="Index">العودة إلى القائمة</a>
     </form>
     </arabic>
     
