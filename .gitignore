@@ -366,5 +366,4 @@ appsettings.json
 appsettings.Development.json
 *.ifc
 *.wexBIM
-Migrations/
 Startup.cs

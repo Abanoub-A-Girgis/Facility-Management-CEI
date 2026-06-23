@@ -21,6 +21,14 @@ namespace Facility_Management_CEI.IdentityDb
                 .WithMany(t => t.TasksCreated)
                 .HasForeignKey(p => p.CreatedById)
                 .OnDelete(DeleteBehavior.ClientSetNull);//ClientSetNull or ClientCascade will make no action in the database any way
+
+            modelBuilder.Entity<Floor>()
+                .HasIndex(f => new { f.BuildingId, f.IfcEntityLabel })
+                .IsUnique();
+            modelBuilder.Entity<Space>()
+                .HasIndex(s => new { s.FloorId, s.IfcEntityLabel });
+            modelBuilder.Entity<Asset>()
+                .HasIndex(a => new { a.FloorId, a.IfcEntityLabel });
         }
        
         public DbSet<Building> Buildings { get; set; }

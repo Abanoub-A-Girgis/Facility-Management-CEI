@@ -12,6 +12,7 @@ namespace API.Models
         #region Entity Properties
         [DatabaseGenerated(DatabaseGeneratedOption.None)]//to make the Id changeable
         public int Id { get; set; }
+        public int IfcEntityLabel { get; set; }
         public string Name { get; set; }//can be enum
         #endregion
 

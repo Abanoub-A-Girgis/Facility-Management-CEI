@@ -27,6 +27,8 @@ using Xbim.Ifc2x3.SharedBldgServiceElements;
 using System.Net.Http;
 using System.IO;
 using Xbim.Ifc2x3.MaterialResource;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace API.Controllers
 {
@@ -51,14 +53,28 @@ namespace API.Controllers
         {
             string FilePath = Path.Combine(uploadRoot, fileName);
             using (IfcStore Model = IfcStore.Open($"{FilePath}"))
+            using (var transaction = _Context.Database.BeginTransaction(IsolationLevel.Serializable))
             {
                 //stepModel.Instances: retreiving all the elements inside our model
                 var building = Model.Instances;
+                var maxStoredId = new[]
+                {
+                    _Context.Buildings.Select(item => (int?)item.Id).Max() ?? 0,
+                    _Context.Floors.Select(item => (int?)item.Id).Max() ?? 0,
+                    _Context.Spaces.Select(item => (int?)item.Id).Max() ?? 0,
+                    _Context.Assets.Select(item => (int?)item.Id).Max() ?? 0,
+                    _Context.Sensors.Select(item => (int?)item.Id).Max() ?? 0
+                }.Max();
+                var idOffset = checked(maxStoredId + 1);
+                int DatabaseId(int ifcEntityLabel) => checked(idOffset + ifcEntityLabel);
 
                 #region BuildingData
+                var ifcBuilding = building.OfType<IfcBuilding>().FirstOrDefault()
+                    ?? throw new InvalidDataException("The IFC file does not contain a building.");
                 Building Mybuilding = new Building();
-                Mybuilding.Id = building.OfType<IfcBuilding>().FirstOrDefault().EntityLabel;
-                Mybuilding.Name = building.OfType<IfcBuilding>().FirstOrDefault().Name.Value;
+                Mybuilding.Id = DatabaseId(ifcBuilding.EntityLabel);
+                Mybuilding.IfcEntityLabel = ifcBuilding.EntityLabel;
+                Mybuilding.Name = ifcBuilding.Name?.ToString();
                 Mybuilding.Path = "data/" + fileName;
                 _Context.Buildings.Add(Mybuilding);
                 _Context.SaveChanges();
@@ -73,7 +89,8 @@ namespace API.Controllers
                     BuildingFloor.Add(
                     new Floor()
                     {
-                        Id = Floor.EntityLabel,
+                        Id = DatabaseId(Floor.EntityLabel),
+                        IfcEntityLabel = Floor.EntityLabel,
                         FloorName = Floor.Name.Value,
                         BuildingId = Mybuilding.Id,
                         Path = WexBIMPaths.Where(p => p.Contains(Floor.Name.Value)).FirstOrDefault()
@@ -96,9 +113,10 @@ namespace API.Controllers
                     FloorSpaces.Add(
                     new Space()
                     {
-                        Id = Space.EntityLabel,
+                        Id = DatabaseId(Space.EntityLabel),
+                        IfcEntityLabel = Space.EntityLabel,
                         Name = Space.LongName.Value,
-                        FloorId = SpacesStorey.EntityLabel,
+                        FloorId = DatabaseId(SpacesStorey.EntityLabel),
                     });
                 }
                 /////////////////code for the dummy floor and space 
@@ -121,7 +139,8 @@ namespace API.Controllers
                     EmptySpacesToBeAdded.Add(
                     new Space()
                     {
-                        Id = /*MaxIdOfTheDataBase.Max()*/ FloorSpaces.Max(i => i.Id) + (i + 1),
+                        Id = checked(idOffset + building.Max(item => item.EntityLabel) + (i + 1)),
+                        IfcEntityLabel = 0,
                         Name = "NaN",
                         FloorId = FloorsIds[i],
                     });
@@ -152,12 +171,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = Door.EntityLabel,
+                        Id = DatabaseId(Door.EntityLabel),
+                        IfcEntityLabel = Door.EntityLabel,
                         Name = $"{Door.ObjectType.Value}:{Door.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
                         /////////////////code for the dummy floor and space
-                        FloorId = Door.IsContainedIn.EntityLabel,
+                        FloorId = DatabaseId(Door.IsContainedIn.EntityLabel),
                         Materials = string.Join(",", (((IfcMaterialList)((IfcDoor)Door).Material).Materials.Select(M => M.Name).ToList()))
                     });
                 }
@@ -166,12 +186,13 @@ namespace API.Controllers
                 {
                     AssetsList.Add(new Asset
                     {
-                        Id = Window.EntityLabel,
+                        Id = DatabaseId(Window.EntityLabel),
+                        IfcEntityLabel = Window.EntityLabel,
                         Name = $"{Window.ObjectType.Value}:{Window.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Window.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = Window.IsContainedIn.EntityLabel
+                        FloorId = DatabaseId(Window.IsContainedIn.EntityLabel)
                     });
                 }
                 //Ducts and pipe Loop
@@ -181,12 +202,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = item.EntityLabel,
+                        Id = DatabaseId(item.EntityLabel),
+                        IfcEntityLabel = item.EntityLabel,
                         Name = $"{item.ObjectType.Value}:{item.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == item.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = item.IsContainedIn.EntityLabel
+                        FloorId = DatabaseId(item.IsContainedIn.EntityLabel)
                     });
                 }
                 //getting Furniture located in a space 
@@ -204,7 +226,8 @@ namespace API.Controllers
                         AssetsList.Add(//feedign our Asset object with the data needed for database  
                         new Asset
                         {
-                            Id = Asset.EntityLabel,
+                            Id = DatabaseId(Asset.EntityLabel),
+                            IfcEntityLabel = Asset.EntityLabel,
                             Name = $"{Asset.ObjectType.Value} : {Asset.Name.Value}",
                             SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
                             FloorId = Space.FloorId,
@@ -219,12 +242,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = column.EntityLabel,
+                        Id = DatabaseId(column.EntityLabel),
+                        IfcEntityLabel = column.EntityLabel,
                         Name = $"{column.ObjectType.Value}:{column.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == column.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = column.IsContainedIn.EntityLabel,
+                        FloorId = DatabaseId(column.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
                     });
                 }
@@ -235,12 +259,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = slab.EntityLabel,
+                        Id = DatabaseId(slab.EntityLabel),
+                        IfcEntityLabel = slab.EntityLabel,
                         Name = $"{slab.ObjectType.Value}:{slab.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == slab.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = slab.IsContainedIn.EntityLabel,
+                        FloorId = DatabaseId(slab.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
                     });
                 }
@@ -251,12 +276,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = wall.EntityLabel,
+                        Id = DatabaseId(wall.EntityLabel),
+                        IfcEntityLabel = wall.EntityLabel,
                         Name = $"{wall.ObjectType.Value}:{wall.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == wall.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = wall.IsContainedIn.EntityLabel,
+                        FloorId = DatabaseId(wall.IsContainedIn.EntityLabel),
                     });
                 }
                 //getting the Beams
@@ -266,12 +292,13 @@ namespace API.Controllers
                         continue;
                     AssetsList.Add(new Asset
                     {
-                        Id = beam.EntityLabel,
+                        Id = DatabaseId(beam.EntityLabel),
+                        IfcEntityLabel = beam.EntityLabel,
                         Name = $"{beam.ObjectType.Value}:{beam.Name.Value}",
                         /////////////////code for the dummy floor and space
                         SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == beam.IsContainedIn.EntityLabel).Id /*null*/,
                         /////////////////code for the dummy floor and space
-                        FloorId = beam.IsContainedIn.EntityLabel,
+                        FloorId = DatabaseId(beam.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
                     });
                 }
@@ -282,16 +309,17 @@ namespace API.Controllers
                 {
                     if (item.RelatedBuildingElement == null)//in case that the Boundary are virtual then it wont contain any elements
                         continue;
-                    if (AssetsList.Any(ele => ele.Id == item.RelatedBuildingElement.EntityLabel))
+                    if (AssetsList.Any(ele => ele.IfcEntityLabel == item.RelatedBuildingElement.EntityLabel))
                         continue;
                     //getting all the structural elements+ Door With spaces Id
                     AssetsList.Add(
                         new Asset
                         {
-                            Id = item.RelatedBuildingElement.EntityLabel,
+                            Id = DatabaseId(item.RelatedBuildingElement.EntityLabel),
+                            IfcEntityLabel = item.RelatedBuildingElement.EntityLabel,
                             Name = $"{item.RelatedBuildingElement.ObjectType.Value} : {item.RelatedBuildingElement.Name.Value}",
-                            SpaceId = item.RelatingSpace.EntityLabel,
-                            FloorId = FloorSpaces.Where(sp => sp.Id == item.RelatingSpace.EntityLabel).FirstOrDefault().FloorId
+                            SpaceId = DatabaseId(item.RelatingSpace.EntityLabel),
+                            FloorId = FloorSpaces.First(sp => sp.IfcEntityLabel == item.RelatingSpace.EntityLabel).FloorId
                         });
                 }
 
@@ -312,10 +340,13 @@ namespace API.Controllers
                         continue;
                     sensors.Add(new Sensor()
                     {
-                        Id = sensor.EntityLabel,
+                        Id = DatabaseId(sensor.EntityLabel),
+                        IfcEntityLabel = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         /////////////////code for the dummy floor and space
-                        SpaceId = sensor.IsContainedIn.EntityLabel == FloorsIds.FirstOrDefault(i => i == sensor.IsContainedIn.EntityLabel) ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == sensor.IsContainedIn.EntityLabel).Id : sensor.IsContainedIn.EntityLabel,
+                        SpaceId = FloorsIds.Contains(DatabaseId(sensor.IsContainedIn.EntityLabel))
+                            ? EmptySpacesToBeAdded.First(i => i.FloorId == DatabaseId(sensor.IsContainedIn.EntityLabel)).Id
+                            : DatabaseId(sensor.IsContainedIn.EntityLabel),
                         //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
                         /////////////////code for the dummy floor and space
                         //SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
@@ -330,10 +361,13 @@ namespace API.Controllers
                         continue;
                     sensors.Add(new Sensor()
                     {
-                        Id = sensor.EntityLabel,
+                        Id = DatabaseId(sensor.EntityLabel),
+                        IfcEntityLabel = sensor.EntityLabel,
                         Name = sensor.Name.Value,
                         /////////////////code for the dummy floor and space
-                        SpaceId = sensor.IsContainedIn.EntityLabel == FloorsIds.FirstOrDefault(i=> i == sensor.IsContainedIn.EntityLabel) ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == sensor.IsContainedIn.EntityLabel).Id : sensor.IsContainedIn.EntityLabel,
+                        SpaceId = FloorsIds.Contains(DatabaseId(sensor.IsContainedIn.EntityLabel))
+                            ? EmptySpacesToBeAdded.First(i => i.FloorId == DatabaseId(sensor.IsContainedIn.EntityLabel)).Id
+                            : DatabaseId(sensor.IsContainedIn.EntityLabel),
                         //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
                         /////////////////code for the dummy floor and space
                         SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
@@ -344,6 +378,7 @@ namespace API.Controllers
                 _Context.Sensors.AddRange(sensors);
                 _Context.SaveChanges();
                 #endregion
+                transaction.Commit();
             }
         }
 

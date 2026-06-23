@@ -32,6 +32,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(a => new ElementDto
                 {
                     Id = a.Id,
+                    ViewerId = a.IfcEntityLabel,
                     ElementKey = "Asset:" + a.Id,
                     ElementType = "Asset",
                     Name = a.Name,
@@ -54,6 +55,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(s => new ElementDto
                 {
                     Id = s.Id,
+                    ViewerId = s.IfcEntityLabel,
                     ElementKey = "Space:" + s.Id,
                     ElementType = "Space",
                     Name = s.Name,

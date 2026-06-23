@@ -164,13 +164,34 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
             return Ok(ApiResponse<IReadOnlyList<ElementDto>>.Ok(elements));
         }
 
+        [HttpGet("{modelId:int}/viewer-elements/{viewerId:int}")]
+        [ProducesResponseType(typeof(ApiResponse<ElementDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetViewerElement(int modelId, int viewerId, CancellationToken cancellationToken)
+        {
+            var element = await ElementsQuery(modelId, null)
+                .FirstOrDefaultAsync(item => item.ViewerId == viewerId, cancellationToken);
+
+            if (element == null)
+            {
+                return NotFound(ApiResponse<object>.Fail("Element was not found."));
+            }
+
+            return Ok(ApiResponse<ElementDto>.Ok(element));
+        }
+
         [HttpGet("{modelId:int}/viewer-highlights")]
         [ProducesResponseType(typeof(ApiResponse<ViewerHighlightDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetViewerHighlights(int modelId, CancellationToken cancellationToken)
         {
             var issues = await _context.Incidents
                 .Where(i => i.Status != IncidentStatus.Completed && i.Space.Floor.BuildingId == modelId)
-                .Select(i => new { i.AssetId, i.SpaceId, i.Priority })
+                .Select(i => new
+                {
+                    AssetViewerId = i.AssetId == null ? (int?)null : i.Asset.IfcEntityLabel,
+                    SpaceViewerId = i.Space.IfcEntityLabel,
+                    i.Priority
+                })
                 .ToListAsync(cancellationToken);
 
             var result = new ViewerHighlightDto
@@ -180,11 +201,11 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
             };
             foreach (var issue in issues)
             {
-                if (issue.AssetId == null)
+                if (issue.AssetViewerId == null)
                 {
-                    if (!result.Rooms.Contains(issue.SpaceId))
+                    if (issue.SpaceViewerId > 0 && !result.Rooms.Contains(issue.SpaceViewerId))
                     {
-                        result.Rooms.Add(issue.SpaceId);
+                        result.Rooms.Add(issue.SpaceViewerId);
                     }
                     continue;
                 }
@@ -192,16 +213,16 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 switch (issue.Priority)
                 {
                     case Priority.Severe:
-                        AddDistinct(result.Severe, issue.AssetId.Value);
+                        AddDistinct(result.Severe, issue.AssetViewerId.Value);
                         break;
                     case Priority.High:
-                        AddDistinct(result.High, issue.AssetId.Value);
+                        AddDistinct(result.High, issue.AssetViewerId.Value);
                         break;
                     case Priority.Medium:
-                        AddDistinct(result.Medium, issue.AssetId.Value);
+                        AddDistinct(result.Medium, issue.AssetViewerId.Value);
                         break;
                     case Priority.Low:
-                        AddDistinct(result.Low, issue.AssetId.Value);
+                        AddDistinct(result.Low, issue.AssetViewerId.Value);
                         break;
                 }
             }
@@ -216,6 +237,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(a => new ElementDto
                 {
                     Id = a.Id,
+                    ViewerId = a.IfcEntityLabel,
                     ElementKey = "Asset:" + a.Id,
                     ElementType = "Asset",
                     Name = a.Name,
@@ -232,6 +254,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(s => new ElementDto
                 {
                     Id = s.Id,
+                    ViewerId = s.IfcEntityLabel,
                     ElementKey = "Space:" + s.Id,
                     ElementType = "Space",
                     Name = s.Name,

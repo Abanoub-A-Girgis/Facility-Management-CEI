@@ -14,6 +14,12 @@ export class ElementsService {
     return this.http.get<ApiResponse<BuildingElement>>(`${this.baseUrl}/${elementId}`).pipe(map(response => response.data));
   }
 
+  getViewerElement(modelId: number, viewerId: number): Observable<BuildingElement> {
+    return this.http
+      .get<ApiResponse<BuildingElement>>(`${environment.apiBaseUrl}/api/models/${modelId}/viewer-elements/${viewerId}`)
+      .pipe(map(response => response.data));
+  }
+
   getIssues(elementId: number): Observable<Issue[]> {
     return this.http.get<ApiResponse<Issue[]>>(`${this.baseUrl}/${elementId}/issues`).pipe(map(response => response.data));
   }

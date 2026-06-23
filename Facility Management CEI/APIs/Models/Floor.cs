@@ -12,6 +12,7 @@ namespace API.Models
         #region Entity Properties
         [DatabaseGenerated(DatabaseGeneratedOption.None)]//to make the Id changeable that takes the values from Ifc not autonumberd from DB
         public int Id { get; set; }
+        public int IfcEntityLabel { get; set; }
         public string FloorName { get; set; } //name 
         public string Path { get; set; }//Floor WexBIM File Path
         #endregion

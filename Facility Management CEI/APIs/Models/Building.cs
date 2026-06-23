@@ -12,6 +12,7 @@ namespace API.Models
         #region EntityProperties
         [DatabaseGenerated(DatabaseGeneratedOption.None)]//to make the Id changeable  
         public int Id { get; set; }
+        public int IfcEntityLabel { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         #endregion

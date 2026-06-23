@@ -50,7 +50,8 @@ export interface Floor {
 }
 
 export interface BuildingElement {
-  id: number;
+    id: number;
+    viewerId: number;
   elementKey?: string;
   elementType: 'Asset' | 'Space' | string;
   name: string;

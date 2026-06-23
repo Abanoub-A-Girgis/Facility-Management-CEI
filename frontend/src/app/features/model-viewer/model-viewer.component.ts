@@ -277,7 +277,11 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.viewer.setState(window.xState?.HIGHLIGHTED, [elementId]);
     }
 
-    this.elementsService.getElement(elementId).pipe(takeUntil(this.destroy$)).subscribe({
+    if (!this.selectedModelId) {
+      return;
+    }
+
+    this.elementsService.getViewerElement(this.selectedModelId, elementId).pipe(takeUntil(this.destroy$)).subscribe({
       next: element => {
         this.selectedElement = element;
         this.error = '';

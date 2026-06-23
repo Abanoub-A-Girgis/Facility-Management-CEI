@@ -33,6 +33,7 @@ namespace Facility_Management_CEI.ApiLayer.Dtos
     public class ElementDto
     {
         public int Id { get; set; }
+        public int ViewerId { get; set; }
         public string ElementKey { get; set; }
         public string ElementType { get; set; }
         public string Name { get; set; }
