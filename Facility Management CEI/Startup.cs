@@ -88,6 +88,7 @@ namespace Facility_Management_CEI
                 options.SignIn.RequireConfirmedAccount = false;
 
             }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
+             .AddDefaultTokenProviders()
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
             services.ConfigureApplicationCookie(options =>
             {

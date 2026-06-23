@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BuildingElement, BuildingModel, Floor, ViewerHighlight } from '../../core/models/api.models';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
@@ -54,6 +55,12 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   private flashingTimer?: number;
   private flashOn = true;
   private scriptsLoaded?: Promise<void>;
+  private readonly destroy$ = new Subject<void>();
+  private modelRequestVersion = 0;
+  private activeModelId?: number;
+  private destroyed = false;
+  private pickHandler?: (args: { id: number | null }) => void;
+  private loadedHandler?: () => void;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -66,35 +73,39 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const routeModelId = Number(this.route.snapshot.paramMap.get('modelId'));
-    this.selectedModelId = routeModelId || undefined;
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      const routeModelId = Number(params.get('modelId')) || undefined;
+      this.selectedModelId = routeModelId;
+      this.tryLoadSelectedModel();
+    });
     this.loadModels();
   }
 
   ngAfterViewInit(): void {
     this.viewReady = true;
-    if (this.selectedModelId) {
-      this.loadModelData(this.selectedModelId);
-    }
+    this.tryLoadSelectedModel();
   }
 
   ngOnDestroy(): void {
-    this.stopFlashing();
+    this.destroyed = true;
+    this.modelRequestVersion++;
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.teardownViewer();
   }
 
   loadModels(): void {
     this.loading = true;
-    this.modelsService.getModels().subscribe({
+    this.modelsService.getModels().pipe(takeUntil(this.destroy$)).subscribe({
       next: models => {
         this.models = models;
         this.loading = false;
         if (!this.selectedModelId && models.length) {
           this.selectedModelId = models[0].id;
           this.router.navigate(['/models', this.selectedModelId, 'viewer']);
+          return;
         }
-        if (this.selectedModelId && this.viewReady) {
-          this.loadModelData(this.selectedModelId);
-        }
+        this.tryLoadSelectedModel();
       },
       error: () => {
         this.loading = false;
@@ -108,32 +119,50 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.router.navigate(['/models', this.selectedModelId, 'viewer']);
-    this.loadModelData(this.selectedModelId);
   }
 
   loadModelData(modelId: number): void {
+    if (this.destroyed || this.activeModelId === modelId) {
+      return;
+    }
+
+    const requestVersion = ++this.modelRequestVersion;
+    this.activeModelId = modelId;
     this.error = '';
     this.selectedElement = undefined;
     this.selectedElementId = undefined;
     this.viewerLoading = true;
-    this.stopFlashing();
+    this.teardownViewer();
 
-    this.floorsService.getByModel(modelId).subscribe({
+    this.floorsService.getByModel(modelId).pipe(takeUntil(this.destroy$)).subscribe({
       next: floors => {
+        if (!this.isCurrentRequest(requestVersion)) {
+          return;
+        }
         this.floors = floors;
         this.visibleFloorIds = new Set(floors.map(floor => floor.id));
-        this.modelsService.getViewerHighlights(modelId).subscribe({
+        this.modelsService.getViewerHighlights(modelId).pipe(takeUntil(this.destroy$)).subscribe({
           next: highlights => {
+            if (!this.isCurrentRequest(requestVersion)) {
+              return;
+            }
             this.highlights = this.normalizeHighlights(highlights);
-            this.initializeViewer();
+            this.initializeViewer(requestVersion);
           },
           error: () => {
+            if (!this.isCurrentRequest(requestVersion)) {
+              return;
+            }
             this.error = this.localization.translate('Viewer.LoadHighlightsError');
-            this.initializeViewer();
+            this.initializeViewer(requestVersion);
           }
         });
       },
       error: () => {
+        if (!this.isCurrentRequest(requestVersion)) {
+          return;
+        }
+        this.activeModelId = undefined;
         this.viewerLoading = false;
         this.error = this.localization.translate('Viewer.LoadFloorsError');
       }
@@ -165,7 +194,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private initializeViewer(): void {
+  private initializeViewer(requestVersion: number): void {
     if (!this.viewReady || !this.floors.length) {
       this.viewerLoading = false;
       return;
@@ -173,12 +202,15 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadViewerScripts()
       .then(() => {
+        if (!this.isCurrentRequest(requestVersion)) {
+          return;
+        }
         const canvas = document.getElementById('viewer-canvas');
         if (!canvas || !window.xViewer) {
           throw new Error(this.localization.translate('Viewer.ScriptsUnavailable'));
         }
 
-        this.stopFlashing();
+        this.teardownViewer();
         canvas.replaceWith(canvas.cloneNode(false));
 
         this.viewer = new window.xViewer('viewer-canvas');
@@ -192,40 +224,60 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.viewer.defineStyle(1, this.severityColor('High', [255, 160, 16, 255]));
         this.viewer.defineStyle(2, this.severityColor('Medium', [255, 224, 32, 255]));
         this.viewer.defineStyle(3, this.severityColor('Low', [0, 255, 0, 255]));
-        this.viewer.on('pick', (args: { id: number }) => this.zone.run(() => this.onElementPicked(args.id)));
+        this.pickHandler = (args: { id: number | null }) => this.zone.run(() => this.onElementPicked(args.id));
+        this.viewer.on('pick', this.pickHandler);
         this.viewer.start();
 
-        this.loadFloorModels(0);
+        this.loadFloorModels(0, requestVersion);
       })
       .catch(error => {
+        if (!this.isCurrentRequest(requestVersion)) {
+          return;
+        }
+        this.activeModelId = undefined;
         this.viewerLoading = false;
         this.error = error.message ?? this.localization.translate('Viewer.InitError');
       });
   }
 
-  private loadFloorModels(index: number): void {
-    if (!this.viewer || index >= this.floors.length) {
+  private loadFloorModels(index: number, requestVersion: number): void {
+    if (!this.viewer || !this.isCurrentRequest(requestVersion)) {
+      return;
+    }
+
+    if (index >= this.floors.length) {
       this.viewerLoading = false;
       this.applyHighlighting();
       return;
     }
 
     const floor = this.floors[index];
+    this.loadedHandler = () => {
+      if (this.viewer && this.loadedHandler) {
+        this.viewer.off('loaded', this.loadedHandler);
+      }
+      this.loadedHandler = undefined;
+      this.loadFloorModels(index + 1, requestVersion);
+    };
+    this.viewer.on('loaded', this.loadedHandler);
     this.viewer.load(this.assetUrl(floor.wexBimPath));
-    this.viewer.on('loaded', () => {
-      this.viewer.off('loaded');
-      this.loadFloorModels(index + 1);
-    });
   }
 
-  private onElementPicked(elementId: number): void {
+  private onElementPicked(elementId: number | null): void {
+    if (elementId == null || !Number.isFinite(elementId) || elementId <= 0) {
+      this.selectedElementId = undefined;
+      this.selectedElement = undefined;
+      this.error = '';
+      return;
+    }
+
     this.selectedElementId = elementId;
     if (this.viewer) {
       this.viewer.setCameraTarget(elementId);
       this.viewer.setState(window.xState?.HIGHLIGHTED, [elementId]);
     }
 
-    this.elementsService.getElement(elementId).subscribe({
+    this.elementsService.getElement(elementId).pipe(takeUntil(this.destroy$)).subscribe({
       next: element => {
         this.selectedElement = element;
         this.error = '';
@@ -299,6 +351,39 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.flashingTimer = undefined;
     }
     this.flashOn = true;
+  }
+
+  private tryLoadSelectedModel(): void {
+    if (this.viewReady && this.models.length && this.selectedModelId) {
+      this.loadModelData(this.selectedModelId);
+    }
+  }
+
+  private isCurrentRequest(requestVersion: number): boolean {
+    return !this.destroyed && requestVersion === this.modelRequestVersion;
+  }
+
+  private teardownViewer(): void {
+    this.stopFlashing();
+    if (!this.viewer) {
+      return;
+    }
+
+    if (this.loadedHandler) {
+      this.viewer.off('loaded', this.loadedHandler);
+      this.loadedHandler = undefined;
+    }
+    if (this.pickHandler) {
+      this.viewer.off('pick', this.pickHandler);
+      this.pickHandler = undefined;
+    }
+
+    if (typeof this.viewer.dispose === 'function') {
+      this.viewer.dispose();
+    } else {
+      this.viewer.stop?.();
+    }
+    this.viewer = undefined;
   }
 
   private loadViewerScripts(): Promise<void> {

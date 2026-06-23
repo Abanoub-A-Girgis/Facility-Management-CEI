@@ -28,6 +28,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 function xBinaryReader() {
     this._buffer = null;
     this._position = 0;
+    this._xhr = null;
+    this._fileReader = null;
 }
 
 xBinaryReader.prototype.onloaded = function () { };
@@ -42,11 +44,14 @@ xBinaryReader.prototype.load = function (source) {
     if (typeof (source) == 'string') {
         var xhr;
         xhr = new XMLHttpRequest();
+        this._xhr = xhr;
         xhr.open("GET", source, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var fReader = new FileReader();
+                self._fileReader = fReader;
                 fReader.onloadend = function () {
+                    self._fileReader = null;
                     if (fReader.result) {
                         //set data buffer for next processing
                         self._buffer = fReader.result;
@@ -60,6 +65,7 @@ xBinaryReader.prototype.load = function (source) {
             }
             //throw exception as a warning
             if (xhr.readyState == 4 && xhr.status != 200) {
+                if (xhr.status === 0 && self._xhr === null) return;
                 var msg = 'Failed to fetch binary data from server. Server code: ' + xhr.status +
                     '. This might be due to CORS policy of your browser if you run this as a local file.';
                 if (self.onerror) self.onerror(msg);
@@ -71,7 +77,9 @@ xBinaryReader.prototype.load = function (source) {
     }
     else if (source instanceof Blob || source instanceof File) {
         var fReader = new FileReader();
+        this._fileReader = fReader;
         fReader.onloadend = function () {
+            self._fileReader = null;
             if (fReader.result) {
                 //set data buffer for next processing
                 self._buffer = fReader.result;
@@ -86,6 +94,21 @@ xBinaryReader.prototype.load = function (source) {
     else if (source instanceof ArrayBuffer) {
         this._buffer = source;
     }
+};
+
+xBinaryReader.prototype.abort = function () {
+    if (this._xhr) {
+        var xhr = this._xhr;
+        this._xhr = null;
+        xhr.onreadystatechange = null;
+        xhr.abort();
+    }
+    if (this._fileReader && this._fileReader.readyState === FileReader.LOADING) {
+        this._fileReader.abort();
+    }
+    this._fileReader = null;
+    this.onloaded = null;
+    this.onerror = null;
 };
 
 xBinaryReader.prototype.getIsEOF = function (type, count) {
@@ -429,17 +452,29 @@ xModelGeometry.prototype.parse = function (binReader) {
 xModelGeometry.prototype.load = function (source) {
     //binary reading
     var br = new xBinaryReader();
+    this._reader = br;
     var self = this;
     br.onloaded = function () {
+        self._reader = null;
         self.parse(br);
         if (self.onloaded) {
             self.onloaded();
         }
     };
     br.onerror = function (msg) {
+        self._reader = null;
         if (self.onerror) self.onerror(msg);
     };
     br.load(source);
+};
+
+xModelGeometry.prototype.cancel = function () {
+    if (this._reader) {
+        this._reader.abort();
+        this._reader = null;
+    }
+    this.onloaded = null;
+    this.onerror = null;
 };
 
 xModelGeometry.prototype.onloaded = function () { };
@@ -1348,6 +1383,8 @@ function xViewer(canvas, preserveDrawingBuffer) {
     //dictionary of named events which can be registered and unregistered by using '.on('eventname', callback)'
     // and '.off('eventname', callback)'. Registered call-backs are triggered by the viewer when important events occur.
     this._events = {};
+    this._loadingGeometries = [];
+    this._isDisposed = false;
 
     //array of plugins which can implement certain methods which get called at certain points like before draw, after draw and others.
     this._plugins = [];
@@ -1771,10 +1808,17 @@ xViewer.prototype.load = function (model, tag) {
     var viewer = this;
 
     var geometry = new xModelGeometry();
+    viewer._loadingGeometries.push(geometry);
     geometry.onloaded = function () {
+        var index = viewer._loadingGeometries.indexOf(geometry);
+        if (index >= 0) viewer._loadingGeometries.splice(index, 1);
+        if (viewer._isDisposed) return;
         viewer._addHandle(geometry, tag);
     };
     geometry.onerror = function (msg) {
+        var index = viewer._loadingGeometries.indexOf(geometry);
+        if (index >= 0) viewer._loadingGeometries.splice(index, 1);
+        if (viewer._isDisposed) return;
         viewer._error(msg);
     }
     geometry.load(model);
@@ -2159,7 +2203,7 @@ xViewer.prototype._initMouseEvents = function () {
     //watch resizing of canvas every 500ms
     var elementHeight = viewer.height;
     var elementWidth = viewer.width;
-    setInterval(function () {
+    var resizeInterval = setInterval(function () {
         if (viewer._canvas.offsetHeight !== elementHeight || viewer._canvas.offsetWidth !== elementWidth) {
             elementHeight = viewer._height = viewer._canvas.height = viewer._canvas.offsetHeight;
             elementWidth = viewer._width = viewer._canvas.width = viewer._canvas.offsetWidth;
@@ -2173,9 +2217,14 @@ xViewer.prototype._initMouseEvents = function () {
     window.addEventListener('mouseup', handleMouseUp, true);
     window.addEventListener('mousemove', handleMouseMove, true);
 
-    this._canvas.addEventListener('mousemove', function() {
+    function handleCanvasMouseMove() {
         viewer._userAction = true;
-    }, true);
+    }
+    function handleDoubleClick() {
+        viewer._fire('dblclick', { id: id });
+    }
+
+    this._canvas.addEventListener('mousemove', handleCanvasMouseMove, true);
 
 
     /**
@@ -2185,7 +2234,16 @@ xViewer.prototype._initMouseEvents = function () {
     * @type {object}
     * @param {Number} id - product ID of the element or null if there wasn't any product under mouse
     */
-    this._canvas.addEventListener('dblclick', function () { viewer._fire('dblclick', { id: id }); }, true);
+    this._canvas.addEventListener('dblclick', handleDoubleClick, true);
+    this._disposeMouseEvents = function () {
+        clearInterval(resizeInterval);
+        viewer._canvas.removeEventListener('mousedown', handleMouseDown, true);
+        viewer._canvas.removeEventListener('wheel', handleMouseScroll, true);
+        viewer._canvas.removeEventListener('mousemove', handleCanvasMouseMove, true);
+        viewer._canvas.removeEventListener('dblclick', handleDoubleClick, true);
+        window.removeEventListener('mouseup', handleMouseUp, true);
+        window.removeEventListener('mousemove', handleMouseMove, true);
+    };
 };
 
 /**
@@ -2602,6 +2660,31 @@ xViewer.prototype.stop = function (id) {
 
     model.stopped = true;
     this._numberOfActiveModels--;
+};
+
+xViewer.prototype.dispose = function () {
+    if (this._isDisposed) return;
+    this._isDisposed = true;
+    this.stop();
+
+    if (this._loadingGeometries) {
+        this._loadingGeometries.forEach(function (geometry) { geometry.cancel(); });
+        this._loadingGeometries.length = 0;
+    }
+
+    if (this._handles) {
+        this._handles.slice().forEach(function (handle) {
+            try { this.unload(handle.id); } catch (e) { }
+        }, this);
+    }
+
+    if (this._disposeMouseEvents) {
+        this._disposeMouseEvents();
+        this._disposeMouseEvents = null;
+    }
+
+    this._events = {};
+    this._plugins = [];
 };
 
 /**
