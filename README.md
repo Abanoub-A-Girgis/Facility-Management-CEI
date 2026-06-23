@@ -141,6 +141,23 @@ Configuration is currently stored in `Facility Management CEI/appsettings.json`.
 {
   "ConnectionStrings": {
     "ProjectDataBase": "Server=.;Database=ProjectDataBaseWithAPINewViewer;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "IfcProcessing": {
+    "UploadDirectory": "data",
+    "MaxUploadBytes": 2147483648,
+    "AllowedExtensions": [ ".ifc" ],
+    "AllowedContentTypes": [ "application/octet-stream", "application/ifc", "application/x-step", "text/plain" ],
+    "ValidateIfcHeader": true,
+    "HeaderValidationBytes": 8192
+  },
+  "Viewer": {
+    "FlashIntervalMs": 750,
+    "SeverityColors": {
+      "Severe": [ 255, 0, 0, 255 ],
+      "High": [ 255, 160, 16, 255 ],
+      "Medium": [ 255, 224, 32, 255 ],
+      "Low": [ 0, 255, 0, 255 ]
+    }
   }
 }
 ```
@@ -153,6 +170,11 @@ Important configuration items:
 - `IfcProcessing:UploadDirectory`
 - `IfcProcessing:MaxUploadBytes`
 - `IfcProcessing:AllowedExtensions`
+- `IfcProcessing:AllowedContentTypes`
+- `IfcProcessing:ValidateIfcHeader`
+- `IfcProcessing:HeaderValidationBytes`
+- `Viewer:FlashIntervalMs`
+- `Viewer:SeverityColors`
 - `ASPNETCORE_ENVIRONMENT`
 - `ASPNETCORE_URLS` when self-hosting with Kestrel
 
@@ -245,9 +267,9 @@ npm run build
 
 - Upgrade from .NET 5 to a supported .NET LTS version before production deployment.
 - Store uploaded IFC and generated `.wexBIM` files in a durable, backed-up location.
-- Validate uploaded IFC files and enforce file size limits.
+- Validate uploaded IFC files by extension, configured MIME/content type, configured size limit, safe file name, safe upload path, and IFC STEP header.
 - Protect upload, database-clear, incident, task, and assignment endpoints with authorization policies.
-- Move IFC processing into services/background jobs if large models cause request timeouts.
+- IFC processing is wrapped with logging and clear failures, but large models are still processed during the upload request. TODO: move splitting/conversion into a durable background job queue with progress/status endpoints.
 - Serve static `.wexBIM` files with the correct content type.
 - Use HTTPS, secure cookies, production Identity settings, and externalized secrets.
 - Add structured logging, health checks, and monitoring.
@@ -307,7 +329,9 @@ Current Angular-facing routes include:
 - Some legacy Razor views still need gradual cleanup as Angular reaches full replacement coverage.
 - API boundaries are incomplete; some controllers mix view rendering, data access, and business logic.
 - The wired EF context includes both Identity and domain data.
-- IFC processing happens during the upload request and may not scale for large models.
+- IFC processing still happens during the upload request and may not scale for large models despite improved validation/logging.
+- IFC upload storage must remain under the web root in the current viewer architecture so generated `.wexBIM` files can be served to the browser.
+- Element IDs are based on IFC labels and exposed with an `ElementKey` such as `Asset:123` or `Space:456`; future issue endpoints should accept this typed key to avoid ambiguity if an asset and space share the same numeric label.
 - The project targets .NET 5, which is no longer supported.
 - Some endpoints and methods need production hardening before public exposure.
 

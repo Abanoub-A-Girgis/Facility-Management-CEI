@@ -33,6 +33,7 @@ namespace Facility_Management_CEI.ApiLayer.Dtos
     public class ElementDto
     {
         public int Id { get; set; }
+        public string ElementKey { get; set; }
         public string ElementType { get; set; }
         public string Name { get; set; }
         public string Materials { get; set; }
@@ -50,5 +51,7 @@ namespace Facility_Management_CEI.ApiLayer.Dtos
         public List<int> Medium { get; set; } = new List<int>();
         public List<int> Low { get; set; } = new List<int>();
         public List<int> Rooms { get; set; } = new List<int>();
+        public Dictionary<string, int[]> SeverityColors { get; set; } = new Dictionary<string, int[]>();
+        public int FlashIntervalMs { get; set; } = 750;
     }
 }

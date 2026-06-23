@@ -188,10 +188,10 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
           this.viewer.addPlugin(navCube);
         }
 
-        this.viewer.defineStyle(0, [255, 0, 0, 255]);
-        this.viewer.defineStyle(1, [255, 160, 16, 255]);
-        this.viewer.defineStyle(2, [255, 224, 32, 255]);
-        this.viewer.defineStyle(3, [0, 255, 0, 255]);
+        this.viewer.defineStyle(0, this.severityColor('Severe', [255, 0, 0, 255]));
+        this.viewer.defineStyle(1, this.severityColor('High', [255, 160, 16, 255]));
+        this.viewer.defineStyle(2, this.severityColor('Medium', [255, 224, 32, 255]));
+        this.viewer.defineStyle(3, this.severityColor('Low', [0, 255, 0, 255]));
         this.viewer.on('pick', (args: { id: number }) => this.zone.run(() => this.onElementPicked(args.id)));
         this.viewer.start();
 
@@ -268,7 +268,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.flashingTimer = window.setInterval(() => {
         this.flashOn = !this.flashOn;
         this.paintHighlights(this.flashOn);
-      }, 750);
+      }, this.flashInterval());
     } else {
       this.paintHighlights(true);
     }
@@ -348,7 +348,30 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       high: highlights.high ?? [],
       medium: highlights.medium ?? [],
       low: highlights.low ?? [],
-      rooms: highlights.rooms ?? []
+      rooms: highlights.rooms ?? [],
+      severityColors: highlights.severityColors ?? {},
+      flashIntervalMs: highlights.flashIntervalMs
     };
+  }
+
+  private severityColor(severity: string, fallback: number[]): number[] {
+    const configured = this.highlights.severityColors?.[severity];
+    if (!configured?.length) {
+      return fallback;
+    }
+
+    const normalized = [...fallback];
+    configured.slice(0, 4).forEach((value, index) => {
+      normalized[index] = Math.max(0, Math.min(255, Number(value)));
+    });
+    if (configured.length === 3) {
+      normalized[3] = 255;
+    }
+
+    return normalized;
+  }
+
+  private flashInterval(): number {
+    return Math.max(250, Math.min(5000, this.highlights.flashIntervalMs ?? 750));
   }
 }

@@ -36,6 +36,7 @@ export interface Floor {
 
 export interface BuildingElement {
   id: number;
+  elementKey?: string;
   elementType: 'Asset' | 'Space' | string;
   name: string;
   materials?: string;
@@ -52,6 +53,8 @@ export interface ViewerHighlight {
   medium: number[];
   low: number[];
   rooms: number[];
+  severityColors?: Record<string, number[]>;
+  flashIntervalMs?: number;
 }
 
 export interface Issue {

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xbim.Ifc;
@@ -54,21 +55,47 @@ namespace Facility_Management_CEI.Services
             }
 
             _logger.LogInformation("Saved IFC upload {FileName} to {Path}", fileName, fullPath);
+            ValidateIfcHeader(fullPath);
 
-            var splitResult = SplitByBuildingStorey(fullPath, true);
-            foreach (var ifcFile in splitResult.GeneratedIfcFiles)
+            try
             {
-                ConvertToWexBim(ifcFile);
+                // XBIM processing is synchronous and CPU/file-system heavy. This keeps the request pipeline
+                // responsive enough for now; a durable background job is still recommended for large models.
+                return await Task.Run(() =>
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    var splitResult = SplitByBuildingStorey(fullPath, true);
+                    foreach (var ifcFile in splitResult.GeneratedIfcFiles)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        ConvertToWexBim(ifcFile);
+                    }
+
+                    return new IfcProcessingResult
+                    {
+                        FileName = fileName,
+                        FullPath = fullPath,
+                        RelativePath = ToWebPath(fullPath),
+                        GeneratedIfcFiles = splitResult.GeneratedIfcFiles,
+                        GeneratedWexBimPaths = splitResult.GeneratedWexBimPaths
+                    };
+                }, cancellationToken);
             }
-
-            return new IfcProcessingResult
+            catch (InvalidDataException)
             {
-                FileName = fileName,
-                FullPath = fullPath,
-                RelativePath = ToWebPath(fullPath),
-                GeneratedIfcFiles = splitResult.GeneratedIfcFiles,
-                GeneratedWexBimPaths = splitResult.GeneratedWexBimPaths
-            };
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("IFC processing was cancelled for {FileName}", fileName);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "IFC parsing, splitting, or WexBIM conversion failed for {FileName}", fileName);
+                throw new InvalidDataException(_localizer["Server.IfcProcessingFailed"], ex);
+            }
         }
 
         private void ValidateUpload(IFormFile file)
@@ -93,12 +120,28 @@ namespace Facility_Management_CEI.Services
             {
                 throw new InvalidDataException(_localizer["Server.OnlyIfc"]);
             }
+
+            if (!_options.IsAllowedContentType(file.ContentType))
+            {
+                throw new InvalidDataException(_localizer["Server.InvalidContentType"]);
+            }
         }
 
         private string GetUploadRoot()
         {
             var webRoot = _environment.WebRootPath ?? Path.Combine(_environment.ContentRootPath, "wwwroot");
-            return Path.GetFullPath(Path.Combine(webRoot, _options.UploadDirectory));
+            var fullWebRoot = Path.GetFullPath(webRoot);
+            var uploadDirectory = _options.UploadDirectory ?? "data";
+            var uploadRoot = Path.IsPathRooted(uploadDirectory)
+                ? Path.GetFullPath(uploadDirectory)
+                : Path.GetFullPath(Path.Combine(fullWebRoot, uploadDirectory));
+
+            if (!IsSubPathOf(uploadRoot, fullWebRoot))
+            {
+                throw new InvalidDataException(_localizer["Server.InvalidUploadDirectory"]);
+            }
+
+            return uploadRoot;
         }
 
         private string CreateSafeFileName(string fileName, string uploadRoot)
@@ -118,7 +161,13 @@ namespace Facility_Management_CEI.Services
             }
 
             var candidate = baseName + extension;
-            if (!File.Exists(Path.Combine(uploadRoot, candidate)))
+            var candidatePath = Path.GetFullPath(Path.Combine(uploadRoot, candidate));
+            if (!IsSubPathOf(candidatePath, uploadRoot))
+            {
+                throw new InvalidDataException(_localizer["Server.InvalidFileName"]);
+            }
+
+            if (!File.Exists(candidatePath))
             {
                 return candidate;
             }
@@ -183,11 +232,46 @@ namespace Facility_Management_CEI.Services
             }
         }
 
+        private void ValidateIfcHeader(string fullPath)
+        {
+            if (!_options.ValidateIfcHeader)
+            {
+                return;
+            }
+
+            var bytesToRead = Math.Max(1024, _options.HeaderValidationBytes);
+            var buffer = new byte[bytesToRead];
+            int read;
+
+            using (var stream = File.OpenRead(fullPath))
+            {
+                read = stream.Read(buffer, 0, buffer.Length);
+            }
+
+            var header = Encoding.ASCII.GetString(buffer, 0, read);
+            if (header.IndexOf("ISO-10303-21", StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                throw new InvalidDataException(_localizer["Server.InvalidIfcContent"]);
+            }
+        }
+
         private string ToWebPath(string fullPath)
         {
             var webRoot = Path.GetFullPath(_environment.WebRootPath ?? Path.Combine(_environment.ContentRootPath, "wwwroot"));
             var relativePath = Path.GetRelativePath(webRoot, fullPath);
             return "/" + relativePath.Replace("\\", "/");
+        }
+
+        private static bool IsSubPathOf(string path, string root)
+        {
+            var fullPath = Path.GetFullPath(path)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                + Path.DirectorySeparatorChar;
+            var fullRoot = Path.GetFullPath(root)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                + Path.DirectorySeparatorChar;
+
+            return fullPath.StartsWith(fullRoot, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

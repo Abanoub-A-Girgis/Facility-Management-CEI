@@ -5,6 +5,7 @@ using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +83,11 @@ namespace Facility_Management_CEI
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
             services.Configure<IfcProcessingOptions>(Configuration.GetSection("IfcProcessing"));
+            services.Configure<ViewerOptions>(Configuration.GetSection("Viewer"));
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = Configuration.GetValue<long>("IfcProcessing:MaxUploadBytes", 2147483648);
+            });
             services.AddScoped<IIfcProcessingService, IfcProcessingService>();
             services.AddCors(options =>
             {

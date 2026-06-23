@@ -74,6 +74,11 @@
   <data name="Server.EmptyIfcFile" xml:space="preserve"><value>ملف IFC المرفوع فارغ.</value></data>
   <data name="Server.FileTooLarge" xml:space="preserve"><value>ملف IFC المرفوع يتجاوز الحد المسموح.</value></data>
   <data name="Server.OnlyIfc" xml:space="preserve"><value>يتم دعم ملفات IFC فقط.</value></data>
+  <data name="Server.InvalidContentType" xml:space="preserve"><value>نوع محتوى الملف المرفوع غير مسموح به لملفات IFC.</value></data>
+  <data name="Server.InvalidIfcContent" xml:space="preserve"><value>لا يبدو الملف المرفوع كملف IFC STEP صالح.</value></data>
+  <data name="Server.InvalidUploadDirectory" xml:space="preserve"><value>يجب أن يبقى مجلد رفع IFC داخل مجلد الويب حتى يمكن عرض ملفات العارض بأمان.</value></data>
+  <data name="Server.InvalidFileName" xml:space="preserve"><value>اسم الملف المرفوع غير صالح.</value></data>
+  <data name="Server.IfcProcessingFailed" xml:space="preserve"><value>تعذر تحليل ملف IFC أو تقسيمه أو تحويله للاستخدام في العارض.</value></data>
   <data name="Server.UploadProcessed" xml:space="preserve"><value>تم رفع ومعالجة نموذج IFC.</value></data>
   <data name="Server.UploadFailed" xml:space="preserve"><value>تعذرت معالجة نموذج IFC.</value></data>
   <data name="Legacy.Menu" xml:space="preserve"><value>القائمة</value></data>

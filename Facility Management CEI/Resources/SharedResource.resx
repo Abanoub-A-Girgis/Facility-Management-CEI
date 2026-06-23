@@ -74,6 +74,11 @@
   <data name="Server.EmptyIfcFile" xml:space="preserve"><value>The uploaded IFC file is empty.</value></data>
   <data name="Server.FileTooLarge" xml:space="preserve"><value>The uploaded IFC file exceeds the configured limit.</value></data>
   <data name="Server.OnlyIfc" xml:space="preserve"><value>Only IFC files are supported.</value></data>
+  <data name="Server.InvalidContentType" xml:space="preserve"><value>The uploaded file content type is not allowed for IFC uploads.</value></data>
+  <data name="Server.InvalidIfcContent" xml:space="preserve"><value>The uploaded file does not look like a valid IFC STEP file.</value></data>
+  <data name="Server.InvalidUploadDirectory" xml:space="preserve"><value>The configured IFC upload directory must stay inside the web root so generated viewer files can be served safely.</value></data>
+  <data name="Server.InvalidFileName" xml:space="preserve"><value>The uploaded file name is invalid.</value></data>
+  <data name="Server.IfcProcessingFailed" xml:space="preserve"><value>The IFC file could not be parsed, split, or converted for viewer use.</value></data>
   <data name="Server.UploadProcessed" xml:space="preserve"><value>IFC model uploaded and processed.</value></data>
   <data name="Server.UploadFailed" xml:space="preserve"><value>The IFC model could not be processed.</value></data>
   <data name="Legacy.Menu" xml:space="preserve"><value>Menu</value></data>

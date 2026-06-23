@@ -32,6 +32,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(a => new ElementDto
                 {
                     Id = a.Id,
+                    ElementKey = "Asset:" + a.Id,
                     ElementType = "Asset",
                     Name = a.Name,
                     Materials = a.Materials,
@@ -53,6 +54,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(s => new ElementDto
                 {
                     Id = s.Id,
+                    ElementKey = "Space:" + s.Id,
                     ElementType = "Space",
                     Name = s.Name,
                     Materials = null,

@@ -1,5 +1,6 @@
 using API.Enums;
 using Facility_Management_CEI.ApiLayer.Dtos;
+using Facility_Management_CEI.Configuration;
 using Facility_Management_CEI.IdentityDb;
 using Facility_Management_CEI.Services;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,17 +25,20 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
         private readonly ApplicationDBContext _context;
         private readonly IIfcProcessingService _ifcProcessingService;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly ViewerOptions _viewerOptions;
         private readonly ILogger<ModelsController> _logger;
 
         public ModelsController(
             ApplicationDBContext context,
             IIfcProcessingService ifcProcessingService,
             IStringLocalizer<SharedResource> localizer,
+            IOptions<ViewerOptions> viewerOptions,
             ILogger<ModelsController> logger)
         {
             _context = context;
             _ifcProcessingService = ifcProcessingService;
             _localizer = localizer;
+            _viewerOptions = viewerOptions.Value;
             _logger = logger;
         }
 
@@ -168,28 +173,35 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(i => new { i.AssetId, i.SpaceId, i.Priority })
                 .ToListAsync(cancellationToken);
 
-            var result = new ViewerHighlightDto();
+            var result = new ViewerHighlightDto
+            {
+                SeverityColors = ViewerHighlightMapper.NormalizeSeverityColors(_viewerOptions).ToDictionary(item => item.Key, item => item.Value),
+                FlashIntervalMs = Math.Max(250, Math.Min(5000, _viewerOptions.FlashIntervalMs))
+            };
             foreach (var issue in issues)
             {
                 if (issue.AssetId == null)
                 {
-                    result.Rooms.Add(issue.SpaceId);
+                    if (!result.Rooms.Contains(issue.SpaceId))
+                    {
+                        result.Rooms.Add(issue.SpaceId);
+                    }
                     continue;
                 }
 
                 switch (issue.Priority)
                 {
                     case Priority.Severe:
-                        result.Severe.Add(issue.AssetId.Value);
+                        AddDistinct(result.Severe, issue.AssetId.Value);
                         break;
                     case Priority.High:
-                        result.High.Add(issue.AssetId.Value);
+                        AddDistinct(result.High, issue.AssetId.Value);
                         break;
                     case Priority.Medium:
-                        result.Medium.Add(issue.AssetId.Value);
+                        AddDistinct(result.Medium, issue.AssetId.Value);
                         break;
                     case Priority.Low:
-                        result.Low.Add(issue.AssetId.Value);
+                        AddDistinct(result.Low, issue.AssetId.Value);
                         break;
                 }
             }
@@ -204,6 +216,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(a => new ElementDto
                 {
                     Id = a.Id,
+                    ElementKey = "Asset:" + a.Id,
                     ElementType = "Asset",
                     Name = a.Name,
                     Materials = a.Materials,
@@ -219,6 +232,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 .Select(s => new ElementDto
                 {
                     Id = s.Id,
+                    ElementKey = "Space:" + s.Id,
                     ElementType = "Space",
                     Name = s.Name,
                     Materials = null,
@@ -230,6 +244,14 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 });
 
             return assets.Concat(spaces).OrderBy(e => e.FloorName).ThenBy(e => e.Name);
+        }
+
+        private static void AddDistinct(List<int> values, int value)
+        {
+            if (!values.Contains(value))
+            {
+                values.Add(value);
+            }
         }
     }
 }
