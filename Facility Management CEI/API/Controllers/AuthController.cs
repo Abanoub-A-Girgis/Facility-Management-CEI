@@ -28,7 +28,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                 request.UserName,
                 request.Password,
                 isPersistent: false,
-                lockoutOnFailure: true);
+                lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {

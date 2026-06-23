@@ -200,8 +200,16 @@ namespace Facility_Management_CEI
                 if (adminSeed.ResetPasswordOnStartup)
                 {
                     var resetToken = await UserManager.GeneratePasswordResetTokenAsync(_user);
-                    await UserManager.ResetPasswordAsync(_user, resetToken, adminSeed.Password);
+                    var resetResult = await UserManager.ResetPasswordAsync(_user, resetToken, adminSeed.Password);
+                    if (!resetResult.Succeeded)
+                    {
+                        var errors = string.Join(" ", resetResult.Errors.Select(error => error.Description));
+                        throw new InvalidOperationException($"Unable to reset the configured seed admin password. {errors}");
+                    }
                 }
+
+                await UserManager.SetLockoutEndDateAsync(_user, null);
+                await UserManager.ResetAccessFailedCountAsync(_user);
 
                 if (!await UserManager.IsInRoleAsync(_user, "AccountManager"))
                 {
