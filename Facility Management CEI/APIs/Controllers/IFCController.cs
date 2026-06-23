@@ -108,14 +108,16 @@ namespace API.Controllers
                 {
                     var SpaceDecomposition = Space.Decomposes;//Return a single IfcRelAggregate (which Contains all Space Compoenets)
                     var SpaceIfcRelAggregate = SpaceDecomposition.FirstOrDefault();//get this IfcRelAggregate
-                    var SpaceRelatingObject = SpaceIfcRelAggregate.RelatingObject;//we need the relating object from this space this Object return object defintion
+                    var SpaceRelatingObject = SpaceIfcRelAggregate?.RelatingObject;//we need the relating object from this space this Object return object defintion
                     var SpacesStorey = SpaceRelatingObject as IfcBuildingStorey;// Finally get the Story as we need to unbox this object to our IfcBuildingStorey
+                    if (SpacesStorey == null)
+                        continue;
                     FloorSpaces.Add(
                     new Space()
                     {
                         Id = DatabaseId(Space.EntityLabel),
                         IfcEntityLabel = Space.EntityLabel,
-                        Name = Space.LongName.Value,
+                        Name = Space.LongName?.ToString() ?? Space.Name?.ToString(),
                         FloorId = DatabaseId(SpacesStorey.EntityLabel),
                     });
                 }
@@ -151,6 +153,16 @@ namespace API.Controllers
                 /////////////////code for the dummy floor and space
                 _Context.Spaces.AddRange(FloorSpaces);
                 _Context.SaveChanges();
+                int? FallbackSpaceId(int ifcFloorLabel) =>
+                    EmptySpacesToBeAdded.FirstOrDefault(space => space.FloorId == DatabaseId(ifcFloorLabel))?.Id;
+                int? ResolveSpaceId(int ifcSpatialLabel)
+                {
+                    var floorSpaceId = FallbackSpaceId(ifcSpatialLabel);
+                    if (floorSpaceId.HasValue)
+                        return floorSpaceId;
+
+                    return FloorSpaces.FirstOrDefault(space => space.IfcEntityLabel == ifcSpatialLabel)?.Id;
+                }
                 #endregion
 
                 #region AssetData
@@ -169,28 +181,36 @@ namespace API.Controllers
                 {
                     if (Door.IsContainedIn == null)//making sure that the Door is contained in a floor some times it gives null exception
                         continue;
+                    var boundarySpace = Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace;
+                    var materialList = Door.Material as IfcMaterialList;
                     AssetsList.Add(new Asset
                     {
                         Id = DatabaseId(Door.EntityLabel),
                         IfcEntityLabel = Door.EntityLabel,
-                        Name = $"{Door.ObjectType.Value}:{Door.Name.Value}",
+                        Name = $"{Door.ObjectType}:{Door.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = Door.ProvidesBoundaries.FirstOrDefault() == null ? EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Door.IsContainedIn.EntityLabel).Id : Door.ProvidesBoundaries.FirstOrDefault().RelatingSpace.EntityLabel,                //Door.ProvidesBoundaries.FirstOrDefault()?.RelatingSpace.EntityLabel
+                        SpaceId = boundarySpace == null
+                            ? FallbackSpaceId(Door.IsContainedIn.EntityLabel)
+                            : DatabaseId(boundarySpace.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(Door.IsContainedIn.EntityLabel),
-                        Materials = string.Join(",", (((IfcMaterialList)((IfcDoor)Door).Material).Materials.Select(M => M.Name).ToList()))
+                        Materials = materialList == null
+                            ? null
+                            : string.Join(",", materialList.Materials.Select(material => material.Name))
                     });
                 }
                 //Windows Loop
                 foreach (var Window in Windows)
                 {
+                    if (Window.IsContainedIn == null)
+                        continue;
                     AssetsList.Add(new Asset
                     {
                         Id = DatabaseId(Window.EntityLabel),
                         IfcEntityLabel = Window.EntityLabel,
-                        Name = $"{Window.ObjectType.Value}:{Window.Name.Value}",
+                        Name = $"{Window.ObjectType}:{Window.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == Window.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(Window.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(Window.IsContainedIn.EntityLabel)
                     });
@@ -204,9 +224,9 @@ namespace API.Controllers
                     {
                         Id = DatabaseId(item.EntityLabel),
                         IfcEntityLabel = item.EntityLabel,
-                        Name = $"{item.ObjectType.Value}:{item.Name.Value}",
+                        Name = $"{item.ObjectType}:{item.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == item.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(item.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(item.IsContainedIn.EntityLabel)
                     });
@@ -214,7 +234,9 @@ namespace API.Controllers
                 //getting Furniture located in a space 
                 foreach (var Space in FloorSpaces)
                 {
-                    var x = RelatedAssets.Where(con => con.RelatingStructure.EntityLabel == Space.Id);//List Contains Single element
+                    if (Space.IfcEntityLabel <= 0)
+                        continue;
+                    var x = RelatedAssets.Where(con => con.RelatingStructure.EntityLabel == Space.IfcEntityLabel);//List Contains Single element
                     var SpaceRelAssets = x.FirstOrDefault();//return the space that is a relating object to the furniture    
                     if (SpaceRelAssets == null)
                         continue;
@@ -223,15 +245,20 @@ namespace API.Controllers
 
                     foreach (var Asset in RelAssetsInSpace)//getting each asset in our selected space 
                     {
+                        if (AssetsList.Any(existing => existing.IfcEntityLabel == Asset.EntityLabel))
+                            continue;
+                        var materialList = Asset.Material as IfcMaterialList;
                         AssetsList.Add(//feedign our Asset object with the data needed for database  
                         new Asset
                         {
                             Id = DatabaseId(Asset.EntityLabel),
                             IfcEntityLabel = Asset.EntityLabel,
-                            Name = $"{Asset.ObjectType.Value} : {Asset.Name.Value}",
+                            Name = $"{Asset.ObjectType} : {Asset.Name}",
                             SpaceId = Space.Id,//SpaceId = Assets.IsContainedIn.EntityLabel
                             FloorId = Space.FloorId,
-                            Materials = (Asset.GetType() == typeof(IfcFurnishingElement)) ? string.Join(",", (((IfcMaterialList)Asset.Material).Materials.Select(M => M.Name).ToList())) : null
+                            Materials = materialList == null
+                                ? null
+                                : string.Join(",", materialList.Materials.Select(material => material.Name))
                         });
                     }
                 }
@@ -244,9 +271,9 @@ namespace API.Controllers
                     {
                         Id = DatabaseId(column.EntityLabel),
                         IfcEntityLabel = column.EntityLabel,
-                        Name = $"{column.ObjectType.Value}:{column.Name.Value}",
+                        Name = $"{column.ObjectType}:{column.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == column.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(column.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(column.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
@@ -261,9 +288,9 @@ namespace API.Controllers
                     {
                         Id = DatabaseId(slab.EntityLabel),
                         IfcEntityLabel = slab.EntityLabel,
-                        Name = $"{slab.ObjectType.Value}:{slab.Name.Value}",
+                        Name = $"{slab.ObjectType}:{slab.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == slab.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(slab.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(slab.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
@@ -278,9 +305,9 @@ namespace API.Controllers
                     {
                         Id = DatabaseId(wall.EntityLabel),
                         IfcEntityLabel = wall.EntityLabel,
-                        Name = $"{wall.ObjectType.Value}:{wall.Name.Value}",
+                        Name = $"{wall.ObjectType}:{wall.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == wall.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(wall.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(wall.IsContainedIn.EntityLabel),
                     });
@@ -294,9 +321,9 @@ namespace API.Controllers
                     {
                         Id = DatabaseId(beam.EntityLabel),
                         IfcEntityLabel = beam.EntityLabel,
-                        Name = $"{beam.ObjectType.Value}:{beam.Name.Value}",
+                        Name = $"{beam.ObjectType}:{beam.Name}",
                         /////////////////code for the dummy floor and space
-                        SpaceId = EmptySpacesToBeAdded.FirstOrDefault(i => i.FloorId == beam.IsContainedIn.EntityLabel).Id /*null*/,
+                        SpaceId = FallbackSpaceId(beam.IsContainedIn.EntityLabel),
                         /////////////////code for the dummy floor and space
                         FloorId = DatabaseId(beam.IsContainedIn.EntityLabel),
                         Materials = "Reinforeced Concrete"
@@ -307,9 +334,12 @@ namespace API.Controllers
                 //this must be the last loop as it might includes a duplicate element which is investigated in this loop
                 foreach (var item in RelSpace)
                 {
-                    if (item.RelatedBuildingElement == null)//in case that the Boundary are virtual then it wont contain any elements
+                    if (item.RelatedBuildingElement == null || item.RelatingSpace == null)//in case that the Boundary are virtual then it wont contain any elements
                         continue;
                     if (AssetsList.Any(ele => ele.IfcEntityLabel == item.RelatedBuildingElement.EntityLabel))
+                        continue;
+                    var relatedSpace = FloorSpaces.FirstOrDefault(space => space.IfcEntityLabel == item.RelatingSpace.EntityLabel);
+                    if (relatedSpace == null)
                         continue;
                     //getting all the structural elements+ Door With spaces Id
                     AssetsList.Add(
@@ -317,9 +347,9 @@ namespace API.Controllers
                         {
                             Id = DatabaseId(item.RelatedBuildingElement.EntityLabel),
                             IfcEntityLabel = item.RelatedBuildingElement.EntityLabel,
-                            Name = $"{item.RelatedBuildingElement.ObjectType.Value} : {item.RelatedBuildingElement.Name.Value}",
-                            SpaceId = DatabaseId(item.RelatingSpace.EntityLabel),
-                            FloorId = FloorSpaces.First(sp => sp.IfcEntityLabel == item.RelatingSpace.EntityLabel).FloorId
+                            Name = $"{item.RelatedBuildingElement.ObjectType} : {item.RelatedBuildingElement.Name}",
+                            SpaceId = relatedSpace.Id,
+                            FloorId = relatedSpace.FloorId
                         });
                 }
 
@@ -329,24 +359,27 @@ namespace API.Controllers
 
                 #region SensorData
 
-                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>().Where(s => s.ObjectType.Value.ToString().Contains("ensor")).ToList();
+                var GettingSensorsOfElementProxy = building.OfType<IfcBuildingElementProxy>()
+                    .Where(sensor => sensor.ObjectType != null && sensor.ObjectType.ToString().IndexOf("sensor", StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
                 var GettingSensorOfIfcAlarm = building.OfType<IfcDistributionControlElement>().ToList();
                 var GettingSensorOfIfcValve = building.OfType<IfcFlowController>().ToList();
                 List<Sensor> sensors = new List<Sensor>();
                 //1st Loop Collection
                 foreach (var sensor in GettingSensorsOfElementProxy)
                 {
-                    if (sensor is null)//ensure that ths list Contains no values 
+                    if (sensor?.IsContainedIn == null)//ensure that ths list Contains no values
+                        continue;
+                    var sensorSpaceId = ResolveSpaceId(sensor.IsContainedIn.EntityLabel);
+                    if (!sensorSpaceId.HasValue)
                         continue;
                     sensors.Add(new Sensor()
                     {
                         Id = DatabaseId(sensor.EntityLabel),
                         IfcEntityLabel = sensor.EntityLabel,
-                        Name = sensor.Name.Value,
+                        Name = sensor.Name?.ToString(),
                         /////////////////code for the dummy floor and space
-                        SpaceId = FloorsIds.Contains(DatabaseId(sensor.IsContainedIn.EntityLabel))
-                            ? EmptySpacesToBeAdded.First(i => i.FloorId == DatabaseId(sensor.IsContainedIn.EntityLabel)).Id
-                            : DatabaseId(sensor.IsContainedIn.EntityLabel),
+                        SpaceId = sensorSpaceId.Value,
                         //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
                         /////////////////code for the dummy floor and space
                         //SpaceId = sensor.IsContainedIn.EntityLabel,//represents the space that contains this sensor
@@ -357,17 +390,18 @@ namespace API.Controllers
                 //2nd Loop Collection
                 foreach (var sensor in GettingSensorOfIfcAlarm)
                 {
-                    if (sensor is null)
+                    if (sensor?.IsContainedIn == null || sensors.Any(existing => existing.IfcEntityLabel == sensor.EntityLabel))
+                        continue;
+                    var sensorSpaceId = ResolveSpaceId(sensor.IsContainedIn.EntityLabel);
+                    if (!sensorSpaceId.HasValue)
                         continue;
                     sensors.Add(new Sensor()
                     {
                         Id = DatabaseId(sensor.EntityLabel),
                         IfcEntityLabel = sensor.EntityLabel,
-                        Name = sensor.Name.Value,
+                        Name = sensor.Name?.ToString(),
                         /////////////////code for the dummy floor and space
-                        SpaceId = FloorsIds.Contains(DatabaseId(sensor.IsContainedIn.EntityLabel))
-                            ? EmptySpacesToBeAdded.First(i => i.FloorId == DatabaseId(sensor.IsContainedIn.EntityLabel)).Id
-                            : DatabaseId(sensor.IsContainedIn.EntityLabel),
+                        SpaceId = sensorSpaceId.Value,
                         //SpaceId =sensor.IsContainedIn.EntityLabel//represents the space that contains this sensor
                         /////////////////code for the dummy floor and space
                         SensorType = Enums.SensorType.SpaceSensor,//Default value can be changed later
