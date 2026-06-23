@@ -57,6 +57,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   private scriptsLoaded?: Promise<void>;
   private readonly destroy$ = new Subject<void>();
   private modelRequestVersion = 0;
+  private elementRequestVersion = 0;
   private activeModelId?: number;
   private destroyed = false;
   private pickHandler?: (args: { id: number | null }) => void;
@@ -265,12 +266,19 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private onElementPicked(elementId: number | null): void {
     if (elementId == null || !Number.isFinite(elementId) || elementId <= 0) {
+      this.clearVisualSelection();
+      this.elementRequestVersion++;
       this.selectedElementId = undefined;
       this.selectedElement = undefined;
       this.error = '';
       return;
     }
 
+    if (this.selectedElementId !== elementId) {
+      this.clearVisualSelection();
+    }
+
+    const requestVersion = ++this.elementRequestVersion;
     this.selectedElementId = elementId;
     if (this.viewer) {
       this.viewer.setCameraTarget(elementId);
@@ -283,14 +291,35 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.elementsService.getViewerElement(this.selectedModelId, elementId).pipe(takeUntil(this.destroy$)).subscribe({
       next: element => {
+        if (requestVersion !== this.elementRequestVersion || this.selectedElementId !== elementId) {
+          return;
+        }
         this.selectedElement = element;
         this.error = '';
       },
       error: () => {
+        if (requestVersion !== this.elementRequestVersion || this.selectedElementId !== elementId) {
+          return;
+        }
         this.selectedElement = undefined;
         this.error = `${this.localization.translate('Element.Id')} ${elementId} ${this.localization.translate('Viewer.ElementDetailsMissing')}`;
       }
     });
+  }
+
+  private clearVisualSelection(): void {
+    if (!this.viewer || !window.xState || !this.selectedElementId) {
+      return;
+    }
+
+    let restoredState = window.xState.UNDEFINED;
+    if (this.selectedElement && !this.visibleFloorIds.has(this.selectedElement.floorId)) {
+      restoredState = window.xState.HIDDEN;
+    } else if (this.highlights.rooms.includes(this.selectedElementId)) {
+      restoredState = window.xState.HIGHLIGHTED;
+    }
+
+    this.viewer.setState(restoredState, [this.selectedElementId]);
   }
 
   private applyFloorVisibility(floor: Floor): void {
