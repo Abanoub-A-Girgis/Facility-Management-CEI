@@ -1,9 +1,12 @@
 <div class="app-shell">
   <header class="topbar">
-    <a class="brand" routerLink="/models/upload">{{ 'App.Title' | t }}</a>
+    <a class="brand" routerLink="/authorization">{{ 'App.Title' | t }}</a>
     <nav>
-      <a routerLink="/models/upload" routerLinkActive="active">{{ 'Nav.Upload' | t }}</a>
-      <a routerLink="/viewer" routerLinkActive="active">{{ 'Nav.Viewer' | t }}</a>
+      <ng-container *ngIf="authService.currentUser$ | async">
+        <a routerLink="/models/upload" routerLinkActive="active">{{ 'Nav.Upload' | t }}</a>
+        <a routerLink="/viewer" routerLinkActive="active">{{ 'Nav.Viewer' | t }}</a>
+        <button type="button" class="nav-button" (click)="logout()">{{ 'Nav.Logout' | t }}</button>
+      </ng-container>
     </nav>
     <label class="language-picker">
       <select [ngModel]="localization.culture$ | async" (ngModelChange)="setCulture($event)">

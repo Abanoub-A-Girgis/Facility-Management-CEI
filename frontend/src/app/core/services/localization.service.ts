@@ -7,6 +7,89 @@ import { ApiResponse, LocalizationPayload } from '../models/api.models';
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
+  private readonly fallbackTranslations: Record<string, string> = {
+    'App.Title': 'Facility Management CEI',
+    'Nav.Authorization': 'Authorization',
+    'Nav.Upload': 'Upload',
+    'Nav.Viewer': 'Viewer',
+    'Nav.Logout': 'Log Out',
+    'Language.English': 'English',
+    'Language.Arabic': 'Arabic',
+    'Authorization.Title': 'Authorization Required',
+    'Authorization.Description': 'Sign in before uploading IFC models or managing building issues.',
+    'Authorization.HeroTitle': 'Maintaining the future',
+    'Authorization.Welcome': 'Welcome Back!',
+    'Authorization.UserName': 'User Name',
+    'Authorization.Password': 'Password',
+    'Authorization.Required': 'Enter your username and password.',
+    'Authorization.InvalidLogin': 'Username or password is incorrect, please try again.',
+    'Authorization.SignIn': 'Sign In',
+    'Authorization.SigningIn': 'Signing in...',
+    'Authorization.Continue': 'Continue to Upload',
+    'Authorization.Note': 'Authentication is handled by the ASP.NET Core backend.',
+    'Upload.Title': 'Upload IFC Model',
+    'Upload.Description': 'Upload an IFC file to process floors and generate browser-viewable model data.',
+    'Upload.FileLabel': 'IFC file',
+    'Upload.Button': 'Upload and Process',
+    'Upload.Uploading': 'Uploading...',
+    'Upload.SelectFile': 'Select an IFC file before uploading.',
+    'Upload.OnlyIfc': 'Only IFC files are supported.',
+    'Upload.Failed': 'Upload failed. Check the file and try again.',
+    'Upload.Success': 'Model uploaded successfully.',
+    'Viewer.Title': 'Building Viewer',
+    'Viewer.Description': 'Select a model, inspect elements, manage issues, and control severity indicators.',
+    'Viewer.Model': 'Model',
+    'Viewer.SelectModel': 'Select model',
+    'Viewer.LoadingModels': 'Loading models...',
+    'Viewer.LoadingViewer': 'Loading viewer...',
+    'Viewer.Selected': 'Selected',
+    'Viewer.ZoomToSelected': 'Zoom to Selected',
+    'Viewer.LoadModelsError': 'Could not load models from the API.',
+    'Viewer.LoadFloorsError': 'Could not load floors for the selected model.',
+    'Viewer.LoadHighlightsError': 'Could not load viewer highlight metadata.',
+    'Viewer.InitError': 'The model viewer could not be initialized.',
+    'Viewer.ScriptsUnavailable': 'XBIM viewer scripts are not available.',
+    'Viewer.ScriptLoadError': 'Could not load viewer script.',
+    'Viewer.ElementDetailsMissing': 'was selected, but details were not found in the API.',
+    'Viewer.ModelPrefix': 'Model',
+    'Element.Details': 'Element Details',
+    'Element.Id': 'ID',
+    'Element.Type': 'Type',
+    'Element.Floor': 'Floor',
+    'Element.Space': 'Space',
+    'Element.Materials': 'Materials',
+    'Common.NotAvailable': 'N/A',
+    'Floors.Title': 'Floors',
+    'Floors.Empty': 'No floors loaded.',
+    'Indicators.Title': 'Issue Indicators',
+    'Indicators.Highlight': 'Highlight issue elements',
+    'Indicators.Flash': 'Flash highlighted elements',
+    'Severity.Severe': 'Severe',
+    'Severity.High': 'High',
+    'Severity.Medium': 'Medium',
+    'Severity.Low': 'Low',
+    'Issues.Title': 'Issues',
+    'Issues.SelectElement': 'Select a model element to view or create issues.',
+    'Issues.Description': 'Description',
+    'Issues.Severity': 'Severity',
+    'Issues.ReporterId': 'Reporter ID',
+    'Issues.Create': 'Create Issue',
+    'Issues.Saving': 'Saving...',
+    'Issues.Loading': 'Loading issues...',
+    'Issues.Empty': 'No issues for this element.',
+    'Issues.Status': 'Status',
+    'Issues.AssignedTo': 'Assigned to',
+    'Issues.ChooseWorker': 'Choose worker',
+    'Issues.Assign': 'Assign',
+    'Issues.Created': 'Issue created.',
+    'Issues.Assigned': 'Issue assigned.',
+    'Issues.CreateError': 'Could not create issue.',
+    'Issues.AssignError': 'Could not assign worker.',
+    'Issues.LoadError': 'Could not load issues for this element.',
+    'Issues.DescriptionRequired': 'Select an element and enter an issue description.',
+    'Issues.WorkerRequired': 'Choose a worker before assigning.'
+  };
+
   private readonly translationsSubject = new BehaviorSubject<Record<string, string>>({});
   private readonly cultureSubject = new BehaviorSubject<string>(this.initialCulture());
   private readonly directionSubject = new BehaviorSubject<'ltr' | 'rtl'>('ltr');
@@ -37,7 +120,7 @@ export class LocalizationService {
           this.applyPayload({
             culture: 'en',
             direction: 'ltr',
-            translations: {}
+            translations: this.fallbackTranslations
           });
           return of({});
         })
@@ -57,7 +140,7 @@ export class LocalizationService {
   private applyPayload(payload: LocalizationPayload): void {
     this.cultureSubject.next(payload.culture);
     this.directionSubject.next(payload.direction);
-    this.translationsSubject.next(payload.translations ?? {});
+    this.translationsSubject.next({ ...this.fallbackTranslations, ...(payload.translations ?? {}) });
     this.document.documentElement.lang = payload.culture;
     this.document.documentElement.dir = payload.direction;
   }

@@ -1,0 +1,43 @@
+<section class="auth-page">
+  <div class="auth-showcase">
+    <img *ngFor="let slide of slides; let index = index" [src]="slide" [class.active]="index === activeSlide" alt="" />
+    <div class="showcase-overlay">
+      <div class="brand-mark">
+        <img [src]="logoUrl" alt="Innove" />
+      </div>
+      <div>
+        <p>INNOVE</p>
+        <h1>{{ 'Authorization.HeroTitle' | t }}</h1>
+      </div>
+      <div class="slide-dots" aria-label="Slide selector">
+        <button *ngFor="let slide of slides; let index = index" type="button" [class.active]="index === activeSlide" (click)="setSlide(index)"></button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="auth-panel">
+    <div class="panel-inner">
+      <img class="mobile-logo" [src]="logoUrl" alt="Innove" />
+      <h2>{{ 'Authorization.Welcome' | t }}</h2>
+      <p>{{ 'Authorization.Description' | t }}</p>
+
+      <form (ngSubmit)="login()" class="login-form">
+        <label>
+          {{ 'Authorization.UserName' | t }}
+          <input name="userName" type="text" autocomplete="username" [(ngModel)]="userName" />
+        </label>
+
+        <label>
+          {{ 'Authorization.Password' | t }}
+          <input name="password" type="password" autocomplete="current-password" [(ngModel)]="password" />
+        </label>
+
+        <p class="error" *ngIf="error">{{ error }}</p>
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? ('Authorization.SigningIn' | t) : ('Authorization.SignIn' | t) }}
+        </button>
+      </form>
+    </div>
+  </aside>
+</section>

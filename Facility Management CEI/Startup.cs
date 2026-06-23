@@ -3,6 +3,7 @@ using API.Enums;
 using Facility_Management_CEI.APIs.Models;
 using Facility_Management_CEI.IdentityDb;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Http.Features;
@@ -79,13 +80,31 @@ namespace Facility_Management_CEI
             services.AddIdentity<LogUser, IdentityRole>(
             options =>
             {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = Configuration.GetValue("Identity:Password:RequireDigit", true);
+                options.Password.RequireLowercase = Configuration.GetValue("Identity:Password:RequireLowercase", true);
+                options.Password.RequireUppercase = Configuration.GetValue("Identity:Password:RequireUppercase", true);
+                options.Password.RequireNonAlphanumeric = Configuration.GetValue("Identity:Password:RequireNonAlphanumeric", true);
+                options.Password.RequiredLength = Configuration.GetValue("Identity:Password:RequiredLength", 8);
                 options.SignIn.RequireConfirmedAccount = false;
 
             }).AddEntityFrameworkStores<IdentityDb.ApplicationDBContext>()
              .AddSignInManager<SignInManager<LogUser>>().AddUserManager<UserManager<LogUser>>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    if (context.Request.Path.StartsWithSegments("/api"))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
+
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
+            });
 
             //////////////////////////////////////////////////
 
@@ -174,6 +193,19 @@ namespace Facility_Management_CEI
                     //here we tie the new user to the role
                     var TestRoleLogUser = await UserManager.AddToRoleAsync(poweruser, "AccountManager");
 
+                }
+            }
+            else
+            {
+                if (adminSeed.ResetPasswordOnStartup)
+                {
+                    var resetToken = await UserManager.GeneratePasswordResetTokenAsync(_user);
+                    await UserManager.ResetPasswordAsync(_user, resetToken, adminSeed.Password);
+                }
+
+                if (!await UserManager.IsInRoleAsync(_user, "AccountManager"))
+                {
+                    await UserManager.AddToRoleAsync(_user, "AccountManager");
                 }
             }
 

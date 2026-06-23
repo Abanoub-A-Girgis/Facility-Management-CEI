@@ -7,5 +7,6 @@ namespace Facility_Management_CEI.Configuration
         public string Email { get; set; }
         public string FirstName { get; set; } = "Admin";
         public string Password { get; set; }
+        public bool ResetPasswordOnStartup { get; set; }
     }
 }

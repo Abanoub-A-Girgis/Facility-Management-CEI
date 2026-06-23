@@ -7,8 +7,22 @@
   <data name="App.Title" xml:space="preserve"><value>Facility Management CEI</value></data>
   <data name="Nav.Upload" xml:space="preserve"><value>Upload</value></data>
   <data name="Nav.Viewer" xml:space="preserve"><value>Viewer</value></data>
+  <data name="Nav.Authorization" xml:space="preserve"><value>Authorization</value></data>
+  <data name="Nav.Logout" xml:space="preserve"><value>Log Out</value></data>
   <data name="Language.English" xml:space="preserve"><value>English</value></data>
   <data name="Language.Arabic" xml:space="preserve"><value>Arabic</value></data>
+  <data name="Authorization.Title" xml:space="preserve"><value>Authorization Required</value></data>
+  <data name="Authorization.Description" xml:space="preserve"><value>Sign in before uploading IFC models or managing building issues.</value></data>
+  <data name="Authorization.HeroTitle" xml:space="preserve"><value>Maintaining the future</value></data>
+  <data name="Authorization.Welcome" xml:space="preserve"><value>Welcome Back!</value></data>
+  <data name="Authorization.UserName" xml:space="preserve"><value>User Name</value></data>
+  <data name="Authorization.Password" xml:space="preserve"><value>Password</value></data>
+  <data name="Authorization.Required" xml:space="preserve"><value>Enter your username and password.</value></data>
+  <data name="Authorization.InvalidLogin" xml:space="preserve"><value>Username or password is incorrect, please try again.</value></data>
+  <data name="Authorization.SignIn" xml:space="preserve"><value>Sign In</value></data>
+  <data name="Authorization.SigningIn" xml:space="preserve"><value>Signing in...</value></data>
+  <data name="Authorization.Continue" xml:space="preserve"><value>Continue to Upload</value></data>
+  <data name="Authorization.Note" xml:space="preserve"><value>Authentication is handled by the ASP.NET Core backend.</value></data>
   <data name="Upload.Title" xml:space="preserve"><value>Upload IFC Model</value></data>
   <data name="Upload.Description" xml:space="preserve"><value>Upload an IFC file to process floors and generate browser-viewable model data.</value></data>
   <data name="Upload.FileLabel" xml:space="preserve"><value>IFC file</value></data>

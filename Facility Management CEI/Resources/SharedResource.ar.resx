@@ -7,8 +7,22 @@
   <data name="App.Title" xml:space="preserve"><value>إدارة المرافق CEI</value></data>
   <data name="Nav.Upload" xml:space="preserve"><value>رفع النموذج</value></data>
   <data name="Nav.Viewer" xml:space="preserve"><value>العارض</value></data>
+  <data name="Nav.Authorization" xml:space="preserve"><value>التفويض</value></data>
+  <data name="Nav.Logout" xml:space="preserve"><value>تسجيل الخروج</value></data>
   <data name="Language.English" xml:space="preserve"><value>English</value></data>
   <data name="Language.Arabic" xml:space="preserve"><value>العربية</value></data>
+  <data name="Authorization.Title" xml:space="preserve"><value>تسجيل الدخول مطلوب</value></data>
+  <data name="Authorization.Description" xml:space="preserve"><value>سجل الدخول قبل رفع نماذج IFC أو إدارة مشكلات المبنى.</value></data>
+  <data name="Authorization.HeroTitle" xml:space="preserve"><value>نحافظ على المستقبل</value></data>
+  <data name="Authorization.Welcome" xml:space="preserve"><value>مرحبًا بعودتك!</value></data>
+  <data name="Authorization.UserName" xml:space="preserve"><value>اسم المستخدم</value></data>
+  <data name="Authorization.Password" xml:space="preserve"><value>كلمة المرور</value></data>
+  <data name="Authorization.Required" xml:space="preserve"><value>أدخل اسم المستخدم وكلمة المرور.</value></data>
+  <data name="Authorization.InvalidLogin" xml:space="preserve"><value>اسم المستخدم أو كلمة المرور غير صحيحة، حاول مرة أخرى.</value></data>
+  <data name="Authorization.SignIn" xml:space="preserve"><value>تسجيل الدخول</value></data>
+  <data name="Authorization.SigningIn" xml:space="preserve"><value>جاري تسجيل الدخول...</value></data>
+  <data name="Authorization.Continue" xml:space="preserve"><value>المتابعة إلى الرفع</value></data>
+  <data name="Authorization.Note" xml:space="preserve"><value>تتم المصادقة من خلال واجهة ASP.NET Core الخلفية.</value></data>
   <data name="Upload.Title" xml:space="preserve"><value>رفع نموذج IFC</value></data>
   <data name="Upload.Description" xml:space="preserve"><value>ارفع ملف IFC لمعالجة الطوابق وإنشاء بيانات نموذج قابلة للعرض في المتصفح.</value></data>
   <data name="Upload.FileLabel" xml:space="preserve"><value>ملف IFC</value></data>

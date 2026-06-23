@@ -10,6 +10,21 @@ export interface LocalizationPayload {
   translations: Record<string, string>;
 }
 
+export interface LoginRequest {
+  userName: string;
+  password: string;
+}
+
+export interface AuthUser {
+  id: string;
+  appUserId?: number;
+  userName: string;
+  firstName?: string;
+  lastName?: string;
+  displayName: string;
+  roles: string[];
+}
+
 export interface BuildingModel {
   id: number;
   name: string;
