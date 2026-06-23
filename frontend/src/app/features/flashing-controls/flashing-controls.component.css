@@ -1,0 +1,40 @@
+.panel {
+  display: grid;
+  gap: 10px;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  font-size: 13px;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.severe { background: rgb(255, 0, 0); }
+.high { background: rgb(255, 160, 16); }
+.medium { background: rgb(255, 224, 32); }
+.low { background: rgb(0, 180, 72); }

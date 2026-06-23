@@ -1,0 +1,67 @@
+<section class="viewer-page">
+  <header class="viewer-header">
+    <div>
+      <h1>Building Viewer</h1>
+      <p>Select a model, inspect elements, manage issues, and control severity indicators.</p>
+    </div>
+
+    <label class="model-picker">
+      Model
+      <select [(ngModel)]="selectedModelId" (change)="onModelChange()">
+        <option [ngValue]="undefined">Select model</option>
+        <option *ngFor="let model of models" [ngValue]="model.id">
+          {{ model.name || ('Model ' + model.id) }}
+        </option>
+      </select>
+    </label>
+  </header>
+
+  <p class="status error" *ngIf="error">{{ error }}</p>
+  <p class="status" *ngIf="loading">Loading models...</p>
+
+  <div class="viewer-layout">
+    <aside class="side-panel">
+      <app-floor-visibility-panel
+        [floors]="floors"
+        [visibleFloorIds]="visibleFloorIds"
+        (floorVisibilityChanged)="onFloorVisibilityChanged($event)">
+      </app-floor-visibility-panel>
+
+      <app-flashing-controls
+        [highlightEnabled]="highlightEnabled"
+        [flashingEnabled]="flashingEnabled"
+        (highlightEnabledChange)="onHighlightEnabledChange($event)"
+        (flashingEnabledChange)="onFlashingEnabledChange($event)">
+      </app-flashing-controls>
+    </aside>
+
+    <section class="viewer-surface">
+      <div class="viewer-toolbar">
+        <span *ngIf="viewerLoading">Loading viewer...</span>
+        <span *ngIf="selectedElement">Selected: {{ selectedElement.name }}</span>
+        <button type="button" (click)="zoomToSelected()" [disabled]="!selectedElementId">Zoom to Selected</button>
+      </div>
+      <canvas id="viewer-canvas"></canvas>
+    </section>
+
+    <aside class="issue-panel">
+      <div class="details" *ngIf="selectedElement">
+        <h2>Element Details</h2>
+        <dl>
+          <dt>ID</dt>
+          <dd>{{ selectedElement.id }}</dd>
+          <dt>Type</dt>
+          <dd>{{ selectedElement.elementType }}</dd>
+          <dt>Floor</dt>
+          <dd>{{ selectedElement.floorName }}</dd>
+          <dt>Space</dt>
+          <dd>{{ selectedElement.spaceName || 'N/A' }}</dd>
+          <dt>Materials</dt>
+          <dd>{{ selectedElement.materials || 'N/A' }}</dd>
+        </dl>
+      </div>
+
+      <app-issue-panel [selectedElement]="selectedElement" [modelId]="selectedModelId"></app-issue-panel>
+    </aside>
+  </div>
+</section>

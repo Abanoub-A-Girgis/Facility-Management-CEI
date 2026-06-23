@@ -1,0 +1,9 @@
+<section class="panel">
+  <h2>Floors</h2>
+  <p *ngIf="!floors.length" class="empty">No floors loaded.</p>
+
+  <label class="floor-row" *ngFor="let floor of floors">
+    <input type="checkbox" [checked]="isVisible(floor)" (change)="onToggle(floor, $event)" />
+    <span>{{ floor.name }}</span>
+  </label>
+</section>

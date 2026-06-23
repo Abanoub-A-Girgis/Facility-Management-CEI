@@ -1,0 +1,87 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+p {
+  color: #587084;
+}
+
+.upload-panel {
+  display: grid;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #d9e0e7;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input[type='file'] {
+  border: 1px dashed #9fb2c3;
+  border-radius: 6px;
+  padding: 14px;
+  background: #f8fafc;
+}
+
+.file-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+button {
+  justify-self: start;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  background: #0b6fb3;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.progress {
+  height: 8px;
+  background: #dfe8f1;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress div {
+  height: 100%;
+  background: #0b8f68;
+}
+
+.status {
+  margin: 0;
+  font-weight: 600;
+}
+
+.success {
+  color: #0b7a4f;
+}
+
+.error {
+  color: #b42318;
+}

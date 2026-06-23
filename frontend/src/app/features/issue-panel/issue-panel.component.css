@@ -1,0 +1,92 @@
+.panel {
+  display: grid;
+  gap: 12px;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.selected,
+.issue {
+  border: 1px solid #dce4ec;
+  border-radius: 6px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.selected {
+  display: grid;
+  gap: 4px;
+}
+
+.selected span,
+.issue span,
+small,
+.empty {
+  color: #667789;
+}
+
+.issue-form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+textarea,
+select,
+input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #c9d4df;
+  border-radius: 6px;
+  padding: 8px;
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #0b6fb3;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.issue {
+  display: grid;
+  gap: 8px;
+}
+
+.issue div:first-child,
+.assign-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assign-row select {
+  min-width: 0;
+}
+
+.status {
+  margin: 0;
+  font-weight: 600;
+}
+
+.success { color: #0b7a4f; }
+.error { color: #b42318; }

@@ -1,0 +1,56 @@
+<section class="panel">
+  <h2>Issues</h2>
+
+  <p class="empty" *ngIf="!selectedElement">Select a model element to view or create issues.</p>
+
+  <ng-container *ngIf="selectedElement">
+    <div class="selected">
+      <strong>{{ selectedElement.name }}</strong>
+      <span>{{ selectedElement.elementType }} · {{ selectedElement.floorName }}</span>
+    </div>
+
+    <form (ngSubmit)="createIssue()" class="issue-form">
+      <label>
+        Description
+        <textarea name="description" [(ngModel)]="newIssue.description" rows="3"></textarea>
+      </label>
+
+      <label>
+        Severity
+        <select name="severity" [(ngModel)]="newIssue.severity">
+          <option *ngFor="let severity of severities" [ngValue]="severity.id">{{ severity.name }}</option>
+        </select>
+      </label>
+
+      <label>
+        Reporter ID
+        <input name="reporterId" type="number" min="1" [(ngModel)]="newIssue.reporterId" />
+      </label>
+
+      <button type="submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Create Issue' }}</button>
+    </form>
+
+    <p class="status error" *ngIf="error">{{ error }}</p>
+    <p class="status success" *ngIf="message">{{ message }}</p>
+
+    <p class="empty" *ngIf="loading">Loading issues...</p>
+    <p class="empty" *ngIf="!loading && !issues.length">No issues for this element.</p>
+
+    <article class="issue" *ngFor="let issue of issues">
+      <div>
+        <strong>{{ severityName(issue.severity) }}</strong>
+        <span>Status {{ issue.status }}</span>
+      </div>
+      <p>{{ issue.description }}</p>
+      <small *ngIf="issue.assignedWorkerName">Assigned to {{ issue.assignedWorkerName }}</small>
+
+      <div class="assign-row">
+        <select [(ngModel)]="selectedWorkerByIssueId[issue.id]" [name]="'worker' + issue.id">
+          <option [ngValue]="undefined">Choose worker</option>
+          <option *ngFor="let worker of workers" [ngValue]="worker.id">{{ worker.fullName }}</option>
+        </select>
+        <button type="button" (click)="assignWorker(issue)">Assign</button>
+      </div>
+    </article>
+  </ng-container>
+</section>

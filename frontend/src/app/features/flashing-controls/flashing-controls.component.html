@@ -1,0 +1,20 @@
+<section class="panel">
+  <h2>Issue Indicators</h2>
+
+  <label class="toggle">
+    <input type="checkbox" [checked]="highlightEnabled" (change)="setHighlight($event)" />
+    <span>Highlight issue elements</span>
+  </label>
+
+  <label class="toggle">
+    <input type="checkbox" [checked]="flashingEnabled" (change)="setFlashing($event)" />
+    <span>Flash highlighted elements</span>
+  </label>
+
+  <div class="legend">
+    <span><i class="severe"></i> Severe</span>
+    <span><i class="high"></i> High</span>
+    <span><i class="medium"></i> Medium</span>
+    <span><i class="low"></i> Low</span>
+  </div>
+</section>

@@ -64,6 +64,16 @@ namespace Facility_Management_CEI
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
             services.Configure<IfcProcessingOptions>(Configuration.GetSection("IfcProcessing"));
             services.AddScoped<IIfcProcessingService, IfcProcessingService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AngularDev", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
             services.AddSwaggerGen();
             //services.AddDbContext<Facility_Management_CEI.IdentityDb.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FMTest")));
         }
@@ -154,6 +164,7 @@ namespace Facility_Management_CEI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors("AngularDev");
             app.UseAuthentication();
             app.UseAuthorization();
 

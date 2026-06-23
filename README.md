@@ -2,7 +2,7 @@
 
 Production-oriented BIM / IFC issue-management system for facility teams. The system imports IFC building models, splits them by floor, displays the model in a browser-based viewer, and links operational issues and work assignments directly to building elements.
 
-> Migration note: the current repository is an ASP.NET Core MVC/Razor application. The production target is an ASP.NET Core API with an Angular frontend. If older project notes refer to Blazor, that migration is not complete in this repository and should be treated as a TODO.
+> Migration note: the legacy UI is an ASP.NET Core MVC/Razor application. A new Angular frontend now exists in `frontend/` and consumes the ASP.NET Core Web API. The legacy Razor UI is kept temporarily until Angular reaches full feature parity.
 
 ## Features
 
@@ -34,7 +34,8 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
 - XBIM browser viewer scripts
 - Razor views, JavaScript, jQuery, Bootstrap
 - DataTables, Chart.js, Skote MVC template assets
-- Angular frontend: planned target architecture, not yet present in the repository
+- Angular 17 frontend in `frontend/`
+- TypeScript
 
 ## Target Architecture
 
@@ -46,9 +47,10 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
 
 ### Angular Frontend
 
-- TODO: introduce an Angular application in a separate folder such as `ClientApp/` or `frontend/`.
-- Angular should consume the ASP.NET Core API and replace the current Razor viewer/workflow pages incrementally.
-- Viewer state, floor toggles, element selection, issue indicators, and task forms should move into Angular services/components.
+- Angular application lives in `frontend/`.
+- Angular consumes the ASP.NET Core API through services such as `models.service.ts`, `floors.service.ts`, `elements.service.ts`, `issues.service.ts`, and `workers.service.ts`.
+- Current Angular pages/components include model upload, model viewer, floor visibility, issue management, worker assignment, and flashing/highlighting controls.
+- The existing Razor UI remains as legacy fallback during migration.
 
 ### IFC Processing
 
@@ -87,7 +89,8 @@ TODO:
 - .NET 5 SDK
 - SQL Server or SQL Server Express / LocalDB
 - Visual Studio 2019/2022 or another .NET-capable IDE
-- Node.js and Angular CLI: only required after the Angular frontend is added
+- Node.js 20.10+ for the current Angular 17 frontend
+- Angular CLI is installed through project npm scripts / `npx`
 
 ## Local Development Setup
 
@@ -97,6 +100,7 @@ TODO:
 4. Configure the SQL Server connection string in `Facility Management CEI/appsettings.json`.
 5. Apply EF Core migrations.
 6. Run the ASP.NET Core project.
+7. Install and run the Angular frontend from `frontend/`.
 
 From the command line:
 
@@ -112,6 +116,16 @@ The project launch profile uses:
 - `https://localhost:5001`
 - `http://localhost:5000`
 - IIS Express: `http://localhost:9628` with SSL port `44313`
+
+Run Angular separately:
+
+```sh
+cd frontend
+npm install
+npm start
+```
+
+The Angular dev server runs on `http://localhost:4200` and expects the API base URL from `frontend/src/environments/environment.ts`.
 
 ## Environment Variables / Configuration
 
@@ -177,17 +191,23 @@ The default route currently points to the account login page.
 
 ## Running the Angular Frontend
 
-Angular is part of the target architecture but is not currently present in this repository.
-
-TODO after Angular is added:
+From the repository root:
 
 ```sh
-cd ClientApp
+cd frontend
 npm install
 npm start
 ```
 
-TODO: document the final Angular development URL and API proxy configuration.
+Open `http://localhost:4200`.
+
+Default development API base URL:
+
+```ts
+apiBaseUrl: 'https://localhost:5001'
+```
+
+Change it in `frontend/src/environments/environment.ts` if your backend uses another URL.
 
 ## Build Instructions
 
@@ -205,7 +225,12 @@ cd "Facility Management CEI"
 dotnet publish -c Release
 ```
 
-Angular build command is pending until the Angular app is added.
+Build the Angular frontend:
+
+```sh
+cd frontend
+npm run build
+```
 
 ## Production Deployment Notes
 
@@ -243,12 +268,12 @@ Additional workflows currently use MVC controllers and Razor views:
 - Task and worker assignment: `Controllers/TaskPagesController.cs`
 - Users, buildings, floors, spaces, assets, sensors, and warnings: `Controllers/*Controller.cs`
 
-TODO: replace or wrap MVC-only workflows with versioned JSON API endpoints for Angular.
+The Angular frontend currently consumes the new JSON API layer for upload, model metadata, floors, elements, issues, workers, severities/statuses, and viewer highlighting.
 
 ## Known Limitations
 
-- Angular frontend is not yet implemented in the repository.
-- Current UI is MVC/Razor with significant inline JavaScript.
+- Angular frontend is implemented but still coexists with the legacy MVC/Razor UI.
+- Some legacy UI is MVC/Razor with significant inline JavaScript.
 - Viewer behavior is duplicated across role-specific Razor pages and partials.
 - Localization is implemented with custom inline tags instead of proper resource files.
 - API boundaries are incomplete; some controllers mix view rendering, data access, and business logic.
@@ -259,7 +284,7 @@ TODO: replace or wrap MVC-only workflows with versioned JSON API endpoints for A
 
 ## Future Improvements
 
-- Complete Angular migration with a dedicated viewer module.
+- Continue Angular migration until the legacy Razor viewer pages can be retired.
 - Add versioned REST APIs and DTO contracts for all frontend workflows.
 - Extract IFC processing into services and optional background jobs.
 - Add automated tests and CI/CD.

@@ -1,0 +1,13 @@
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/models/upload">{{ title }}</a>
+    <nav>
+      <a routerLink="/models/upload" routerLinkActive="active">Upload</a>
+      <a routerLink="/viewer" routerLinkActive="active">Viewer</a>
+    </nav>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
