@@ -24,18 +24,21 @@ using Microsoft.EntityFrameworkCore;
 using IfcToolbox.Core.Utilities;
 using IfcToolbox.Core.Analyse;
 using IfcToolbox.Core.Editors;
+using Facility_Management_CEI.Services;
 
 namespace Facility_Management_CEI.Controllers
 {
     public class UploaderController : Controller
     {
         private readonly UserManager<LogUser> _userManager;
+        private readonly IIfcProcessingService _ifcProcessingService;
         public ApplicationDBContext _context { get; set; }
       
-        public UploaderController(UserManager<LogUser> userManager, ApplicationDBContext context)
+        public UploaderController(UserManager<LogUser> userManager, ApplicationDBContext context, IIfcProcessingService ifcProcessingService)
         {
             _userManager = userManager;
             _context = context;
+            _ifcProcessingService = ifcProcessingService;
         }
         
         [Authorize(Roles = "AccountManager, Owner")]
@@ -49,28 +52,15 @@ namespace Facility_Management_CEI.Controllers
         [RequestSizeLimit(2147483648)]
         public async Task Index(IFormFile file)
         {
-            if (file.Length > 0)
+            if (file != null && file.Length > 0)
             {
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine("wwwroot\\data", fileName);
-                using (Stream fileStream = System.IO.File.Create(path))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-                //ConvertToWexBIM(path);
-                //ViewBag.Message = "File Uploaded Successfully";
-                var SplitTubles = SplitByBuildingStorey(path, true);
-                Parallel.ForEach(SplitTubles.Item1, ifcfile =>
-                {
-                    ConvertToWexBIM(ifcfile);
-
-                });
+                var result = await _ifcProcessingService.SaveSplitAndConvertAsync(file);
                 //Populate Database with ifcdata
-                new API.Controllers.IFCController(_context).AddBuildingDataFromIFC(fileName, SplitTubles.Item2);
+                new API.Controllers.IFCController(_context).AddBuildingDataFromIFC(result.FileName, result.GeneratedWexBimPaths, Path.GetDirectoryName(result.FullPath));
                 // Adding Building to owner
                 var LogUserId = (await _userManager.GetUserAsync(User)).Id;
                 var AppUser = _context.AppUsers.Where(u => u.LogUserId == LogUserId).FirstOrDefault();
-                AppUser.BuildingId = _context.Buildings.Where(b => b.Path == "data/" + fileName).FirstOrDefault().Id;
+                AppUser.BuildingId = _context.Buildings.Where(b => b.Path == "data/" + result.FileName).FirstOrDefault().Id;
                 var Managers = _context.AppUsers.Where(u => u.SuperId == AppUser.Id).ToList();
                 foreach (var Manager in Managers)
                 {

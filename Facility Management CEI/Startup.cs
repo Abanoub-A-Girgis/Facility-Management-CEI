@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Facility_Management_CEI.Configuration;
+using Facility_Management_CEI.Services;
 
 
 namespace Facility_Management_CEI
@@ -60,6 +62,9 @@ namespace Facility_Management_CEI
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
+            services.Configure<IfcProcessingOptions>(Configuration.GetSection("IfcProcessing"));
+            services.AddScoped<IIfcProcessingService, IfcProcessingService>();
+            services.AddSwaggerGen();
             //services.AddDbContext<Facility_Management_CEI.IdentityDb.ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FMTest")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -151,6 +156,15 @@ namespace Facility_Management_CEI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Facility Management CEI API v1");
+                });
+            }
 
 
             app.UseEndpoints(endpoints =>

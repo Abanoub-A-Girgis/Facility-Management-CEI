@@ -44,7 +44,12 @@ namespace API.Controllers
         [HttpPost]
         public void AddBuildingDataFromIFC(string fileName, List<string> WexBIMPaths)
         {
-            string FilePath = Path.Combine("wwwroot\\data", fileName);
+            AddBuildingDataFromIFC(fileName, WexBIMPaths, Path.Combine("wwwroot", "data"));
+        }
+
+        public void AddBuildingDataFromIFC(string fileName, List<string> WexBIMPaths, string uploadRoot)
+        {
+            string FilePath = Path.Combine(uploadRoot, fileName);
             using (IfcStore Model = IfcStore.Open($"{FilePath}"))
             {
                 //stepModel.Instances: retreiving all the elements inside our model
