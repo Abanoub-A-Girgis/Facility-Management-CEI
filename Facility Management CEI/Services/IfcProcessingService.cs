@@ -4,6 +4,7 @@ using IfcToolbox.Core.Editors;
 using IfcToolbox.Core.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -22,15 +23,18 @@ namespace Facility_Management_CEI.Services
     {
         private readonly IWebHostEnvironment _environment;
         private readonly IfcProcessingOptions _options;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly ILogger<IfcProcessingService> _logger;
 
         public IfcProcessingService(
             IWebHostEnvironment environment,
             IOptions<IfcProcessingOptions> options,
+            IStringLocalizer<SharedResource> localizer,
             ILogger<IfcProcessingService> logger)
         {
             _environment = environment;
             _options = options.Value;
+            _localizer = localizer;
             _logger = logger;
         }
 
@@ -71,23 +75,23 @@ namespace Facility_Management_CEI.Services
         {
             if (file == null)
             {
-                throw new InvalidDataException("No IFC file was provided.");
+                throw new InvalidDataException(_localizer["Server.NoIfcFile"]);
             }
 
             if (file.Length <= 0)
             {
-                throw new InvalidDataException("The uploaded IFC file is empty.");
+                throw new InvalidDataException(_localizer["Server.EmptyIfcFile"]);
             }
 
             if (file.Length > _options.MaxUploadBytes)
             {
-                throw new InvalidDataException($"The uploaded IFC file exceeds the configured limit of {_options.MaxUploadBytes} bytes.");
+                throw new InvalidDataException($"{_localizer["Server.FileTooLarge"]} {_options.MaxUploadBytes} bytes.");
             }
 
             var extension = Path.GetExtension(file.FileName);
             if (string.IsNullOrWhiteSpace(extension) || !_options.IsAllowedExtension(extension))
             {
-                throw new InvalidDataException("Only IFC files are supported.");
+                throw new InvalidDataException(_localizer["Server.OnlyIfc"]);
             }
         }
 

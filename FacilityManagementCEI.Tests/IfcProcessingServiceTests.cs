@@ -3,10 +3,14 @@ using Facility_Management_CEI.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -65,7 +69,7 @@ namespace FacilityManagementCEI.Tests
                 AllowedExtensions = new[] { ".ifc" }
             });
 
-            return new IfcProcessingService(environment, options, NullLogger<IfcProcessingService>.Instance);
+            return new IfcProcessingService(environment, options, new TestStringLocalizer(), NullLogger<IfcProcessingService>.Instance);
         }
 
         private static IFormFile CreateFormFile(string fileName, byte[] content)
@@ -82,6 +86,31 @@ namespace FacilityManagementCEI.Tests
             public IFileProvider WebRootFileProvider { get; set; }
             public string ContentRootPath { get; set; }
             public IFileProvider ContentRootFileProvider { get; set; }
+        }
+
+        private class TestStringLocalizer : IStringLocalizer<Facility_Management_CEI.SharedResource>
+        {
+            private readonly Dictionary<string, string> _values = new Dictionary<string, string>
+            {
+                ["Server.NoIfcFile"] = "No IFC file was provided.",
+                ["Server.EmptyIfcFile"] = "The uploaded IFC file is empty.",
+                ["Server.FileTooLarge"] = "The uploaded IFC file exceeds the configured limit.",
+                ["Server.OnlyIfc"] = "Only IFC files are supported."
+            };
+
+            public LocalizedString this[string name] => new LocalizedString(name, _values.TryGetValue(name, out var value) ? value : name, !_values.ContainsKey(name));
+
+            public LocalizedString this[string name, params object[] arguments] => new LocalizedString(name, string.Format(this[name].Value, arguments), this[name].ResourceNotFound);
+
+            public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
+            {
+                return _values.Select(item => new LocalizedString(item.Key, item.Value));
+            }
+
+            public IStringLocalizer WithCulture(CultureInfo culture)
+            {
+                return this;
+            }
         }
     }
 }

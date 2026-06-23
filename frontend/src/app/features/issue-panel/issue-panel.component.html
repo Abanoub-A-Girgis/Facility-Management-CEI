@@ -1,7 +1,7 @@
 <section class="panel">
-  <h2>Issues</h2>
+  <h2>{{ 'Issues.Title' | t }}</h2>
 
-  <p class="empty" *ngIf="!selectedElement">Select a model element to view or create issues.</p>
+  <p class="empty" *ngIf="!selectedElement">{{ 'Issues.SelectElement' | t }}</p>
 
   <ng-container *ngIf="selectedElement">
     <div class="selected">
@@ -11,45 +11,45 @@
 
     <form (ngSubmit)="createIssue()" class="issue-form">
       <label>
-        Description
+        {{ 'Issues.Description' | t }}
         <textarea name="description" [(ngModel)]="newIssue.description" rows="3"></textarea>
       </label>
 
       <label>
-        Severity
+        {{ 'Issues.Severity' | t }}
         <select name="severity" [(ngModel)]="newIssue.severity">
-          <option *ngFor="let severity of severities" [ngValue]="severity.id">{{ severity.name }}</option>
+          <option *ngFor="let severity of severities" [ngValue]="severity.id">{{ severityName(severity.id) }}</option>
         </select>
       </label>
 
       <label>
-        Reporter ID
+        {{ 'Issues.ReporterId' | t }}
         <input name="reporterId" type="number" min="1" [(ngModel)]="newIssue.reporterId" />
       </label>
 
-      <button type="submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Create Issue' }}</button>
+      <button type="submit" [disabled]="saving">{{ saving ? ('Issues.Saving' | t) : ('Issues.Create' | t) }}</button>
     </form>
 
     <p class="status error" *ngIf="error">{{ error }}</p>
     <p class="status success" *ngIf="message">{{ message }}</p>
 
-    <p class="empty" *ngIf="loading">Loading issues...</p>
-    <p class="empty" *ngIf="!loading && !issues.length">No issues for this element.</p>
+    <p class="empty" *ngIf="loading">{{ 'Issues.Loading' | t }}</p>
+    <p class="empty" *ngIf="!loading && !issues.length">{{ 'Issues.Empty' | t }}</p>
 
     <article class="issue" *ngFor="let issue of issues">
       <div>
         <strong>{{ severityName(issue.severity) }}</strong>
-        <span>Status {{ issue.status }}</span>
+        <span>{{ 'Issues.Status' | t }} {{ issue.status }}</span>
       </div>
       <p>{{ issue.description }}</p>
-      <small *ngIf="issue.assignedWorkerName">Assigned to {{ issue.assignedWorkerName }}</small>
+      <small *ngIf="issue.assignedWorkerName">{{ 'Issues.AssignedTo' | t }} {{ issue.assignedWorkerName }}</small>
 
       <div class="assign-row">
         <select [(ngModel)]="selectedWorkerByIssueId[issue.id]" [name]="'worker' + issue.id">
-          <option [ngValue]="undefined">Choose worker</option>
+          <option [ngValue]="undefined">{{ 'Issues.ChooseWorker' | t }}</option>
           <option *ngFor="let worker of workers" [ngValue]="worker.id">{{ worker.fullName }}</option>
         </select>
-        <button type="button" (click)="assignWorker(issue)">Assign</button>
+        <button type="button" (click)="assignWorker(issue)">{{ 'Issues.Assign' | t }}</button>
       </div>
     </article>
   </ng-container>

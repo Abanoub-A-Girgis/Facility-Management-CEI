@@ -11,7 +11,8 @@
   - API-like controllers live in `APIs/Controllers/`, especially `IFCController.cs`, but they still inherit from `Controller` and are invoked directly from MVC code in some places.
 - IFC processing uses XBIM packages from the .NET backend and static XBIM viewer scripts in `wwwroot/Scripts/XBIM`.
 - The browser viewer is mostly inline JavaScript embedded in Razor views under `Views/Viewer/`.
-- Localization is currently stored incorrectly in custom inline tags such as `<english>` and `<arabic class="d-none">...`; examples include `Views/_Shared/_sidebar.cshtml`, `Views/_Shared/_topbar.cshtml`, `Views/Account/*.cshtml`, and many feature pages. No proper `ar.json` or ASP.NET resource-based Arabic localization is present.
+- Localization now has ASP.NET Core `.resx` resources in `Resources/SharedResource.resx` and `Resources/SharedResource.ar.resx`, with runtime Angular loading through `GET /api/localization?culture=en|ar`.
+- Legacy Razor views still contain older custom inline tags such as `<english>` and `<arabic class="d-none">...`; examples include `Views/Account/*.cshtml` and many feature pages. These should be migrated gradually as Razor pages are retired or localized.
 
 ## Current Feature Flow
 
@@ -54,6 +55,11 @@
 - Added upload validation for missing files, empty files, file extension, and max file size.
 - Added Swagger/OpenAPI registration for development.
 - Added a minimal xUnit test project with focused upload-validation tests.
+- Added ASP.NET Core localization with supported cultures `en` and `ar`.
+- Added `SharedResource` `.resx` files for server-side and Angular-facing translation keys.
+- Added `LocalizationController` for Angular runtime translations and document direction metadata.
+- Updated the Angular shell and BIM issue-management components to consume translation keys instead of hardcoded UI strings.
+- Replaced the active shared sidebar/topbar language-switch dependency on custom tags with ASP.NET Core request culture handling.
 
 ## Current API Surface
 
@@ -73,6 +79,7 @@
 - `GET /api/issues/severities`
 - `GET /api/issues/statuses`
 - `GET /api/workers`
+- `GET /api/localization?culture=en|ar`
 
 Floor visibility remains frontend-only because no existing persisted floor visibility state was found.
 
@@ -83,7 +90,7 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 - Keep XBIM viewer behavior initially, but move viewer state, floor loading, element selection, severity highlighting, and issue/task UI into Angular services/components.
 - Extract IFC upload/conversion/splitting into backend services instead of invoking controllers from controllers.
 - Use a single EF Core context intentionally, or split Identity and domain contexts cleanly with explicit migrations.
-- Replace inline `<english>`/`<arabic>` tags with Angular i18n or JSON translation files, including a real Arabic translation file such as `ar.json`.
+- Keep `.resx` files as the backend/server source of truth for localized strings and expose translation keys to Angular through the localization API.
 - Preserve current behaviors during migration: upload, floor splitting, viewer display, element selection, issue creation, worker assignment, floor visibility toggles, and severity highlighting.
 
 ## Migration Steps
@@ -96,8 +103,9 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 6. Migrate the viewer screen first as an Angular route/component because it is the highest-value interactive surface.
 7. Move floor visibility, selection, severity highlighting, and flashing toggles into Angular viewer services while reusing existing `.wexBIM` files.
 8. Migrate issue creation/editing and task/worker assignment into Angular forms.
-9. Replace inline localization tags with structured translation keys and Arabic/English resource files.
+9. Completed: replace current Angular localization with structured translation keys and Arabic/English `.resx` resource files.
 10. Retire Razor pages gradually only after matching Angular behavior is verified.
+11. Continue removing remaining legacy Razor inline translation tags view-by-view.
 
 ## Risks
 
@@ -106,7 +114,7 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 - `ViewBag` currently passes critical runtime data into inline JavaScript; Angular needs explicit API contracts for the same data.
 - EF context duplication can lead to migration confusion if both contexts are used accidentally.
 - Some API-like methods are destructive, such as `ClearDatabase`; these should not be exposed casually in production.
-- Inline localization tags are spread across many views and JavaScript strings, so translation migration should be incremental.
+- Remaining inline localization tags are spread across legacy Razor views and JavaScript strings, so Razor cleanup should be incremental.
 - Current code targets .NET 5, which is out of support; framework upgrade should be planned separately from the Angular migration.
 
 ## Files Likely To Change
@@ -122,6 +130,10 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 - `APIs/Models/*.cs`, `APIs/Moldels DTOs/*.cs`, `APIs/Enums/*.cs`
 - `Views/Viewer/*.cshtml`
 - `Views/_Shared/_sidebar.cshtml`, `Views/_Shared/_topbar.cshtml`, other views containing `<english>`/`<arabic>`
+- `Resources/SharedResource.resx`, `Resources/SharedResource.ar.resx`
+- `API/Controllers/LocalizationController.cs`
+- `frontend/src/app/core/services/localization.service.ts`
+- `frontend/src/app/core/pipes/translate.pipe.ts`
 - `wwwroot/Scripts/XBIM/**`
 - `wwwroot/assets/lang/**`
 - New Angular app folder: `ClientApp/` or `frontend/`
@@ -141,6 +153,8 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 - Toggle flashing/highlighting off and on.
 - Verify role-specific viewer data for agent, inspector, supervisor, manager, and owner.
 - Verify Arabic and English UI after localization migration.
+- Verify `GET /api/localization?culture=en` and `GET /api/localization?culture=ar` return the same keys.
+- Verify Angular sets `dir="rtl"` for Arabic and `dir="ltr"` for English.
 
 ## Recommended Implementation Order
 
@@ -151,6 +165,7 @@ Floor visibility remains frontend-only because no existing persisted floor visib
 5. Migrate viewer read-only display and floor toggles.
 6. Migrate element selection and severity highlighting.
 7. Migrate incident and task assignment workflows.
-8. Migrate localization.
-9. Remove duplicated Razor viewer code after Angular parity is confirmed.
-10. Plan .NET/framework/package upgrades as a separate hardening phase.
+8. Completed: migrate Angular/server localization.
+9. Remove remaining legacy Razor inline translation tags view-by-view.
+10. Remove duplicated Razor viewer code after Angular parity is confirmed.
+11. Plan .NET/framework/package upgrades as a separate hardening phase.

@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { BuildingElement, BuildingModel, Floor, ViewerHighlight } from '../../core/models/api.models';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { ElementsService } from '../../core/services/elements.service';
 import { FloorsService } from '../../core/services/floors.service';
+import { LocalizationService } from '../../core/services/localization.service';
 import { ModelsService } from '../../core/services/models.service';
 import { FlashingControlsComponent } from '../flashing-controls/flashing-controls.component';
 import { FloorVisibilityPanelComponent } from '../floor-visibility-panel/floor-visibility-panel.component';
@@ -25,6 +27,7 @@ declare global {
   imports: [
     CommonModule,
     FormsModule,
+    TranslatePipe,
     FloorVisibilityPanelComponent,
     IssuePanelComponent,
     FlashingControlsComponent
@@ -58,6 +61,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly modelsService: ModelsService,
     private readonly floorsService: FloorsService,
     private readonly elementsService: ElementsService,
+    private readonly localization: LocalizationService,
     private readonly zone: NgZone
   ) {}
 
@@ -94,7 +98,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: () => {
         this.loading = false;
-        this.error = 'Could not load models from the API.';
+        this.error = this.localization.translate('Viewer.LoadModelsError');
       }
     });
   }
@@ -124,14 +128,14 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
             this.initializeViewer();
           },
           error: () => {
-            this.error = 'Could not load viewer highlight metadata.';
+            this.error = this.localization.translate('Viewer.LoadHighlightsError');
             this.initializeViewer();
           }
         });
       },
       error: () => {
         this.viewerLoading = false;
-        this.error = 'Could not load floors for the selected model.';
+        this.error = this.localization.translate('Viewer.LoadFloorsError');
       }
     });
   }
@@ -171,7 +175,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(() => {
         const canvas = document.getElementById('viewer-canvas');
         if (!canvas || !window.xViewer) {
-          throw new Error('XBIM viewer scripts are not available.');
+          throw new Error(this.localization.translate('Viewer.ScriptsUnavailable'));
         }
 
         this.stopFlashing();
@@ -195,7 +199,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       })
       .catch(error => {
         this.viewerLoading = false;
-        this.error = error.message ?? 'The model viewer could not be initialized.';
+        this.error = error.message ?? this.localization.translate('Viewer.InitError');
       });
   }
 
@@ -228,7 +232,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: () => {
         this.selectedElement = undefined;
-        this.error = `Element ${elementId} was selected, but details were not found in the API.`;
+        this.error = `${this.localization.translate('Element.Id')} ${elementId} ${this.localization.translate('Viewer.ElementDetailsMissing')}`;
       }
     });
   }
@@ -323,7 +327,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       const script = document.createElement('script');
       script.src = src;
       script.onload = () => resolve();
-      script.onerror = () => reject(new Error(`Could not load ${src}`));
+      script.onerror = () => reject(new Error(`${this.localization.translate('Viewer.ScriptLoadError')} ${src}`));
       document.body.appendChild(script);
     });
   }

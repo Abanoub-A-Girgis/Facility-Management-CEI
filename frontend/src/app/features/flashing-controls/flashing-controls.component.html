@@ -1,20 +1,20 @@
 <section class="panel">
-  <h2>Issue Indicators</h2>
+  <h2>{{ 'Indicators.Title' | t }}</h2>
 
   <label class="toggle">
     <input type="checkbox" [checked]="highlightEnabled" (change)="setHighlight($event)" />
-    <span>Highlight issue elements</span>
+    <span>{{ 'Indicators.Highlight' | t }}</span>
   </label>
 
   <label class="toggle">
     <input type="checkbox" [checked]="flashingEnabled" (change)="setFlashing($event)" />
-    <span>Flash highlighted elements</span>
+    <span>{{ 'Indicators.Flash' | t }}</span>
   </label>
 
   <div class="legend">
-    <span><i class="severe"></i> Severe</span>
-    <span><i class="high"></i> High</span>
-    <span><i class="medium"></i> Medium</span>
-    <span><i class="low"></i> Low</span>
+    <span><i class="severe"></i> {{ 'Severity.Severe' | t }}</span>
+    <span><i class="high"></i> {{ 'Severity.High' | t }}</span>
+    <span><i class="medium"></i> {{ 'Severity.Medium' | t }}</span>
+    <span><i class="low"></i> {{ 'Severity.Low' | t }}</span>
   </div>
 </section>

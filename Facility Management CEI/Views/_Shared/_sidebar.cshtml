@@ -2,6 +2,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager*@
 @using Facility_Management_CEI.Controllers
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Facility_Management_CEI.SharedResource> Localizer
 
 <head>
     <style>
@@ -21,8 +22,7 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" key="t-menu">
-                    <english>Menu</english>
-                    <arabic class="d-none">القائمة</arabic>
+                    @Localizer["Legacy.Menu"]
                 </li>
                 
 @*                    <a href="javascript: void(0);">
@@ -40,8 +40,7 @@
                         <li><a class="nav-link text-secondary" asp-controller="Account" asp-action="Login">
                             <i class="fas fa-sign-in-alt"></i>
                             <span>
-                                <english>Login</english>
-                                <arabic class="d-none">تسجيل الدخول</arabic>
+                                @Localizer["Legacy.Login"]
                             </span>
                         </a></li>
                     }
@@ -51,8 +50,7 @@
                         <li><a asp-controller="HomePage" asp-action="HomePage">
                             <i class="fas fa-home fa-fw"></i>
                             <span>
-                                <english>Home Page</english>
-                                <arabic class="d-none">الصفحة الرئيسية</arabic>
+                                @Localizer["Legacy.HomePage"]
                             </span>
                         </a></li>
 
@@ -61,8 +59,7 @@
                             <li><a asp-controller="Account" asp-action="Register">
                                 <i class="fas fa-user-plus fa-fw"></i>
                                 <span>
-                                    <english>Register</english>
-                                    <arabic class="d-none">إنشاء مستخدم</arabic>
+                                    @Localizer["Legacy.Register"]
                                 </span>
                             </a></li>
                         }
@@ -73,8 +70,7 @@
                             <li><a asp-controller="Uploader" asp-action="Index">
                                 <i class="fas fa-upload fa-fw"></i>
                                 <span>
-                                    <english>Uploader</english>
-                                    <arabic class="d-none">ارفع ملف</arabic>
+                                    @Localizer["Legacy.Uploader"]
                                 </span>
                             </a></li>
                         }
@@ -84,32 +80,26 @@
                             <li><a href="javascript: void(0);">
                                     <i class="fas fa-cube fa-fw"></i>
                                     <span>
-                                        <english>Building Viewers</english>
-                                        <arabic class="d-none">عارضات المبنى</arabic>
+                                        @Localizer["Legacy.BuildingViewers"]
                                     </span>
                                 </a>
 
                                 <ul class="sub-menu" aria-expanded="true">
 
                                     <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsOwner">
-                                        <english>As Owner</english>
-                                        <arabic class="d-none">عرض المبنى كمالك</arabic>
+                                        @Localizer["Legacy.AsOwner"]
                                     </a></li>
                                     <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsManager">
-                                        <english>As Manager</english>
-                                        <arabic class="d-none">عرض المبنى كمدير</arabic>
+                                        @Localizer["Legacy.AsManager"]
                                     </a></li>
                                     <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsSupervisor">
-                                        <english>As Supervisor</english>
-                                        <arabic class="d-none">عرض المبنى كمشرف</arabic>
+                                        @Localizer["Legacy.AsSupervisor"]
                                     </a></li>
                                     <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsInspector">
-                                        <english>As Inspector</english>
-                                        <arabic class="d-none">عرض المبنى كمفتش</arabic>
+                                        @Localizer["Legacy.AsInspector"]
                                     </a></li>
                                     <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsAgent">
-                                        <english>As Agent</english>
-                                        <arabic class="d-none">عرض المبنى كعامل</arabic>
+                                        @Localizer["Legacy.AsAgent"]
                                     </a></li>
 
                                 </ul>
@@ -121,8 +111,7 @@
                             <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsOwner">
                                 <i class="fas fa-cube fa-fw"></i>
                                 <span>
-                                    <english>Building Viewer</english>
-                                    <arabic class="d-none">عرض المبنى</arabic>
+                                    @Localizer["Legacy.BuildingViewer"]
                                 </span>
                             </a></li>
                         }
@@ -132,8 +121,7 @@
                             <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsManager">
                                 <i class="fas fa-cube fa-fw"></i>
                                 <span>
-                                    <english>Building Viewer</english>
-                                    <arabic class="d-none">عرض المبنى</arabic>
+                                    @Localizer["Legacy.BuildingViewer"]
                                 </span>
                             </a></li>
                         }
@@ -143,8 +131,7 @@
                             <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsSupervisor">
                                 <i class="fas fa-cube fa-fw"></i>
                                 <span>
-                                    <english>Building Viewer</english>
-                                    <arabic class="d-none">عرض المبنى</arabic>
+                                    @Localizer["Legacy.BuildingViewer"]
                                 </span>
                             </a></li>
                         }
@@ -154,8 +141,7 @@
                             <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsInspector">
                                 <i class="fas fa-cube fa-fw"></i>
                                 <span>
-                                    <english>Building Viewer</english>
-                                    <arabic class="d-none">عرض المبنى</arabic>
+                                    @Localizer["Legacy.BuildingViewer"]
                                 </span>
                             </a></li>
                         }
@@ -165,8 +151,7 @@
                             <li><a class="nav-link" asp-controller="Viewer" asp-action="ViewerAsAgent">
                                 <i class="fas fa-cube fa-fw"></i>
                                 <span>
-                                    <english>Building Viewer</english>
-                                    <arabic class="d-none">عرض المبنى</arabic>
+                                    @Localizer["Legacy.BuildingViewer"]
                                 </span>
                             </a></li>
                         }
@@ -176,15 +161,13 @@
                             <li><a class="nav-link" asp-controller="SensorWarning" asp-action="Index">
                                 <i class="fas fa-exclamation-triangle fa-fw"></i>
                                 <span>
-                                    <english>Sensor Warnings</english>
-                                    <arabic class="d-none">عرض التحذيرات من المستشعرات</arabic>
+                                    @Localizer["Legacy.SensorWarnings"]
                                 </span>
                             </a></li>
                             <li><a class="nav-link" asp-controller="Incident" asp-action="Index">
                                 <i class="fas fa-clipboard-check fa-fw"></i>
                                 <span>
-                                    <english>Incidents</english>
-                                    <arabic class="d-none">عرض الحوادث</arabic>
+                                    @Localizer["Legacy.Incidents"]
                                 </span>
                             </a></li>
                         }
@@ -194,8 +177,7 @@
                             <li><a class="nav-link" asp-controller="TaskPages" asp-action="TaskList">
                                 <i class="fas fa-list fa-fw"></i>
                                 <span>
-                                    <english>Work Orders</english>
-                                    <arabic class="d-none">المهمات</arabic>
+                                    @Localizer["Legacy.WorkOrders"]
                                 </span>
                              </a></li>
                         }
@@ -205,8 +187,7 @@
                             <li><a class="nav-link" asp-controller="Chart" asp-action="Chartjs">
                                 <i class="fas fa-chart-bar fa-fw"></i>
                                 <span>
-                                    <english>Reports</english>
-                                    <arabic class="d-none">عرض التقارير</arabic>
+                                    @Localizer["Legacy.Reports"]
                                 </span>
                             </a></li>
                         }
@@ -216,8 +197,7 @@
                             <li><a class="nav-link" asp-controller="Buildings" asp-action="BuildingComponents">
                                 <i class="fas fa-exclamation-circle fa-fw"></i>
                                 <span>
-                                    <english>Building Information</english>
-                                    <arabic class="d-none">مكونات المبنى</arabic>
+                                    @Localizer["Legacy.BuildingInformation"]
                                 </span>
                             </a></li>
                         }

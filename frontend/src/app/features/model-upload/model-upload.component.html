@@ -1,11 +1,11 @@
 <section class="page">
   <div class="page-header">
-    <h1>Upload IFC Model</h1>
-    <p>Upload an IFC file to process floors and generate browser-viewable model data.</p>
+    <h1>{{ 'Upload.Title' | t }}</h1>
+    <p>{{ 'Upload.Description' | t }}</p>
   </div>
 
   <div class="upload-panel">
-    <label for="ifcFile">IFC file</label>
+    <label for="ifcFile">{{ 'Upload.FileLabel' | t }}</label>
     <input id="ifcFile" type="file" accept=".ifc" (change)="onFileSelected($event)" />
 
     <div class="file-summary" *ngIf="selectedFile">
@@ -14,7 +14,7 @@
     </div>
 
     <button type="button" (click)="upload()" [disabled]="loading || !selectedFile">
-      {{ loading ? 'Uploading...' : 'Upload and Process' }}
+      {{ loading ? ('Upload.Uploading' | t) : ('Upload.Button' | t) }}
     </button>
 
     <div class="progress" *ngIf="loading">

@@ -2,14 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BuildingElement, Issue, LookupValue, Worker } from '../../core/models/api.models';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { ElementsService } from '../../core/services/elements.service';
 import { IssuesService } from '../../core/services/issues.service';
+import { LocalizationService } from '../../core/services/localization.service';
 import { WorkersService } from '../../core/services/workers.service';
 
 @Component({
   selector: 'app-issue-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './issue-panel.component.html',
   styleUrl: './issue-panel.component.css'
 })
@@ -37,6 +39,7 @@ export class IssuePanelComponent implements OnChanges {
   constructor(
     private readonly elementsService: ElementsService,
     private readonly issuesService: IssuesService,
+    private readonly localization: LocalizationService,
     private readonly workersService: WorkersService
   ) {
     this.issuesService.getSeverities().subscribe(values => {
@@ -67,7 +70,7 @@ export class IssuePanelComponent implements OnChanges {
         this.loading = false;
       },
       error: () => {
-        this.error = 'Could not load issues for this element.';
+        this.error = this.localization.translate('Issues.LoadError');
         this.loading = false;
       }
     });
@@ -75,7 +78,7 @@ export class IssuePanelComponent implements OnChanges {
 
   createIssue(): void {
     if (!this.selectedElement || !this.newIssue.description.trim()) {
-      this.error = 'Select an element and enter an issue description.';
+      this.error = this.localization.translate('Issues.DescriptionRequired');
       return;
     }
 
@@ -93,11 +96,11 @@ export class IssuePanelComponent implements OnChanges {
         next: issue => {
           this.issues = [issue, ...this.issues];
           this.newIssue.description = '';
-          this.message = 'Issue created.';
+          this.message = this.localization.translate('Issues.Created');
           this.saving = false;
         },
         error: err => {
-          this.error = err.error?.message ?? 'Could not create issue.';
+          this.error = err.error?.message ?? this.localization.translate('Issues.CreateError');
           this.saving = false;
         }
       });
@@ -106,23 +109,30 @@ export class IssuePanelComponent implements OnChanges {
   assignWorker(issue: Issue): void {
     const workerId = this.selectedWorkerByIssueId[issue.id] ?? issue.assignedWorkerId;
     if (!workerId) {
-      this.error = 'Choose a worker before assigning.';
+      this.error = this.localization.translate('Issues.WorkerRequired');
       return;
     }
 
     this.issuesService.assignWorker(issue.id, { workerId }).subscribe({
       next: updated => {
         this.issues = this.issues.map(item => (item.id === updated.id ? updated : item));
-        this.message = 'Issue assigned.';
+        this.message = this.localization.translate('Issues.Assigned');
         this.error = '';
       },
       error: err => {
-        this.error = err.error?.message ?? 'Could not assign worker.';
+        this.error = err.error?.message ?? this.localization.translate('Issues.AssignError');
       }
     });
   }
 
   severityName(id: number): string {
-    return this.severities.find(item => item.id === id)?.name ?? String(id);
+    const severity = this.severities.find(item => item.id === id);
+    if (!severity) {
+      return String(id);
+    }
+
+    return this.localization.translate(`Severity.${severity.name}`) !== `Severity.${severity.name}`
+      ? this.localization.translate(`Severity.${severity.name}`)
+      : severity.name;
   }
 }

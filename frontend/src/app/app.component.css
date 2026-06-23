@@ -42,6 +42,14 @@ nav a:hover {
   color: #0c4f8a;
 }
 
+.language-picker select {
+  border: 1px solid #c8d3df;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #17202a;
+  padding: 7px 10px;
+}
+
 main {
   padding: 24px;
 }

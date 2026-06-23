@@ -2,12 +2,14 @@ import { HttpEventType } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
+import { LocalizationService } from '../../core/services/localization.service';
 import { ModelsService } from '../../core/services/models.service';
 
 @Component({
   selector: 'app-model-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './model-upload.component.html',
   styleUrl: './model-upload.component.css'
 })
@@ -20,6 +22,7 @@ export class ModelUploadComponent {
 
   constructor(
     private readonly modelsService: ModelsService,
+    private readonly localization: LocalizationService,
     private readonly router: Router
   ) {}
 
@@ -34,7 +37,7 @@ export class ModelUploadComponent {
     }
 
     if (!file.name.toLowerCase().endsWith('.ifc')) {
-      this.error = 'Only IFC files are supported.';
+      this.error = this.localization.translate('Upload.OnlyIfc');
       this.selectedFile = undefined;
       return;
     }
@@ -44,7 +47,7 @@ export class ModelUploadComponent {
 
   upload(): void {
     if (!this.selectedFile) {
-      this.error = 'Select an IFC file before uploading.';
+      this.error = this.localization.translate('Upload.SelectFile');
       return;
     }
 
@@ -61,7 +64,7 @@ export class ModelUploadComponent {
 
         if (event.type === HttpEventType.Response) {
           const upload = event.body?.data;
-          this.success = event.body?.message ?? 'Model uploaded successfully.';
+          this.success = event.body?.message ?? this.localization.translate('Upload.Success');
           this.loading = false;
           if (upload?.modelId) {
             this.router.navigate(['/models', upload.modelId, 'viewer']);
@@ -70,7 +73,7 @@ export class ModelUploadComponent {
       },
       error: err => {
         this.loading = false;
-        this.error = err.error?.message ?? 'Upload failed. Check the file and try again.';
+        this.error = err.error?.message ?? this.localization.translate('Upload.Failed');
       }
     });
   }

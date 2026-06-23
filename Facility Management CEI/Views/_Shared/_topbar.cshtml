@@ -3,6 +3,8 @@
 @inject UserManager<LogUser> usermanager
 @using Facility_Management_CEI.IdentityDb;
 @inject ApplicationDBContext context
+@using System.Globalization
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Facility_Management_CEI.SharedResource> Localizer
 
 <header id="page-topbar">
     <div class="navbar-header">
@@ -409,9 +411,15 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" style="min-width: unset">
                     <!-- item-->
-                    <a class="dropdown-item" href="#" onclick="ChangeLanguage()">
-                        <english><span class="align-middle">عربي</span><img src="~/assets/images/flags/eg.jpg" alt="user-image" class="ml-2" height="12" asp-append-version="true"></english>
-                        <arabic class="d-none"><span class="align-middle">English</span><img src="~/assets/images/flags/us.jpg" alt="user-image" class="ml-2" height="12" asp-append-version="true"></arabic>
+                    <a class="dropdown-item" href="@(Context.Request.Path + "?culture=" + (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "en" : "ar") + "&ui-culture=" + (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "en" : "ar"))">
+                        @if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar")
+                        {
+                            <span class="align-middle">@Localizer["Language.English"]</span><img src="~/assets/images/flags/us.jpg" alt="user-image" class="ml-2" height="12" asp-append-version="true">
+                        }
+                        else
+                        {
+                            <span class="align-middle">@Localizer["Language.Arabic"]</span><img src="~/assets/images/flags/eg.jpg" alt="user-image" class="ml-2" height="12" asp-append-version="true">
+                        }
                     </a>
                 </div>
             </div>

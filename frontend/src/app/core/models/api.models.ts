@@ -4,6 +4,12 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface LocalizationPayload {
+  culture: string;
+  direction: 'ltr' | 'rtl';
+  translations: Record<string, string>;
+}
+
 export interface BuildingModel {
   id: number;
   name: string;

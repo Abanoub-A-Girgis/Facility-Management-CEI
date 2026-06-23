@@ -5,6 +5,7 @@ using Facility_Management_CEI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,18 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IIfcProcessingService _ifcProcessingService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly ILogger<ModelsController> _logger;
 
         public ModelsController(
             ApplicationDBContext context,
             IIfcProcessingService ifcProcessingService,
+            IStringLocalizer<SharedResource> localizer,
             ILogger<ModelsController> logger)
         {
             _context = context;
             _ifcProcessingService = ifcProcessingService;
+            _localizer = localizer;
             _logger = logger;
         }
 
@@ -61,7 +65,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
                     GeneratedWexBimPaths = result.GeneratedWexBimPaths
                 };
 
-                return CreatedAtAction(nameof(GetById), new { modelId = model?.Id }, ApiResponse<ModelUploadResponseDto>.Ok(response, "IFC model uploaded and processed."));
+                return CreatedAtAction(nameof(GetById), new { modelId = model?.Id }, ApiResponse<ModelUploadResponseDto>.Ok(response, _localizer["Server.UploadProcessed"]));
             }
             catch (InvalidDataException ex)
             {
@@ -71,7 +75,7 @@ namespace Facility_Management_CEI.ApiLayer.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "IFC upload processing failed.");
-                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.Fail("The IFC model could not be processed."));
+                return StatusCode(StatusCodes.Status500InternalServerError, ApiResponse<object>.Fail(_localizer["Server.UploadFailed"]));
             }
         }
 

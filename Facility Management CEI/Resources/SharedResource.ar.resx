@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>إدارة المرافق CEI</value></data>
+  <data name="Nav.Upload" xml:space="preserve"><value>رفع النموذج</value></data>
+  <data name="Nav.Viewer" xml:space="preserve"><value>العارض</value></data>
+  <data name="Language.English" xml:space="preserve"><value>English</value></data>
+  <data name="Language.Arabic" xml:space="preserve"><value>العربية</value></data>
+  <data name="Upload.Title" xml:space="preserve"><value>رفع نموذج IFC</value></data>
+  <data name="Upload.Description" xml:space="preserve"><value>ارفع ملف IFC لمعالجة الطوابق وإنشاء بيانات نموذج قابلة للعرض في المتصفح.</value></data>
+  <data name="Upload.FileLabel" xml:space="preserve"><value>ملف IFC</value></data>
+  <data name="Upload.Button" xml:space="preserve"><value>رفع ومعالجة</value></data>
+  <data name="Upload.Uploading" xml:space="preserve"><value>جاري الرفع...</value></data>
+  <data name="Upload.SelectFile" xml:space="preserve"><value>اختر ملف IFC قبل الرفع.</value></data>
+  <data name="Upload.OnlyIfc" xml:space="preserve"><value>يتم دعم ملفات IFC فقط.</value></data>
+  <data name="Upload.Failed" xml:space="preserve"><value>فشل الرفع. تحقق من الملف وحاول مرة أخرى.</value></data>
+  <data name="Upload.Success" xml:space="preserve"><value>تم رفع النموذج بنجاح.</value></data>
+  <data name="Viewer.Title" xml:space="preserve"><value>عارض المبنى</value></data>
+  <data name="Viewer.Description" xml:space="preserve"><value>اختر نموذجًا، افحص العناصر، أدر البلاغات، وتحكم في مؤشرات الخطورة.</value></data>
+  <data name="Viewer.Model" xml:space="preserve"><value>النموذج</value></data>
+  <data name="Viewer.SelectModel" xml:space="preserve"><value>اختر نموذجًا</value></data>
+  <data name="Viewer.LoadingModels" xml:space="preserve"><value>جاري تحميل النماذج...</value></data>
+  <data name="Viewer.LoadingViewer" xml:space="preserve"><value>جاري تحميل العارض...</value></data>
+  <data name="Viewer.Selected" xml:space="preserve"><value>المحدد</value></data>
+  <data name="Viewer.ZoomToSelected" xml:space="preserve"><value>تكبير العنصر المحدد</value></data>
+  <data name="Viewer.LoadModelsError" xml:space="preserve"><value>تعذر تحميل النماذج من واجهة البرمجة.</value></data>
+  <data name="Viewer.LoadFloorsError" xml:space="preserve"><value>تعذر تحميل طوابق النموذج المحدد.</value></data>
+  <data name="Viewer.LoadHighlightsError" xml:space="preserve"><value>تعذر تحميل بيانات تمييز العارض.</value></data>
+  <data name="Viewer.InitError" xml:space="preserve"><value>تعذر تهيئة عارض النموذج.</value></data>
+  <data name="Viewer.ScriptsUnavailable" xml:space="preserve"><value>ملفات تشغيل عارض XBIM غير متاحة.</value></data>
+  <data name="Viewer.ScriptLoadError" xml:space="preserve"><value>تعذر تحميل ملف تشغيل العارض.</value></data>
+  <data name="Viewer.ElementDetailsMissing" xml:space="preserve"><value>تم تحديده، لكن لم يتم العثور على تفاصيله في واجهة البرمجة.</value></data>
+  <data name="Viewer.ModelPrefix" xml:space="preserve"><value>نموذج</value></data>
+  <data name="Element.Details" xml:space="preserve"><value>تفاصيل العنصر</value></data>
+  <data name="Element.Id" xml:space="preserve"><value>الكود</value></data>
+  <data name="Element.Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="Element.Floor" xml:space="preserve"><value>الطابق</value></data>
+  <data name="Element.Space" xml:space="preserve"><value>المساحة</value></data>
+  <data name="Element.Materials" xml:space="preserve"><value>المواد</value></data>
+  <data name="Common.NotAvailable" xml:space="preserve"><value>غير متاح</value></data>
+  <data name="Floors.Title" xml:space="preserve"><value>الطوابق</value></data>
+  <data name="Floors.Empty" xml:space="preserve"><value>لا توجد طوابق محملة.</value></data>
+  <data name="Indicators.Title" xml:space="preserve"><value>مؤشرات البلاغات</value></data>
+  <data name="Indicators.Highlight" xml:space="preserve"><value>تمييز عناصر البلاغات</value></data>
+  <data name="Indicators.Flash" xml:space="preserve"><value>وميض العناصر المميزة</value></data>
+  <data name="Severity.Severe" xml:space="preserve"><value>شديدة</value></data>
+  <data name="Severity.High" xml:space="preserve"><value>عالية</value></data>
+  <data name="Severity.Medium" xml:space="preserve"><value>متوسطة</value></data>
+  <data name="Severity.Low" xml:space="preserve"><value>منخفضة</value></data>
+  <data name="Issues.Title" xml:space="preserve"><value>البلاغات</value></data>
+  <data name="Issues.SelectElement" xml:space="preserve"><value>اختر عنصرًا من النموذج لعرض أو إنشاء البلاغات.</value></data>
+  <data name="Issues.Description" xml:space="preserve"><value>الوصف</value></data>
+  <data name="Issues.Severity" xml:space="preserve"><value>الخطورة</value></data>
+  <data name="Issues.ReporterId" xml:space="preserve"><value>كود المبلغ</value></data>
+  <data name="Issues.Create" xml:space="preserve"><value>إنشاء بلاغ</value></data>
+  <data name="Issues.Saving" xml:space="preserve"><value>جاري الحفظ...</value></data>
+  <data name="Issues.Loading" xml:space="preserve"><value>جاري تحميل البلاغات...</value></data>
+  <data name="Issues.Empty" xml:space="preserve"><value>لا توجد بلاغات لهذا العنصر.</value></data>
+  <data name="Issues.Status" xml:space="preserve"><value>الحالة</value></data>
+  <data name="Issues.AssignedTo" xml:space="preserve"><value>مسند إلى</value></data>
+  <data name="Issues.ChooseWorker" xml:space="preserve"><value>اختر عاملًا</value></data>
+  <data name="Issues.Assign" xml:space="preserve"><value>إسناد</value></data>
+  <data name="Issues.Created" xml:space="preserve"><value>تم إنشاء البلاغ.</value></data>
+  <data name="Issues.Assigned" xml:space="preserve"><value>تم إسناد البلاغ.</value></data>
+  <data name="Issues.CreateError" xml:space="preserve"><value>تعذر إنشاء البلاغ.</value></data>
+  <data name="Issues.AssignError" xml:space="preserve"><value>تعذر إسناد العامل.</value></data>
+  <data name="Issues.LoadError" xml:space="preserve"><value>تعذر تحميل بلاغات هذا العنصر.</value></data>
+  <data name="Issues.DescriptionRequired" xml:space="preserve"><value>اختر عنصرًا وأدخل وصف البلاغ.</value></data>
+  <data name="Issues.WorkerRequired" xml:space="preserve"><value>اختر عاملًا قبل الإسناد.</value></data>
+  <data name="Server.NoIfcFile" xml:space="preserve"><value>لم يتم توفير ملف IFC.</value></data>
+  <data name="Server.EmptyIfcFile" xml:space="preserve"><value>ملف IFC المرفوع فارغ.</value></data>
+  <data name="Server.FileTooLarge" xml:space="preserve"><value>ملف IFC المرفوع يتجاوز الحد المسموح.</value></data>
+  <data name="Server.OnlyIfc" xml:space="preserve"><value>يتم دعم ملفات IFC فقط.</value></data>
+  <data name="Server.UploadProcessed" xml:space="preserve"><value>تم رفع ومعالجة نموذج IFC.</value></data>
+  <data name="Server.UploadFailed" xml:space="preserve"><value>تعذرت معالجة نموذج IFC.</value></data>
+  <data name="Legacy.Menu" xml:space="preserve"><value>القائمة</value></data>
+  <data name="Legacy.Login" xml:space="preserve"><value>تسجيل الدخول</value></data>
+  <data name="Legacy.HomePage" xml:space="preserve"><value>الصفحة الرئيسية</value></data>
+  <data name="Legacy.Register" xml:space="preserve"><value>إنشاء مستخدم</value></data>
+  <data name="Legacy.Uploader" xml:space="preserve"><value>رفع ملف</value></data>
+  <data name="Legacy.BuildingViewers" xml:space="preserve"><value>عارضات المبنى</value></data>
+  <data name="Legacy.AsOwner" xml:space="preserve"><value>عرض كمالك</value></data>
+  <data name="Legacy.AsManager" xml:space="preserve"><value>عرض كمدير</value></data>
+  <data name="Legacy.AsSupervisor" xml:space="preserve"><value>عرض كمشرف</value></data>
+  <data name="Legacy.AsInspector" xml:space="preserve"><value>عرض كمفتش</value></data>
+  <data name="Legacy.AsAgent" xml:space="preserve"><value>عرض كعامل</value></data>
+  <data name="Legacy.BuildingViewer" xml:space="preserve"><value>عارض المبنى</value></data>
+  <data name="Legacy.SensorWarnings" xml:space="preserve"><value>تحذيرات المستشعرات</value></data>
+  <data name="Legacy.Incidents" xml:space="preserve"><value>البلاغات</value></data>
+  <data name="Legacy.WorkOrders" xml:space="preserve"><value>أوامر العمل</value></data>
+  <data name="Legacy.Reports" xml:space="preserve"><value>التقارير</value></data>
+  <data name="Legacy.BuildingInformation" xml:space="preserve"><value>معلومات المبنى</value></data>
+  <data name="Legacy.Settings" xml:space="preserve"><value>الإعدادات</value></data>
+  <data name="Legacy.ChooseLayouts" xml:space="preserve"><value>اختر التخطيط</value></data>
+</root>

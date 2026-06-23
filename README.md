@@ -22,7 +22,7 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
   - Medium: yellow
   - Low: green
 - Role-based viewer pages for account managers, owners, managers, supervisors, inspectors, and agents.
-- Basic English/Arabic UI support currently implemented with inline tags. Proper localization is planned.
+- English/Arabic localization through ASP.NET Core `.resx` resources and Angular runtime translation loading.
 
 ## Tech Stack
 
@@ -67,9 +67,15 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
 
 ### Localization
 
-- Current UI stores English and Arabic text in custom inline tags such as `<english>` and `<arabic class="d-none">`.
-- TODO: replace inline translation tags with structured localization resources, for example Angular translation JSON files or ASP.NET resource files.
-- TODO: add a proper Arabic translation resource such as `ar.json`.
+- Backend/server-side translations are stored in `.resx` files:
+  - `Facility Management CEI/Resources/SharedResource.resx`
+  - `Facility Management CEI/Resources/SharedResource.ar.resx`
+- Supported cultures are `en` and `ar`.
+- ASP.NET Core request localization supports query-string culture selection and culture cookies.
+- The Angular frontend loads translations from `GET /api/localization?culture=en|ar`.
+- Arabic sets `dir="rtl"` on the document root in Angular.
+- Add or change UI strings by updating the same key in both resource files.
+- Some inactive/commented legacy Razor markup may still contain old inline translation tags while the Angular migration continues.
 
 ## Screenshots
 
@@ -144,6 +150,9 @@ For production, move secrets and environment-specific values out of source-contr
 Important configuration items:
 
 - `ConnectionStrings:ProjectDataBase`
+- `IfcProcessing:UploadDirectory`
+- `IfcProcessing:MaxUploadBytes`
+- `IfcProcessing:AllowedExtensions`
 - `ASPNETCORE_ENVIRONMENT`
 - `ASPNETCORE_URLS` when self-hosting with Kestrel
 
@@ -270,12 +279,32 @@ Additional workflows currently use MVC controllers and Razor views:
 
 The Angular frontend currently consumes the new JSON API layer for upload, model metadata, floors, elements, issues, workers, severities/statuses, and viewer highlighting.
 
+Current Angular-facing routes include:
+
+- `GET /api/localization?culture=en|ar`
+- `POST /api/models/upload`
+- `GET /api/models`
+- `GET /api/models/{modelId}`
+- `GET /api/models/{modelId}/floors`
+- `GET /api/models/{modelId}/elements`
+- `GET /api/models/{modelId}/floors/{floorId}/elements`
+- `GET /api/models/{modelId}/viewer-highlights`
+- `GET /api/elements/{elementId}`
+- `GET /api/elements/{elementId}/issues`
+- `POST /api/elements/{elementId}/issues`
+- `PUT /api/issues/{issueId}`
+- `DELETE /api/issues/{issueId}`
+- `PUT /api/issues/{issueId}/assign-worker`
+- `GET /api/issues/severities`
+- `GET /api/issues/statuses`
+- `GET /api/workers`
+
 ## Known Limitations
 
 - Angular frontend is implemented but still coexists with the legacy MVC/Razor UI.
 - Some legacy UI is MVC/Razor with significant inline JavaScript.
 - Viewer behavior is duplicated across role-specific Razor pages and partials.
-- Localization is implemented with custom inline tags instead of proper resource files.
+- Some legacy Razor views still need gradual cleanup as Angular reaches full replacement coverage.
 - API boundaries are incomplete; some controllers mix view rendering, data access, and business logic.
 - The wired EF context includes both Identity and domain data.
 - IFC processing happens during the upload request and may not scale for large models.
@@ -288,7 +317,7 @@ The Angular frontend currently consumes the new JSON API layer for upload, model
 - Add versioned REST APIs and DTO contracts for all frontend workflows.
 - Extract IFC processing into services and optional background jobs.
 - Add automated tests and CI/CD.
-- Replace inline localization with English and Arabic resource files.
+- Continue removing old inline translation tags from inactive legacy Razor markup.
 - Add audit logs for issue creation, assignment, status changes, and model uploads.
 - Add file storage abstraction for local, cloud, or network storage.
 - Improve role-based authorization and least-privilege access policies.

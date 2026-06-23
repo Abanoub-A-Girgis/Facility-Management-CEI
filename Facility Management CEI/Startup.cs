@@ -6,14 +6,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -40,6 +43,21 @@ namespace Facility_Management_CEI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ar")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+            });
+
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
             Configuration.GetConnectionString("ProjectDataBase")));
@@ -59,6 +77,7 @@ namespace Facility_Management_CEI
             //////////////////////////////////////////////////
 
             services.AddControllersWithViews()  // to solve error Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
+                .AddViewLocalization()
                 .AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
@@ -131,7 +150,11 @@ namespace Facility_Management_CEI
             }
 
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider  serviceProvider)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IServiceProvider serviceProvider,
+            IOptions<RequestLocalizationOptions> localizationOptions)
         {
             CreateAdminLogUserWithRoles(serviceProvider).Wait(); 
 
@@ -163,6 +186,7 @@ namespace Facility_Management_CEI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRequestLocalization(localizationOptions.Value);
             app.UseRouting();
             app.UseCors("AngularDev");
             app.UseAuthentication();

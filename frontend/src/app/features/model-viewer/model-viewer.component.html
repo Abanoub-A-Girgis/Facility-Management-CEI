@@ -1,23 +1,23 @@
 <section class="viewer-page">
   <header class="viewer-header">
     <div>
-      <h1>Building Viewer</h1>
-      <p>Select a model, inspect elements, manage issues, and control severity indicators.</p>
+      <h1>{{ 'Viewer.Title' | t }}</h1>
+      <p>{{ 'Viewer.Description' | t }}</p>
     </div>
 
     <label class="model-picker">
-      Model
+      {{ 'Viewer.Model' | t }}
       <select [(ngModel)]="selectedModelId" (change)="onModelChange()">
-        <option [ngValue]="undefined">Select model</option>
+        <option [ngValue]="undefined">{{ 'Viewer.SelectModel' | t }}</option>
         <option *ngFor="let model of models" [ngValue]="model.id">
-          {{ model.name || ('Model ' + model.id) }}
+          {{ model.name || (('Viewer.ModelPrefix' | t) + ' ' + model.id) }}
         </option>
       </select>
     </label>
   </header>
 
   <p class="status error" *ngIf="error">{{ error }}</p>
-  <p class="status" *ngIf="loading">Loading models...</p>
+  <p class="status" *ngIf="loading">{{ 'Viewer.LoadingModels' | t }}</p>
 
   <div class="viewer-layout">
     <aside class="side-panel">
@@ -37,27 +37,27 @@
 
     <section class="viewer-surface">
       <div class="viewer-toolbar">
-        <span *ngIf="viewerLoading">Loading viewer...</span>
-        <span *ngIf="selectedElement">Selected: {{ selectedElement.name }}</span>
-        <button type="button" (click)="zoomToSelected()" [disabled]="!selectedElementId">Zoom to Selected</button>
+        <span *ngIf="viewerLoading">{{ 'Viewer.LoadingViewer' | t }}</span>
+        <span *ngIf="selectedElement">{{ 'Viewer.Selected' | t }}: {{ selectedElement.name }}</span>
+        <button type="button" (click)="zoomToSelected()" [disabled]="!selectedElementId">{{ 'Viewer.ZoomToSelected' | t }}</button>
       </div>
       <canvas id="viewer-canvas"></canvas>
     </section>
 
     <aside class="issue-panel">
       <div class="details" *ngIf="selectedElement">
-        <h2>Element Details</h2>
+        <h2>{{ 'Element.Details' | t }}</h2>
         <dl>
-          <dt>ID</dt>
+          <dt>{{ 'Element.Id' | t }}</dt>
           <dd>{{ selectedElement.id }}</dd>
-          <dt>Type</dt>
+          <dt>{{ 'Element.Type' | t }}</dt>
           <dd>{{ selectedElement.elementType }}</dd>
-          <dt>Floor</dt>
+          <dt>{{ 'Element.Floor' | t }}</dt>
           <dd>{{ selectedElement.floorName }}</dd>
-          <dt>Space</dt>
-          <dd>{{ selectedElement.spaceName || 'N/A' }}</dd>
-          <dt>Materials</dt>
-          <dd>{{ selectedElement.materials || 'N/A' }}</dd>
+          <dt>{{ 'Element.Space' | t }}</dt>
+          <dd>{{ selectedElement.spaceName || ('Common.NotAvailable' | t) }}</dd>
+          <dt>{{ 'Element.Materials' | t }}</dt>
+          <dd>{{ selectedElement.materials || ('Common.NotAvailable' | t) }}</dd>
         </dl>
       </div>
 

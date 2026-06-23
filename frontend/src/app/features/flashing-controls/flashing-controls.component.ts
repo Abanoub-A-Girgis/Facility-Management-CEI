@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-flashing-controls',
   standalone: true,
+  imports: [TranslatePipe],
   templateUrl: './flashing-controls.component.html',
   styleUrl: './flashing-controls.component.css'
 })

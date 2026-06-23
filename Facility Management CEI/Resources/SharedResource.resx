@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Facility Management CEI</value></data>
+  <data name="Nav.Upload" xml:space="preserve"><value>Upload</value></data>
+  <data name="Nav.Viewer" xml:space="preserve"><value>Viewer</value></data>
+  <data name="Language.English" xml:space="preserve"><value>English</value></data>
+  <data name="Language.Arabic" xml:space="preserve"><value>Arabic</value></data>
+  <data name="Upload.Title" xml:space="preserve"><value>Upload IFC Model</value></data>
+  <data name="Upload.Description" xml:space="preserve"><value>Upload an IFC file to process floors and generate browser-viewable model data.</value></data>
+  <data name="Upload.FileLabel" xml:space="preserve"><value>IFC file</value></data>
+  <data name="Upload.Button" xml:space="preserve"><value>Upload and Process</value></data>
+  <data name="Upload.Uploading" xml:space="preserve"><value>Uploading...</value></data>
+  <data name="Upload.SelectFile" xml:space="preserve"><value>Select an IFC file before uploading.</value></data>
+  <data name="Upload.OnlyIfc" xml:space="preserve"><value>Only IFC files are supported.</value></data>
+  <data name="Upload.Failed" xml:space="preserve"><value>Upload failed. Check the file and try again.</value></data>
+  <data name="Upload.Success" xml:space="preserve"><value>Model uploaded successfully.</value></data>
+  <data name="Viewer.Title" xml:space="preserve"><value>Building Viewer</value></data>
+  <data name="Viewer.Description" xml:space="preserve"><value>Select a model, inspect elements, manage issues, and control severity indicators.</value></data>
+  <data name="Viewer.Model" xml:space="preserve"><value>Model</value></data>
+  <data name="Viewer.SelectModel" xml:space="preserve"><value>Select model</value></data>
+  <data name="Viewer.LoadingModels" xml:space="preserve"><value>Loading models...</value></data>
+  <data name="Viewer.LoadingViewer" xml:space="preserve"><value>Loading viewer...</value></data>
+  <data name="Viewer.Selected" xml:space="preserve"><value>Selected</value></data>
+  <data name="Viewer.ZoomToSelected" xml:space="preserve"><value>Zoom to Selected</value></data>
+  <data name="Viewer.LoadModelsError" xml:space="preserve"><value>Could not load models from the API.</value></data>
+  <data name="Viewer.LoadFloorsError" xml:space="preserve"><value>Could not load floors for the selected model.</value></data>
+  <data name="Viewer.LoadHighlightsError" xml:space="preserve"><value>Could not load viewer highlight metadata.</value></data>
+  <data name="Viewer.InitError" xml:space="preserve"><value>The model viewer could not be initialized.</value></data>
+  <data name="Viewer.ScriptsUnavailable" xml:space="preserve"><value>XBIM viewer scripts are not available.</value></data>
+  <data name="Viewer.ScriptLoadError" xml:space="preserve"><value>Could not load viewer script.</value></data>
+  <data name="Viewer.ElementDetailsMissing" xml:space="preserve"><value>was selected, but details were not found in the API.</value></data>
+  <data name="Viewer.ModelPrefix" xml:space="preserve"><value>Model</value></data>
+  <data name="Element.Details" xml:space="preserve"><value>Element Details</value></data>
+  <data name="Element.Id" xml:space="preserve"><value>ID</value></data>
+  <data name="Element.Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Element.Floor" xml:space="preserve"><value>Floor</value></data>
+  <data name="Element.Space" xml:space="preserve"><value>Space</value></data>
+  <data name="Element.Materials" xml:space="preserve"><value>Materials</value></data>
+  <data name="Common.NotAvailable" xml:space="preserve"><value>N/A</value></data>
+  <data name="Floors.Title" xml:space="preserve"><value>Floors</value></data>
+  <data name="Floors.Empty" xml:space="preserve"><value>No floors loaded.</value></data>
+  <data name="Indicators.Title" xml:space="preserve"><value>Issue Indicators</value></data>
+  <data name="Indicators.Highlight" xml:space="preserve"><value>Highlight issue elements</value></data>
+  <data name="Indicators.Flash" xml:space="preserve"><value>Flash highlighted elements</value></data>
+  <data name="Severity.Severe" xml:space="preserve"><value>Severe</value></data>
+  <data name="Severity.High" xml:space="preserve"><value>High</value></data>
+  <data name="Severity.Medium" xml:space="preserve"><value>Medium</value></data>
+  <data name="Severity.Low" xml:space="preserve"><value>Low</value></data>
+  <data name="Issues.Title" xml:space="preserve"><value>Issues</value></data>
+  <data name="Issues.SelectElement" xml:space="preserve"><value>Select a model element to view or create issues.</value></data>
+  <data name="Issues.Description" xml:space="preserve"><value>Description</value></data>
+  <data name="Issues.Severity" xml:space="preserve"><value>Severity</value></data>
+  <data name="Issues.ReporterId" xml:space="preserve"><value>Reporter ID</value></data>
+  <data name="Issues.Create" xml:space="preserve"><value>Create Issue</value></data>
+  <data name="Issues.Saving" xml:space="preserve"><value>Saving...</value></data>
+  <data name="Issues.Loading" xml:space="preserve"><value>Loading issues...</value></data>
+  <data name="Issues.Empty" xml:space="preserve"><value>No issues for this element.</value></data>
+  <data name="Issues.Status" xml:space="preserve"><value>Status</value></data>
+  <data name="Issues.AssignedTo" xml:space="preserve"><value>Assigned to</value></data>
+  <data name="Issues.ChooseWorker" xml:space="preserve"><value>Choose worker</value></data>
+  <data name="Issues.Assign" xml:space="preserve"><value>Assign</value></data>
+  <data name="Issues.Created" xml:space="preserve"><value>Issue created.</value></data>
+  <data name="Issues.Assigned" xml:space="preserve"><value>Issue assigned.</value></data>
+  <data name="Issues.CreateError" xml:space="preserve"><value>Could not create issue.</value></data>
+  <data name="Issues.AssignError" xml:space="preserve"><value>Could not assign worker.</value></data>
+  <data name="Issues.LoadError" xml:space="preserve"><value>Could not load issues for this element.</value></data>
+  <data name="Issues.DescriptionRequired" xml:space="preserve"><value>Select an element and enter an issue description.</value></data>
+  <data name="Issues.WorkerRequired" xml:space="preserve"><value>Choose a worker before assigning.</value></data>
+  <data name="Server.NoIfcFile" xml:space="preserve"><value>No IFC file was provided.</value></data>
+  <data name="Server.EmptyIfcFile" xml:space="preserve"><value>The uploaded IFC file is empty.</value></data>
+  <data name="Server.FileTooLarge" xml:space="preserve"><value>The uploaded IFC file exceeds the configured limit.</value></data>
+  <data name="Server.OnlyIfc" xml:space="preserve"><value>Only IFC files are supported.</value></data>
+  <data name="Server.UploadProcessed" xml:space="preserve"><value>IFC model uploaded and processed.</value></data>
+  <data name="Server.UploadFailed" xml:space="preserve"><value>The IFC model could not be processed.</value></data>
+  <data name="Legacy.Menu" xml:space="preserve"><value>Menu</value></data>
+  <data name="Legacy.Login" xml:space="preserve"><value>Login</value></data>
+  <data name="Legacy.HomePage" xml:space="preserve"><value>Home Page</value></data>
+  <data name="Legacy.Register" xml:space="preserve"><value>Register</value></data>
+  <data name="Legacy.Uploader" xml:space="preserve"><value>Uploader</value></data>
+  <data name="Legacy.BuildingViewers" xml:space="preserve"><value>Building Viewers</value></data>
+  <data name="Legacy.AsOwner" xml:space="preserve"><value>As Owner</value></data>
+  <data name="Legacy.AsManager" xml:space="preserve"><value>As Manager</value></data>
+  <data name="Legacy.AsSupervisor" xml:space="preserve"><value>As Supervisor</value></data>
+  <data name="Legacy.AsInspector" xml:space="preserve"><value>As Inspector</value></data>
+  <data name="Legacy.AsAgent" xml:space="preserve"><value>As Agent</value></data>
+  <data name="Legacy.BuildingViewer" xml:space="preserve"><value>Building Viewer</value></data>
+  <data name="Legacy.SensorWarnings" xml:space="preserve"><value>Sensor Warnings</value></data>
+  <data name="Legacy.Incidents" xml:space="preserve"><value>Incidents</value></data>
+  <data name="Legacy.WorkOrders" xml:space="preserve"><value>Work Orders</value></data>
+  <data name="Legacy.Reports" xml:space="preserve"><value>Reports</value></data>
+  <data name="Legacy.BuildingInformation" xml:space="preserve"><value>Building Information</value></data>
+  <data name="Legacy.Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Legacy.ChooseLayouts" xml:space="preserve"><value>Choose Layouts</value></data>
+</root>

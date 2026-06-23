@@ -1,10 +1,16 @@
 <div class="app-shell">
   <header class="topbar">
-    <a class="brand" routerLink="/models/upload">{{ title }}</a>
+    <a class="brand" routerLink="/models/upload">{{ 'App.Title' | t }}</a>
     <nav>
-      <a routerLink="/models/upload" routerLinkActive="active">Upload</a>
-      <a routerLink="/viewer" routerLinkActive="active">Viewer</a>
+      <a routerLink="/models/upload" routerLinkActive="active">{{ 'Nav.Upload' | t }}</a>
+      <a routerLink="/viewer" routerLinkActive="active">{{ 'Nav.Viewer' | t }}</a>
     </nav>
+    <label class="language-picker">
+      <select [ngModel]="localization.culture$ | async" (ngModelChange)="setCulture($event)">
+        <option value="en">{{ 'Language.English' | t }}</option>
+        <option value="ar">{{ 'Language.Arabic' | t }}</option>
+      </select>
+    </label>
   </header>
 
   <main>
