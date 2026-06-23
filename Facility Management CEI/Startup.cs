@@ -58,6 +58,18 @@ namespace Facility_Management_CEI
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
             });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState
+                        .Where(item => item.Value.Errors.Count > 0)
+                        .SelectMany(item => item.Value.Errors.Select(error => string.IsNullOrWhiteSpace(error.ErrorMessage) ? "The request is invalid." : error.ErrorMessage))
+                        .ToList();
+
+                    return new BadRequestObjectResult(Facility_Management_CEI.ApiLayer.Dtos.ApiResponse<object>.Fail(string.Join(" ", errors)));
+                };
+            });
 
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
@@ -84,6 +96,7 @@ namespace Facility_Management_CEI
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
             services.Configure<IfcProcessingOptions>(Configuration.GetSection("IfcProcessing"));
             services.Configure<ViewerOptions>(Configuration.GetSection("Viewer"));
+            services.Configure<AdminSeedOptions>(Configuration.GetSection("SeedAdmin"));
             services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = Configuration.GetValue<long>("IfcProcessing:MaxUploadBytes", 2147483648);
@@ -91,9 +104,12 @@ namespace Facility_Management_CEI
             services.AddScoped<IIfcProcessingService, IfcProcessingService>();
             services.AddCors(options =>
             {
-                options.AddPolicy("AngularDev", builder =>
+                options.AddPolicy("AngularFrontend", builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                    var origins = Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                        ?? new[] { "http://localhost:4200", "https://localhost:4200" };
+
+                    builder.WithOrigins(origins)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -114,6 +130,7 @@ namespace Facility_Management_CEI
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); // more enhancement
             var UserManager = serviceProvider.GetRequiredService<UserManager<LogUser>>();
+            var adminSeed = serviceProvider.GetRequiredService<IOptions<AdminSeedOptions>>().Value;
 
             string[] roleNames = Enum.GetNames(typeof(UserType)); /*{ "AccountManager", "Owner", "Manager", "Supervisor","Inspector","Agent" };*/
 
@@ -131,8 +148,13 @@ namespace Facility_Management_CEI
 
             }
 
-            // find the user with the admin email 
-            var _user = await UserManager.FindByNameAsync("admin@email");
+            if (!adminSeed.Enabled || string.IsNullOrWhiteSpace(adminSeed.UserName) || string.IsNullOrWhiteSpace(adminSeed.Password))
+            {
+                return;
+            }
+
+            // find the configured seed admin user
+            var _user = await UserManager.FindByNameAsync(adminSeed.UserName);
 
             // check if the user exists
             var poweruser = new LogUser();
@@ -140,12 +162,12 @@ namespace Facility_Management_CEI
             {
                 //Here you could create the super admin who will maintain the web app
 
-                poweruser.FirstName = "Admin";
-                poweruser.UserName = "Admin";
-                poweruser.UserName = "admin@email";
+                poweruser.FirstName = adminSeed.FirstName;
+                poweruser.Email = adminSeed.Email;
+                poweruser.UserName = adminSeed.UserName;
 
 
-                var createPowerUser = await UserManager.CreateAsync(poweruser, "Admin!123");
+                var createPowerUser = await UserManager.CreateAsync(poweruser, adminSeed.Password);
                 
                 if (createPowerUser.Succeeded)
                 {
@@ -194,7 +216,7 @@ namespace Facility_Management_CEI
 
             app.UseRequestLocalization(localizationOptions.Value);
             app.UseRouting();
-            app.UseCors("AngularDev");
+            app.UseCors("AngularFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -210,6 +232,7 @@ namespace Facility_Management_CEI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");

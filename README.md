@@ -142,6 +142,16 @@ Configuration is currently stored in `Facility Management CEI/appsettings.json`.
   "ConnectionStrings": {
     "ProjectDataBase": "Server=.;Database=ProjectDataBaseWithAPINewViewer;Trusted_Connection=True;MultipleActiveResultSets=true"
   },
+  "Cors": {
+    "AllowedOrigins": [ "http://localhost:4200", "https://localhost:4200" ]
+  },
+  "SeedAdmin": {
+    "Enabled": false,
+    "UserName": "",
+    "Email": "",
+    "FirstName": "Admin",
+    "Password": ""
+  },
   "IfcProcessing": {
     "UploadDirectory": "data",
     "MaxUploadBytes": 2147483648,
@@ -167,6 +177,10 @@ For production, move secrets and environment-specific values out of source-contr
 Important configuration items:
 
 - `ConnectionStrings:ProjectDataBase`
+- `Cors:AllowedOrigins`
+- `SeedAdmin:Enabled`
+- `SeedAdmin:UserName`
+- `SeedAdmin:Password`
 - `IfcProcessing:UploadDirectory`
 - `IfcProcessing:MaxUploadBytes`
 - `IfcProcessing:AllowedExtensions`
@@ -266,6 +280,8 @@ npm run build
 ## Production Deployment Notes
 
 - Upgrade from .NET 5 to a supported .NET LTS version before production deployment.
+- Configure `Cors:AllowedOrigins` to the deployed Angular origin; do not leave broad or unneeded localhost origins in production.
+- Configure `SeedAdmin` only for controlled bootstrap environments, and store any seed password in a secret manager or deployment secret.
 - Store uploaded IFC and generated `.wexBIM` files in a durable, backed-up location.
 - Validate uploaded IFC files by extension, configured MIME/content type, configured size limit, safe file name, safe upload path, and IFC STEP header.
 - Protect upload, database-clear, incident, task, and assignment endpoints with authorization policies.
@@ -274,6 +290,16 @@ npm run build
 - Use HTTPS, secure cookies, production Identity settings, and externalized secrets.
 - Add structured logging, health checks, and monitoring.
 - Add automated tests for upload, IFC processing, viewer metadata, incidents, tasks, and role-based access.
+
+## Docker / Deployment
+
+No Docker setup is currently included. The project targets .NET 5 and uses XBIM geometry packages with compatibility warnings, so containerization should be validated separately before relying on it for production. A safe first deployment path is:
+
+- Publish the ASP.NET Core backend with `dotnet publish -c Release`.
+- Build Angular with `npm run build`.
+- Deploy the Angular static output and configure `environment.prod.ts` / hosting rewrite rules for the API origin.
+- Deploy SQL Server separately and provide `ConnectionStrings:ProjectDataBase` through environment or platform secrets.
+- Ensure generated `.wexBIM` files are served from the configured upload location.
 
 ## API Overview
 
@@ -332,6 +358,8 @@ Current Angular-facing routes include:
 - IFC processing still happens during the upload request and may not scale for large models despite improved validation/logging.
 - IFC upload storage must remain under the web root in the current viewer architecture so generated `.wexBIM` files can be served to the browser.
 - Element IDs are based on IFC labels and exposed with an `ElementKey` such as `Asset:123` or `Space:456`; future issue endpoints should accept this typed key to avoid ambiguity if an asset and space share the same numeric label.
+- Docker packaging is not yet provided.
+- Authorization is not yet fully enforced across every new API endpoint.
 - The project targets .NET 5, which is no longer supported.
 - Some endpoints and methods need production hardening before public exposure.
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,13 +23,20 @@ namespace Facility_Management_CEI.Controllers
         private readonly RoleManager<IdentityRole> _roleManger;
         private readonly UserManager<LogUser> _userManeger;
         private readonly SignInManager<LogUser> _signInManager;
+        private readonly IConfiguration _configuration;
         public ApplicationDBContext _Context { get; set; }
-        public AccountController(UserManager<LogUser> userManger, ApplicationDBContext context, RoleManager<IdentityRole> roleManger, SignInManager<LogUser> singInManager)
+        public AccountController(
+            UserManager<LogUser> userManger,
+            ApplicationDBContext context,
+            RoleManager<IdentityRole> roleManger,
+            SignInManager<LogUser> singInManager,
+            IConfiguration configuration)
         {
             this._userManeger = userManger;
             this._Context = context;
             this._signInManager = singInManager;
             this._roleManger = roleManger;
+            this._configuration = configuration;
         }
 
         [HttpGet]
@@ -175,7 +183,17 @@ namespace Facility_Management_CEI.Controllers
                 var UsersList = await _Context.AppUsers.ToListAsync();
                 if (UsersList.Count == 0)
                 {
-                    var Admin = await _userManeger.FindByNameAsync("admin@email");
+                    var seedAdminUserName = _configuration["SeedAdmin:UserName"];
+                    var Admin = string.IsNullOrWhiteSpace(seedAdminUserName)
+                        ? null
+                        : await _userManeger.FindByNameAsync(seedAdminUserName);
+                    if (Admin == null)
+                    {
+                        ViewBag.English = "Initial administrator account is not configured.";
+                        ViewBag.Arabic = "لم يتم إعداد حساب المدير الأولي.";
+                        return View();
+                    }
+
                     var appuser = new AppUser()
 
                     {
