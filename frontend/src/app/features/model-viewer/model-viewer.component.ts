@@ -302,7 +302,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
         this.selectedElement = undefined;
-        this.error = `${this.localization.translate('Element.Id')} ${elementId} ${this.localization.translate('Viewer.ElementDetailsMissing')}`;
+        this.error = '';
       }
     });
   }

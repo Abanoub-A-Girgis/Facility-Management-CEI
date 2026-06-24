@@ -7,11 +7,63 @@
   <data name="App.Title" xml:space="preserve"><value>إدارة المرافق CEI</value></data>
   <data name="Nav.Upload" xml:space="preserve"><value>رفع النموذج</value></data>
   <data name="Nav.Viewer" xml:space="preserve"><value>العارض</value></data>
-  <data name="Nav.Authorization" xml:space="preserve"><value>التفويض</value></data>
+  <data name="Nav.Authorization" xml:space="preserve"><value>تسجيل الدخول</value></data>
   <data name="Nav.Logout" xml:space="preserve"><value>تسجيل الخروج</value></data>
+  <data name="Nav.Menu" xml:space="preserve"><value>القائمة</value></data>
+  <data name="Nav.Models" xml:space="preserve"><value>النماذج</value></data>
+  <data name="Nav.User" xml:space="preserve"><value>مستخدم</value></data>
+  <data name="Nav.ToggleSidebar" xml:space="preserve"><value>تبديل القائمة الجانبية</value></data>
+  <data name="Nav.Close" xml:space="preserve"><value>إغلاق</value></data>
+  <data name="Nav.Home" xml:space="preserve"><value>الرئيسية</value></data>
+  <data name="Nav.RegisterUser" xml:space="preserve"><value>تسجيل مستخدم</value></data>
+  <data name="Nav.SensorWarnings" xml:space="preserve"><value>تحذيرات المستشعرات</value></data>
+  <data name="Nav.Incidents" xml:space="preserve"><value>البلاغات</value></data>
+  <data name="Nav.WorkOrders" xml:space="preserve"><value>أوامر العمل</value></data>
+  <data name="Nav.Reports" xml:space="preserve"><value>التقارير</value></data>
+  <data name="Nav.BuildingInformation" xml:space="preserve"><value>معلومات المبنى</value></data>
+  <data name="Operations.Home" xml:space="preserve"><value>نظرة عامة على العمليات</value></data>
+  <data name="Operations.HomeDescription" xml:space="preserve"><value>ملخص عمليات نمذجة المباني وإدارة المرافق الحالية.</value></data>
+  <data name="Operations.Reports" xml:space="preserve"><value>التقارير</value></data>
+  <data name="Operations.ReportsDescription" xml:space="preserve"><value>إجماليات موحدة للنماذج والبلاغات وأوامر العمل والتحذيرات.</value></data>
+  <data name="Operations.Models" xml:space="preserve"><value>النماذج</value></data>
+  <data name="Operations.Floors" xml:space="preserve"><value>الطوابق</value></data>
+  <data name="Operations.Elements" xml:space="preserve"><value>العناصر</value></data>
+  <data name="Operations.OpenIssues" xml:space="preserve"><value>البلاغات المفتوحة</value></data>
+  <data name="Operations.Workers" xml:space="preserve"><value>العمال</value></data>
+  <data name="Operations.OpenOrders" xml:space="preserve"><value>أوامر العمل المفتوحة</value></data>
+  <data name="Operations.Warnings" xml:space="preserve"><value>التحذيرات غير المفحوصة</value></data>
+  <data name="Common.Loading" xml:space="preserve"><value>جار التحميل...</value></data>
+  <data name="Operations.LoadError" xml:space="preserve"><value>تعذر تحميل بيانات العمليات.</value></data>
+  <data name="Operations.ListLoadError" xml:space="preserve"><value>تعذر تحميل السجلات.</value></data>
+  <data name="Operations.IncidentsDescription" xml:space="preserve"><value>البلاغات المرتبطة بعناصر المبنى والمساحات.</value></data>
+  <data name="Operations.WorkOrdersDescription" xml:space="preserve"><value>مهام الصيانة الحالية الناتجة عن البلاغات.</value></data>
+  <data name="Operations.WarningsDescription" xml:space="preserve"><value>التحذيرات الصادرة عن مستشعرات المبنى.</value></data>
+  <data name="Operations.BuildingsDescription" xml:space="preserve"><value>نماذج المباني المستوردة ومخزونها التشغيلي.</value></data>
+  <data name="Operations.Element" xml:space="preserve"><value>العنصر</value></data>
+  <data name="Operations.Priority" xml:space="preserve"><value>الأولوية</value></data>
+  <data name="Operations.FixingTime" xml:space="preserve"><value>وقت الإصلاح</value></data>
+  <data name="Operations.Issued" xml:space="preserve"><value>تاريخ الإصدار</value></data>
+  <data name="Operations.Sensor" xml:space="preserve"><value>المستشعر</value></data>
+  <data name="Operations.Investigated" xml:space="preserve"><value>تم الفحص</value></data>
+  <data name="Operations.Building" xml:space="preserve"><value>المبنى</value></data>
+  <data name="Operations.Spaces" xml:space="preserve"><value>المساحات</value></data>
+  <data name="Operations.Assets" xml:space="preserve"><value>الأصول</value></data>
+  <data name="Operations.Sensors" xml:space="preserve"><value>المستشعرات</value></data>
+  <data name="Operations.NoRecords" xml:space="preserve"><value>لا توجد سجلات.</value></data>
+  <data name="Users.Description" xml:space="preserve"><value>إنشاء مستخدمين وتعيين أدوارهم التشغيلية.</value></data>
+  <data name="Users.FirstName" xml:space="preserve"><value>الاسم الأول</value></data>
+  <data name="Users.LastName" xml:space="preserve"><value>اسم العائلة</value></data>
+  <data name="Users.Role" xml:space="preserve"><value>الدور</value></data>
+  <data name="Users.NoBuilding" xml:space="preserve"><value>بدون مبنى</value></data>
+  <data name="Users.Create" xml:space="preserve"><value>إنشاء مستخدم</value></data>
+  <data name="Users.Creating" xml:space="preserve"><value>جار الإنشاء...</value></data>
+  <data name="Users.Created" xml:space="preserve"><value>تم إنشاء المستخدم بنجاح.</value></data>
+  <data name="Users.CreateError" xml:space="preserve"><value>تعذر إنشاء المستخدم.</value></data>
+  <data name="Users.LoadError" xml:space="preserve"><value>تعذر تحميل المستخدمين.</value></data>
+  <data name="Users.Name" xml:space="preserve"><value>الاسم</value></data>
   <data name="Language.English" xml:space="preserve"><value>English</value></data>
   <data name="Language.Arabic" xml:space="preserve"><value>العربية</value></data>
-  <data name="Authorization.Title" xml:space="preserve"><value>تسجيل الدخول مطلوب</value></data>
+  <data name="Authorization.Title" xml:space="preserve"><value>تسجيل الدخول</value></data>
   <data name="Authorization.Description" xml:space="preserve"><value>سجل الدخول قبل رفع نماذج IFC أو إدارة مشكلات المبنى.</value></data>
   <data name="Authorization.HeroTitle" xml:space="preserve"><value>نحافظ على المستقبل</value></data>
   <data name="Authorization.Welcome" xml:space="preserve"><value>مرحبًا بعودتك!</value></data>

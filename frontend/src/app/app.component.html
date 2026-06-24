@@ -1,22 +1,169 @@
 <div class="app-shell">
-  <header class="topbar">
-    <a class="brand" routerLink="/authorization">{{ 'App.Title' | t }}</a>
-    <nav>
-      <ng-container *ngIf="authService.currentUser$ | async">
-        <a routerLink="/models/upload" routerLinkActive="active">{{ 'Nav.Upload' | t }}</a>
-        <a routerLink="/viewer" routerLinkActive="active">{{ 'Nav.Viewer' | t }}</a>
-        <button type="button" class="nav-button" (click)="logout()">{{ 'Nav.Logout' | t }}</button>
-      </ng-container>
-    </nav>
-    <label class="language-picker">
-      <select [ngModel]="localization.culture$ | async" (ngModelChange)="setCulture($event)">
-        <option value="en">{{ 'Language.English' | t }}</option>
-        <option value="ar">{{ 'Language.Arabic' | t }}</option>
-      </select>
-    </label>
-  </header>
+  <ng-container *ngIf="authService.currentUser$ | async as currentUser; else guestShell">
+    <header class="topbar authenticated">
+      <div class="topbar-start">
+        <button type="button" class="icon-button" (click)="toggleSidebar()" [title]="'Nav.Menu' | t">
+          <svg lucideMenu></svg>
+        </button>
+        <span class="brand">{{ 'App.Title' | t }}</span>
+      </div>
 
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+      <div class="topbar-actions">
+        <label class="language-picker">
+          <select [ngModel]="localization.culture$ | async" (ngModelChange)="setCulture($event)">
+            <option value="en">{{ 'Language.English' | t }}</option>
+            <option value="ar">{{ 'Language.Arabic' | t }}</option>
+          </select>
+        </label>
+        <div class="account-menu" #accountMenu>
+          <button
+            type="button"
+            class="user-summary"
+            (click)="toggleAccountMenu()"
+            [attr.aria-expanded]="accountMenuOpen"
+            aria-haspopup="menu">
+            <span class="user-icon"><svg lucideUser></svg></span>
+            <span class="user-copy">
+              <strong>{{ currentUser.displayName }}</strong>
+              <small>{{ currentUser.roles[0] || ('Nav.User' | t) }}</small>
+            </span>
+            <svg class="account-chevron" lucideChevronDown [class.open]="accountMenuOpen"></svg>
+          </button>
+
+          <div class="account-dropdown" *ngIf="accountMenuOpen" role="menu">
+            <div class="account-details">
+              <strong>{{ currentUser.displayName }}</strong>
+              <span>{{ currentUser.userName }}</span>
+              <small>{{ currentUser.roles.join(', ') || ('Nav.User' | t) }}</small>
+            </div>
+            <button type="button" role="menuitem" (click)="logout()">
+              <svg lucideLogOut></svg>
+              <span>{{ 'Nav.Logout' | t }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace" [class.sidebar-collapsed]="sidebarCollapsed">
+      <button
+        type="button"
+        class="sidebar-backdrop"
+        [class.visible]="mobileSidebarOpen"
+        (click)="closeMobileSidebar()"
+        aria-label="Close navigation">
+      </button>
+
+      <aside class="sidebar" [class.mobile-open]="mobileSidebarOpen">
+        <div class="sidebar-heading">
+          <span class="sidebar-label">{{ 'Nav.Menu' | t }}</span>
+          <button type="button" class="icon-button sidebar-close" (click)="toggleSidebar()" [title]="'Nav.ToggleSidebar' | t">
+            <svg *ngIf="!sidebarCollapsed" lucidePanelLeftClose></svg>
+            <svg *ngIf="sidebarCollapsed" lucidePanelLeftOpen></svg>
+          </button>
+          <button type="button" class="icon-button mobile-close" (click)="closeMobileSidebar()" [title]="'Nav.Close' | t">
+            <svg lucideX></svg>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a routerLink="/home" routerLinkActive="active" (click)="closeMobileSidebar()" [title]="'Nav.Home' | t">
+            <svg lucideHome></svg>
+            <span>{{ 'Nav.Home' | t }}</span>
+          </a>
+          <a routerLink="/models/upload" routerLinkActive="active" (click)="closeMobileSidebar()" [title]="'Nav.Upload' | t">
+            <svg lucideUpload></svg>
+            <span>{{ 'Nav.Upload' | t }}</span>
+          </a>
+          <a routerLink="/viewer" routerLinkActive="active" (click)="closeMobileSidebar()" [title]="'Nav.Viewer' | t">
+            <svg lucideBox></svg>
+            <span>{{ 'Nav.Viewer' | t }}</span>
+          </a>
+
+          <div class="nav-separator" *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Owner', 'Manager', 'Supervisor', 'Inspector', 'Agent')"></div>
+
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager')"
+            routerLink="/users"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.RegisterUser' | t">
+            <svg lucideUserPlus></svg>
+            <span>{{ 'Nav.RegisterUser' | t }}</span>
+          </a>
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Manager', 'Supervisor', 'Inspector')"
+            routerLink="/sensor-warnings"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.SensorWarnings' | t">
+            <svg lucideTriangleAlert></svg>
+            <span>{{ 'Nav.SensorWarnings' | t }}</span>
+          </a>
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Manager', 'Supervisor', 'Inspector')"
+            routerLink="/incidents"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.Incidents' | t">
+            <svg lucideClipboardCheck></svg>
+            <span>{{ 'Nav.Incidents' | t }}</span>
+          </a>
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Manager', 'Supervisor', 'Inspector', 'Agent')"
+            routerLink="/work-orders"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.WorkOrders' | t">
+            <svg lucideListChecks></svg>
+            <span>{{ 'Nav.WorkOrders' | t }}</span>
+          </a>
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Owner', 'Manager')"
+            routerLink="/reports"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.Reports' | t">
+            <svg lucideBarChart3></svg>
+            <span>{{ 'Nav.Reports' | t }}</span>
+          </a>
+          <a
+            *ngIf="hasAnyRole(currentUser.roles, 'AccountManager', 'Owner')"
+            routerLink="/building-information"
+            routerLinkActive="active"
+            (click)="closeMobileSidebar()"
+            [title]="'Nav.BuildingInformation' | t">
+            <svg lucideBuilding2></svg>
+            <span>{{ 'Nav.BuildingInformation' | t }}</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button type="button" class="logout-button" (click)="logout()" [title]="'Nav.Logout' | t">
+            <svg lucideLogOut></svg>
+            <span>{{ 'Nav.Logout' | t }}</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="authenticated-main">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </ng-container>
+
+  <ng-template #guestShell>
+    <header class="topbar guest">
+      <span class="brand">{{ 'App.Title' | t }}</span>
+      <label class="language-picker">
+        <select [ngModel]="localization.culture$ | async" (ngModelChange)="setCulture($event)">
+          <option value="en">{{ 'Language.English' | t }}</option>
+          <option value="ar">{{ 'Language.Arabic' | t }}</option>
+        </select>
+      </label>
+    </header>
+    <main class="guest-main">
+      <router-outlet></router-outlet>
+    </main>
+  </ng-template>
 </div>

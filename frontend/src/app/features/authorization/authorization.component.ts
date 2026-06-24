@@ -46,7 +46,7 @@ export class AuthorizationComponent {
     this.authService.login({ userName: this.userName.trim(), password: this.password }).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/models/upload']);
+        this.router.navigate(['/viewer']);
       },
       error: err => {
         this.loading = false;

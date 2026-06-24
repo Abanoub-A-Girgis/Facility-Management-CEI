@@ -1,0 +1,16 @@
+<section class="users-page">
+  <header><h1>{{ 'Nav.RegisterUser' | t }}</h1><p>{{ 'Users.Description' | t }}</p></header>
+  <form (ngSubmit)="createUser()">
+    <label>{{ 'Users.FirstName' | t }}<input name="firstName" [(ngModel)]="form.firstName" required /></label>
+    <label>{{ 'Users.LastName' | t }}<input name="lastName" [(ngModel)]="form.lastName" required /></label>
+    <label>{{ 'Authorization.UserName' | t }}<input name="userName" [(ngModel)]="form.userName" required /></label>
+    <label>{{ 'Authorization.Password' | t }}<input name="password" type="password" [(ngModel)]="form.password" required /></label>
+    <label>{{ 'Users.Role' | t }}<select name="role" [(ngModel)]="form.role"><option *ngFor="let role of roles" [value]="role">{{ role }}</option></select></label>
+    <label>{{ 'Operations.Building' | t }}<select name="buildingId" [(ngModel)]="form.buildingId"><option [ngValue]="undefined">{{ 'Users.NoBuilding' | t }}</option><option *ngFor="let building of buildings" [ngValue]="building.id">{{ building.name }}</option></select></label>
+    <button type="submit" [disabled]="saving">{{ (saving ? 'Users.Creating' : 'Users.Create') | t }}</button>
+  </form>
+  <p class="message" *ngIf="message">{{ message | t }}</p><p class="error" *ngIf="error">{{ error | t }}</p>
+  <div class="table-wrap"><table><thead><tr><th>{{ 'Users.Name' | t }}</th><th>{{ 'Authorization.UserName' | t }}</th><th>{{ 'Users.Role' | t }}</th><th>{{ 'Operations.Building' | t }}</th></tr></thead>
+    <tbody><tr *ngFor="let user of users"><td>{{ user.fullName }}</td><td>{{ user.userName }}</td><td>{{ user.role }}</td><td>{{ user.buildingId || '-' }}</td></tr></tbody>
+  </table></div>
+</section>

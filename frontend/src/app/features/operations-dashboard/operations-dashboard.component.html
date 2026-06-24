@@ -1,0 +1,17 @@
+<section class="operations-page">
+  <header>
+    <h1>{{ titleKey | t }}</h1>
+    <p>{{ descriptionKey | t }}</p>
+  </header>
+  <p class="status" *ngIf="loading">{{ 'Common.Loading' | t }}</p>
+  <p class="status error" *ngIf="error">{{ error | t }}</p>
+  <div class="metric-grid" *ngIf="summary">
+    <article><span>{{ 'Operations.Models' | t }}</span><strong>{{ summary.modelCount }}</strong></article>
+    <article><span>{{ 'Operations.Floors' | t }}</span><strong>{{ summary.floorCount }}</strong></article>
+    <article><span>{{ 'Operations.Elements' | t }}</span><strong>{{ summary.elementCount }}</strong></article>
+    <article><span>{{ 'Operations.OpenIssues' | t }}</span><strong>{{ summary.openIssueCount }}</strong></article>
+    <article><span>{{ 'Operations.Workers' | t }}</span><strong>{{ summary.workerCount }}</strong></article>
+    <article><span>{{ 'Operations.OpenOrders' | t }}</span><strong>{{ summary.openWorkOrderCount }}</strong></article>
+    <article><span>{{ 'Operations.Warnings' | t }}</span><strong>{{ summary.uninvestigatedWarningCount }}</strong></article>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+<section class="list-page">
+  <header><h1>{{ title | t }}</h1><p>{{ description | t }}</p></header>
+  <p class="status" *ngIf="loading">{{ 'Common.Loading' | t }}</p>
+  <p class="status error" *ngIf="error">{{ error | t }}</p>
+  <div class="table-wrap" *ngIf="!loading && !error">
+    <table>
+      <thead><tr><th *ngFor="let column of columns">{{ column.label | t }}</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let row of rows"><td *ngFor="let column of columns">{{ display(row, column.key) }}</td></tr>
+        <tr *ngIf="!rows.length"><td [attr.colspan]="columns.length">{{ 'Operations.NoRecords' | t }}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

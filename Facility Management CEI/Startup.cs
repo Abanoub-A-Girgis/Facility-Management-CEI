@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Facility_Management_CEI.Configuration;
 using Facility_Management_CEI.Services;
@@ -75,8 +76,6 @@ namespace Facility_Management_CEI
             services.AddDbContext<IdentityDb.ApplicationDBContext>(options =>
             options.UseSqlServer(
             Configuration.GetConnectionString("ProjectDataBase")));
-            //services.AddControllersWithViews();
-
             services.AddIdentity<LogUser, IdentityRole>(
             options =>
             {
@@ -109,11 +108,8 @@ namespace Facility_Management_CEI
 
             //////////////////////////////////////////////////
 
-            services.AddControllersWithViews()  // to solve error Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory' has been registered.
-                .AddViewLocalization()
-                .AddJsonOptions(o => o.JsonSerializerOptions
-                .ReferenceHandler = ReferenceHandler.Preserve);//to stop the looping in data loading
-            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);//to stop the looping in data loading
+            services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null);
             services.Configure<IfcProcessingOptions>(Configuration.GetSection("IfcProcessing"));
             services.Configure<ViewerOptions>(Configuration.GetSection("Viewer"));
             services.Configure<AdminSeedOptions>(Configuration.GetSection("SeedAdmin"));
@@ -233,24 +229,19 @@ namespace Facility_Management_CEI
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(
+                            Facility_Management_CEI.ApiLayer.Dtos.ApiResponse<object>.Fail("An unexpected server error occurred.")));
+                    });
+                });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.Use(async (ctx, next) =>
-            {
-                await next();
-
-                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
-                {
-                    //Re-execute the request so the user gets the error page
-                    string originalPath = ctx.Request.Path.Value;
-                    ctx.Items["originalPath"] = originalPath;
-                    ctx.Request.Path = "/ErrorPages/Error404";
-                    await next();
-                }
-            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -274,9 +265,6 @@ namespace Facility_Management_CEI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
 
             var provider = new FileExtensionContentTypeProvider();

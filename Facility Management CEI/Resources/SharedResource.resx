@@ -7,11 +7,63 @@
   <data name="App.Title" xml:space="preserve"><value>Facility Management CEI</value></data>
   <data name="Nav.Upload" xml:space="preserve"><value>Upload</value></data>
   <data name="Nav.Viewer" xml:space="preserve"><value>Viewer</value></data>
-  <data name="Nav.Authorization" xml:space="preserve"><value>Authorization</value></data>
+  <data name="Nav.Authorization" xml:space="preserve"><value>Login</value></data>
   <data name="Nav.Logout" xml:space="preserve"><value>Log Out</value></data>
+  <data name="Nav.Menu" xml:space="preserve"><value>Menu</value></data>
+  <data name="Nav.Models" xml:space="preserve"><value>Models</value></data>
+  <data name="Nav.User" xml:space="preserve"><value>User</value></data>
+  <data name="Nav.ToggleSidebar" xml:space="preserve"><value>Toggle sidebar</value></data>
+  <data name="Nav.Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Nav.Home" xml:space="preserve"><value>Home</value></data>
+  <data name="Nav.RegisterUser" xml:space="preserve"><value>Register User</value></data>
+  <data name="Nav.SensorWarnings" xml:space="preserve"><value>Sensor Warnings</value></data>
+  <data name="Nav.Incidents" xml:space="preserve"><value>Incidents</value></data>
+  <data name="Nav.WorkOrders" xml:space="preserve"><value>Work Orders</value></data>
+  <data name="Nav.Reports" xml:space="preserve"><value>Reports</value></data>
+  <data name="Nav.BuildingInformation" xml:space="preserve"><value>Building Information</value></data>
+  <data name="Operations.Home" xml:space="preserve"><value>Operations Overview</value></data>
+  <data name="Operations.HomeDescription" xml:space="preserve"><value>Current BIM and facility operations at a glance.</value></data>
+  <data name="Operations.Reports" xml:space="preserve"><value>Reports</value></data>
+  <data name="Operations.ReportsDescription" xml:space="preserve"><value>Consolidated operational totals across models, issues, work orders, and warnings.</value></data>
+  <data name="Operations.Models" xml:space="preserve"><value>Models</value></data>
+  <data name="Operations.Floors" xml:space="preserve"><value>Floors</value></data>
+  <data name="Operations.Elements" xml:space="preserve"><value>Elements</value></data>
+  <data name="Operations.OpenIssues" xml:space="preserve"><value>Open Issues</value></data>
+  <data name="Operations.Workers" xml:space="preserve"><value>Workers</value></data>
+  <data name="Operations.OpenOrders" xml:space="preserve"><value>Open Work Orders</value></data>
+  <data name="Operations.Warnings" xml:space="preserve"><value>Uninvestigated Warnings</value></data>
+  <data name="Common.Loading" xml:space="preserve"><value>Loading...</value></data>
+  <data name="Operations.LoadError" xml:space="preserve"><value>Could not load operational data.</value></data>
+  <data name="Operations.ListLoadError" xml:space="preserve"><value>Could not load records.</value></data>
+  <data name="Operations.IncidentsDescription" xml:space="preserve"><value>Issues reported against building elements and spaces.</value></data>
+  <data name="Operations.WorkOrdersDescription" xml:space="preserve"><value>Current maintenance assignments generated from incidents.</value></data>
+  <data name="Operations.WarningsDescription" xml:space="preserve"><value>Warnings emitted by building sensors.</value></data>
+  <data name="Operations.BuildingsDescription" xml:space="preserve"><value>Imported BIM models and their operational inventory.</value></data>
+  <data name="Operations.Element" xml:space="preserve"><value>Element</value></data>
+  <data name="Operations.Priority" xml:space="preserve"><value>Priority</value></data>
+  <data name="Operations.FixingTime" xml:space="preserve"><value>Fixing Time</value></data>
+  <data name="Operations.Issued" xml:space="preserve"><value>Issued</value></data>
+  <data name="Operations.Sensor" xml:space="preserve"><value>Sensor</value></data>
+  <data name="Operations.Investigated" xml:space="preserve"><value>Investigated</value></data>
+  <data name="Operations.Building" xml:space="preserve"><value>Building</value></data>
+  <data name="Operations.Spaces" xml:space="preserve"><value>Spaces</value></data>
+  <data name="Operations.Assets" xml:space="preserve"><value>Assets</value></data>
+  <data name="Operations.Sensors" xml:space="preserve"><value>Sensors</value></data>
+  <data name="Operations.NoRecords" xml:space="preserve"><value>No records found.</value></data>
+  <data name="Users.Description" xml:space="preserve"><value>Create application users and assign their operational role.</value></data>
+  <data name="Users.FirstName" xml:space="preserve"><value>First name</value></data>
+  <data name="Users.LastName" xml:space="preserve"><value>Last name</value></data>
+  <data name="Users.Role" xml:space="preserve"><value>Role</value></data>
+  <data name="Users.NoBuilding" xml:space="preserve"><value>No building</value></data>
+  <data name="Users.Create" xml:space="preserve"><value>Create User</value></data>
+  <data name="Users.Creating" xml:space="preserve"><value>Creating...</value></data>
+  <data name="Users.Created" xml:space="preserve"><value>User created successfully.</value></data>
+  <data name="Users.CreateError" xml:space="preserve"><value>Could not create user.</value></data>
+  <data name="Users.LoadError" xml:space="preserve"><value>Could not load users.</value></data>
+  <data name="Users.Name" xml:space="preserve"><value>Name</value></data>
   <data name="Language.English" xml:space="preserve"><value>English</value></data>
   <data name="Language.Arabic" xml:space="preserve"><value>Arabic</value></data>
-  <data name="Authorization.Title" xml:space="preserve"><value>Authorization Required</value></data>
+  <data name="Authorization.Title" xml:space="preserve"><value>Login</value></data>
   <data name="Authorization.Description" xml:space="preserve"><value>Sign in before uploading IFC models or managing building issues.</value></data>
   <data name="Authorization.HeroTitle" xml:space="preserve"><value>Maintaining the future</value></data>
   <data name="Authorization.Welcome" xml:space="preserve"><value>Welcome Back!</value></data>

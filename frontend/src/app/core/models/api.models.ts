@@ -123,3 +123,75 @@ export interface LookupValue {
   id: number;
   name: string;
 }
+
+export interface DashboardSummary {
+  modelCount: number;
+  floorCount: number;
+  elementCount: number;
+  openIssueCount: number;
+  workerCount: number;
+  openWorkOrderCount: number;
+  uninvestigatedWarningCount: number;
+}
+
+export interface WorkOrder {
+  id: number;
+  type: string;
+  status: string;
+  priority: string;
+  description: string;
+  incidentId: number;
+  assignedTo?: string;
+  createdBy?: string;
+  fixingTime?: string;
+  cost?: number;
+}
+
+export interface SensorWarning {
+  id: number;
+  issueDate: string;
+  description: string;
+  investigated: boolean;
+  priority: string;
+  sensorName?: string;
+  spaceName?: string;
+  assignedUser?: string;
+}
+
+export interface BuildingInformation {
+  id: number;
+  name: string;
+  path: string;
+  floorCount: number;
+  spaceCount: number;
+  assetCount: number;
+  sensorCount: number;
+  openIssueCount: number;
+}
+
+export interface UserListItem {
+  appUserId?: number;
+  identityUserId: string;
+  userName: string;
+  fullName: string;
+  role: string;
+  buildingId?: number;
+}
+
+export interface CreateUserRequest {
+  userName: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  buildingId?: number;
+  supervisorId?: number;
+}
+
+export interface OperationsReport {
+  summary: DashboardSummary;
+  incidents: Issue[];
+  workOrders: WorkOrder[];
+  sensorWarnings: SensorWarning[];
+  buildings: BuildingInformation[];
+}

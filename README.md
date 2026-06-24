@@ -2,7 +2,7 @@
 
 Production-oriented BIM / IFC issue-management system for facility teams. The system imports IFC building models, splits them by floor, displays the model in an Angular browser-based viewer, and links operational issues and work assignments directly to building elements.
 
-> Frontend note: Angular in `frontend/` is the intended production frontend. A repository scan found no Blazor project, `.razor` components, `App.razor`, `_Imports.razor`, Blazor packages, `MapBlazorHub`, or `AddServerSideBlazor` setup. Existing `.cshtml` files are legacy ASP.NET Core MVC/Razor views, not Blazor.
+> Frontend note: Angular in `frontend/` is the only application frontend. The ASP.NET Core project exposes JSON APIs and static IFC/viewer assets only.
 
 ## Features
 
@@ -40,15 +40,15 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
 
 - ASP.NET Core backend project: `Facility Management CEI/Facility Management CEI.csproj`.
 - Angular-facing API controllers live under `Facility Management CEI/API/Controllers/`.
-- Existing domain/legacy controllers remain under `Facility Management CEI/Controllers/` and `Facility Management CEI/APIs/Controllers/`.
+- IFC import compatibility code remains under `Facility Management CEI/APIs/Controllers/`; user-facing workflows are exposed through `Facility Management CEI/API/Controllers/`.
 - Startup/configuration live in `Facility Management CEI/Startup.cs` and `Facility Management CEI/appsettings*.json`.
 
 ### Angular Frontend
 
 - Angular application lives in `frontend/`.
 - Angular consumes the ASP.NET Core API through services such as `models.service.ts`, `floors.service.ts`, `elements.service.ts`, `issues.service.ts`, and `workers.service.ts`.
-- Current Angular pages/components include model upload, model viewer, floor visibility, issue management, worker assignment, and flashing/highlighting controls.
-- Angular is the only intended production frontend.
+- Angular pages include login, operations overview, upload, model viewer, floor visibility, issue management, worker assignment, sensor warnings, incidents, work orders, reports, building information, and user registration.
+- All user-facing routes run on the Angular origin, normally `http://localhost:4200`.
 
 ### IFC Processing / Services
 
@@ -78,16 +78,15 @@ Production-oriented BIM / IFC issue-management system for facility teams. The sy
 - The Angular frontend loads translations from `GET /api/localization?culture=en|ar`.
 - Arabic sets `dir="rtl"` on the document root in Angular.
 - Add or change UI strings by updating the same key in both resource files.
-- Some inactive/commented legacy Razor markup may still contain old inline translation tags while the Angular migration continues.
 
-## Blazor Removal
+## Frontend Removal
 
 - No Blazor project or Blazor UI files were present in the repository during the final removal pass.
 - No `.razor` components, `App.razor`, `_Imports.razor`, Blazor layouts, Blazor pages, Blazor-specific project references, or Blazor-specific NuGet packages were found.
 - No Blazor middleware or routing such as `MapBlazorHub`, `MapFallbackToPage`, or `AddServerSideBlazor` was found.
 - The ASP.NET Core backend/API and Angular frontend were preserved.
-- Existing `.cshtml` files are legacy MVC/Razor views and backend error/auth/admin surfaces, not Blazor components. They were not deleted because they are not Blazor and may still be referenced by the backend.
-- Angular is now the only frontend documented for production use.
+- Legacy MVC/Razor controllers and `.cshtml` views were removed after their workflows were replaced with Angular pages and API endpoints.
+- Conventional MVC routing is disabled. Angular is the only frontend.
 
 ## Screenshots
 
@@ -244,7 +243,7 @@ Then open:
 - `https://localhost:5001`
 - `http://localhost:5000`
 
-The backend default MVC route currently points to the account login page for legacy/auth flows. The production frontend is the Angular app.
+The backend does not expose a user-facing MVC/Razor site. Use Swagger for API inspection and Angular for all application workflows.
 
 ## Running the Angular Frontend
 
@@ -315,29 +314,7 @@ No Docker setup is currently included. The project targets .NET 5 and uses XBIM 
 
 ## API Overview
 
-The current repository contains API-like endpoints in `Facility Management CEI/APIs/Controllers/IFCController.cs`.
-
-Known routes include:
-
-- `api/IFC/AddBuildingDataFromIFC`
-- `api/IFC/BuilingDTOData`
-- `api/IFC/FloorDTO`
-- `api/IFC/SpaceDTO`
-- `api/IFC/AssetDTO`
-- `api/IFC/SensorDTO`
-- `api/IFC/GetTaskData`
-- `api/IFC/StoreTaskData`
-- `api/IFC/ClearDatabase`
-
-Additional workflows currently use MVC controllers and Razor views:
-
-- Upload: `Controllers/UploaderController.cs`
-- Viewer pages: `Controllers/ViewerController.cs`
-- Issues/incidents: `Controllers/IncidentController.cs`
-- Task and worker assignment: `Controllers/TaskPagesController.cs`
-- Users, buildings, floors, spaces, assets, sensors, and warnings: `Controllers/*Controller.cs`
-
-The Angular frontend consumes the JSON API layer for upload, model metadata, floors, elements, issues, workers, severities/statuses, localization, and viewer highlighting.
+The Angular frontend consumes the JSON API layer for authentication, upload, model metadata, floors, elements, issues, workers, operational dashboards, warnings, work orders, reports, user management, localization, and viewer highlighting.
 
 Current Angular-facing routes include:
 
@@ -358,15 +335,23 @@ Current Angular-facing routes include:
 - `GET /api/issues/severities`
 - `GET /api/issues/statuses`
 - `GET /api/workers`
+- `GET /api/operations/dashboard`
+- `GET /api/operations/incidents`
+- `GET /api/operations/work-orders`
+- `GET /api/operations/sensor-warnings`
+- `GET /api/operations/buildings`
+- `GET /api/operations/report`
+- `GET /api/operations/users`
+- `POST /api/operations/users`
 
 ## Known Limitations
 
-- Angular is the intended production frontend, but legacy MVC/Razor `.cshtml` files still exist in the backend project and should be reviewed before deletion.
-- API boundaries are incomplete; some controllers mix view rendering, data access, and business logic.
+- Angular is the only frontend; remaining backend modernization concerns are API/service boundaries rather than UI migration.
+- IFC import compatibility code still combines parsing and persistence and should be extracted into a dedicated import service.
 - The wired EF context includes both Identity and domain data.
 - IFC processing still happens during the upload request and may not scale for large models despite improved validation/logging.
 - IFC upload storage must remain under the web root in the current viewer architecture so generated `.wexBIM` files can be served to the browser.
-- Element IDs are based on IFC labels and exposed with an `ElementKey` such as `Asset:123` or `Space:456`; future issue endpoints should accept this typed key to avoid ambiguity if an asset and space share the same numeric label.
+- Database IDs are globally unique while original IFC labels are retained separately for viewer picking and highlighting.
 - Docker packaging is not yet provided.
 - Authorization is not yet fully enforced across every new API endpoint.
 - The project targets .NET 5, which is no longer supported.
@@ -374,11 +359,9 @@ Current Angular-facing routes include:
 
 ## Future Improvements
 
-- Retire unused legacy MVC/Razor views after confirming no backend/auth/error/admin route still references them.
 - Add versioned REST APIs and DTO contracts for all frontend workflows.
 - Extract IFC processing into services and optional background jobs.
 - Add automated tests and CI/CD.
-- Continue removing old inline translation tags from inactive legacy Razor markup.
 - Add audit logs for issue creation, assignment, status changes, and model uploads.
 - Add file storage abstraction for local, cloud, or network storage.
 - Improve role-based authorization and least-privilege access policies.
