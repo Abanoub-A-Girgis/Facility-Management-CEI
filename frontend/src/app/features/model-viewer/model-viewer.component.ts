@@ -221,10 +221,10 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
           this.viewer.addPlugin(navCube);
         }
 
-        this.viewer.defineStyle(0, this.severityColor('Severe', [255, 0, 0, 255]));
-        this.viewer.defineStyle(1, this.severityColor('High', [255, 160, 16, 255]));
-        this.viewer.defineStyle(2, this.severityColor('Medium', [255, 224, 32, 255]));
-        this.viewer.defineStyle(3, this.severityColor('Low', [0, 255, 0, 255]));
+        this.viewer.defineStyle(0, this.severityColor('Severe', [220, 38, 38, 255]));
+        this.viewer.defineStyle(1, this.severityColor('High', [249, 115, 22, 255]));
+        this.viewer.defineStyle(2, this.severityColor('Medium', [234, 179, 8, 255]));
+        this.viewer.defineStyle(3, this.severityColor('Low', [22, 163, 74, 255]));
         this.pickHandler = (args: { id: number | null }) => this.zone.run(() => this.onElementPicked(args.id));
         this.viewer.on('pick', this.pickHandler);
         this.viewer.start();

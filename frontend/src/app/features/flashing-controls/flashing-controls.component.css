@@ -1,9 +1,12 @@
 .panel {
   display: grid;
-  gap: 10px;
+  gap: 11px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
 }
 
 h2 {
+  color: var(--color-text);
   font-size: 16px;
   margin: 0;
 }
@@ -12,29 +15,38 @@ h2 {
   display: flex;
   gap: 8px;
   align-items: center;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
 .legend {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
   font-size: 13px;
 }
 
 .legend span {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 
 i {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(16, 42, 67, 0.16);
   display: inline-block;
 }
 
-.severe { background: rgb(255, 0, 0); }
-.high { background: rgb(255, 160, 16); }
-.medium { background: rgb(255, 224, 32); }
-.low { background: rgb(0, 180, 72); }
+.severe { background: var(--color-danger); }
+.high { background: var(--color-warning); }
+.medium { background: var(--color-medium); }
+.low { background: var(--color-success); }

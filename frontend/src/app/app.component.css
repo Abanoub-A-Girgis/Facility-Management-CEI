@@ -1,7 +1,7 @@
 .app-shell {
   min-height: 100vh;
-  background: #f3f5f7;
-  color: #17202a;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .topbar {
@@ -11,8 +11,9 @@
   justify-content: space-between;
   gap: 20px;
   padding: 0 24px;
-  background: #ffffff;
-  border-bottom: 1px solid #d9e0e7;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 10px rgba(16, 42, 67, 0.05);
   position: sticky;
   top: 0;
   z-index: 30;
@@ -30,7 +31,7 @@
 }
 
 .brand {
-  color: #12304a;
+  color: var(--color-text);
   font-size: 18px;
   font-weight: 700;
   text-decoration: none;
@@ -45,13 +46,13 @@
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: #486176;
+  color: var(--color-text-muted);
   cursor: pointer;
 }
 
 .icon-button:hover {
-  background: #edf3f8;
-  color: #0b5f97;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
 }
 
 .icon-button svg,
@@ -62,10 +63,10 @@
 }
 
 .language-picker select {
-  border: 1px solid #c8d3df;
+  border: 1px solid var(--color-border-strong);
   border-radius: 6px;
-  background: #ffffff;
-  color: #17202a;
+  background: var(--color-surface);
+  color: var(--color-text);
   padding: 7px 10px;
 }
 
@@ -86,7 +87,7 @@
 
 .user-summary:hover,
 .user-summary[aria-expanded='true'] {
-  background: #edf3f8;
+  background: var(--color-primary-soft);
 }
 
 .user-copy {
@@ -100,7 +101,7 @@
 }
 
 .user-summary small {
-  color: #6b7e8f;
+  color: var(--color-text-muted);
   font-size: 12px;
   margin-top: 3px;
 }
@@ -111,8 +112,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #e8f1f8;
-  color: #0b5f97;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }
 
 .user-icon svg {
@@ -127,7 +128,7 @@
 .account-chevron {
   width: 16px;
   height: 16px;
-  color: #718596;
+  color: var(--color-text-muted);
   transition: transform 150ms ease;
 }
 
@@ -141,10 +142,10 @@
   inset-inline-end: 0;
   width: 230px;
   overflow: hidden;
-  background: #ffffff;
-  border: 1px solid #d4dde5;
-  border-radius: 6px;
-  box-shadow: 0 12px 28px rgba(28, 48, 65, 0.16);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-floating);
   z-index: 60;
 }
 
@@ -152,7 +153,7 @@
   display: grid;
   gap: 3px;
   padding: 14px;
-  border-bottom: 1px solid #e2e8ee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .account-details strong {
@@ -161,7 +162,7 @@
 
 .account-details span,
 .account-details small {
-  color: #667b8c;
+  color: var(--color-text-muted);
   font-size: 12px;
   overflow-wrap: anywhere;
 }
@@ -175,15 +176,15 @@
   padding: 0 14px;
   border: 0;
   background: transparent;
-  color: #324b5f;
+  color: var(--color-text);
   font: inherit;
   cursor: pointer;
   text-align: start;
 }
 
 .account-dropdown > button:hover {
-  background: #f1f5f8;
-  color: #a4261d;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .account-dropdown > button svg {
@@ -206,9 +207,10 @@
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  background: #173247;
-  color: #dce8f1;
-  border-inline-end: 1px solid #10293b;
+  background: linear-gradient(180deg, var(--color-sidebar) 0%, var(--color-sidebar-deep) 100%);
+  color: var(--color-sidebar-text);
+  border-inline-end: 1px solid var(--color-sidebar-deep);
+  box-shadow: 8px 0 24px rgba(7, 26, 40, 0.08);
 }
 
 .sidebar-heading {
@@ -222,19 +224,19 @@
 }
 
 .sidebar-label {
-  color: #9fb3c3;
+  color: var(--color-sidebar-muted);
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .sidebar .icon-button {
-  color: #b9cad7;
+  color: var(--color-sidebar-muted);
 }
 
 .sidebar .icon-button:hover {
-  background: rgba(255, 255, 255, 0.09);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-sidebar-text);
 }
 
 .sidebar-nav {
@@ -254,7 +256,7 @@
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: #c9d7e1;
+  color: var(--color-sidebar-text);
   font: inherit;
   text-decoration: none;
   cursor: pointer;
@@ -264,12 +266,13 @@
 .sidebar-nav a:hover,
 .sidebar-nav a.active,
 .logout-button:hover {
-  background: #234b67;
+  background: var(--color-sidebar-hover);
   color: #ffffff;
 }
 
 .sidebar-nav a.active {
-  box-shadow: inset 3px 0 0 #4ca6df;
+  background: linear-gradient(90deg, var(--color-sidebar-active), rgba(21, 94, 117, 0.72));
+  box-shadow: inset 3px 0 0 #5ee0e8, 0 4px 16px rgba(14, 165, 183, 0.16);
 }
 
 .nav-separator {
@@ -291,6 +294,7 @@
 .authenticated-main {
   min-width: 0;
   padding: 24px;
+  background: var(--color-bg);
 }
 
 .workspace.sidebar-collapsed {

@@ -9,31 +9,41 @@
 
 h1 {
   margin: 0 0 8px;
+  color: var(--color-text);
   font-size: 30px;
 }
 
 p {
-  color: #587084;
+  color: var(--color-text-muted);
 }
 
 .upload-panel {
   display: grid;
   gap: 14px;
-  background: #ffffff;
-  border: 1px solid #d9e0e7;
-  border-radius: 8px;
   padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 
 label {
+  color: var(--color-text);
   font-weight: 700;
 }
 
 input[type='file'] {
-  border: 1px dashed #9fb2c3;
-  border-radius: 6px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-control);
   padding: 14px;
-  background: #f8fafc;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+input[type='file']:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
 }
 
 .file-summary {
@@ -41,36 +51,44 @@ input[type='file'] {
   justify-content: space-between;
   gap: 12px;
   padding: 10px 12px;
-  background: #f1f5f9;
-  border-radius: 6px;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
 }
 
 button {
   justify-self: start;
-  border: 0;
-  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-control);
   padding: 10px 14px;
-  background: #0b6fb3;
+  background: var(--color-primary);
   color: #ffffff;
+  box-shadow: 0 3px 10px rgba(14, 143, 163, 0.2);
   font-weight: 700;
   cursor: pointer;
 }
 
+button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
 button:disabled {
   opacity: 0.55;
+  box-shadow: none;
   cursor: not-allowed;
 }
 
 .progress {
   height: 8px;
-  background: #dfe8f1;
+  background: var(--color-surface-muted);
   border-radius: 99px;
   overflow: hidden;
 }
 
 .progress div {
   height: 100%;
-  background: #0b8f68;
+  background: linear-gradient(90deg, var(--color-primary), #35b7c4);
 }
 
 .status {
@@ -78,10 +96,5 @@ button:disabled {
   font-weight: 600;
 }
 
-.success {
-  color: #0b7a4f;
-}
-
-.error {
-  color: #b42318;
-}
+.success { color: var(--color-success); }
+.error { color: var(--color-danger); }
