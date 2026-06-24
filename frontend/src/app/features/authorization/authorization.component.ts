@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { AuthService } from '../../core/services/auth.service';
 import { LocalizationService } from '../../core/services/localization.service';
@@ -14,25 +13,34 @@ import { LocalizationService } from '../../core/services/localization.service';
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css'
 })
-export class AuthorizationComponent {
+export class AuthorizationComponent implements OnInit, OnDestroy {
   readonly slides = [
-    `${environment.apiBaseUrl}/assets/images/carousel/image1.jpg`,
-    `${environment.apiBaseUrl}/assets/images/carousel/image2.jpg`,
-    `${environment.apiBaseUrl}/assets/images/carousel/image3.jpg`
+    '/assets/login/carousel/image1.jpg',
+    '/assets/login/carousel/image2.jpg',
+    '/assets/login/carousel/image3.jpg'
   ];
-  readonly logoUrl = `${environment.apiBaseUrl}/assets/images/logo innove.png`;
+  readonly logoUrl = '/assets/login/logo-innove.png';
 
   userName = '';
   password = '';
   loading = false;
   error = '';
   activeSlide = 0;
+  private rotationTimer?: number;
 
   constructor(
     private readonly authService: AuthService,
     private readonly localization: LocalizationService,
     private readonly router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.startRotation();
+  }
+
+  ngOnDestroy(): void {
+    this.stopRotation();
+  }
 
   login(): void {
     if (!this.userName.trim() || !this.password) {
@@ -57,5 +65,28 @@ export class AuthorizationComponent {
 
   setSlide(index: number): void {
     this.activeSlide = index;
+    this.startRotation();
+  }
+
+  pauseRotation(): void {
+    this.stopRotation();
+  }
+
+  resumeRotation(): void {
+    this.startRotation();
+  }
+
+  private startRotation(): void {
+    this.stopRotation();
+    this.rotationTimer = window.setInterval(() => {
+      this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+    }, 5000);
+  }
+
+  private stopRotation(): void {
+    if (this.rotationTimer) {
+      window.clearInterval(this.rotationTimer);
+      this.rotationTimer = undefined;
+    }
   }
 }

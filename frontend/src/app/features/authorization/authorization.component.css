@@ -20,11 +20,12 @@
   object-fit: cover;
   opacity: 0;
   transform: scale(1.02);
-  transition: opacity 220ms ease;
+  transition: opacity 700ms ease, transform 6s ease;
 }
 
 .auth-showcase > img.active {
   opacity: 1;
+  transform: scale(1);
 }
 
 .showcase-overlay {

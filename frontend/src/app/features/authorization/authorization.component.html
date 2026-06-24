@@ -1,5 +1,10 @@
 <section class="auth-page">
-  <div class="auth-showcase">
+  <div
+    class="auth-showcase"
+    (mouseenter)="pauseRotation()"
+    (mouseleave)="resumeRotation()"
+    (focusin)="pauseRotation()"
+    (focusout)="resumeRotation()">
     <img *ngFor="let slide of slides; let index = index" [src]="slide" [class.active]="index === activeSlide" alt="" />
     <div class="showcase-overlay">
       <div class="brand-mark">
@@ -10,7 +15,14 @@
         <h1>{{ 'Authorization.HeroTitle' | t }}</h1>
       </div>
       <div class="slide-dots" aria-label="Slide selector">
-        <button *ngFor="let slide of slides; let index = index" type="button" [class.active]="index === activeSlide" (click)="setSlide(index)"></button>
+        <button
+          *ngFor="let slide of slides; let index = index"
+          type="button"
+          [class.active]="index === activeSlide"
+          [attr.aria-label]="'Show slide ' + (index + 1)"
+          [attr.aria-current]="index === activeSlide ? 'true' : null"
+          (click)="setSlide(index)">
+        </button>
       </div>
     </div>
   </div>
