@@ -19,6 +19,7 @@ declare global {
     xViewer?: any;
     xNavigationCube?: any;
     xState?: any;
+    xProductType?: any;
   }
 }
 
@@ -248,6 +249,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (index >= this.floors.length) {
       this.viewerLoading = false;
+      this.hideSpaces();
       this.applyHighlighting();
       return;
     }
@@ -315,11 +317,10 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     let restoredState = window.xState.UNDEFINED;
     if (this.selectedElement && !this.visibleFloorIds.has(this.selectedElement.floorId)) {
       restoredState = window.xState.HIDDEN;
-    } else if (this.highlights.rooms.includes(this.selectedElementId)) {
-      restoredState = window.xState.HIGHLIGHTED;
     }
 
     this.viewer.setState(restoredState, [this.selectedElementId]);
+    this.hideSpaces();
   }
 
   private applyFloorVisibility(floor: Floor): void {
@@ -335,6 +336,7 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     const state = this.viewer.getModelState(modelIndex);
     const ids = state.map((entry: [number]) => entry[0]);
     this.viewer.setState(this.visibleFloorIds.has(floor.id) ? window.xState.UNDEFINED : window.xState.HIDDEN, ids);
+    this.hideSpaces();
   }
 
   private applyHighlighting(): void {
@@ -373,9 +375,15 @@ export class ModelViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.viewer.setStyle(1, this.highlights.high);
     this.viewer.setStyle(2, this.highlights.medium);
     this.viewer.setStyle(3, this.highlights.low);
-    if (window.xState && this.highlights.rooms.length) {
-      this.viewer.setState(window.xState.HIGHLIGHTED, this.highlights.rooms);
+    this.hideSpaces();
+  }
+
+  private hideSpaces(): void {
+    if (!this.viewer || !window.xState || !window.xProductType) {
+      return;
     }
+
+    this.viewer.setState(window.xState.HIDDEN, window.xProductType.IFCSPACE);
   }
 
   private stopFlashing(): void {
